@@ -1,0 +1,35 @@
+<div class="sidebar close" [ngClass]="{'close':closed}">
+    <header>
+        <div>
+            <span class="image">
+                <img src="../../../assets/images/layout/footer/LogoYavirac.png" alt="">
+            </span>
+        </div>
+        <i class='pi pi-angle-left toggle' (click)="closeSide()"></i>
+    </header>
+
+    <ul class="nav-links">
+      <li *ngFor="let menu of items, let i=index" [id]="i">
+        <div class="iocn-link">
+          <a href="#">
+            <i [class]="menu.icon"></i>
+            <span class="link_name">{{menu.label}}</span>
+          </a>
+          <i class='pi pi-angle-down arrow' (click)="showSubMenu(i!)"></i>
+        </div>
+        <ul class="sub-menu" >
+          <li class="li-primary" ><a class="link_name" href="#">{{menu.label}}</a></li>
+          <li class="li-primary" *ngFor="let sub of menu.items"><a href="{{sub.routerLink}}">{{sub.label}}</a></li>
+        </ul>
+      </li>
+      <br><br>
+</ul>
+
+  </div>
+ 
+
+  <section class="home">
+    <app-topbar></app-topbar>
+    <app-footer></app-footer>
+    
+  </section>

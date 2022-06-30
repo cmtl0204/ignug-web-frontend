@@ -1,0 +1,206 @@
+
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  .sidebar{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 260px;
+    background-color: rgb(245, 245, 245); 
+    z-index: 100;
+    transition: all 0.5s ease;
+  }
+  .sidebar.close{
+    width: 78px;
+  }
+  .sidebar header .image{
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  }
+  .sidebar.close img{
+      width: 50px;
+      height: 50px;
+      border-radius: 50px;
+      margin-top: 60px;
+      transition: all 0.5s ease;
+  }
+  
+  .sidebar img{
+      width: 200px;
+      height: 150px;
+      position: absolute;
+      margin-top: 180px;
+      transition: all 0.5s ease;
+      border-radius: 0px;
+  }
+  
+  .sidebar .nav-links{
+    height: 100%;
+    padding: 30px 0 150px 0;
+    overflow: auto;
+  }
+  .sidebar.close .nav-links{
+    overflow: visible;
+  }
+  
+  .sidebar .nav-links li{
+    position: relative;
+    list-style: none;
+    transition: all 0.4s ease;
+    margin-top: 10px;
+  }
+  .sidebar .nav-links{
+     margin-top: 200px;
+    }
+  .sidebar.close .toggle{
+    transform: rotate(-180deg);
+    transition: all 0.5s ease;
+    }
+    .sidebar header .toggle{
+      position: absolute;
+      margin-top: 70px;
+      right: -60px;
+      color:rgb(0, 0, 0);
+      font-size: 30px;
+      cursor: pointer;
+      display: flex;
+      padding: 5px 5px 5px 5px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+  }
+  
+  .sidebar header .toggle:hover{
+      background-color: rgb(0, 0, 0);
+      color: rgb(255, 255, 255);
+  }
+  
+  .sidebar .nav-links li:hover {
+      background-color: rgb(148, 148, 148);
+  
+  }
+  .sidebar .nav-links .li-primary:hover {
+    background-color: rgb(245, 245, 245);
+
+}
+  .sidebar .nav-links li:hover a .link_name{
+      color: white;
+  }
+  .sidebar .nav-links li:hover i{
+      color: white;
+  }
+  
+  .sidebar .nav-links li .iocn-link{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .sidebar.close .nav-links li .iocn-link{
+    display: block
+  }
+  .sidebar .nav-links li i{
+    height: 50px;
+    min-width: 78px;
+    text-align: center;
+    line-height: 50px;
+    color: rgb(133, 131, 131);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  .sidebar .nav-links li.showMenu i.arrow{
+    transform: rotate(-180deg);
+  }
+  .sidebar.close .nav-links i.arrow{
+    display: none;
+  }
+  .sidebar .nav-links li a{
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .sidebar .nav-links li a .link_name{
+    font-size: 18px;
+    font-weight: 400;
+    color: rgb(77, 77, 77);
+    transition: all 0.4s ease;
+  }
+  .sidebar.close .nav-links li a .link_name{
+    opacity: 0;
+    pointer-events: none;
+  }
+  .sidebar .nav-links li .sub-menu{
+    padding: 6px 6px 14px 80px;
+    margin-top: -10px;
+    background-color: rgb(245, 245, 245);
+    display: none;
+  }
+  .sidebar .nav-links li.showMenu .sub-menu{
+    display: block;
+  }
+  .sidebar .nav-links li .sub-menu a{
+    color: rgb(0, 0, 0);
+    font-size: 15px;
+    padding: 5px 0;
+    white-space: nowrap;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+  }
+  .sidebar .nav-links li .sub-menu a:hover{
+    opacity: 1;
+  }
+  .sidebar.close .nav-links li .sub-menu{
+    position: absolute;
+    left: 100%;
+    top: -10px;
+    margin-top: 0;
+    padding: 10px 20px;
+    border-radius: 0 6px 6px 0;
+    opacity: 0;
+    display: block;
+    pointer-events: none;
+    transition: 0s;
+  }
+  .sidebar.close .nav-links li:hover .sub-menu{
+    top: 0;
+    opacity: 1;
+    pointer-events: auto;
+    transition: all 0.4s ease;
+  }
+  .sidebar .nav-links li .sub-menu .link_name{
+    display: none;
+  }
+  .sidebar.close .nav-links li .sub-menu .link_name{
+    font-size: 18px;
+    opacity: 1;
+    display: block;
+  }
+  .sidebar .nav-links li .sub-menu.blank{
+    padding: 0px 10px 3px 16px;
+  }
+
+.home{
+    position: absolute;
+    top: 0;
+    
+    left: 260px;
+    height: 100vh;
+    width: calc(100% - 260px);
+    transition: all 0.5s ease;
+}
+
+.sidebar.close ~ .home{
+    left: 70px;
+    height: 60vh;
+    width: calc(100% - 78px);
+}
+@media (max-width: 420px) {
+    .sidebar.close .nav-links li .sub-menu{
+      display: none;
+    }
+  }

@@ -23,8 +23,8 @@
       "dom"
     ],
     "paths": {
-      "@services/*": [
-        "src/app/services/*"
+      "@assets/*": [
+        "src/assets/*"
       ],
       "@env/*": [
         "src/environments/*"
@@ -32,15 +32,15 @@
       "@layout/*": [
         "src/app/layout/*"
       ],
-      "@shared/*": [
-        "src/app/shared/*"
-      ],
       "@models/*": [
         "src/app/models/*"
       ],
-      "@assets/*": [
-        "src/assets/*"
-      ]
+      "@shared/*": [
+        "src/app/shared/*"
+      ],
+      "@services/*": [
+        "src/app/services/*"
+      ],
     }
   },
   "angularCompilerOptions": {

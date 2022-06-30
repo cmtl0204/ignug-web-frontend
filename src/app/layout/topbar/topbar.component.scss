@@ -1,0 +1,33 @@
+img{
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    margin-right: 35px;
+    
+}
+.test {
+  height: 60px;
+
+  p-menubarsub {
+    position: absolute;
+    right: 100px;
+    margin-top: 0px;
+  }
+}
+
+@media only screen and (max-width: 963px) {
+  .test {
+    visibility: hidden;
+  }
+}
+@media only screen and (max-width: 5000px) {
+  .test1{
+    visibility: hidden;
+  }
+}
+@media only screen and (max-width: 963px) {
+  .test1{
+    top:-8%;
+    visibility:visible;
+  }
+}
