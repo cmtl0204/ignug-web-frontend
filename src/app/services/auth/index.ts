@@ -1,2 +1,3 @@
-export {AuthHttpService} from './auth-http.service'
-export {AuthService} from './auth.service'
+export * from './auth-http.service';
+export * from './auth.service';
+export * from './menu-http.service';

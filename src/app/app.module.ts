@@ -25,11 +25,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
   declarations: [
     AppComponent,
     BlankComponent,
+    BreadcrumbComponent,
+    FooterComponent,
     MainComponent,
     SidebarComponent,
     TopbarComponent,
-    FooterComponent,
-    BreadcrumbComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,7 +49,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     HttpInterceptorProviders,
     DialogService,
     MessageService,
-    ConfirmationService
+    ConfirmationService,
   ],
   bootstrap: [AppComponent]
 })

@@ -1,3 +1,3 @@
-export {LevelsEnum} from './levels.enum'
-export {RolesEnum} from './roles.enum'
-export {RoutesEnum} from './routes.enum'
+export * from './levels.enum'
+export * from './roles.enum'
+export * from './routes.enum'

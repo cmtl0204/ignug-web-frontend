@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {MenuItem} from 'primeng/api';
+import {Component, OnDestroy} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {BreadcrumbService} from '@services/core/breadcrumb.service';
+import {MenuItem} from 'primeng/api';
+import {BreadcrumbService} from '@services/core';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
-export class BreadcrumbComponent implements OnDestroy {
+export class BreadcrumbComponent {
   subscription: Subscription;
   items: MenuItem[] = [];
 
@@ -16,11 +16,5 @@ export class BreadcrumbComponent implements OnDestroy {
     this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
       this.items = response as MenuItem[];
     });
-  }
-
-  ngOnDestroy() {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
   }
 }

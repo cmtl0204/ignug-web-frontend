@@ -3,10 +3,9 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {ValidationErrors} from '@angular/forms';
 import {ConfirmationService, Message} from "primeng/api";
 import {ConfirmEventType, MessageService as MessagePNService} from 'primeng/api';
-// import Swal from 'sweetalert2';
+import {DialogService} from 'primeng/dynamicdialog';
 import {PaginatorModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
-import {DialogService} from 'primeng/dynamicdialog';
 
 @Injectable({
   providedIn: 'root'

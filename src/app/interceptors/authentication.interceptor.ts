@@ -6,7 +6,6 @@ import {Router} from '@angular/router';
 import {AuthService} from '@services/auth';
 
 @Injectable()
-
 export class AuthenticationInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService, private router: Router) {
@@ -28,8 +27,8 @@ export class AuthenticationInterceptor implements HttpInterceptor {
 
       // Cuando el usuario no tiene permisos para acceder al recurso solicitado y se encuentra logueado
       if ((error.status === 401 || error.status === 403 || error.status === 423) && this.authService.token) {
-        this.authService.removeLogin();
-        this.router.navigate(['/auth/login']);
+        // this.authService.removeLogin();
+        // this.router.navigate(['/auth/login']);
       }
 
       // Cuando el usuario no tiene permisos para acceder al recurso solicitado y no está logueado

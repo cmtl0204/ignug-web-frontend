@@ -4,6 +4,7 @@ import {BlankComponent, MainComponent} from '@layout/index';
 import {RolesEnum} from '@shared/enums';
 import {RoleGuard, TokenGuard} from '@shared/guards';
 import {CommonRoutesEnum, UserAdministrationRoutesEnum} from '@shared/enums/routes.enum';
+import {UserComponent} from './pages/auth/user/user.component';
 
 const routes: Routes = [
   {
@@ -12,18 +13,14 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: '/', pathMatch: 'full'},
       {
-        path: UserAdministrationRoutesEnum.ROOT,
-        loadChildren: () => import('./pages/user-administration/user-administration.module').then(m => m.UserAdministrationModule),
-        data: {
-          roles: [RolesEnum.ADMIN]
-        },
-        canActivate: [TokenGuard, RoleGuard]
+        path: 'core',
+        loadChildren: () => import('./pages/core/core.module').then(m => m.CoreModule),
       }
     ]
   },
   {
     path: 'auth',
-    component:BlankComponent,
+    component: BlankComponent,
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
   },
   {

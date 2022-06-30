@@ -1,10 +1,8 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {MenuItem} from 'primeng/api';
-import {MenuHttpService} from '@services/core/menu-http.service';
-import {AuthHttpService} from "@services/auth";
-import {MessageService} from "@services/core";
 import {Router} from "@angular/router";
-import {AuthService} from '@services/auth';
+import {MenuItem} from 'primeng/api';
+import {AuthService, AuthHttpService, MenuHttpService} from '@services/auth';
+import {MessageService} from "@services/core";
 
 @Component({
   selector: 'app-topbar',

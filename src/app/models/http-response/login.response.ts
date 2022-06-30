@@ -1,5 +1,4 @@
-import {UserModel, PermissionModel, RoleModel} from '@models/auth';
-import {PatientModel} from "@models/app";
+import {PermissionModel, RoleModel,UserModel} from '@models/auth';
 
 export interface LoginResponse {
   data: Data;
@@ -17,5 +16,4 @@ interface Data {
   roles: RoleModel[];
   permissions: PermissionModel[];
   user: UserModel;
-  patient?: PatientModel;
 }

@@ -1,12 +1,10 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {PermissionModel, RoleModel, UserModel} from '@models/auth';
-import {PatientModel} from '@models/app';
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
   private login = new BehaviorSubject<boolean>(this.isLoggedIn);
   public login$ = this.login.asObservable();
@@ -46,14 +44,6 @@ export class AuthService {
 
   set auth(user: UserModel | undefined | null) {
     localStorage.setItem('auth', JSON.stringify(user));
-  }
-
-  get patient(): PatientModel {
-    return JSON.parse(String(localStorage.getItem('patient'))) as PatientModel;
-  }
-
-  set patient(patient: PatientModel | undefined | null) {
-    localStorage.setItem('patient', JSON.stringify(patient));
   }
 
   get permissions(): PermissionModel[] {

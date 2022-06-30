@@ -1,15 +1,16 @@
-import {RoleModel} from '@models/auth';
-import {CatalogueModel} from '@models/app';
+import {RoleModel} from '@models/auth/index';
+import {CatalogueModel} from '@models/core';
 
 export interface UserModel {
   id?: number;
-  age?: number;
   identificationType?: CatalogueModel;
+  identificationTypeId?: number;
   sex?: CatalogueModel;
   gender?: CatalogueModel;
   ethnicOrigin?: CatalogueModel;
   bloodType?: CatalogueModel;
-  civilStatus?: CatalogueModel;
+  bloodTypeId?: number;
+  maritalStatus?: CatalogueModel;
   phones?: CatalogueModel[];
   emails?: CatalogueModel[];
   roles?: RoleModel[];
@@ -18,6 +19,7 @@ export interface UserModel {
   email?: string;
   lastname?: string;
   name?: string;
+  password?: string;
   phone?: string;
   suspended?: boolean;
   username?: string;

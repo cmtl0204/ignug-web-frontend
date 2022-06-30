@@ -49,7 +49,6 @@ export class AuthHttpService {
       .pipe(
         map(response => {
           // //this.appService.dismissLoading();
-          this.authService.patient = response.data.patient;
           this.authService.isLoggedIn = true;
           this.authService.token = response.token;
           this.authService.auth = response.data.user;
