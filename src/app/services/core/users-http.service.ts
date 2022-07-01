@@ -2,6 +2,10 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
+import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth';
+import {map} from 'rxjs/operators';
+import {ServerResponse} from '@models/http-response';
+import {MessageService} from '@services/core';
 
 @Injectable({
   providedIn: 'root'
@@ -9,30 +13,49 @@ import {Observable} from 'rxjs';
 export class UsersHttpService {
   HOST = `${environment.HOST}/users`;
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: any): Observable<any> {
+  create(payload: CreateUserDto): Observable<UserModel> {
     const url = `${this.HOST}`;
-    return this.httpClient.post(url, payload);
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
   }
 
-  findAll(): Observable<any> {
-    return this.httpClient.get(this.HOST);
+  findAll(): Observable<UserModel[]> {
+    return this.httpClient.get<ServerResponse>(this.HOST).pipe(
+      map(response => response.data)
+    );
   }
 
-  findOne(id: number): Observable<any> {
+  findOne(id: number): Observable<UserModel> {
     const url = `${this.HOST}/${id}`;
-    return this.httpClient.get(url);
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => response.data)
+    );
   }
 
-  update(id: number, payload: any): Observable<any> {
+  update(id: number, payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.HOST}/${id}`;
-    return this.httpClient.put(url, payload);
+    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
   }
 
-  remove(id: number): Observable<any> {
+  remove(id: number): Observable<boolean> {
     const url = `${this.HOST}/${id}`;
-    return this.httpClient.delete(url);
+    return this.httpClient.delete<ServerResponse>(url).pipe(
+      map(response => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
   }
 }
