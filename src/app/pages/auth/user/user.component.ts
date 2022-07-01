@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {UsersHttpService} from '@services/core/users-http.service';
+import {UsersHttpService} from '@services/auth/users-http.service';
 import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth/user.model';
 
 @Component({
