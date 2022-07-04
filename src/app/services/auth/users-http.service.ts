@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@env/environment';
-import {Observable} from 'rxjs';
+import {delay, Observable} from 'rxjs';
 import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth';
 import {map} from 'rxjs/operators';
 import {ServerResponse} from '@models/http-response';
-import {MessageService} from '@services/core';
+import {CoreService, MessageService} from '@services/core';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,9 @@ import {MessageService} from '@services/core';
 export class UsersHttpService {
   HOST = `${environment.HOST}/users`;
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(private httpClient: HttpClient,
+              private coreService: CoreService,
+              private messageService: MessageService) {
   }
 
   create(payload: CreateUserDto): Observable<UserModel> {
@@ -52,6 +54,7 @@ export class UsersHttpService {
   remove(id: number): Observable<boolean> {
     const url = `${this.HOST}/${id}`;
     return this.httpClient.delete<ServerResponse>(url).pipe(
+      delay(3000),
       map(response => {
         this.messageService.success(response);
         return response.data;

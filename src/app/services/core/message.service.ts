@@ -139,18 +139,18 @@ export class MessageService {
     });
   }
 
-  questionDelete({title = '¿Está seguro de eliminar?', text = 'No podrá recuperar esta información!'}) {
-    /*
-    return Swal.fire({
-      title,
-      text,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#eeeeee',
-      confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
-    });
-     */
+  questionDelete({header = '¿Está seguro de eliminar?', message = 'No podrá recuperar esta información!'}) {
+    // return this.confirmationService.confirm({
+    //   key: 'messageDialog',
+    //   // icon: 'pi pi-exclamation-circle',
+    //   header: header,
+    //   message: message,
+    //   acceptLabel: 'Si, Eliminar',
+    //   dismissableMask: true,
+    //   accept: () => {
+    //
+    //   }
+    // });
   }
 
   questionOnExit({title = '¿Está seguro de salir?', text = 'Se perderá la información que no haya guardado!'}) {

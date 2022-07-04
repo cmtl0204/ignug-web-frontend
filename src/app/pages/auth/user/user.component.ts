@@ -15,7 +15,7 @@ export class UserComponent {
     // this.findAll();
     // this.findOne();
     // this.remove();
-    this.create();
+    // this.create();
     // this.update();
   }
 

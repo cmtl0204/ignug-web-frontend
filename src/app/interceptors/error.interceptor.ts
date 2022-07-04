@@ -19,8 +19,8 @@ export class ErrorInterceptor implements HttpInterceptor {
       }),
       catchError(error => {
         // this.appService.dismissLoading();
-        this.messageService.error(error);
         this.coreService.hideLoad();
+        this.messageService.error(error);
         return throwError(error);
       }));
   }
