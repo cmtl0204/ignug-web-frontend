@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {FormControl} from "@angular/forms";
-import {MessageService} from "@services/core";
+import {CoreService, MessageService} from "@services/core";
 import {ColModel, PaginatorModel} from "@models/core";
 
 @Component({
@@ -12,7 +12,7 @@ import {ColModel, PaginatorModel} from "@models/core";
 export class SearchComponent implements OnInit {
   @Input() cols: ColModel[] = [];
   @Input() records: any[] = [];
-  @Input() paginatorIn: PaginatorModel = {currentPage: 1, perPage: 5, totalItems: 0};
+  @Input() paginatorIn = this.coreService.paginator;
   @Input() loading: boolean = false;
   @Output() selectedRecordOut: EventEmitter<any> = new EventEmitter<any>();
   @Output() displayModal: EventEmitter<boolean> = new EventEmitter<boolean>();
@@ -22,7 +22,7 @@ export class SearchComponent implements OnInit {
   progressBarDelete: boolean = false;
   selectedRecord: any = null;
 
-  constructor(public messageService: MessageService) {
+  constructor(private coreService: CoreService, public messageService: MessageService) {
     this.filter = new FormControl(null);
   }
 

@@ -54,7 +54,16 @@ export class UsersHttpService {
   remove(id: number): Observable<boolean> {
     const url = `${this.HOST}/${id}`;
     return this.httpClient.delete<ServerResponse>(url).pipe(
-      delay(3000),
+      map(response => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  removeAll(id: number[]): Observable<boolean> {
+    const url = `${this.HOST}/${id}`;
+    return this.httpClient.delete<ServerResponse>(url).pipe(
       map(response => {
         this.messageService.success(response);
         return response.data;
