@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {UsersHttpService} from '@services/core/users-http.service';
-import {UserModel} from '@models/auth/user.model';
+import {UsersHttpService} from '@services/auth/users-http.service';
+import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth/user.model';
 
 @Component({
   selector: 'app-user',
@@ -8,10 +8,11 @@ import {UserModel} from '@models/auth/user.model';
   styleUrls: ['./user.component.scss']
 })
 export class UserComponent {
-  user: UserModel = {};
+  createUserDto: CreateUserDto = {};
+  updateUserDto: UpdateUserDto = {};
 
   constructor(private usersService: UsersHttpService) {
-    this.findAll();
+    // this.findAll();
     // this.findOne();
     // this.remove();
     // this.create();
@@ -19,44 +20,44 @@ export class UserComponent {
   }
 
   create() {
-    this.user = {
+    this.createUserDto = {
       bloodTypeId: 1,
       username: '12345',
       name: 'Juan',
       lastname: 'Perez',
       password: '1234',
-      email: 'correo1@gmail.com'
+      email: 'correo2@gmail.com'
     };
 
-    this.usersService.create(this.user).subscribe(response => {
-      console.log(response);
+    this.usersService.create(this.createUserDto).subscribe(user => {
+      console.log(user);
     });
   }
 
   findAll() {
-    this.usersService.findAll().subscribe(response => {
-      console.log(response);
+    this.usersService.findAll().subscribe(users => {
+      console.log(users);
     });
   }
 
   findOne() {
-    this.usersService.findOne(1).subscribe(response => {
-      console.log(response);
+    this.usersService.findOne(1).subscribe(user => {
+      console.log(user);
     });
   }
 
   update() {
-    this.user = {
+    this.updateUserDto = {
       email: 'correo1@outlook.com'
     };
-    this.usersService.update(6, this.user).subscribe(response => {
-      console.log(response);
+    this.usersService.update(5, this.updateUserDto).subscribe(user => {
+      console.log(user);
     });
   }
 
   remove() {
-    this.usersService.remove(1).subscribe(response => {
-      console.log(response);
+    this.usersService.remove(1).subscribe(flag => {
+      console.log(flag);
     });
   }
 }

@@ -15,7 +15,7 @@ import {AuthRoutesEnum} from '@shared/enums/routes.enum';
 export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   progressBar: boolean = false;
-  loaded$ = this.coreService.loaded$;
+  // loaded$ = this.coreService.loaded$;
   isPasswordReset = false;
 
   constructor(private formBuilder: FormBuilder,

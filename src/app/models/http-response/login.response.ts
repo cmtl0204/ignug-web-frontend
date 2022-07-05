@@ -2,14 +2,8 @@ import {PermissionModel, RoleModel,UserModel} from '@models/auth';
 
 export interface LoginResponse {
   data: Data;
-  msg?: Msg;
+  message: string;
   token?: string;
-}
-
-interface Msg {
-  summary: string;
-  detail: string;
-  code: string;
 }
 
 interface Data {

@@ -5,7 +5,7 @@ import {ConfirmationService, Message} from "primeng/api";
 import {ConfirmEventType, MessageService as MessagePNService} from 'primeng/api';
 import {DialogService} from 'primeng/dynamicdialog';
 import {PaginatorModel} from '@models/core';
-import {ServerResponse} from '@models/http-response';
+import {LoginResponse, ServerResponse} from '@models/http-response';
 
 @Injectable({
   providedIn: 'root'
@@ -32,8 +32,8 @@ export class MessageService {
           this.confirmationService.confirm({
             key: 'messageDialog',
             // icon: 'pi pi-exclamation-circle',
-            header: error.error.msg.summary,
-            message: error.error.msg.detail,
+            header: 'Error',
+            message: error.error.message,
             acceptLabel: 'Entiendo',
             rejectVisible: false,
             dismissableMask: true,
@@ -47,8 +47,8 @@ export class MessageService {
         this.confirmationService.confirm({
           key: 'messageDialog',
           // icon: 'pi pi-exclamation-circle',
-          header: error.error.msg.summary,
-          message: error.error.msg.detail,
+          header: 'Error',
+          message: error.error.message,
           acceptLabel: 'Entiendo',
           rejectVisible: false,
           dismissableMask: true,
@@ -69,7 +69,7 @@ export class MessageService {
         this.confirmationService.confirm({
           key: 'messageDialog',
           // icon: 'pi pi-exclamation-circle',
-          header: error.error.msg.summary,
+          header: error.error.message,
           message: html,
           acceptLabel: 'Entiendo',
           rejectVisible: false,
@@ -83,8 +83,8 @@ export class MessageService {
         this.confirmationService.confirm({
           key: 'messageDialog',
           // icon: 'pi pi-exclamation-circle',
-          header: error.error.msg.summary,
-          message: error.error.msg.detail,
+          header: `Error ${error.status}`,
+          message: error.error.message,
           acceptLabel: 'Entiendo',
           rejectVisible: false,
           dismissableMask: true,
@@ -95,12 +95,12 @@ export class MessageService {
     }
   }
 
-  success(serverResponse: ServerResponse) {
+  success(serverResponse: ServerResponse | LoginResponse) {
     this.confirmationService.confirm({
       key: 'messageDialog',
       // icon: 'pi pi-exclamation-circle',
-      header: serverResponse.msg?.summary,
-      message: serverResponse.msg?.detail,
+      header: 'Correcto',
+      message: serverResponse.message,
       acceptLabel: 'Entiendo',
       rejectVisible: false,
       dismissableMask: true,
@@ -139,18 +139,22 @@ export class MessageService {
     });
   }
 
-  questionDelete({title = '¿Está seguro de eliminar?', text = 'No podrá recuperar esta información!'}) {
-    /*
-    return Swal.fire({
-      title,
-      text,
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#eeeeee',
-      confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
+  questionDelete(
+    {
+      header = '¿Está seguro de eliminar?',
+      message = 'No podrá recuperar esta información!'
+    }) {
+    return this.confirmationService.confirm({
+      key: 'messageDialog',
+      // icon: 'pi pi-exclamation-circle',
+      header: header,
+      message: message,
+      acceptLabel: 'Si, Eliminar',
+      dismissableMask: true,
+      accept: () => {
+
+      }
     });
-     */
   }
 
   questionOnExit({title = '¿Está seguro de salir?', text = 'Se perderá la información que no haya guardado!'}) {
