@@ -39,8 +39,6 @@ export class UserListComponent implements OnInit {
         this.users = this.users.filter(user => user.id !== id);
       }
     });
-    this.
-    this.messageService.questionDelete().accept(
   }
 
   removeAll() {
