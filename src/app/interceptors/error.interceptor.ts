@@ -14,7 +14,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.coreService.showLoad();
     return next.handle(request).pipe(
-      delay(3000),
+      delay(1000),
       tap((response) => {
         this.coreService.hideLoad();
       }),

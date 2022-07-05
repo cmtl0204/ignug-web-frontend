@@ -1,4 +1,4 @@
-export interface ColModel {
+export interface ColumnModel {
   field: string;
   header: string;
 }

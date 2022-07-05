@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ColModel} from "@models/core";
+import {ColumnModel} from "@models/core";
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +9,7 @@ export class ColsService {
   constructor() {
   }
 
-  get catalogue(): ColModel[] {
+  get catalogue(): ColumnModel[] {
     return [
       {field: 'name', header: 'Nombre'},
       {field: 'description', header: 'Descripción'},

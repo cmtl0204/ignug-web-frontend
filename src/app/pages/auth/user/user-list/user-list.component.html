@@ -8,7 +8,7 @@
             class="p-button-info mr-2"
             icon="pi pi-refresh"
             (click)="findAll()"></button>
-    <button *ngIf="selectedUsers?.length" pButton type="button" label="Delete Users"
+    <button *ngIf="selectedUsers.length>0" pButton type="button" label="Delete Users"
             class="p-button-danger"
             icon="pi pi-trash"
             (click)="removeAll()"></button>
@@ -25,7 +25,7 @@
   dataKey="id"
   styleClass="p-datatable-striped"
   [value]="users"
-  [columns]="cols"
+  [columns]="columns"
   [loading]="(loaded$|async)!"
   [(selection)]="selectedUsers"
   [responsive]="true">
@@ -39,7 +39,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        <button pButton pRipple type="button" class="p-button-rounded p-button-info" icon="pi pi-cog"></button>
+        <button pButton pRipple type="button" class="p-button-info p-button-rounded " icon="pi pi-cog"></button>
       </th>
     </tr>
   </ng-template>
@@ -59,7 +59,6 @@
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'updatedAt'">{{rowData[col.field]|date}}</div>
-          <div *ngSwitchCase="'createdAt'">{{rowData[col.field]|date}}</div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
       </td>

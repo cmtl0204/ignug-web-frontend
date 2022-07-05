@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MenuItem} from "primeng/api";
 import {FormControl} from "@angular/forms";
 import {CoreService, MessageService} from "@services/core";
-import {ColModel, PaginatorModel} from "@models/core";
+import {ColumnModel, PaginatorModel} from "@models/core";
 
 @Component({
   selector: 'app-search',
@@ -10,7 +10,7 @@ import {ColModel, PaginatorModel} from "@models/core";
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  @Input() cols: ColModel[] = [];
+  @Input() cols: ColumnModel[] = [];
   @Input() records: any[] = [];
   @Input() paginatorIn = this.coreService.paginator;
   @Input() loading: boolean = false;

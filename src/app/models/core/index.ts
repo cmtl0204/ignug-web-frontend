@@ -1,6 +1,6 @@
 export * from './address.model'
 export * from './catalogue.model'
-export * from './col.model'
+export * from './column.model'
 export * from './file.model';
 export * from './image.model';
 export * from './location.model'
