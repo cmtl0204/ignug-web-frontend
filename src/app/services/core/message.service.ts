@@ -139,22 +139,16 @@ export class MessageService {
     });
   }
 
-  questionDelete(
-    {
-      header = '¿Está seguro de eliminar?',
-      message = 'No podrá recuperar esta información!'
-    }) {
-    return this.confirmationService.confirm({
+  questionDelete() {
+    return {
       key: 'messageDialog',
       // icon: 'pi pi-exclamation-circle',
-      header: header,
-      message: message,
+      header: '¿Está seguro de eliminar?',
+      message: 'No podrá recuperar la información',
       acceptLabel: 'Si, Eliminar',
-      dismissableMask: true,
-      accept: () => {
-
-      }
-    });
+      acceptButtonStyleClass: 'p-button-danger',
+      dismissableMask: true
+    };
   }
 
   questionOnExit({title = '¿Está seguro de salir?', text = 'Se perderá la información que no haya guardado!'}) {

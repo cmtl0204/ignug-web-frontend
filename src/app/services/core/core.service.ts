@@ -21,12 +21,10 @@ export class CoreService {
 
 
   showLoad(): void {
-    console.log('loaded true');
     this.loaded.next(true);
   }
 
   hideLoad(): void {
-    console.log('loaded false');
     this.loaded.next(false);
   }
 

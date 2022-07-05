@@ -3,6 +3,7 @@ import {UserModel} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
 import {ColModel, PaginatorDto} from '@models/core';
+import {ConfirmEventType} from "primeng/api";
 
 @Component({
   selector: 'app-user-list',
@@ -33,12 +34,13 @@ export class UserListComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.messageService.questionDelete()
     this.usersHttpService.remove(id).subscribe(flag => {
       if (flag) {
         this.users = this.users.filter(user => user.id !== id);
       }
     });
+    this.
+    this.messageService.questionDelete().accept(
   }
 
   removeAll() {
