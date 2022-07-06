@@ -10,10 +10,7 @@
 
         <div class="field">
           <label for="username" appLabel label="Usuario:"
-                 [required]="isRequired(usernameField)"
-                 [valid]="usernameField.valid"
-                 [touched]="usernameField.touched"
-                 [dirty]="usernameField.dirty">
+                 [required]="isRequired(usernameField)">
           </label>
           <input pInputText id="username" formControlName="username">
           <small appErrorMessage
@@ -25,10 +22,7 @@
 
         <div *ngIf="!isPasswordReset" class="field">
           <label for="password" appLabel label="Contraseña:"
-                 [required]="isRequired(passwordField)"
-                 [valid]="passwordField.valid"
-                 [touched]="passwordField.touched"
-                 [dirty]="passwordField.dirty">
+                 [required]="isRequired(passwordField)">
           </label>
           <p-password id="password" formControlName="password" [feedback]="false"></p-password>
 

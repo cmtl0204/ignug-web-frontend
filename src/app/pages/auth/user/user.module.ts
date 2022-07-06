@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule as NgCommonModule} from '@angular/common';
+import {ReactiveFormsModule} from '@angular/forms';
 import {UserRoutingModule} from './user-routing.module';
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -11,6 +12,10 @@ import {UserFormComponent} from './user-form/user-form.component';
 import {ToolbarModule} from 'primeng/toolbar';
 import {TooltipModule} from 'primeng/tooltip';
 import {InputTextModule} from 'primeng/inputtext';
+import {SharedModule} from '@shared/shared.module';
+import {CalendarModule} from 'primeng/calendar';
+import {DropdownModule} from 'primeng/dropdown';
+import {PasswordModule} from 'primeng/password';
 
 @NgModule({
   declarations: [
@@ -21,14 +26,19 @@ import {InputTextModule} from 'primeng/inputtext';
   imports: [
     NgCommonModule,
     UserRoutingModule,
+    ReactiveFormsModule,
+    SharedModule,
     //PrimeNg
     ButtonModule,
+    CalendarModule,
+    DropdownModule,
     InputTextModule,
     RippleModule,
     MessageModule,
+    PasswordModule,
     TableModule,
     ToolbarModule,
-    TooltipModule
+    TooltipModule,
   ]
 })
 export class UserModule {
