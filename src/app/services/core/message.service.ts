@@ -140,7 +140,7 @@ export class MessageService {
   }
 
   questionDelete() {
-    return {
+    return this.confirmationService.confirm({
       key: 'messageDialog',
       // icon: 'pi pi-exclamation-circle',
       header: '¿Está seguro de eliminar?',
@@ -148,7 +148,7 @@ export class MessageService {
       acceptLabel: 'Si, Eliminar',
       acceptButtonStyleClass: 'p-button-danger',
       dismissableMask: true
-    };
+    }).requireConfirmation$;
   }
 
   questionOnExit({title = '¿Está seguro de salir?', text = 'Se perderá la información que no haya guardado!'}) {

@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from '@angular/common';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
@@ -21,7 +22,8 @@ export class UserFormComponent implements OnInit {
               private usersHttpService: UsersHttpService,
               private cataloguesHttpService: CataloguesHttpService,
               private formBuilder: FormBuilder,
-              private coreService: CoreService) {
+              private coreService: CoreService,
+              private location: Location) {
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
@@ -36,33 +38,35 @@ export class UserFormComponent implements OnInit {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      bloodType: [null, [Validators.required]],
+      bloodTypeId: [null, [Validators.required]],
       birthdate: [null, [Validators.required]],
       email: [null, [Validators.email]],
       lastname: [null, [Validators.required]],
       name: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      username: [null, [Validators.required, Validators.minLength(5)]],
+      username: [null, [Validators.required, Validators.minLength(3)]],
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
-      console.log('Valid');
       if (this.id > 0) {
         this.update(this.form.value);
       } else {
         this.create(this.form.value);
       }
     } else {
-      console.log('Invalid');
       this.form.markAllAsTouched();
     }
   }
 
+  back() {
+    this.location.back();
+  }
+
   create(user: CreateUserDto) {
     this.usersHttpService.create(user).subscribe(user => {
-      console.log(user);
+      this.back();
     });
   }
 
@@ -79,7 +83,6 @@ export class UserFormComponent implements OnInit {
 
   loadBloodTypes() {
     this.cataloguesHttpService.findAll().subscribe(bloodTypes => {
-        console.log(bloodTypes);
         this.bloodTypes = bloodTypes;
       }
     );
@@ -87,12 +90,12 @@ export class UserFormComponent implements OnInit {
 
   update(user: UpdateUserDto) {
     this.usersHttpService.update(this.id, user).subscribe(user => {
-      console.log(user);
+      this.back();
     });
   }
 
-  get bloodTypeField() {
-    return this.form.controls['bloodType'];
+  get bloodTypeFieldId() {
+    return this.form.controls['bloodTypeId'];
   }
 
   get birthdateField() {

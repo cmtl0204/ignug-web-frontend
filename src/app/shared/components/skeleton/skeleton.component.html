@@ -106,26 +106,18 @@
     <p-table [value]="products" *ngIf="type==='table'">
       <ng-template pTemplate="header">
         <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
+          <th>Column1</th>
+          <th>Column2</th>
+          <th>Column3</th>
+          <th>Column4</th>
         </tr>
       </ng-template>
       <ng-template pTemplate="body" let-product>
         <tr>
-          <td>
-            <p-skeleton></p-skeleton>
-          </td>
-          <td>
-            <p-skeleton></p-skeleton>
-          </td>
-          <td>
-            <p-skeleton></p-skeleton>
-          </td>
-          <td>
-            <p-skeleton></p-skeleton>
-          </td>
+          <td><p-skeleton></p-skeleton></td>
+          <td><p-skeleton></p-skeleton></td>
+          <td><p-skeleton></p-skeleton></td>
+          <td><p-skeleton></p-skeleton></td>
         </tr>
       </ng-template>
     </p-table>

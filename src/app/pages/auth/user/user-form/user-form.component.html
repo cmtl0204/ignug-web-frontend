@@ -1,29 +1,24 @@
-{{form.value|json}}
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid">
   <div class="field">
     <label appLabel for="bloodType" label="Blood Type:"
-           [required]="isRequire(bloodTypeField)"></label>
+           [required]="isRequire(bloodTypeFieldId)"></label>
     <p-dropdown id="bloodType"
-                formControlName="bloodType"
+                formControlName="bloodTypeId"
                 dataKey="id"
-                optionLabel="name"
                 [options]="bloodTypes"
+                optionLabel="name"
+                optionValue="id"
+                placeholder="Seleccione"
                 [filter]="true"
-                filterBy="name"
-                placeholder="Seleccione">
-      <ng-template pTemplate="selectedItem">
-        <div *ngIf="bloodTypeField.value">
-          {{bloodTypeField.value.name}}
-        </div>
-      </ng-template>
+                filterBy="name">
       <ng-template pTemplate="item" let-item>
         {{item.name}}
       </ng-template>
     </p-dropdown>
     <small appErrorMessage
-           [errors]="bloodTypeField.errors"
-           [touched]="bloodTypeField.touched"
-           [dirty]="bloodTypeField.dirty">
+           [errors]="bloodTypeFieldId.errors"
+           [touched]="bloodTypeFieldId.touched"
+           [dirty]="bloodTypeFieldId.dirty">
     </small>
   </div>
   <div class="formgrid grid">
