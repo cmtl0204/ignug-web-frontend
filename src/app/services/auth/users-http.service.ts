@@ -29,7 +29,8 @@ export class UsersHttpService {
   }
 
   findAll(): Observable<UserModel[]> {
-    return this.httpClient.get<ServerResponse>(this.HOST).pipe(
+    const url = this.HOST;
+    return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => response.data)
     );
   }

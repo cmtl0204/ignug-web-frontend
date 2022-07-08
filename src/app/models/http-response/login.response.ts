@@ -3,7 +3,7 @@ import {PermissionModel, RoleModel,UserModel} from '@models/auth';
 export interface LoginResponse {
   data: Data;
   message: string;
-  token?: string;
+  token: string;
 }
 
 interface Data {

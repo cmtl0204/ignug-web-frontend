@@ -3,7 +3,6 @@ import {PaginatorModel} from '@models/core';
 export interface ServerResponse {
   data: any;
   message: string;
-  token?: string;
 }
 
 export interface ServerResponsePaginator extends ServerResponse{

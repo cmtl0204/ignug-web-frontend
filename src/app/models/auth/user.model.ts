@@ -25,10 +25,7 @@ export interface UserModel {
   username: string;
 }
 
-// export interface CreateUserDto extends Omit<UserModel, 'id'> {
-// }
-
-export interface CreateUserDto extends Partial<UserModel> {
+export interface CreateUserDto extends Omit<UserModel, 'id'> {
 }
 
 export interface UpdateUserDto extends Partial<Omit<UserModel, 'id'>> {
