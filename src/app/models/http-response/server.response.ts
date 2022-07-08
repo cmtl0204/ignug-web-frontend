@@ -2,10 +2,13 @@ import {PaginatorModel} from '@models/core';
 
 export interface ServerResponse {
   data: any;
+  error?: string;
   message: string;
+  statusCode: number;
+  title: string;
 }
 
-export interface ServerResponsePaginator extends ServerResponse{
+export interface ServerResponsePaginator extends ServerResponse {
   meta: PaginatorModel;
   links?: Links;
 }

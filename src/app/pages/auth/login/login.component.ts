@@ -57,7 +57,6 @@ export class LoginComponent implements OnInit {
     this.authHttpService.login(this.formLogin.value)
       .subscribe(
         response => {
-          this.messageService.success(response);
           this.progressBar = false;
           switch (this.authService.role?.name) {
             case RolesEnum.ADMIN:
@@ -94,7 +93,6 @@ export class LoginComponent implements OnInit {
     this.authHttpService.login(this.usernameField.value)
       .subscribe(
         response => {
-          this.messageService.success(response);
           this.progressBar = false;
           // this.redirect();
         }, error => {

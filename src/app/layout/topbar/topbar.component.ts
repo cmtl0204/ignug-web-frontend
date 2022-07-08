@@ -55,14 +55,7 @@ export class TopbarComponent implements OnInit {
   }
 
   logout() {
-    this.messageService.showLoading();
     this.authHttpService.logout().subscribe(response => {
-      this.messageService.success(response);
-      this.messageService.hideLoading();
-      this.router.navigate(['/authentication/login'])
-    }, error => {
-      this.messageService.hideLoading();
-      this.messageService.error(error);
       this.router.navigate(['/authentication/login'])
     });
   }

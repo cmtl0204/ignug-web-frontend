@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {UserModel} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
 import {ColumnModel, PaginatorDto} from '@models/core';
-import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-user-list',
@@ -56,9 +56,13 @@ export class UserListComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.usersHttpService.remove(id).subscribe(flag => {
-      if (flag) {
-        this.users = this.users.filter(user => user.id !== id);
+    this.messageService.questionDelete().then((result) => {
+      if (result.isConfirmed) {
+        this.usersHttpService.remove(id).subscribe(flag => {
+          if (flag) {
+            this.users = this.users.filter(user => user.id !== id);
+          }
+        });
       }
     });
   }

@@ -27,6 +27,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
 import {RolePipe} from './pipes/user/role.pipe';
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -40,7 +41,7 @@ import {RolePipe} from './pipes/user/role.pipe';
     WorkedPipe,
     ExtensionsPipe,
     SearchComponent,
-    RolePipe
+    RolePipe,
   ],
   exports: [
     RolesPermissionsDirective,
@@ -53,7 +54,7 @@ import {RolePipe} from './pipes/user/role.pipe';
     WorkedPipe,
     ExtensionsPipe,
     SearchComponent,
-    RolePipe
+    RolePipe,
   ],
   imports: [
     CommonModule,
@@ -72,7 +73,7 @@ import {RolePipe} from './pipes/user/role.pipe';
     InputTextareaModule,
     DividerModule,
     CardModule,
-    OverlayPanelModule
+    OverlayPanelModule,
   ]
 })
 export class SharedModule {

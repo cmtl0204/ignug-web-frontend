@@ -33,12 +33,15 @@ export class UserFormComponent implements OnInit {
     this.loadBloodTypes();
     if (this.id > 0) {
       this.getUser();
+      this.passwordField.clearValidators();
+    } else {
+
     }
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      bloodTypeId: [null, [Validators.required]],
+      bloodType: [null, [Validators.required]],
       birthdate: [null, [Validators.required]],
       email: [null, [Validators.email]],
       lastname: [null, [Validators.required]],
@@ -94,8 +97,8 @@ export class UserFormComponent implements OnInit {
     });
   }
 
-  get bloodTypeFieldId() {
-    return this.form.controls['bloodTypeId'];
+  get bloodTypeField() {
+    return this.form.controls['bloodType'];
   }
 
   get birthdateField() {

@@ -13,13 +13,11 @@ import {
   MainComponent,
   BreadcrumbComponent
 } from '@layout/index';
-import {DialogService} from 'primeng/dynamicdialog';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {MenubarModule} from 'primeng/menubar';
-import {ConfirmationService, MessageService} from 'primeng/api';
 import {ButtonModule} from 'primeng/button';
-import {ConfirmDialogModule} from 'primeng/confirmdialog';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SharedModule} from "@shared/shared.module";
 
 @NgModule({
   declarations: [
@@ -36,10 +34,10 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
+    SharedModule,
     BreadcrumbModule,
     MenubarModule,
     ButtonModule,
-    ConfirmDialogModule,
   ],
   providers: [
     {
@@ -47,9 +45,6 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
       useClass: HashLocationStrategy
     },
     HttpInterceptorProviders,
-    DialogService,
-    MessageService,
-    ConfirmationService,
   ],
   bootstrap: [AppComponent]
 })

@@ -55,7 +55,6 @@ export class PasswordResetComponent implements OnInit {
     this.authHttpService.resetPassword(this.form.value)
       .subscribe(
         response => {
-          this.messageService.success(response);
           this.progressBar = false;
           this.redirect();
         }, error => {

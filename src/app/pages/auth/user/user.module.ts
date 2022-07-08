@@ -16,6 +16,8 @@ import {SharedModule} from '@shared/shared.module';
 import {CalendarModule} from 'primeng/calendar';
 import {DropdownModule} from 'primeng/dropdown';
 import {PasswordModule} from 'primeng/password';
+import {CardModule} from "primeng/card";
+import {ToastModule} from "primeng/toast";
 
 @NgModule({
   declarations: [
@@ -30,6 +32,7 @@ import {PasswordModule} from 'primeng/password';
     SharedModule,
     //PrimeNg
     ButtonModule,
+    CardModule,
     CalendarModule,
     DropdownModule,
     InputTextModule,
@@ -39,6 +42,7 @@ import {PasswordModule} from 'primeng/password';
     TableModule,
     ToolbarModule,
     TooltipModule,
+    ToastModule,
   ]
 })
 export class UserModule {

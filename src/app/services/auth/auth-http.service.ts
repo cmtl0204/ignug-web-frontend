@@ -31,7 +31,6 @@ export class AuthHttpService {
     return this.httpClient.post<ServerResponse>(url, userData)
       .pipe(
         map(response => {
-          // //this.appService.dismissLoading();
           this.messageService.success(response);
           return response.data;
         }),
