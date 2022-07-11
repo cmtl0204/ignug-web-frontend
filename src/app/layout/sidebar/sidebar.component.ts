@@ -15,7 +15,7 @@ export class SidebarComponent implements OnInit {
   items: MenuItem[] = [];
   showedMenu: boolean = false;
   closed: boolean = true;
-  closedLock: boolean = false;
+  closedLock: boolean | null = null;
 
   constructor(private menuHttpService: MenuHttpService, private authHttpService: AuthHttpService,
               private router: Router) {
@@ -66,6 +66,15 @@ export class SidebarComponent implements OnInit {
       },
     ]
   }
+
+  // lockMenu() {
+  //   if (this.closedLock === 'lock') {
+  //     this.closedLock = 'lock'
+  //   } else {
+  //     this.closedLock = 'lock'
+  //   }
+  //
+  // }
 
   showCloseMenu() {
     if (!this.closedLock) {

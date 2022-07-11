@@ -1,14 +1,5 @@
-<p-dialog [(visible)]="displayBloodType" [modal]="true" [style]="{width: '60vw'}">
-  <app-search (displayModal)="displayBloodType=$event"
-              (paginatorOut)="loadBloodTypes($event)"
-              (searchOut)="searchBloodType.setValue($event)"
-              (selectedRecordOut)="bloodTypeField.setValue($event)"
-              [columns]="bloodTypeColumns"
-              [paginatorIn]="paginator"
-              [records]="bloodTypes"></app-search>
-</p-dialog>
-
-<p-card header="User Register" class="p-fluid">
+<app-skeleton *ngIf="(loaded$|async)" [type]="'card'"></app-skeleton>
+<p-card *ngIf="!(loaded$|async)" header="User Register" class="p-fluid">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
       <label appLabel for="bloodType" label="Blood Type:"

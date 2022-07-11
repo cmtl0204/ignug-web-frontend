@@ -31,10 +31,13 @@ export class UsersHttpService {
     );
   }
 
-  findAll(page: number = 1, search: string = ''): Observable<UserModel[]> {
+  findAll(page: number = 0, search: string = ''): Observable<UserModel[]> {
     const url = this.API_URL;
     const headers = new HttpHeaders().append('pagination', 'true');
-    const params = new HttpParams().append('page', page).append('search', search);
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
+
     this.coreService.showLoad();
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map(response => {
@@ -49,8 +52,12 @@ export class UsersHttpService {
 
   findOne(id: number): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
+    this.coreService.showLoad();
     return this.httpClient.get<ServerResponse>(url).pipe(
-      map(response => response.data)
+      map(response => {
+        this.coreService.hideLoad();
+        return response.data;
+      })
     );
   }
 

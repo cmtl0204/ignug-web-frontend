@@ -4,7 +4,7 @@
     <span class="logo_name">IGNUG</span>
     <a href="javascript:void(0);">
       <i class='pi'
-         [ngClass]="{'pi-lock-open':!closedLock,'pi-lock':closedLock}"
+         [ngClass]="{'pi-lock-open':!closedLock && !closed,'pi-lock':closedLock}"
          (click)="closedLock=!closedLock">
       </i>
     </a>

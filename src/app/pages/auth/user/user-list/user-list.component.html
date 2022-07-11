@@ -24,8 +24,8 @@
   </p-toolbar>
   <p-paginator
     [rows]="paginator.limit"
-               [totalRecords]="paginator.totalItems"
-               (onPageChange)="paginate($event)"></p-paginator>
+    [totalRecords]="paginator.totalItems"
+    (onPageChange)="paginate($event)"></p-paginator>
   <p-table
     dataKey="id"
     styleClass="p-datatable-striped"

@@ -18,10 +18,6 @@ export class UserFormComponent implements OnInit {
   form: FormGroup = this.newForm;
   loaded$ = this.coreService.loaded$;
   bloodTypes: CatalogueModel[] = [];
-  displayBloodType: boolean = false;
-  paginationBloodType = this.cataloguesHttpService.pagination$;
-  paginator: PaginatorModel = this.coreService.paginator;
-  searchBloodType: FormControl = new FormControl('');
 
   constructor(private activatedRoute: ActivatedRoute,
               private usersHttpService: UsersHttpService,
@@ -32,13 +28,6 @@ export class UserFormComponent implements OnInit {
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
-    this.paginationBloodType.subscribe(pagination => {
-      this.paginator.totalItems = pagination.totalItems;
-      this.paginator.limit = pagination.limit;
-    });
-    this.searchBloodType.valueChanges.subscribe(value => {
-      this.loadBloodTypes(1);
-    });
   }
 
   ngOnInit(): void {
@@ -96,8 +85,8 @@ export class UserFormComponent implements OnInit {
     return control.hasValidator(Validators.required);
   }
 
-  loadBloodTypes(page: number = 1) {
-    this.cataloguesHttpService.findAll(page, this.searchBloodType.value).subscribe(bloodTypes => {
+  loadBloodTypes() {
+    this.cataloguesHttpService.catalogue().subscribe(bloodTypes => {
         this.bloodTypes = bloodTypes;
       }
     );
@@ -107,10 +96,6 @@ export class UserFormComponent implements OnInit {
     this.usersHttpService.update(this.id, user).subscribe(user => {
       this.back();
     });
-  }
-
-  showBloodTypes() {
-    this.displayBloodType = true;
   }
 
   get bloodTypeColumns(): ColumnModel[] {

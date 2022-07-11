@@ -31,6 +31,13 @@ export class CataloguesHttpService {
     );
   }
 
+  catalogue(): Observable<CatalogueModel[]> {
+    const url = `${this.API_URL}/catalogue`;
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => response.data)
+    );
+  }
+
   findAll(page: number = 1, search: string = ''): Observable<CatalogueModel[]> {
     const url = this.API_URL;
     const headers = new HttpHeaders().append('pagination', 'true');

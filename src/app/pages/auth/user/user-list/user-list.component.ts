@@ -3,9 +3,9 @@ import {Router} from '@angular/router';
 import {UserModel} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
-import {ColumnModel, PaginatorDto, PaginatorModel} from '@models/core';
+import {ColumnModel, PaginatorModel} from '@models/core';
 import {FormControl} from "@angular/forms";
-import {debounceTime, delay, takeUntil} from "rxjs";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-user-list',
@@ -17,7 +17,7 @@ export class UserListComponent implements OnInit {
   selectedUsers: UserModel[] = [];
   loaded$ = this.coreService.loaded$;
   columns: ColumnModel[];
-  pagination = this.usersHttpService.pagination$;
+  pagination$ = this.usersHttpService.pagination$;
   paginator: PaginatorModel = this.coreService.paginator;
   search: FormControl = new FormControl('');
 
@@ -26,12 +26,11 @@ export class UserListComponent implements OnInit {
               public messageService: MessageService,
               private router: Router) {
     this.columns = this.getColumns();
-    this.search.valueChanges.pipe(debounceTime(600)).subscribe(value => {
+    this.search.valueChanges.pipe(debounceTime(600)).subscribe(_ => {
       this.findAll();
     });
-    this.pagination.subscribe(pagination => {
-      this.paginator.totalItems = pagination.totalItems;
-      this.paginator.limit = pagination.limit;
+    this.pagination$.subscribe(pagination => {
+      this.paginator = pagination;
     });
   }
 
@@ -49,7 +48,7 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['/auth/users', id]);
   }
 
-  findAll(page: number = 1) {
+  findAll(page: number = 0) {
     this.usersHttpService.findAll(page, this.search.value).subscribe(users => {
         this.users = users;
       }
@@ -68,8 +67,7 @@ export class UserListComponent implements OnInit {
   }
 
   paginate(event: any) {
-    this.paginator.page = event.page + 1;
-    this.findAll(this.paginator.page);
+    this.findAll(event.page);
   }
 
   remove(id: number) {
