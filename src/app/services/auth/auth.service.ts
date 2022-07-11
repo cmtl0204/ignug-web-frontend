@@ -31,11 +31,11 @@ export class AuthService {
   }
 
   get token(): string | null {
-    return JSON.parse(String(localStorage.getItem('token')));
+    return JSON.parse(String(localStorage.getItem('accessToken')));
   }
 
   set token(value: string | undefined | null) {
-    localStorage.setItem('token', JSON.stringify(value));
+    localStorage.setItem('accessToken', JSON.stringify(value));
   }
 
   get auth(): UserModel {

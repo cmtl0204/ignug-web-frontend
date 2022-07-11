@@ -3,6 +3,7 @@ import {MenuItem} from "primeng/api";
 import {FormControl} from "@angular/forms";
 import {CoreService, MessageService} from "@services/core";
 import {ColumnModel, PaginatorModel} from "@models/core";
+import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-search',
@@ -10,20 +11,23 @@ import {ColumnModel, PaginatorModel} from "@models/core";
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  @Input() cols: ColumnModel[] = [];
+  @Input() columns: ColumnModel[] = [];
   @Input() records: any[] = [];
   @Input() paginatorIn = this.coreService.paginator;
-  @Input() loading: boolean = false;
   @Output() selectedRecordOut: EventEmitter<any> = new EventEmitter<any>();
   @Output() displayModal: EventEmitter<boolean> = new EventEmitter<boolean>();
-  @Output() paginatorOut: EventEmitter<PaginatorModel> = new EventEmitter<PaginatorModel>();
+  @Output() paginatorOut: EventEmitter<number> = new EventEmitter<number>();
+  @Output() searchOut: EventEmitter<string> = new EventEmitter<string>();
+  loaded$ = this.coreService.loaded$;
   items: MenuItem[] = [];
-  filter: FormControl;
+  search: FormControl = new FormControl('');
   progressBarDelete: boolean = false;
-  selectedRecord: any = null;
+  selectedRecords: any[] = [];
 
   constructor(private coreService: CoreService, public messageService: MessageService) {
-    this.filter = new FormControl(null);
+    this.search.valueChanges.pipe(debounceTime(600)).subscribe(value => {
+      this.searchOut.emit(value);
+    })
   }
 
   ngOnInit(): void {
@@ -36,7 +40,11 @@ export class SearchComponent implements OnInit {
   }
 
   paginate(event: any) {
-    this.paginatorIn.currentPage = event.page + 1;
-    this.paginatorOut.emit(this.paginatorIn);
+    // this.paginatorIn.page = event.page + 1;
+    this.paginatorOut.emit(event.page + 1);
+  }
+
+  catalogues() {
+
   }
 }

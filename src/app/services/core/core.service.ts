@@ -29,6 +29,6 @@ export class CoreService {
   }
 
   get paginator(): PaginatorModel {
-    return {currentPage: 1, perPage: 15, totalItems: 0, firstItem: 1, lastPage: 1, lastItem: 1};
+    return {page: 1, limit: 100, totalItems: 0, firstItem: 1, lastPage: 1, lastItem: 1};
   }
 }

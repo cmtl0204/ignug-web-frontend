@@ -11,7 +11,8 @@ export const enum CommonRoutesEnum {
 
 export enum AuthRoutesEnum {
   LOGIN = 'login',
-  PASSWORD_RESET = 'password-reset',
+  PROFILE = '/auth/profile',
+  PASSWORD_RESET = '/auth/password-reset',
 }
 
 export const enum UserAdministrationRoutesEnum {

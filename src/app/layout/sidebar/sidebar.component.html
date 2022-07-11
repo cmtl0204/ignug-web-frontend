@@ -1,35 +1,57 @@
-<div class="sidebar close" [ngClass]="{'close':closed}">
-    <header>
-        <div>
-            <span class="image">
-                <img src="../../../assets/images/layout/footer/LogoYavirac.png" alt="">
-            </span>
-        </div>
-        <i class='pi pi-angle-left toggle' (click)="closeSide()"></i>
-    </header>
-
-    <ul class="nav-links">
-      <li *ngFor="let menu of items, let i=index" [id]="i">
-        <div class="iocn-link">
-          <a href="#">
-            <i [class]="menu.icon"></i>
-            <span class="link_name">{{menu.label}}</span>
-          </a>
-          <i class='pi pi-angle-down arrow' (click)="showSubMenu(i!)"></i>
-        </div>
-        <ul class="sub-menu" >
-          <li class="li-primary" ><a class="link_name" href="#">{{menu.label}}</a></li>
-          <li class="li-primary" *ngFor="let sub of menu.items"><a href="{{sub.routerLink}}">{{sub.label}}</a></li>
-        </ul>
-      </li>
-      <br><br>
-</ul>
-
+<div id="sidebar" class="sidebar" [ngClass]="{'close':closed}" (mouseleave)="closeMenu()">
+  <div class="logo-details">
+    <a href="javascript:void(0);"><i class="pi pi-bars" (click)="showCloseMenu()"></i></a>
+    <span class="logo_name">IGNUG</span>
+    <a href="javascript:void(0);">
+      <i class='pi'
+         [ngClass]="{'pi-lock-open':!closedLock,'pi-lock':closedLock}"
+         (click)="closedLock=!closedLock">
+      </i>
+    </a>
   </div>
- 
+  <ul class="nav-links">
+    <!--Dashboard-->
+    <li>
+      <a [routerLink]="['/']">
+        <i class="pi pi-home"></i>
+        <span class="link_name">Dashboard</span>
+      </a>
+      <ul class="sub-menu blank">
+        <li><a class="link_name" [routerLink]="['/']">Dashboard</a></li>
+      </ul>
+    </li>
 
-  <section class="home">
-    <app-topbar></app-topbar>
-    <app-footer></app-footer>
-    
-  </section>
+    <!--Menus-->
+    <li [id]="index" *ngFor="let item of items,let index = index" [ngClass]="{'showMenu':showedMenu}">
+      <div class="icon-link">
+        <a [routerLink]="item.routerLink">
+          <i [class]="item.icon"></i>
+          <span class="link_name">{{item.label}}</span>
+        </a>
+        <i *ngIf="item.items" class="pi pi-chevron-down arrow" (click)="showSubMenu(index)"></i>
+      </div>
+      <ul class="sub-menu">
+        <li>
+          <a class="link_name" [routerLink]="item.routerLink">{{item.label}}</a>
+          <a *ngFor="let subItem of item.items" [routerLink]="subItem.routerLink">{{subItem.label}}</a>
+        </li>
+      </ul>
+    </li>
+
+    <!--Profile-->
+    <li>
+      <div class="profile-details">
+        <div class="profile-content">
+          <a href="javascript:void(0);" (click)="showCloseMenu()">
+            <img src="assets/images/layout/sidebar/user-profile.png" alt="profileImg">
+          </a>
+        </div>
+        <div class="name-job">
+          <a class="profile_name" (click)="redirectProfile()">Prem Shahi</a>
+          <div class="job">Web Desginer</div>
+        </div>
+        <i class="pi pi-sign-out" pTooltip="Sign Out" (click)="logout()"></i>
+      </div>
+    </li>
+  </ul>
+</div>

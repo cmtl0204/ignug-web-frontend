@@ -18,6 +18,9 @@ import {DropdownModule} from 'primeng/dropdown';
 import {PasswordModule} from 'primeng/password';
 import {CardModule} from "primeng/card";
 import {ToastModule} from "primeng/toast";
+import {PaginatorModule} from "primeng/paginator";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
@@ -25,25 +28,28 @@ import {ToastModule} from "primeng/toast";
     UserFormComponent,
     UserListComponent
   ],
-  imports: [
-    NgCommonModule,
-    UserRoutingModule,
-    ReactiveFormsModule,
-    SharedModule,
-    //PrimeNg
-    ButtonModule,
-    CardModule,
-    CalendarModule,
-    DropdownModule,
-    InputTextModule,
-    RippleModule,
-    MessageModule,
-    PasswordModule,
-    TableModule,
-    ToolbarModule,
-    TooltipModule,
-    ToastModule,
-  ]
+    imports: [
+        NgCommonModule,
+        UserRoutingModule,
+        ReactiveFormsModule,
+        SharedModule,
+        //PrimeNg
+        ButtonModule,
+        CardModule,
+        CalendarModule,
+        DropdownModule,
+        InputTextModule,
+        RippleModule,
+        MessageModule,
+        PasswordModule,
+        TableModule,
+        ToolbarModule,
+        TooltipModule,
+        ToastModule,
+        PaginatorModule,
+        KeyFilterModule,
+        DialogModule,
+    ]
 })
 export class UserModule {
 }

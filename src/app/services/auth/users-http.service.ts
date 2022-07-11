@@ -1,17 +1,20 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
-import {delay, Observable} from 'rxjs';
+import {BehaviorSubject, delay, Observable} from 'rxjs';
 import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth';
 import {map} from 'rxjs/operators';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
+import {PaginatorModel} from "@models/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersHttpService {
-  HOST = `${environment.HOST}/users`;
+  API_URL = `${environment.API_URL}/users`;
+  private pagination = new BehaviorSubject<PaginatorModel>(this.coreService.paginator);
+  public pagination$ = this.pagination.asObservable();
 
   constructor(private httpClient: HttpClient,
               private coreService: CoreService,
@@ -19,7 +22,7 @@ export class UsersHttpService {
   }
 
   create(payload: CreateUserDto): Observable<UserModel> {
-    const url = `${this.HOST}`;
+    const url = `${this.API_URL}`;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map(response => {
         this.messageService.success(response);
@@ -28,22 +31,31 @@ export class UsersHttpService {
     );
   }
 
-  findAll(): Observable<UserModel[]> {
-    const url = this.HOST;
-    return this.httpClient.get<ServerResponse>(url).pipe(
-      map(response => response.data)
+  findAll(page: number = 1, search: string = ''): Observable<UserModel[]> {
+    const url = this.API_URL;
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams().append('page', page).append('search', search);
+    this.coreService.showLoad();
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map(response => {
+        this.coreService.hideLoad();
+        if (response.pagination) {
+          this.pagination.next(response.pagination);
+        }
+        return response.data;
+      })
     );
   }
 
   findOne(id: number): Observable<UserModel> {
-    const url = `${this.HOST}/${id}`;
+    const url = `${this.API_URL}/${id}`;
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => response.data)
     );
   }
 
   update(id: number, payload: UpdateUserDto): Observable<UserModel> {
-    const url = `${this.HOST}/${id}`;
+    const url = `${this.API_URL}/${id}`;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
         this.messageService.success(response);
@@ -53,7 +65,7 @@ export class UsersHttpService {
   }
 
   remove(id: number): Observable<boolean> {
-    const url = `${this.HOST}/${id}`;
+    const url = `${this.API_URL}/${id}`;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map(response => {
         this.messageService.success(response);
@@ -62,9 +74,9 @@ export class UsersHttpService {
     );
   }
 
-  removeAll(id: number[]): Observable<boolean> {
-    const url = `${this.HOST}/${id}`;
-    return this.httpClient.delete<ServerResponse>(url).pipe(
+  removeAll(users: UserModel[]): Observable<UserModel[]> {
+    const url = `${this.API_URL}/remove-all`;
+    return this.httpClient.patch<ServerResponse>(url, users).pipe(
       map(response => {
         this.messageService.success(response);
         return response.data;

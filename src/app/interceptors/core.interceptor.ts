@@ -14,14 +14,15 @@ export class CoreInterceptor implements HttpInterceptor {
     let headers = request.headers ? request.headers : new HttpHeaders();
     let params = request.params ? request.params : new HttpParams();
 
-    if (!params.get('page')) {
-      params = params.append('page', this.coreService.paginator.currentPage);
-    }
+    if (headers.get('pagination')) {
+      if (!params.get('page')) {
+        params = params.append('page', this.coreService.paginator.page);
+      }
 
-    if (!params.get('perPage')) {
-      params = params.append('perPage', this.coreService.paginator.perPage);
+      if (!params.get('limit')) {
+        params = params.append('limit', this.coreService.paginator.limit);
+      }
     }
-
 
     flag = request.headers.getAll('Content-Type')?.some(header => header === 'multipart/form-data');
     headers = headers.append('Accept', 'application/json')

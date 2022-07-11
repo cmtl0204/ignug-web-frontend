@@ -11,13 +11,13 @@ import {ServerResponse} from '@models/http-response';
 })
 
 export class MenuHttpService {
-  API_URL_PRIVATE = `${environment.API_URL_PRIVATE}/menus`;
+  API_URL = `${environment.API_URL}/menus`;
 
   constructor(private httpClient: HttpClient) {
   }
 
   getMenusByRole(role: RoleModel): Observable<ServerResponse> {
-    const url = `${this.API_URL_PRIVATE}/catalogue/${role.id}`;
+    const url = `${this.API_URL}/catalogue/${role.id}`;
     return this.httpClient.get<ServerResponse>(url)
       .pipe(
         map(response => response)

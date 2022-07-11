@@ -3,7 +3,9 @@ import {Router} from '@angular/router';
 import {UserModel} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
-import {ColumnModel, PaginatorDto} from '@models/core';
+import {ColumnModel, PaginatorDto, PaginatorModel} from '@models/core';
+import {FormControl} from "@angular/forms";
+import {debounceTime, delay, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-user-list',
@@ -15,12 +17,22 @@ export class UserListComponent implements OnInit {
   selectedUsers: UserModel[] = [];
   loaded$ = this.coreService.loaded$;
   columns: ColumnModel[];
+  pagination = this.usersHttpService.pagination$;
+  paginator: PaginatorModel = this.coreService.paginator;
+  search: FormControl = new FormControl('');
 
   constructor(private usersHttpService: UsersHttpService,
               private coreService: CoreService,
               public messageService: MessageService,
               private router: Router) {
     this.columns = this.getColumns();
+    this.search.valueChanges.pipe(debounceTime(600)).subscribe(value => {
+      this.findAll();
+    });
+    this.pagination.subscribe(pagination => {
+      this.paginator.totalItems = pagination.totalItems;
+      this.paginator.limit = pagination.limit;
+    });
   }
 
   ngOnInit() {
@@ -37,8 +49,8 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['/auth/users', id]);
   }
 
-  findAll() {
-    this.usersHttpService.findAll().subscribe(users => {
+  findAll(page: number = 1) {
+    this.usersHttpService.findAll(page, this.search.value).subscribe(users => {
         this.users = users;
       }
     );
@@ -55,6 +67,11 @@ export class UserListComponent implements OnInit {
     ]
   }
 
+  paginate(event: any) {
+    this.paginator.page = event.page + 1;
+    this.findAll(this.paginator.page);
+  }
+
   remove(id: number) {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
@@ -68,11 +85,13 @@ export class UserListComponent implements OnInit {
   }
 
   removeAll() {
-    const ids = this.selectedUsers.map(user => user.id);
-    this.usersHttpService.removeAll(ids).subscribe(flag => {
-      if (flag) {
-        this.selectedUsers.forEach(userDeleted => {
-          this.users = this.users.filter(user => user.id !== userDeleted.id);
+    this.messageService.questionDelete().then((result) => {
+      if (result.isConfirmed) {
+        this.usersHttpService.removeAll(this.selectedUsers).subscribe(users => {
+          this.selectedUsers.forEach(userDeleted => {
+            this.users = this.users.filter(user => user.id !== userDeleted.id);
+          });
+          this.selectedUsers = [];
         });
       }
     });

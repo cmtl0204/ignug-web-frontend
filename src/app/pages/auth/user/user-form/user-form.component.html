@@ -1,3 +1,13 @@
+<p-dialog [(visible)]="displayBloodType" [modal]="true" [style]="{width: '60vw'}">
+  <app-search (displayModal)="displayBloodType=$event"
+              (paginatorOut)="loadBloodTypes($event)"
+              (searchOut)="searchBloodType.setValue($event)"
+              (selectedRecordOut)="bloodTypeField.setValue($event)"
+              [columns]="bloodTypeColumns"
+              [paginatorIn]="paginator"
+              [records]="bloodTypes"></app-search>
+</p-dialog>
+
 <p-card header="User Register" class="p-fluid">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
@@ -17,15 +27,14 @@
       </p-dropdown>
       <small appErrorMessage
              [errors]="bloodTypeField.errors"
-             [touched]="bloodTypeField.touched"
-             [dirty]="bloodTypeField.dirty">
+             [touched]="bloodTypeField.touched">
       </small>
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="username" label="Username:"
                [required]="isRequire(usernameField)"></label>
-        <input type="text" pInputText id="username" formControlName="username"/>
+        <input type="text" pInputText id="username" formControlName="username" pKeyFilter="alphanum"/>
         <small appErrorMessage
                [errors]="usernameField.errors"
                [touched]="usernameField.touched"

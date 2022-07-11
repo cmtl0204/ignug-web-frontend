@@ -1,13 +1,5 @@
-const HOST = 'http://localhost:3000';
-// const URL_PUBLIC = 'https://localhost:8000';
-
 export const environment = {
   production: false,
-  HOST,
-  STORAGE_URL: HOST + '/storage',
-  // URL_PUBLIC,
-  URL_PRIVATE: HOST,
-  API_URL_PRIVATE: HOST + '/api/v1/private',
-  API_URL_PUBLIC: HOST + '/api/v1/public',
+  API_URL: 'http://localhost:3000',
   VERSION: '1.0.1',
 };

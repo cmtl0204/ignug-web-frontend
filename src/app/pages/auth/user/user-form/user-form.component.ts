@@ -1,11 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CataloguesHttpService, CoreService} from '@services/core';
-import {CatalogueModel} from '@models/core';
+import {CatalogueModel, ColumnModel, PaginatorModel} from '@models/core';
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-user-form',
@@ -17,6 +18,10 @@ export class UserFormComponent implements OnInit {
   form: FormGroup = this.newForm;
   loaded$ = this.coreService.loaded$;
   bloodTypes: CatalogueModel[] = [];
+  displayBloodType: boolean = false;
+  paginationBloodType = this.cataloguesHttpService.pagination$;
+  paginator: PaginatorModel = this.coreService.paginator;
+  searchBloodType: FormControl = new FormControl('');
 
   constructor(private activatedRoute: ActivatedRoute,
               private usersHttpService: UsersHttpService,
@@ -27,6 +32,13 @@ export class UserFormComponent implements OnInit {
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
+    this.paginationBloodType.subscribe(pagination => {
+      this.paginator.totalItems = pagination.totalItems;
+      this.paginator.limit = pagination.limit;
+    });
+    this.searchBloodType.valueChanges.subscribe(value => {
+      this.loadBloodTypes(1);
+    });
   }
 
   ngOnInit(): void {
@@ -84,8 +96,8 @@ export class UserFormComponent implements OnInit {
     return control.hasValidator(Validators.required);
   }
 
-  loadBloodTypes() {
-    this.cataloguesHttpService.findAll().subscribe(bloodTypes => {
+  loadBloodTypes(page: number = 1) {
+    this.cataloguesHttpService.findAll(page, this.searchBloodType.value).subscribe(bloodTypes => {
         this.bloodTypes = bloodTypes;
       }
     );
@@ -95,6 +107,17 @@ export class UserFormComponent implements OnInit {
     this.usersHttpService.update(this.id, user).subscribe(user => {
       this.back();
     });
+  }
+
+  showBloodTypes() {
+    this.displayBloodType = true;
+  }
+
+  get bloodTypeColumns(): ColumnModel[] {
+    return [
+      {field: 'name', header: 'Name'},
+      {field: 'lastname', header: 'Lastname'},
+    ]
   }
 
   get bloodTypeField() {

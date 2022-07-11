@@ -4,11 +4,12 @@ import {Observable, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/auth';
+import {RoutesService} from "@services/core/routes.service";
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router,private routesService:RoutesService) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
@@ -24,7 +25,10 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         this.authService.removeLogin();
         this.router.navigate(['/auth/login']);
       }
-
+      if (error.status === 401){
+        this.authService.removeLogin();
+        this.routesService.login();
+      }
       // Cuando el usuario no tiene permisos para acceder al recurso solicitado y se encuentra logueado
       if ((error.status === 401 || error.status === 403 || error.status === 423) && this.authService.token) {
         // this.authService.removeLogin();
