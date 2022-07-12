@@ -31,7 +31,7 @@ export class AuthService {
   }
 
   get token(): string | null {
-    return JSON.parse(String(localStorage.getItem('accessToken')));
+    return localStorage.getItem('accessToken');
   }
 
   set token(value: string | undefined | null) {

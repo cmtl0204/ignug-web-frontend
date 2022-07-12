@@ -1,3 +1,3 @@
-export {ExitGuard} from './exit.guard'
-export {RoleGuard} from './role.guard'
-export {TokenGuard} from './token.guard'
+export * from './exit.guard'
+export * from './role.guard'
+export * from './token.guard'

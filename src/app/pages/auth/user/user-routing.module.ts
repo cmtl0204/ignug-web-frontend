@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {UserComponent} from './user.component';
 import {UserFormComponent} from './user-form/user-form.component';
+import {ExitGuard} from '@shared/guards';
 
 const routes: Routes = [
   {
@@ -10,7 +11,8 @@ const routes: Routes = [
   },
   {
     path: ':id',
-    component: UserFormComponent
+    component: UserFormComponent,
+    canDeactivate: [ExitGuard]
   },
 ];
 

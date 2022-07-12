@@ -1,19 +1,18 @@
 import {Component, OnInit} from '@angular/core';
-import {Location} from '@angular/common';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute} from '@angular/router';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
-import {CataloguesHttpService, CoreService} from '@services/core';
+import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {CatalogueModel, ColumnModel, PaginatorModel} from '@models/core';
-import {MenuItem} from "primeng/api";
+import {OnExitInterface} from '@shared/interfaces';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
   styleUrls: ['./user-form.component.scss']
 })
-export class UserFormComponent implements OnInit {
+export class UserFormComponent implements OnInit, OnExitInterface {
   id: number = 0;
   form: FormGroup = this.newForm;
   loaded$ = this.coreService.loaded$;
@@ -24,10 +23,22 @@ export class UserFormComponent implements OnInit {
               private cataloguesHttpService: CataloguesHttpService,
               private formBuilder: FormBuilder,
               private coreService: CoreService,
-              private location: Location) {
+              private messageService: MessageService,
+              private router: Router) {
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
+  }
+
+  async onExit() {
+    if (this.form.touched || this.form.dirty) {
+      this.messageService.questionOnExit()
+        .then((result) => {
+            return result.isConfirmed;
+          }
+        );
+    }
+    return true;
   }
 
   ngOnInit(): void {
@@ -65,8 +76,9 @@ export class UserFormComponent implements OnInit {
   }
 
   back() {
-    this.location.back();
+    this.router.navigate(['/auth/users']);
   }
+
 
   create(user: CreateUserDto) {
     this.usersHttpService.create(user).subscribe(user => {

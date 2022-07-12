@@ -12,8 +12,8 @@ export class ExitGuard implements CanDeactivate<unknown> {
     component: OnExitInterface,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    nextState?: RouterStateSnapshot):
+    Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return component.onExit() ? component.onExit() : true;
   }
-
 }

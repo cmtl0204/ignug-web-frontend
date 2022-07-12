@@ -71,15 +71,16 @@ export class UserListComponent implements OnInit {
   }
 
   remove(id: number) {
-    this.messageService.questionDelete().then((result) => {
-      if (result.isConfirmed) {
-        this.usersHttpService.remove(id).subscribe(flag => {
-          if (flag) {
-            this.users = this.users.filter(user => user.id !== id);
-          }
-        });
-      }
-    });
+    this.messageService.questionDelete()
+      .then((result) => {
+        if (result.isConfirmed) {
+          this.usersHttpService.remove(id).subscribe(flag => {
+            if (flag) {
+              this.users = this.users.filter(user => user.id !== id);
+            }
+          });
+        }
+      });
   }
 
   removeAll() {
