@@ -1,5 +1,5 @@
 import {Directive, ElementRef, Input, OnInit, Renderer2} from '@angular/core';
-import {toOptionalLiteralArray} from '@angular/compiler/src/render3/partial/util';
+import {AbstractControl, Validators} from "@angular/forms";
 
 @Directive({
   selector: '[appLabel]'
@@ -10,8 +10,8 @@ export class LabelDirective implements OnInit {
   nativeElement: any;
   @Input() label: string = '';
 
-  @Input() set required(value: boolean) {
-    this._required = value;
+  @Input() set required(value: AbstractControl) {
+    this._required = value.hasValidator(Validators.required);
   }
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {

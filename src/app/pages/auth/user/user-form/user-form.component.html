@@ -3,7 +3,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
       <label appLabel for="bloodType" label="Blood Type:"
-             [required]="isRequire(bloodTypeField)"></label>
+             [required]="bloodTypeField"></label>
       <p-dropdown id="bloodType"
                   formControlName="bloodType"
                   dataKey="id"
@@ -24,7 +24,7 @@
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="username" label="Username:"
-               [required]="isRequire(usernameField)"></label>
+               [required]="usernameField"></label>
         <input type="text" pInputText id="username" formControlName="username" pKeyFilter="alphanum"/>
         <small appErrorMessage
                [errors]="usernameField.errors"
@@ -34,7 +34,7 @@
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="password" label="Password:"
-               [required]="isRequire(passwordField)"></label>
+               [required]="passwordField"></label>
         <input pPassword type="password" id="password" formControlName="password"/>
         <small appErrorMessage
                [errors]="passwordField.errors"
@@ -46,7 +46,7 @@
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Name:"
-               [required]="isRequire(nameField)"></label>
+               [required]="nameField"></label>
         <input type="text" pInputText id="name" formControlName="name"/>
         <small appErrorMessage
                [errors]="nameField.errors"
@@ -56,7 +56,7 @@
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="lastname" label="Lastname:"
-               [required]="isRequire(lastnameField)"></label>
+               [required]="lastnameField"></label>
         <input type="text" pInputText id="lastname" formControlName="lastname"/>
         <small appErrorMessage
                [errors]="lastnameField.errors"
@@ -68,7 +68,7 @@
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="birthdate" label="Birthdate:"
-               [required]="isRequire(birthdateField)"></label>
+               [required]="birthdateField"></label>
         <p-calendar id="birthdate"
                     formControlName="birthdate"
                     dateFormat="yy-mm-dd"
@@ -82,7 +82,7 @@
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="email" label="Email:"
-               [required]="isRequire(emailField)"></label>
+               [required]="emailField"></label>
         <input type="text" pInputText id="email" formControlName="email"/>
         <small appErrorMessage
                [errors]="emailField.errors"

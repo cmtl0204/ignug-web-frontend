@@ -73,8 +73,10 @@ export class UsersHttpService {
 
   remove(id: number): Observable<boolean> {
     const url = `${this.API_URL}/${id}`;
+    this.coreService.showLoad();
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map(response => {
+        this.coreService.hideLoad();
         this.messageService.success(response);
         return response.data;
       })

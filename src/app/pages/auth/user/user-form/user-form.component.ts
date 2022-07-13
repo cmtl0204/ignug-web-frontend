@@ -93,10 +93,6 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     );
   }
 
-  isRequire(control: AbstractControl): boolean {
-    return control.hasValidator(Validators.required);
-  }
-
   loadBloodTypes() {
     this.cataloguesHttpService.catalogue().subscribe(bloodTypes => {
         this.bloodTypes = bloodTypes;

@@ -46,10 +46,6 @@ export class PasswordResetComponent implements OnInit {
     }
   }
 
-  isRequired(field: AbstractControl): boolean {
-    return field.hasValidator(Validators.required);
-  }
-
   resetPassword() {
     this.progressBar = true;
     this.authHttpService.resetPassword(this.form.value)
