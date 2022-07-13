@@ -6,8 +6,6 @@ import {TokenDirective} from '@shared/directives/token.directive';
 import {SkeletonModule} from 'primeng/skeleton';
 import {TableModule} from 'primeng/table';
 import {LabelDirective} from './directives/label.directive';
-import {CertificatedPipe} from './pipes/professional/academic-formation/certificated.pipe';
-import {WorkedPipe} from './pipes/professional/experience/worked.pipe';
 import {ProgressBarModule} from "primeng/progressbar";
 import {ProgressBarComponent} from './components/progress-bar/progress-bar.component';
 import {SkeletonComponent} from '@shared/components/skeleton/skeleton.component';
@@ -17,7 +15,6 @@ import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {InputTextModule} from "primeng/inputtext";
 import {TooltipModule} from "primeng/tooltip";
-import {ExtensionsPipe} from "@shared/pipes/common/extensions.pipe";
 import {FileUploadModule} from "primeng/fileupload";
 import {MessageModule} from "primeng/message";
 import {InputTextareaModule} from "primeng/inputtextarea";
@@ -27,33 +24,31 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
 import {RolePipe} from './pipes/user/role.pipe';
-import {ToastModule} from "primeng/toast";
+import {ExtensionsPipe,MyUppercasePipe} from '@shared/pipes';
 
 @NgModule({
   declarations: [
-    RolesPermissionsDirective,
-    ErrorMessageDirective,
-    TokenDirective,
-    LabelDirective,
     SkeletonComponent,
     ProgressBarComponent,
-    CertificatedPipe,
-    WorkedPipe,
-    ExtensionsPipe,
     SearchComponent,
+    ErrorMessageDirective,
+    LabelDirective,
+    RolesPermissionsDirective,
+    TokenDirective,
+    ExtensionsPipe,
+    MyUppercasePipe,
     RolePipe,
   ],
   exports: [
-    RolesPermissionsDirective,
-    ErrorMessageDirective,
-    TokenDirective,
-    LabelDirective,
     SkeletonComponent,
     ProgressBarComponent,
-    CertificatedPipe,
-    WorkedPipe,
-    ExtensionsPipe,
     SearchComponent,
+    ErrorMessageDirective,
+    LabelDirective,
+    RolesPermissionsDirective,
+    TokenDirective,
+    ExtensionsPipe,
+    MyUppercasePipe,
     RolePipe,
   ],
   imports: [

@@ -4,9 +4,9 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
-import {CatalogueModel, ColumnModel, PaginatorModel} from '@models/core';
+import {CatalogueModel, ColumnModel} from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
-
+import {ExtensionsPipe} from '@shared/pipes';
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -42,6 +42,9 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
+    const pipe = new ExtensionsPipe();
+    const s = pipe.transform('pdf',);
+    console.log(s);
     this.loadBloodTypes();
     if (this.id > 0) {
       this.getUser();
