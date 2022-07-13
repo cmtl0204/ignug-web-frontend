@@ -40,10 +40,6 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  isRequired(field: AbstractControl): boolean {
-    return field.hasValidator(Validators.required);
-  }
-
   onSubmit() {
     if (this.formLogin.valid) {
       this.login();
