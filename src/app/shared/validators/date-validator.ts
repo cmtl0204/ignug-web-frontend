@@ -1,28 +1,40 @@
-import { FormControl, ValidationErrors } from '@angular/forms';
-import { isDate, isBefore, isAfter } from 'date-fns';
+import {FormControl, ValidationErrors} from '@angular/forms';
+import {isDate, isBefore, isAfter, format} from 'date-fns';
 
 export class DateValidators {
-  static valid(control: FormControl): ValidationErrors {
+  static valid(control: FormControl): ValidationErrors | null {
     const value = control.value;
-    const isValid = value ? isDate(new Date(value)) : true;
-    return isValid ? null : { valid: true };
+
+    if (value && !isNaN(new Date(value).getDate())) {
+      return null;
+    }
+
+    return {dateInvalid: true};
   }
 
-  static max(maxDate: string): (control: FormControl) => ValidationErrors {
-    return (control: FormControl): ValidationErrors => {
-      const max = new Date(maxDate);
+  static max(maxDate: Date): (control: FormControl) => ValidationErrors | null {
+    return (control: FormControl): ValidationErrors | null => {
       const value = control.value;
-      const isValid = value ? isBefore(value, max) : true;
-      return isValid ? null : { max: true };
+      const isValid = value ? isBefore(value, maxDate) : true;
+      return isValid ? null : {
+        dateMax: {
+          actualDate: format(value, 'yyyy-MM-dd'),
+          requiredDate: format(maxDate, 'yyyy-MM-dd')
+        }
+      };
     };
   }
 
-  static min(minDate: string): (control: FormControl) => ValidationErrors {
-    return (control: FormControl): ValidationErrors => {
-      const min = new Date(minDate);
+  static min(minDate: Date): (control: FormControl) => ValidationErrors | null {
+    return (control: FormControl): ValidationErrors | null => {
       const value = control.value;
-      const isValid = value ? isAfter(value, min) : true;
-      return isValid ? null : { min: true };
+      const isValid = value ? isAfter(value, minDate) : true;
+      return isValid ? null : {
+        dateMin: {
+          actualDate: format(value, 'yyyy-MM-dd'),
+          requiredDate: format(minDate, 'yyyy-MM-dd')
+        }
+      };
     };
   }
 }

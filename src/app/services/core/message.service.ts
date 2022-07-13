@@ -128,6 +128,18 @@ export class MessageService {
     return 'Este teléfono no está disponible.';
   }
 
+  get fieldDateValid(): string {
+    return 'No es una fecha válida.';
+  }
+
+  fieldDateMax(errors: ValidationErrors): string {
+    return `La fecha ${errors['dateMax']['actualDate']} no puede ser mayor a ${errors['dateMax']['requiredDate']}.`;
+  }
+
+  fieldDateMin(errors: ValidationErrors): string {
+    return `La fecha ${errors['dateMin']['actualDate']} no puede ser menor a ${errors['dateMin']['requiredDate']}.`;
+  }
+
   paginatorTotalRegisters(paginator: PaginatorModel): string {
     return 'En total hay ' + (paginator?.totalItems ? paginator.totalItems : 0) + ' registros.';
   }

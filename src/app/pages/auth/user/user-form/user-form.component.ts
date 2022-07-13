@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
 import {UsersHttpService} from '@services/auth';
 import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {CatalogueModel, ColumnModel} from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
-import {ExtensionsPipe} from '@shared/pipes';
+import {DateValidators} from '@shared/validators';
+
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
@@ -42,9 +43,6 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-    const pipe = new ExtensionsPipe();
-    const s = pipe.transform('pdf',);
-    console.log(s);
     this.loadBloodTypes();
     if (this.id > 0) {
       this.getUser();
@@ -57,10 +55,10 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       bloodType: [null, [Validators.required]],
-      birthdate: [null, [Validators.required]],
+      birthdate: [null, [Validators.required,DateValidators.min(new Date('2000-01-02'))]],
       email: [null, [Validators.email]],
       lastname: [null, [Validators.required]],
-      name: [null, [Validators.required]],
+      name: [null, [Validators.required, DateValidators.valid]],
       password: [null, [Validators.required]],
       username: [null, [Validators.required, Validators.minLength(3)]],
     });
@@ -81,7 +79,6 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   back() {
     this.router.navigate(['/auth/users']);
   }
-
 
   create(user: CreateUserDto) {
     this.usersHttpService.create(user).subscribe(user => {

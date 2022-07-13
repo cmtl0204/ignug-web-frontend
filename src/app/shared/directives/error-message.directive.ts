@@ -32,6 +32,7 @@ export class ErrorMessageDirective {
 
   setMessage() {
     if (this._touched || this._dirty) {
+      console.log(this._errors);
       if (this._errors) {
         if (this._errors['required']) {
           this.nativeElement.innerText = this.messageService.fieldRequired;
@@ -74,6 +75,15 @@ export class ErrorMessageDirective {
         }
         if (this._errors['PhoneNotAvailable']) {
           this.nativeElement.innerText = this.messageService.fieldPhoneNotAvailable;
+        }
+        if (this._errors['dateInvalid']) {
+          this.nativeElement.innerText = this.messageService.fieldDateValid;
+        }
+        if (this._errors['dateMax']) {
+          this.nativeElement.innerText = this.messageService.fieldDateMax(this._errors);
+        }
+        if (this._errors['dateMin']) {
+          this.nativeElement.innerText = this.messageService.fieldDateMin(this._errors);
         }
         this.renderer.addClass(this.nativeElement, 'p-error');
         this.renderer.removeClass(this.nativeElement, 'hidden');
