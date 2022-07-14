@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
+import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
+import {debounceTime} from "rxjs";
 import {UserModel} from '@models/auth';
+import {ColumnModel, PaginatorModel} from '@models/core';
 import {UsersHttpService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
-import {ColumnModel, PaginatorModel} from '@models/core';
-import {FormControl} from "@angular/forms";
-import {debounceTime} from "rxjs";
 
 @Component({
   selector: 'app-user-list',
@@ -13,46 +13,31 @@ import {debounceTime} from "rxjs";
   styleUrls: ['./user-list.component.scss']
 })
 export class UserListComponent implements OnInit {
-  users: UserModel[] = [];
-  selectedUsers: UserModel[] = [];
-  loaded$ = this.coreService.loaded$;
   columns: ColumnModel[];
+  users: UserModel[] = [];
+  loaded$ = this.coreService.loaded$;
   pagination$ = this.usersHttpService.pagination$;
   paginator: PaginatorModel = this.coreService.paginator;
   search: FormControl = new FormControl('');
+  selectedUsers: UserModel[] = [];
 
-  constructor(private usersHttpService: UsersHttpService,
-              private coreService: CoreService,
-              public messageService: MessageService,
-              private router: Router) {
+  constructor(
+    private coreService: CoreService,
+    public messageService: MessageService,
+    private router: Router,
+    private usersHttpService: UsersHttpService,
+  ) {
     this.columns = this.getColumns();
-    this.search.valueChanges.pipe(debounceTime(600)).subscribe(_ => {
-      this.findAll();
-    });
-    this.pagination$.subscribe(pagination => {
-      this.paginator = pagination;
-    });
+    this.pagination$.subscribe((pagination) => this.paginator = pagination);
+    this.search.valueChanges.pipe(debounceTime(600)).subscribe((_) => this.findAll());
   }
 
   ngOnInit() {
     this.findAll();
   }
 
-  create() {
-    // this.router.navigate([`/auth/users/new`]);
-    this.router.navigate(['/auth/users', 'new']);
-  }
-
-  edit(id: number) {
-    // this.router.navigate([`/auth/users/${id}`]);
-    this.router.navigate(['/auth/users', id]);
-  }
-
   findAll(page: number = 0) {
-    this.usersHttpService.findAll(page, this.search.value).subscribe(users => {
-        this.users = users;
-      }
-    );
+    this.usersHttpService.findAll(page, this.search.value).subscribe((users) => this.users = users);
   }
 
   getColumns(): ColumnModel[] {
@@ -62,7 +47,7 @@ export class UserListComponent implements OnInit {
       {field: 'lastname', header: 'Lastname'},
       {field: 'email', header: 'Email'},
       {field: 'bloodType', header: 'Blood Type'},
-      {field: 'updatedAt', header: 'UpdatedAt'},
+      {field: 'updatedAt', header: 'Updated At'},
     ]
   }
 
@@ -70,14 +55,20 @@ export class UserListComponent implements OnInit {
     this.findAll(event.page);
   }
 
+  redirectCreateForm() {
+    this.router.navigate(['/auth/users', 'new']);
+  }
+
+  redirectEditForm(id: number) {
+    this.router.navigate(['/auth/users', id]);
+  }
+
   remove(id: number) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.usersHttpService.remove(id).subscribe(flag => {
-            if (flag) {
-              this.users = this.users.filter(user => user.id !== id);
-            }
+          this.usersHttpService.remove(id).subscribe((user) => {
+            this.users = this.users.filter(item => item.id !== user.id);
           });
         }
       });
@@ -86,7 +77,7 @@ export class UserListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.usersHttpService.removeAll(this.selectedUsers).subscribe(users => {
+        this.usersHttpService.removeAll(this.selectedUsers).subscribe((users) => {
           this.selectedUsers.forEach(userDeleted => {
             this.users = this.users.filter(user => user.id !== userDeleted.id);
           });

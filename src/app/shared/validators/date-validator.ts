@@ -14,7 +14,7 @@ export class DateValidators {
 
   static max(maxDate: Date): (control: FormControl) => ValidationErrors | null {
     return (control: FormControl): ValidationErrors | null => {
-      const value = control.value;
+      const value = new Date(control.value);
       const isValid = value ? isBefore(value, maxDate) : true;
       return isValid ? null : {
         dateMax: {
@@ -27,7 +27,7 @@ export class DateValidators {
 
   static min(minDate: Date): (control: FormControl) => ValidationErrors | null {
     return (control: FormControl): ValidationErrors | null => {
-      const value = control.value;
+      const value = new Date(control.value);
       const isValid = value ? isAfter(value, minDate) : true;
       return isValid ? null : {
         dateMin: {

@@ -1,23 +1,37 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {PaginatorModel} from "@models/core";
 import {Router} from "@angular/router";
-import {AuthRoutesEnum} from "@shared/enums";
+
+export enum AppRoutesEnum {
+  CORE = '/core',
+  AUTH = '/auth',
+  COMMON = '/common',
+}
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class RoutesService {
 
-  constructor(private router:Router) {
+  constructor(private router: Router) {
   }
 
-  login(){
-    this.router.navigateByUrl(AuthRoutesEnum.LOGIN);
+  get core(): string {
+    return AppRoutesEnum.CORE;
   }
 
-  profile(){
-    this.router.navigateByUrl(AuthRoutesEnum.PROFILE);
+  get common(): string {
+    return AppRoutesEnum.COMMON;
+  }
+
+  get appRoutes(): string {
+    return '';
+  }
+
+  login() {
+    this.router.navigateByUrl('');
+  }
+
+  profile() {
+    this.router.navigateByUrl('');
   }
 }

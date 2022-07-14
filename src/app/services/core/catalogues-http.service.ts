@@ -33,8 +33,12 @@ export class CataloguesHttpService {
 
   catalogue(): Observable<CatalogueModel[]> {
     const url = `${this.API_URL}/catalogue`;
+    this.coreService.showLoad();
     return this.httpClient.get<ServerResponse>(url).pipe(
-      map(response => response.data)
+      map(response => {
+        this.coreService.hideLoad();
+        return response.data
+      })
     );
   }
 

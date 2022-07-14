@@ -1,10 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {BlankComponent, MainComponent} from '@layout/index';
-import {RolesEnum} from '@shared/enums';
-import { RoleGuard, TokenGuard} from '@shared/guards';
-import {CommonRoutesEnum, UserAdministrationRoutesEnum} from '@shared/enums/routes.enum';
-import {UserComponent} from './pages/auth/user/user.component';
+import {BlankComponent, MainComponent} from '@layout';
+import {RoleGuard, TokenGuard} from '@shared/guards';
 
 const routes: Routes = [
   {
@@ -34,7 +31,7 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: CommonRoutesEnum.NOT_FOUND
+    redirectTo: '/common/not-found'
   },
 ];
 

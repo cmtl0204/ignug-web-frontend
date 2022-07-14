@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
+import {CatalogueModel, ColumnModel} from '@models/core';
 import {UsersHttpService} from '@services/auth';
 import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
-import {CatalogueModel, ColumnModel} from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {DateValidators} from '@shared/validators';
 
@@ -18,53 +18,54 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   form: FormGroup = this.newForm;
   loaded$ = this.coreService.loaded$;
   bloodTypes: CatalogueModel[] = [];
+  flagCreateUpdate: boolean = false;
 
-  constructor(private activatedRoute: ActivatedRoute,
-              private usersHttpService: UsersHttpService,
-              private cataloguesHttpService: CataloguesHttpService,
-              private formBuilder: FormBuilder,
-              private coreService: CoreService,
-              private messageService: MessageService,
-              private router: Router) {
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private cataloguesHttpService: CataloguesHttpService,
+    private coreService: CoreService,
+    private formBuilder: FormBuilder,
+    private messageService: MessageService,
+    private router: Router,
+    private usersHttpService: UsersHttpService,
+  ) {
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
   }
 
-  async onExit() {
+  async onExit(): Promise<boolean> {
     if (this.form.touched || this.form.dirty) {
-      this.messageService.questionOnExit()
-        .then((result) => {
-            return result.isConfirmed;
-          }
-        );
+      return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
   }
 
   ngOnInit(): void {
     this.loadBloodTypes();
+
     if (this.id > 0) {
       this.getUser();
       this.passwordField.clearValidators();
     } else {
-
+      //Todo: Revisar para el perfil, que mas se puede implementar
     }
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
       bloodType: [null, [Validators.required]],
-      birthdate: [null, [Validators.required,DateValidators.min(new Date('2000-01-02'))]],
+      birthdate: [null, [Validators.required, DateValidators.min(new Date()), DateValidators.max(new Date('2022-07-18'))]],
       email: [null, [Validators.email]],
       lastname: [null, [Validators.required]],
-      name: [null, [Validators.required, DateValidators.valid]],
+      name: [null, [Validators.required]],
       password: [null, [Validators.required]],
-      username: [null, [Validators.required, Validators.minLength(3)]],
+      roles: [['admin'], [Validators.required]],
+      username: [null, [Validators.required]],
     });
   }
 
-  onSubmit() {
+  onSubmit(): void {
     if (this.form.valid) {
       if (this.id > 0) {
         this.update(this.form.value);
@@ -76,33 +77,29 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     }
   }
 
-  back() {
+  back(): void {
     this.router.navigate(['/auth/users']);
   }
 
-  create(user: CreateUserDto) {
+  create(user: CreateUserDto): void {
     this.usersHttpService.create(user).subscribe(user => {
+      this.form.reset(user);
       this.back();
     });
   }
 
-  getUser() {
-    this.usersHttpService.findOne(this.id).subscribe(user => {
-        this.form.reset(user);
-      }
-    );
+  getUser(): void {
+    this.usersHttpService.findOne(this.id).subscribe((user) => this.form.patchValue(user));
   }
 
-  loadBloodTypes() {
-    this.cataloguesHttpService.catalogue().subscribe(bloodTypes => {
-        this.bloodTypes = bloodTypes;
-      }
-    );
+  loadBloodTypes(): void {
+    this.cataloguesHttpService.catalogue().subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
   }
 
-  update(user: UpdateUserDto) {
-    this.usersHttpService.update(this.id, user).subscribe(user => {
-      this.back();
+  update(user: UpdateUserDto): void {
+    this.usersHttpService.update(this.id, user).subscribe((user) => {
+      this.form.reset(user);
+      this.back()
     });
   }
 
@@ -110,34 +107,34 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     return [
       {field: 'name', header: 'Name'},
       {field: 'lastname', header: 'Lastname'},
-    ]
+    ];
   }
 
-  get bloodTypeField() {
+  get bloodTypeField(): AbstractControl {
     return this.form.controls['bloodType'];
   }
 
-  get birthdateField() {
+  get birthdateField(): AbstractControl {
     return this.form.controls['birthdate'];
   }
 
-  get emailField() {
+  get emailField(): AbstractControl {
     return this.form.controls['email'];
   }
 
-  get lastnameField() {
+  get lastnameField(): AbstractControl {
     return this.form.controls['lastname'];
   }
 
-  get nameField() {
+  get nameField(): AbstractControl {
     return this.form.controls['name'];
   }
 
-  get passwordField() {
+  get passwordField(): AbstractControl {
     return this.form.controls['password'];
   }
 
-  get usernameField() {
+  get usernameField(): AbstractControl {
     return this.form.controls['username'];
   }
 }

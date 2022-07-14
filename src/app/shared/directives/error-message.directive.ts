@@ -1,11 +1,16 @@
 import {Directive, ElementRef, Input, Renderer2} from '@angular/core';
-import {ValidationErrors} from '@angular/forms';
+import {AbstractControl, ValidationErrors} from '@angular/forms';
 import {MessageService} from '@services/core';
 
 @Directive({
   selector: '[appErrorMessage]'
 })
 export class ErrorMessageDirective {
+  private _errors: ValidationErrors | null = null;
+  private _dirty: boolean = false;
+  private _touched: boolean = false;
+  nativeElement: any;
+
   @Input() set touched(value: boolean) {
     this._touched = value;
     this.setMessage();
@@ -21,18 +26,12 @@ export class ErrorMessageDirective {
     this.setMessage();
   }
 
-  private _errors: ValidationErrors | null = null;
-  private _dirty: boolean = false;
-  private _touched: boolean = false;
-  nativeElement: any;
-
   constructor(private elementRef: ElementRef, private renderer: Renderer2, private messageService: MessageService) {
     this.nativeElement = elementRef.nativeElement;
   }
 
   setMessage() {
     if (this._touched || this._dirty) {
-      console.log(this._errors);
       if (this._errors) {
         if (this._errors['required']) {
           this.nativeElement.innerText = this.messageService.fieldRequired;

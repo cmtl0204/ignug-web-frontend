@@ -16,7 +16,7 @@ export class CustomValidators {
     // compare is the password math
     if (password !== passwordConfirmation) {
       // if they don't match, set an error in our confirmPassword form control
-      control.get('passwordConfirmation')?.setErrors({NoPasswordMatch: true});
+      control.get('passwordConfirmation')?.setErrors({noPasswordMatch: true});
     } else {
       control.get('passwordConfirmation')?.setErrors(null);
     }
@@ -28,7 +28,7 @@ export class CustomValidators {
       return authHttpService.verifyUser(value)
         .pipe(
           map(response => {
-            return response.data === null ? null : {UserNotAvailable: true};
+            return response.data === null ? null : {userNotAvailable: true};
           })
         )
     };
@@ -40,7 +40,7 @@ export class CustomValidators {
       return authHttpService.verifyUser(value)
         .pipe(
           map(response => {
-            return response.data === null ? null : {UserAvailable: true};
+            return response.data === null ? null : {userAvailable: true};
           })
         )
     };
@@ -52,7 +52,7 @@ export class CustomValidators {
       return authHttpService.verifyEmail(value)
         .pipe(
           map(response => {
-            return response.data === null ? null : {EmailNotAvailable: true};
+            return response.data === null ? null : {emailNotAvailable: true};
           })
         )
     };
@@ -64,7 +64,7 @@ export class CustomValidators {
       return authHttpService.verifyPhone(value)
         .pipe(
           map(response => {
-            return response.data === null ? null : {PhoneNotAvailable: true};
+            return response.data === null ? null : {phoneNotAvailable: true};
           })
         )
     };

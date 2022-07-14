@@ -4,7 +4,6 @@ import {Router} from '@angular/router';
 import {AuthHttpService, AuthService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
 import {RolesEnum} from "@shared/enums";
-import {AuthRoutesEnum} from '@shared/enums/routes.enum';
 
 @Component({
   selector: 'app-login',
@@ -77,7 +76,7 @@ export class LoginComponent implements OnInit {
       this.authHttpService.requestPasswordReset(this.usernameField.value)
         .subscribe(
           token => {
-            this.router.navigate([AuthRoutesEnum.PASSWORD_RESET]);
+            this.router.navigate(['/auth/password-reset']);
           });
     } else {
       this.usernameField.markAsTouched();

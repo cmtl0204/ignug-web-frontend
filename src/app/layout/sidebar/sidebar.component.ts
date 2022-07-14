@@ -3,7 +3,6 @@ import {MenuItem, PrimeIcons} from 'primeng/api';
 import {MenuHttpService} from '@services/auth/menu-http.service';
 import {AuthHttpService} from "@services/auth";
 import {Router} from "@angular/router";
-import {AuthRoutesEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-sidebar',
@@ -93,6 +92,6 @@ export class SidebarComponent implements OnInit {
   }
 
   redirectProfile() {
-    this.router.navigateByUrl(AuthRoutesEnum.PROFILE);
+    this.router.navigateByUrl('');
   }
 }

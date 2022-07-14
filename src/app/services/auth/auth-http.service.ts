@@ -8,7 +8,7 @@ import {LoginModel, PasswordResetModel, UserModel} from '@models/auth';
 import {LoginResponse, ServerResponse} from '@models/http-response';
 import {AuthService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
-import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
+// import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
 import {RoutesService} from "@services/core/routes.service";
 
 @Injectable({

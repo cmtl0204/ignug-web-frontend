@@ -29,8 +29,8 @@
       "@env/*": [
         "src/environments/*"
       ],
-      "@layout/*": [
-        "src/app/layout/*"
+      "@layout": [
+        "src/app/layout"
       ],
       "@models/*": [
         "src/app/models/*"

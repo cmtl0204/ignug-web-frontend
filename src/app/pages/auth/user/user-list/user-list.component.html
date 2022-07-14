@@ -4,7 +4,7 @@
       <button pButton type="button" label="Create User"
               class="p-button-success mr-2"
               icon="pi pi-plus"
-              (click)="create()"></button>
+              (click)="redirectCreateForm()"></button>
       <button pButton type="button" label="Refresh"
               class="p-button-info mr-2"
               icon="pi pi-refresh"
@@ -64,7 +64,6 @@
           <!--Fields-->
           <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
             <div *ngSwitchCase="'updatedAt'">{{rowData[col.field]|date}}</div>
-            <div *ngSwitchCase="'username'">{{rowData[col.field]|myPipe}}</div>
             <div *ngSwitchDefault>{{rowData[col.field]}}</div>
           </div>
         </td>
@@ -73,7 +72,7 @@
                   class="p-button-warning p-button-rounded mr-2"
                   icon="pi pi-pencil"
                   pTooltip="Edit User"
-                  (click)="edit(rowData.id)"
+                  (click)="redirectEditForm(rowData.id)"
                   [loading]="(loaded$|async)!">
           </button>
           <button pButton type="button"

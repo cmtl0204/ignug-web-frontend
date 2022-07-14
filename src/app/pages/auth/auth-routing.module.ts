@@ -1,11 +1,10 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from './login/login.component';
-import {AuthRoutesEnum} from '@shared/enums';
 
 const routes: Routes = [
   {
-    path: AuthRoutesEnum.LOGIN,
+    path: '',
     component: LoginComponent
   },
   {

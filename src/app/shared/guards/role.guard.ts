@@ -15,7 +15,7 @@ import {RoleModel} from '@models/auth';
   providedIn: 'root'
 })
 export class RoleGuard implements CanActivate, CanActivateChild {
-  private roles: RoleModel[] = [];
+  private readonly roles: RoleModel[] = [];
 
   constructor(private authService: AuthService, private router: Router) {
     this.roles = authService.roles;

@@ -12,7 +12,7 @@ import {
   BlankComponent,
   MainComponent,
   BreadcrumbComponent
-} from '@layout/index';
+} from '@layout';
 import {BreadcrumbModule} from 'primeng/breadcrumb';
 import {MenubarModule} from 'primeng/menubar';
 import {ButtonModule} from 'primeng/button';
