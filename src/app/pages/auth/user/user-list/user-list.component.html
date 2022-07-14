@@ -85,15 +85,15 @@
         </td>
       </tr>
     </ng-template>
-    <ng-template pTemplate="summary">
-      <!--    {{messageService.paginatorTotalRegisters(paginator)}}-->
-    </ng-template>
     <ng-template pTemplate="emptymessage" let-columns>
       <tr>
         <td [attr.colspan]="columns.length">
           {{messageService.paginatorNoRecordsFound}}
         </td>
       </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      {{messageService.paginatorTotalRegisters(paginator)}}
     </ng-template>
   </p-table>
 </p-card>

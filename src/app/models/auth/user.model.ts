@@ -4,12 +4,12 @@ import {CatalogueModel} from '@models/core';
 export interface UserModel {
   id: number;
   identificationType: CatalogueModel;
-  identificationTypeId: number;
+  identificationTypeId: CatalogueModel;
   sex: CatalogueModel;
   gender: CatalogueModel;
   ethnicOrigin: CatalogueModel;
   bloodType: CatalogueModel;
-  bloodTypeId: number;
+  bloodTypeId: CatalogueModel;
   maritalStatus: CatalogueModel;
   phones: CatalogueModel[];
   emails: CatalogueModel[];
@@ -21,7 +21,7 @@ export interface UserModel {
   name: string;
   password: string;
   phone: string;
-  suspended: boolean;
+  suspendedAt: Date;
   username: string;
 }
 

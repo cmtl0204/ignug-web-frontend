@@ -2,8 +2,7 @@
 <p-card *ngIf="!(loaded$|async)" header="User Register" class="p-fluid">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
-      <label appLabel for="bloodType" label="Blood Type:"
-             [required]="bloodTypeField"></label>
+      <label appLabel for="bloodType" label="Blood Type:" [required]="bloodTypeField"></label>
       <p-dropdown id="bloodType"
                   formControlName="bloodType"
                   dataKey="id"
@@ -25,7 +24,7 @@
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="username" label="Username:" [required]="usernameField"></label>
-        <input type="text" pInputText id="username" formControlName="username" pKeyFilter="alphanum"/>
+        <input pInputText type="text" id="username" formControlName="username" pKeyFilter="alphanum"/>
         <small appErrorMessage
                [errors]="usernameField.errors"
                [touched]="usernameField.touched"
@@ -33,8 +32,7 @@
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="password" label="Password:"
-               [required]="passwordField"></label>
+        <label appLabel for="password" label="Password:" [required]="passwordField"></label>
         <input pPassword type="password" id="password" formControlName="password"/>
         <small appErrorMessage
                [errors]="passwordField.errors"
@@ -45,10 +43,8 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        {{nameField.valid}}
-        <label appLabel for="name" label="Name:"
-               [required]="nameField"></label>
-        <input type="text" pInputText id="name" formControlName="name"/>
+        <label appLabel for="name" label="Name:" [required]="nameField"></label>
+        <input pInputText type="text" id="name" formControlName="name"/>
         <small appErrorMessage
                [errors]="nameField.errors"
                [touched]="nameField.touched"
@@ -56,9 +52,8 @@
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="lastname" label="Lastname:"
-               [required]="lastnameField"></label>
-        <input type="text" pInputText id="lastname" formControlName="lastname"/>
+        <label appLabel for="lastname" label="Lastname:" [required]="lastnameField"></label>
+        <input pInputText type="text" id="lastname" formControlName="lastname"/>
         <small appErrorMessage
                [errors]="lastnameField.errors"
                [touched]="lastnameField.touched"
@@ -68,8 +63,7 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="birthdate" label="Birthdate:"
-               [required]="birthdateField"></label>
+        <label appLabel for="birthdate" label="Birthdate:" [required]="birthdateField"></label>
         <p-calendar id="birthdate"
                     formControlName="birthdate"
                     dateFormat="yy-mm-dd"
@@ -82,9 +76,8 @@
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="email" label="Email:"
-               [required]="emailField"></label>
-        <input type="text" pInputText id="email" formControlName="email"/>
+        <label appLabel for="email" label="Email:" [required]="emailField"></label>
+        <input pInputText type="email" id="email" formControlName="email"/>
         <small appErrorMessage
                [errors]="emailField.errors"
                [touched]="emailField.touched"
@@ -94,7 +87,7 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="button"
+        <button pButton pRipple id="btnBack" type="button"
                 label="Cancel"
                 class="p-button-info"
                 icon="pi pi-arrow-left"
@@ -102,14 +95,14 @@
                 (click)="back()"></button>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="submit"
+        <button pButton pRipple id="submit" type="submit"
                 label="Save"
                 icon="pi pi-save"
                 [loading]="(loaded$|async)!"></button>
       </div>
     </div>
-    <div *ngIf="(loaded$|async)" class="field">
-      <app-progress-bar></app-progress-bar>
-    </div>
   </form>
 </p-card>
+<div *ngIf="(loaded$|async)" class="field">
+  <app-progress-bar></app-progress-bar>
+</div>
