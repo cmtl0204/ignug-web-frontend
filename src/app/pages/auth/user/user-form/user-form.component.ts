@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
-import {CatalogueModel, ColumnModel} from '@models/core';
+import {CatalogueModel} from '@models/core';
 import {UsersHttpService} from '@services/auth';
 import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
