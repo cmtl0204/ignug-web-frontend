@@ -14,12 +14,12 @@ import {CoreService, MessageService} from '@services/core';
 })
 export class UserListComponent implements OnInit {
   columns: ColumnModel[];
-  users: UserModel[] = [];
   loaded$ = this.coreService.loaded$;
   pagination$ = this.usersHttpService.pagination$;
   paginator: PaginatorModel = this.coreService.paginator;
   search: FormControl = new FormControl('');
   selectedUsers: UserModel[] = [];
+  users: UserModel[] = [];
 
   constructor(
     private coreService: CoreService,

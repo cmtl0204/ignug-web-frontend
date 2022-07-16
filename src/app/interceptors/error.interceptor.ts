@@ -13,7 +13,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
-      delay(1000),
+      delay(3000),
       catchError(error => {
         this.coreService.hideLoad();
         this.messageService.error(error.error);

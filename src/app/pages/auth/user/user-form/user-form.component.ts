@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
-import {CatalogueModel, ColumnModel} from '@models/core';
+import {CatalogueModel} from '@models/core';
 import {UsersHttpService} from '@services/auth';
 import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
@@ -15,10 +15,9 @@ import {DateValidators} from '@shared/validators';
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
   id: number = 0;
+  bloodTypes: CatalogueModel[] = [];
   form: FormGroup = this.newForm;
   loaded$ = this.coreService.loaded$;
-  bloodTypes: CatalogueModel[] = [];
-  flagCreateUpdate: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -101,13 +100,6 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       this.form.reset(user);
       this.back()
     });
-  }
-
-  get bloodTypeColumns(): ColumnModel[] {
-    return [
-      {field: 'name', header: 'Name'},
-      {field: 'lastname', header: 'Lastname'},
-    ];
   }
 
   get bloodTypeField(): AbstractControl {

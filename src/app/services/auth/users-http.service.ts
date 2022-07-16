@@ -16,15 +16,20 @@ export class UsersHttpService {
   private pagination = new BehaviorSubject<PaginatorModel>(this.coreService.paginator);
   public pagination$ = this.pagination.asObservable();
 
-  constructor(private httpClient: HttpClient,
-              private messageService: MessageService,
-              private coreService: CoreService) {
+  constructor(
+    private coreService: CoreService,
+    private httpClient: HttpClient,
+    private messageService: MessageService,
+  ) {
   }
 
   create(payload: CreateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}`;
+
+    this.coreService.showLoad();
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
+        this.coreService.hideLoad();
         this.messageService.success(response).then();
         return response.data;
       })
@@ -33,6 +38,7 @@ export class UsersHttpService {
 
   findAll(page: number = 0, search: string = ''): Observable<UserModel[]> {
     const url = this.API_URL;
+
     const headers = new HttpHeaders().append('pagination', 'true');
     const params = new HttpParams()
       .append('page', page)
@@ -52,6 +58,7 @@ export class UsersHttpService {
 
   findOne(id: number): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
+
     this.coreService.showLoad();
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
@@ -63,6 +70,7 @@ export class UsersHttpService {
 
   update(id: number, payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
+
     this.coreService.showLoad();
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
@@ -75,6 +83,7 @@ export class UsersHttpService {
 
   remove(id: number): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
+
     this.coreService.showLoad();
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
@@ -87,6 +96,7 @@ export class UsersHttpService {
 
   removeAll(users: UserModel[]): Observable<UserModel[]> {
     const url = `${this.API_URL}/remove-all`;
+
     this.coreService.showLoad();
     return this.httpClient.patch<ServerResponse>(url, users).pipe(
       map((response) => {
