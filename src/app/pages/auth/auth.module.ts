@@ -12,21 +12,22 @@ import {CardModule} from 'primeng/card';
 import {PasswordModule} from 'primeng/password';
 import {DividerModule} from 'primeng/divider';
 import {PasswordResetComponent} from './password-reset/password-reset.component';
+import {PasswordChangeComponent} from "./password-change/password-change.component";
 
 @NgModule({
-  declarations: [LoginComponent, PasswordResetComponent],
+  declarations: [LoginComponent, PasswordChangeComponent, PasswordResetComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,
     ReactiveFormsModule,
     SharedModule,
-    CheckboxModule,
-    InputTextModule,
     ButtonModule,
-    RippleModule,
     CardModule,
-    PasswordModule,
+    CheckboxModule,
     DividerModule,
+    InputTextModule,
+    PasswordModule,
+    RippleModule,
   ]
 })
 export class AuthModule {

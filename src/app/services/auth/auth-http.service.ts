@@ -42,17 +42,18 @@ export class AuthHttpService {
       );
   }
 
-  login(credentials: LoginModel): Observable<LoginResponse> {
+  login(credentials: LoginModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/login`;
 
-    // //this.appService.presentLoading();
-    return this.httpClient.post<LoginResponse>(url, credentials)
+    this.coreService.showLoad();
+    return this.httpClient.post<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
-          // //this.appService.dismissLoading();
+          this.coreService.hideLoad();
           this.authService.isLoggedIn = true;
           this.authService.token = response.data.accessToken;
           this.authService.auth = response.data.user;
+          this.messageService.success(response).then();
           // this.authService.roles = response.data.roles;
           // this.authService.role = response.data.roles[0];
           // this.authService.permissions = response.data.permissions;

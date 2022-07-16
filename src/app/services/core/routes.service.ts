@@ -28,10 +28,14 @@ export class RoutesService {
   }
 
   login() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl(`${AppRoutesEnum.AUTH}/login`);
   }
 
   profile() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl(`${AppRoutesEnum.AUTH}/profile`);
+  }
+
+  dashboard() {
+    this.router.navigateByUrl(`/`);
   }
 }

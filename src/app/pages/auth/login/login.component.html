@@ -44,11 +44,8 @@
                   (click)="requestPasswordReset()"></button>
         </div>
 
-        <div class="field col-12">
-          <button *ngIf="isPasswordReset" type="button" pButton pRipple label="Regresar al login" class=""
-                  icon="pi pi-arrow-left"
-                  (click)="hidePasswordReset()"></button>
-        </div>
+        <button *ngIf="isPasswordReset" type="button" pButton pRipple label="Regresar al login" class=""
+                icon="pi pi-arrow-left"></button>
 
         <div *ngIf="progressBar" class="field">
           <app-progress-bar [message]="messageService.progressBarLogin"></app-progress-bar>
@@ -58,7 +55,7 @@
           <div *ngIf="!isPasswordReset" class="field xl:col-6 lg:col-6 md:col-12 sm:col-12">
             <button pButton pRipple type="button" label="Recuperar contraseña"
                     class="p-button-outlined p-button-info"
-                    icon="pi pi-key" (click)="showPasswordReset()"></button>
+                    icon="pi pi-key"></button>
           </div>
         </div>
 

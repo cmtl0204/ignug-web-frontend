@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthHttpService, AuthService} from '@services/auth';
-import {CoreService, MessageService} from '@services/core';
+import {CoreService, MessageService, RoutesService} from '@services/core';
 import {RolesEnum} from "@shared/enums";
 
 @Component({
@@ -14,7 +14,7 @@ import {RolesEnum} from "@shared/enums";
 export class LoginComponent implements OnInit {
   formLogin: FormGroup;
   progressBar: boolean = false;
-  // loaded$ = this.coreService.loaded$;
+  loaded$ = this.coreService.loaded$;
   isPasswordReset = false;
 
   constructor(private formBuilder: FormBuilder,
@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
               private coreService: CoreService,
               public messageService: MessageService,
               private authService: AuthService,
-              private router: Router) {
+              private routesService: RoutesService) {
     this.formLogin = this.newFormLogin();
   }
 
@@ -48,27 +48,18 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.progressBar = true;
     this.authHttpService.login(this.formLogin.value)
       .subscribe(
-        response => {
+        (_) => {
           this.progressBar = false;
           switch (this.authService.role?.name) {
             case RolesEnum.ADMIN:
-              this.redirectAdmin();
+              // this.redirectAdmin();
               break;
             default:
-              this.redirectHome();
+              this.routesService.dashboard();
           }
         });
-  }
-
-  showPasswordReset() {
-    this.isPasswordReset = true;
-  }
-
-  hidePasswordReset() {
-    this.isPasswordReset = false;
   }
 
   requestPasswordReset() {
@@ -76,7 +67,7 @@ export class LoginComponent implements OnInit {
       this.authHttpService.requestPasswordReset(this.usernameField.value)
         .subscribe(
           token => {
-            this.router.navigate(['/auth/password-reset']);
+
           });
     } else {
       this.usernameField.markAsTouched();
@@ -94,18 +85,6 @@ export class LoginComponent implements OnInit {
           this.messageService.error(error);
           this.progressBar = false;
         });
-  }
-
-  redirectAdmin() {
-    this.router.navigate(['/user-administration']);
-  }
-
-  redirectSupport() {
-    this.router.navigate(['/patients']);
-  }
-
-  redirectHome() {
-    this.router.navigate(['/']);
   }
 
   get usernameField() {
