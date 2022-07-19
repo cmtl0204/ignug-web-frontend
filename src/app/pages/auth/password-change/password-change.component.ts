@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {CustomValidators} from "@shared/validators/custom-validators";
 import {AuthHttpService, AuthService} from '@services/auth';
-import {MessageService} from '@services/core';
+import {CoreService, MessageService} from '@services/core';
 
 @Component({
   selector: 'app-password-change',
@@ -11,18 +11,18 @@ import {MessageService} from '@services/core';
   styleUrls: ['./password-change.component.scss']
 })
 export class PasswordChangeComponent implements OnInit {
-  form: FormGroup;
+  form: FormGroup = this.newForm();
+  loaded$ = this.coreService.loaded$;
   progressBar: boolean = false;
 
   constructor(
     private authHttpService: AuthHttpService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
+    private coreService: CoreService,
     private formBuilder: FormBuilder,
     public messageService: MessageService,
-    private router: Router,
   ) {
-    this.form = this.newForm();
   }
 
   ngOnInit(): void {
@@ -31,9 +31,9 @@ export class PasswordChangeComponent implements OnInit {
 
   newForm(): FormGroup {
     return this.formBuilder.group({
-      password: [null, [Validators.required, Validators.minLength(8)]],
-      passwordConfirmation: [null, [Validators.required]],
-      passwordOld: [null, [Validators.required, Validators.minLength(8)]],
+      confirmationPassword: [null, [Validators.required]],
+      newPassword: [null, [Validators.required, Validators.minLength(8)]],
+      oldPassword: [null, [Validators.required]],
     }, {validators: CustomValidators.passwordMatchValidator});
   }
 
@@ -46,31 +46,19 @@ export class PasswordChangeComponent implements OnInit {
   }
 
   changePassword() {
-    this.authHttpService.resetPassword(this.form.value)
-      .subscribe(
-        response => {
-          this.redirect();
-        });
+    this.authHttpService.changePassword(this.authService.auth.id, this.form.value).subscribe((_) => {
+    });
   }
 
-  redirect() {
-    this.router.navigate(['/auth/login']);
+  get confirmationPasswordField() {
+    return this.form.controls['confirmationPassword'];
   }
 
-  get usernameField() {
-    return this.form.controls['username'];
+  get newPasswordField() {
+    return this.form.controls['newPassword'];
   }
 
-  get passwordField() {
-    return this.form.controls['password'];
+  get oldPasswordField() {
+    return this.form.controls['oldPassword'];
   }
-
-  get passwordConfirmationField() {
-    return this.form.controls['passwordConfirmation'];
-  }
-
-  get passwordOldField() {
-    return this.form.controls['passwordOld'];
-  }
-
 }

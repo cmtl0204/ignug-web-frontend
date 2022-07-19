@@ -4,7 +4,7 @@ import {Router} from '@angular/router';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '@env/environment';
-import {LoginModel, PasswordResetModel, UserModel} from '@models/auth';
+import {LoginModel, PasswordChangeModel, PasswordResetModel, UpdateUserDto, UserModel} from '@models/auth';
 import {LoginResponse, ServerResponse} from '@models/http-response';
 import {AuthService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
@@ -22,7 +22,7 @@ export class AuthHttpService {
               private authService: AuthService,
               private coreService: CoreService,
               private router: Router,
-              private routesService:RoutesService,
+              private routesService: RoutesService,
               private messageService: MessageService) {
   }
 
@@ -38,6 +38,19 @@ export class AuthHttpService {
         }),
         tap(() => {
           this.router.navigateByUrl('/login')
+        })
+      );
+  }
+
+  changePassword(id: number, credentials: PasswordChangeModel): Observable<ServerResponse> {
+    const url = `${this.API_URL}/${id}/change-password`;
+    this.coreService.showLoad();
+    return this.httpClient.put<ServerResponse>(url, credentials)
+      .pipe(
+        map(response => {
+          this.coreService.hideLoad();
+          this.messageService.success(response).then();
+          return response.data;
         })
       );
   }
@@ -146,6 +159,56 @@ export class AuthHttpService {
       .pipe(
         map(response => response)
       );
+  }
+
+  getProfile(id: number): Observable<UserModel> {
+    const url = `${this.API_URL}/${id}/profile`;
+
+    this.coreService.showLoad();
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => {
+        this.coreService.hideLoad();
+        return response.data;
+      })
+    );
+  }
+
+  getUserInformation(id: number): Observable<UserModel> {
+    const url = `${this.API_URL}/${id}/user-information`;
+
+    this.coreService.showLoad();
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => {
+        this.coreService.hideLoad();
+        return response.data;
+      })
+    );
+  }
+
+  updateProfile(id: number, payload: UpdateUserDto): Observable<UserModel> {
+    const url = `${this.API_URL}/${id}/profile`;
+
+    this.coreService.showLoad();
+    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.hideLoad();
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateUserInformation(id: number, payload: UpdateUserDto): Observable<UserModel> {
+    const url = `${this.API_URL}/${id}/user-information`;
+
+    this.coreService.showLoad();
+    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.hideLoad();
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 
 }

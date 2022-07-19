@@ -24,7 +24,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
 import {RolePipe} from './pipes/user/role.pipe';
-import {ExtensionsPipe,MyUppercasePipe} from '@shared/pipes';
+import {DateFormatPipe, ExtensionsPipe} from '@shared/pipes';
 
 @NgModule({
   declarations: [
@@ -36,7 +36,7 @@ import {ExtensionsPipe,MyUppercasePipe} from '@shared/pipes';
     RolesPermissionsDirective,
     TokenDirective,
     ExtensionsPipe,
-    MyUppercasePipe,
+    DateFormatPipe,
     RolePipe,
   ],
   exports: [
@@ -48,7 +48,7 @@ import {ExtensionsPipe,MyUppercasePipe} from '@shared/pipes';
     RolesPermissionsDirective,
     TokenDirective,
     ExtensionsPipe,
-    MyUppercasePipe,
+    DateFormatPipe,
     RolePipe,
   ],
   imports: [

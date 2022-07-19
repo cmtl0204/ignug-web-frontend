@@ -16,6 +16,9 @@ import {PasswordChangeComponent} from "./password-change/password-change.compone
 
 @NgModule({
   declarations: [LoginComponent, PasswordChangeComponent, PasswordResetComponent],
+  exports: [
+    PasswordChangeComponent
+  ],
   imports: [
     CommonModule,
     AuthRoutingModule,

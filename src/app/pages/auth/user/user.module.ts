@@ -3,6 +3,7 @@ import {CommonModule as NgCommonModule} from '@angular/common';
 import {ReactiveFormsModule} from '@angular/forms';
 import {UserRoutingModule} from './user-routing.module';
 import {ButtonModule} from "primeng/button";
+import {CheckboxModule} from 'primeng/checkbox';
 import {RippleModule} from "primeng/ripple";
 import {TableModule} from 'primeng/table';
 import {MessageModule} from "primeng/message";
@@ -21,35 +22,48 @@ import {ToastModule} from "primeng/toast";
 import {PaginatorModule} from "primeng/paginator";
 import {KeyFilterModule} from "primeng/keyfilter";
 import {DialogModule} from "primeng/dialog";
+import {ProfileComponent} from './profile/profile.component';
+import {AuthModule} from "../auth.module";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {PanelModule} from "primeng/panel";
+import {MenuModule} from 'primeng/menu';
+import {TagModule} from "primeng/tag";
 
 @NgModule({
   declarations: [
     UserComponent,
     UserFormComponent,
-    UserListComponent
+    UserListComponent,
+    ProfileComponent
   ],
-    imports: [
-        NgCommonModule,
-        UserRoutingModule,
-        ReactiveFormsModule,
-        SharedModule,
-        //PrimeNg
-        ButtonModule,
-        CardModule,
-        CalendarModule,
-        DropdownModule,
-        InputTextModule,
-        RippleModule,
-        MessageModule,
-        PasswordModule,
-        TableModule,
-        ToolbarModule,
-        TooltipModule,
-        ToastModule,
-        PaginatorModule,
-        KeyFilterModule,
-        DialogModule,
-    ]
+  imports: [
+    NgCommonModule,
+    UserRoutingModule,
+    ReactiveFormsModule,
+    AuthModule,
+    //PrimeNg
+    SharedModule,
+    ButtonModule,
+    CardModule,
+    CalendarModule,
+    CheckboxModule,
+    DialogModule,
+    DropdownModule,
+    InputSwitchModule,
+    InputTextModule,
+    KeyFilterModule,
+    MenuModule,
+    MessageModule,
+    PaginatorModule,
+    PanelModule,
+    PasswordModule,
+    RippleModule,
+    TableModule,
+    TagModule,
+    ToolbarModule,
+    TooltipModule,
+    ToastModule,
+  ]
 })
 export class UserModule {
 }

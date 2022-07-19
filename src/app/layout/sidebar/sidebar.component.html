@@ -2,9 +2,9 @@
   <div class="logo-details">
     <a href="javascript:void(0);"><i class="pi pi-bars" (click)="showCloseMenu()"></i></a>
     <span class="logo_name">IGNUG</span>
-    <a href="javascript:void(0);">
+    <a *ngIf="!closed" href="javascript:void(0);">
       <i class='pi'
-         [ngClass]="{'pi-lock-open':!closedLock && !closed,'pi-lock':closedLock}"
+         [ngClass]="{'pi-lock-open':!closedLock && !closed,'pi-lock':closedLock && !closed}"
          (click)="closedLock=!closedLock">
       </i>
     </a>
@@ -47,7 +47,9 @@
           </a>
         </div>
         <div class="name-job">
-          <a class="profile_name" (click)="redirectProfile()">Prem Shahi</a>
+          <a href="javascript:void(0);" (click)="redirectProfile()" class="profile_name">
+            {{authService.auth.username}}
+          </a>
           <div class="job">Web Desginer</div>
         </div>
         <i class="pi pi-sign-out" pTooltip="Sign Out" (click)="logout()"></i>

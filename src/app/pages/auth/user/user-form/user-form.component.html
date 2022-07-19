@@ -1,46 +1,7 @@
 <app-skeleton *ngIf="(loaded$|async)" [type]="'card'"></app-skeleton>
-<p-card *ngIf="!(loaded$|async)" header="User Register" class="p-fluid">
+<p-panel *ngIf="!(loaded$|async)" [header]="cardHeader" class="p-fluid" [toggleable]="true" collapseIcon="pi pi-times"
+         (collapsedChange)="back()">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="field">
-      <label appLabel for="bloodType" label="Blood Type:" [required]="bloodTypeField"></label>
-      <p-dropdown id="bloodType"
-                  formControlName="bloodType"
-                  dataKey="id"
-                  [options]="bloodTypes"
-                  optionLabel="name"
-                  [filter]="true"
-                  filterBy="name"
-                  placeholder="Select">
-        <ng-template pTemplate="item" let-item>
-          {{item.name}}
-        </ng-template>
-      </p-dropdown>
-      <small appErrorMessage
-             [errors]="bloodTypeField.errors"
-             [touched]="bloodTypeField.touched"
-             [dirty]="bloodTypeField.dirty">
-      </small>
-    </div>
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="username" label="Username:" [required]="usernameField"></label>
-        <input pInputText type="text" id="username" formControlName="username" pKeyFilter="alphanum"/>
-        <small appErrorMessage
-               [errors]="usernameField.errors"
-               [touched]="usernameField.touched"
-               [dirty]="usernameField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="password" label="Password:" [required]="passwordField"></label>
-        <input pPassword type="password" id="password" formControlName="password"/>
-        <small appErrorMessage
-               [errors]="passwordField.errors"
-               [touched]="passwordField.touched"
-               [dirty]="passwordField.dirty">
-        </small>
-      </div>
-    </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Name:" [required]="nameField"></label>
@@ -63,16 +24,12 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="birthdate" label="Birthdate:" [required]="birthdateField"></label>
-        <p-calendar id="birthdate"
-                    formControlName="birthdate"
-                    dateFormat="yy-mm-dd"
-                    [showIcon]="true"
-                    [readonlyInput]="true"></p-calendar>
+        <label appLabel for="username" label="Username:" [required]="usernameField"></label>
+        <input pInputText type="text" id="username" formControlName="username" pKeyFilter="alphanum"/>
         <small appErrorMessage
-               [errors]="birthdateField.errors"
-               [touched]="birthdateField.touched"
-               [dirty]="birthdateField.dirty">
+               [errors]="usernameField.errors"
+               [touched]="usernameField.touched"
+               [dirty]="usernameField.dirty">
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -83,6 +40,27 @@
                [touched]="emailField.touched"
                [dirty]="emailField.dirty">
         </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+        <label appLabel for="password" label="Password:" [required]="passwordField"></label>
+        <input pPassword type="password" id="password" formControlName="password" [feedback]="true"/>
+        <small appErrorMessage
+               [errors]="passwordField.errors"
+               [touched]="passwordField.touched"
+               [dirty]="passwordField.dirty">
+        </small>
+        <p-checkbox id="passwordChanged" formControlName="passwordChanged"
+                    class="mt-2"
+                    [binary]="true"
+                    label="Require the user to change their password when they log in"></p-checkbox>
+      </div>
+      <div *ngIf="id>0" class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
+        <label for="isChangePassword">Change Password</label>
+        <br>
+        <p-inputSwitch id="isChangePassword" [formControl]="isChangePassword"
+                       (onChange)="handleChangePassword($event)"></p-inputSwitch>
       </div>
     </div>
     <div class="formgrid grid">
@@ -102,7 +80,7 @@
       </div>
     </div>
   </form>
-</p-card>
+</p-panel>
 <div *ngIf="(loaded$|async)" class="field">
   <app-progress-bar></app-progress-bar>
 </div>

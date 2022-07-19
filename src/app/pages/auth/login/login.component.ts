@@ -48,9 +48,10 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.progressBar = true;
     this.authHttpService.login(this.formLogin.value)
       .subscribe(
-        (_) => {
+        response => {
           this.progressBar = false;
           switch (this.authService.role?.name) {
             case RolesEnum.ADMIN:
@@ -62,12 +63,20 @@ export class LoginComponent implements OnInit {
         });
   }
 
+  showPasswordReset() {
+    this.isPasswordReset = true;
+  }
+
+  hidePasswordReset() {
+    this.isPasswordReset = false;
+  }
+
   requestPasswordReset() {
     if (this.usernameField.valid) {
       this.authHttpService.requestPasswordReset(this.usernameField.value)
         .subscribe(
           token => {
-
+            this.routesService.login();
           });
     } else {
       this.usernameField.markAsTouched();
@@ -81,17 +90,14 @@ export class LoginComponent implements OnInit {
         response => {
           this.progressBar = false;
           // this.redirect();
-        }, error => {
-          this.messageService.error(error);
-          this.progressBar = false;
         });
   }
 
-  get usernameField() {
+  get usernameField(): AbstractControl {
     return this.formLogin.controls['username'];
   }
 
-  get passwordField() {
+  get passwordField(): AbstractControl {
     return this.formLogin.controls['password'];
   }
 }

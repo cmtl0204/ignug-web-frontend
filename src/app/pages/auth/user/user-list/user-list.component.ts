@@ -1,16 +1,17 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {debounceTime} from "rxjs";
 import {UserModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
 import {UsersHttpService} from '@services/auth';
-import {CoreService, MessageService} from '@services/core';
+import {BreadcrumbService, CoreService, MessageService} from '@services/core';
 
 @Component({
   selector: 'app-user-list',
   templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+  styleUrls: ['./user-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserListComponent implements OnInit {
   columns: ColumnModel[];
@@ -23,10 +24,14 @@ export class UserListComponent implements OnInit {
 
   constructor(
     private coreService: CoreService,
+    private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
     private router: Router,
     private usersHttpService: UsersHttpService,
   ) {
+    this.breadcrumbService.setItems([
+      {label: 'Users'}
+    ]);
     this.columns = this.getColumns();
     this.pagination$.subscribe((pagination) => this.paginator = pagination);
     this.search.valueChanges.pipe(debounceTime(600)).subscribe((_) => this.findAll());
@@ -56,11 +61,11 @@ export class UserListComponent implements OnInit {
   }
 
   redirectCreateForm() {
-    this.router.navigate(['/auth/users', 'new']);
+    this.router.navigate(['/administration/users', 'new']);
   }
 
   redirectEditForm(id: number) {
-    this.router.navigate(['/auth/users', id]);
+    this.router.navigate(['/administration/users', id]);
   }
 
   remove(id: number) {
@@ -69,6 +74,7 @@ export class UserListComponent implements OnInit {
         if (result.isConfirmed) {
           this.usersHttpService.remove(id).subscribe((user) => {
             this.users = this.users.filter(item => item.id !== user.id);
+            this.paginator.totalItems--;
           });
         }
       });
@@ -80,6 +86,7 @@ export class UserListComponent implements OnInit {
         this.usersHttpService.removeAll(this.selectedUsers).subscribe((users) => {
           this.selectedUsers.forEach(userDeleted => {
             this.users = this.users.filter(user => user.id !== userDeleted.id);
+            this.paginator.totalItems--;
           });
           this.selectedUsers = [];
         });

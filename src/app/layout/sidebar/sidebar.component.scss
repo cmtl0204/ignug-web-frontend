@@ -1,5 +1,7 @@
 /* Google Fonts Import Link */
 //@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+$color: #17304A;
+$colorHover: rgba(6, 27, 97, 0.897);
 
 * {
   margin: 0;
@@ -14,7 +16,7 @@
   left: 0;
   height: 100%;
   width: 260px;
-  background: #11101d;
+  background: $color;
   z-index: 100;
   transition: all 0.5s ease;
 }
@@ -74,7 +76,7 @@
 }
 
 .sidebar .nav-links li:hover {
-  background: #1d1b31;
+  background: $colorHover;
 }
 
 .sidebar .nav-links li .icon-link {
@@ -127,7 +129,7 @@
 .sidebar .nav-links li .sub-menu {
   padding: 6px 6px 14px 80px;
   margin-top: -10px;
-  background: #1d1b31;
+  background: $color;
   display: none;
 }
 
@@ -196,9 +198,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #1d1b31;
+  background: $color;
   padding: 12px 0;
   transition: all 0.5s ease;
+}
+
+.sidebar .profile-details:hover {
+  background: $colorHover;
 }
 
 .sidebar.close .profile-details {
@@ -214,13 +220,17 @@
   align-items: center;
 }
 
+.sidebar .profile-details .profile-content:hover {
+  background: $colorHover;
+}
+
 .sidebar .profile-details img {
   height: 52px;
   width: 52px;
   object-fit: cover;
   border-radius: 16px;
   margin: 0 14px 0 12px;
-  background: #1d1b31;
+  background: $color;
   transition: all 0.5s ease;
 }
 

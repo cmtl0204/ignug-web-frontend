@@ -11,7 +11,9 @@ export class LabelDirective implements OnInit {
   @Input() label: string = '';
 
   @Input() set required(value: AbstractControl) {
-    this._required = value.hasValidator(Validators.required);
+    if (value) {
+      this._required = value.hasValidator(Validators.required);
+    }
   }
 
   constructor(private elementRef: ElementRef, private renderer: Renderer2) {

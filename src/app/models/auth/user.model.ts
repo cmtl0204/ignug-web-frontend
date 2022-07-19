@@ -17,6 +17,7 @@ export interface UserModel {
   avatar: string;
   birthdate: string;
   email: string;
+  emailVerifiedAt: Date;
   lastname: string;
   name: string;
   password: string;

@@ -1,26 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
 import {UsersHttpService} from '@services/auth';
-import {CataloguesHttpService, CoreService, MessageService} from '@services/core';
+import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {DateValidators} from '@shared/validators';
 
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',
-  styleUrls: ['./user-form.component.scss']
+  styleUrls: ['./user-form.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
   id: number = 0;
   bloodTypes: CatalogueModel[] = [];
   form: FormGroup = this.newForm;
+  cardHeader: string = 'Create User';
+  isChangePassword: FormControl = new FormControl(false);
   loaded$ = this.coreService.loaded$;
 
   constructor(
     private activatedRoute: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     private coreService: CoreService,
     private formBuilder: FormBuilder,
@@ -28,8 +32,14 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     private router: Router,
     private usersHttpService: UsersHttpService,
   ) {
+    this.breadcrumbService.setItems([
+      {label: 'Users', routerLink: ['/administration/users']},
+      {label: 'Form'},
+    ]);
+
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
+      this.cardHeader = 'Update User';
     }
   }
 
@@ -41,24 +51,23 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-    this.loadBloodTypes();
-
     if (this.id > 0) {
       this.getUser();
       this.passwordField.clearValidators();
     } else {
-      //Todo: Revisar para el perfil, que mas se puede implementar
+      this.isChangePassword.setValue(true);
+      this.passwordField.enable();
+      this.passwordChangedField.enable();
     }
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      bloodType: [null, [Validators.required]],
-      birthdate: [null, [Validators.required, DateValidators.min(new Date()), DateValidators.max(new Date('2022-07-18'))]],
-      email: [null, [Validators.email]],
+      email: [null, [Validators.required, Validators.email]],
       lastname: [null, [Validators.required]],
       name: [null, [Validators.required]],
-      password: [null, [Validators.required]],
+      password: [{value: null, disabled: true}, [Validators.required]],
+      passwordChanged: [{value: false, disabled: true}],
       roles: [['admin'], [Validators.required]],
       username: [null, [Validators.required]],
     });
@@ -77,7 +86,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate(['/auth/users']);
+    this.router.navigate(['/administration/users']);
   }
 
   create(user: CreateUserDto): void {
@@ -91,8 +100,20 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     this.usersHttpService.findOne(this.id).subscribe((user) => this.form.patchValue(user));
   }
 
-  loadBloodTypes(): void {
-    this.cataloguesHttpService.catalogue().subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
+  handleChangePassword(event: any) {
+    this.isChangePassword.setValue(event.checked);
+    if (this.isChangePassword.value) {
+      this.passwordChangedField.enable();
+      this.passwordField.enable();
+      this.passwordField.setValidators([Validators.required]);
+    } else {
+      this.passwordChangedField.setValue(false);
+      this.passwordChangedField.disable();
+      this.passwordField.setValue(null);
+      this.passwordField.disable();
+      this.passwordField.clearValidators();
+    }
+    this.passwordField.updateValueAndValidity();
   }
 
   update(user: UpdateUserDto): void {
@@ -100,14 +121,6 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       this.form.reset(user);
       this.back()
     });
-  }
-
-  get bloodTypeField(): AbstractControl {
-    return this.form.controls['bloodType'];
-  }
-
-  get birthdateField(): AbstractControl {
-    return this.form.controls['birthdate'];
   }
 
   get emailField(): AbstractControl {
@@ -124,6 +137,10 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
   get passwordField(): AbstractControl {
     return this.form.controls['password'];
+  }
+
+  get passwordChangedField(): AbstractControl {
+    return this.form.controls['passwordChanged'];
   }
 
   get usernameField(): AbstractControl {

@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {MenuHttpService} from '@services/auth/menu-http.service';
-import {AuthHttpService} from "@services/auth";
+import {AuthHttpService, AuthService} from "@services/auth";
 import {Router} from "@angular/router";
+import {UserModel} from "@models/auth";
 
 @Component({
   selector: 'app-sidebar',
@@ -16,7 +17,9 @@ export class SidebarComponent implements OnInit {
   closed: boolean = true;
   closedLock: boolean | null = null;
 
-  constructor(private menuHttpService: MenuHttpService, private authHttpService: AuthHttpService,
+  constructor(private menuHttpService: MenuHttpService,
+              private authHttpService: AuthHttpService,
+              public authService: AuthService,
               private router: Router) {
 
   }
@@ -63,6 +66,16 @@ export class SidebarComponent implements OnInit {
         icon: PrimeIcons.USERS,
         routerLink: ['/administration/users'],
       },
+      {
+        label: 'Profile',
+        icon: PrimeIcons.ID_CARD,
+        routerLink: ['/administration/users/profile'],
+      },
+      {
+        label: 'Login',
+        icon: PrimeIcons.SIGN_IN,
+        routerLink: ['/auth/login'],
+      },
     ]
   }
 
@@ -92,6 +105,6 @@ export class SidebarComponent implements OnInit {
   }
 
   redirectProfile() {
-    this.router.navigateByUrl('');
+    this.router.navigateByUrl('/administration/users/profile');
   }
 }
