@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
@@ -22,9 +22,9 @@ export class ProfileComponent implements OnInit, OnExitInterface {
   emailVerifiedAt: Date | null = null;
   genders: CatalogueModel[] = [];
   identificationTypes: CatalogueModel[] = [];
-  formUser: UntypedFormGroup = this.newUserForm;
-  formProfile: UntypedFormGroup = this.newProfileForm;
-  isLoading: boolean = false;
+  formUser: FormGroup = this.newUserForm;
+  formProfile: FormGroup = this.newProfileForm;
+  isLoadingSkeleton: boolean = false;
   loaded$ = this.coreService.loaded$;
   maritalStatus: CatalogueModel[] = [];
   sexes: CatalogueModel[] = [];
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     private coreService: CoreService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private messageService: MessageService,
   ) {
     this.breadcrumbService.setItems([
@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
     }
   }
 
-  get newUserForm(): UntypedFormGroup {
+  get newUserForm(): FormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       phone: [null, []],
@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
     });
   }
 
-  get newProfileForm(): UntypedFormGroup {
+  get newProfileForm(): FormGroup {
     return this.formBuilder.group({
       birthdate: [null, [DateValidators.max(new Date())]],
       bloodType: [null, []],
@@ -95,10 +95,10 @@ export class ProfileComponent implements OnInit, OnExitInterface {
   }
 
   onSubmitProfile(): void {
-    this.birthdateField.setValue(this.dateFormat.transform(this.birthdateField.value));
+    this.birthdateField.setValue(this.dateFormat.transform(this.birthdateField.getRawValue()));
     if (this.formProfile.valid) {
       if (this.id > 0) {
-        this.updateProfile(this.formProfile.value);
+        this.updateProfile(this.formProfile.getRawValue());
       }
     } else {
       this.formProfile.markAllAsTouched();
@@ -108,7 +108,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
   onSubmitUserInformation(): void {
     if (this.formUser.valid) {
       if (this.id > 0) {
-        this.updateUserInformation(this.formUser.value);
+        this.updateUserInformation(this.formUser.getRawValue());
       }
     } else {
       this.formUser.markAllAsTouched();
@@ -116,9 +116,9 @@ export class ProfileComponent implements OnInit, OnExitInterface {
   }
 
   getProfile(): void {
-    this.isLoading = true;
+    this.isLoadingSkeleton = true;
     this.authHttpService.getProfile(this.id).subscribe((user) => {
-        this.isLoading = false;
+        this.isLoadingSkeleton = false;
         this.formProfile.patchValue(user);
       }
     );

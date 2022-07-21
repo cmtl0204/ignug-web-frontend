@@ -20,6 +20,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   form: UntypedFormGroup = this.newForm;
   cardHeader: string = 'Create User';
   isChangePassword: UntypedFormControl = new UntypedFormControl(false);
+  isLoadingSkeleton: boolean = false;
   loaded$ = this.coreService.loaded$;
 
   constructor(
@@ -97,7 +98,11 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   getUser(): void {
-    this.usersHttpService.findOne(this.id).subscribe((user) => this.form.patchValue(user));
+    this.isLoadingSkeleton = true;
+    this.usersHttpService.findOne(this.id).subscribe((user) => {
+      this.isLoadingSkeleton = false;
+      this.form.patchValue(user);
+    });
   }
 
   handleChangePassword(event: any) {

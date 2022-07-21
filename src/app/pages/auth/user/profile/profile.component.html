@@ -1,8 +1,5 @@
-<div *ngIf="(loaded$|async)" class="field">
-  <app-progress-bar></app-progress-bar>
-</div>
-<app-skeleton *ngIf="isLoading" [type]="'card'"></app-skeleton>
-<div *ngIf="!isLoading" class="formgrid grid">
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<div *ngIf="!isLoadingSkeleton" class="formgrid grid">
   <div class="xl:col-7 lg:col-7 md:col-7 sm:col-12">
     <p-card header="Profile">
       <form [formGroup]="formProfile" (ngSubmit)="onSubmitProfile()" class="p-fluid">
@@ -280,7 +277,4 @@
       <app-password-change></app-password-change>
     </p-card>
   </div>
-</div>
-<div *ngIf="(loaded$|async)" class="field">
-  <app-progress-bar></app-progress-bar>
 </div>

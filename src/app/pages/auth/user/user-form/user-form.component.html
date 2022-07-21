@@ -1,5 +1,5 @@
-<app-skeleton *ngIf="(loaded$|async)" [type]="'card'"></app-skeleton>
-<p-panel *ngIf="!(loaded$|async)" [header]="cardHeader" class="p-fluid" [toggleable]="true" collapseIcon="pi pi-times"
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton" [header]="cardHeader" class="p-fluid" [toggleable]="true" collapseIcon="pi pi-times"
          (collapsedChange)="back()">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="formgrid grid">
@@ -81,6 +81,3 @@
     </div>
   </form>
 </p-panel>
-<div *ngIf="(loaded$|async)" class="field">
-  <app-progress-bar></app-progress-bar>
-</div>

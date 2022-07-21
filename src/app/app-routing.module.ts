@@ -11,21 +11,25 @@ const routes: Routes = [
       {path: '', redirectTo: '/', pathMatch: 'full'},
       {
         path: 'core',
+        title: 'Core',
         loadChildren: () => import('./pages/core/core.module').then(m => m.CoreModule),
       },
       {
         path: 'administration',
+        title: 'Administration',
         loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
       },
     ]
   },
   {
     path: 'auth',
+    title: 'Auth',
     component: BlankComponent,
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
   },
   {
     path: 'common',
+    title: 'Common',
     component: BlankComponent,
     loadChildren: () => import('./pages/common/common.module').then(m => m.CommonModule),
   },

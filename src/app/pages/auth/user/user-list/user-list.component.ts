@@ -34,7 +34,7 @@ export class UserListComponent implements OnInit {
     ]);
     this.columns = this.getColumns();
     this.pagination$.subscribe((pagination) => this.paginator = pagination);
-    this.search.valueChanges.pipe(debounceTime(600)).subscribe((_) => this.findAll());
+    this.search.valueChanges.pipe(debounceTime(500)).subscribe((_) => this.findAll());
   }
 
   ngOnInit() {
@@ -51,8 +51,6 @@ export class UserListComponent implements OnInit {
       {field: 'name', header: 'Name'},
       {field: 'lastname', header: 'Lastname'},
       {field: 'email', header: 'Email'},
-      {field: 'bloodType', header: 'Blood Type'},
-      {field: 'updatedAt', header: 'Updated At'},
     ]
   }
 

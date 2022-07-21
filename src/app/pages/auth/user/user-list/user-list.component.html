@@ -14,12 +14,11 @@
               icon="pi pi-trash"
               (click)="removeAll()"></button>
     </div>
-
     <div class="p-toolbar-group-right">
-    <span class="p-input-icon-right">
-    <i class="pi pi-search" [ngClass]="{'pi-spin pi-spinner':(loaded$|async)}"></i>
-    <input type="text" pInputText [formControl]="search" placeholder="Search">
-</span>
+      <div class="p-input-icon-right">
+        <input type="text" pInputText [formControl]="search" placeholder="Search">
+        <i class="pi pi-search" [ngClass]="{'pi-spin pi-spinner':(loaded$|async)}"></i>
+      </div>
     </div>
   </p-toolbar>
   <p-paginator
