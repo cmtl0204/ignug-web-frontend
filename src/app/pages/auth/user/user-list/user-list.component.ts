@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {debounceTime} from "rxjs";
 import {UserModel} from '@models/auth';
@@ -18,7 +18,7 @@ export class UserListComponent implements OnInit {
   loaded$ = this.coreService.loaded$;
   pagination$ = this.usersHttpService.pagination$;
   paginator: PaginatorModel = this.coreService.paginator;
-  search: FormControl = new FormControl('');
+  search: UntypedFormControl = new UntypedFormControl('');
   selectedUsers: UserModel[] = [];
   users: UserModel[] = [];
 

@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {CustomValidators} from "@shared/validators/custom-validators";
 import {AuthHttpService, AuthService} from '@services/auth';
@@ -11,10 +11,10 @@ import {MessageService} from '@services/core';
   styleUrls: ['./password-reset.component.scss']
 })
 export class PasswordResetComponent implements OnInit {
-  form: FormGroup;
+  form: UntypedFormGroup;
   progressBar: boolean = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private authHttpService: AuthHttpService,
               public messageService: MessageService,
               private authService: AuthService,
@@ -30,7 +30,7 @@ export class PasswordResetComponent implements OnInit {
     });
   }
 
-  newForm(): FormGroup {
+  newForm(): UntypedFormGroup {
     return this.formBuilder.group({
       token: [null, [Validators.required]],
       password: [null, [Validators.required, Validators.minLength(8)]],

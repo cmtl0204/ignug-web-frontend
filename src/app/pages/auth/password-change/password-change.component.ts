@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
 import {CustomValidators} from "@shared/validators/custom-validators";
 import {AuthHttpService, AuthService} from '@services/auth';
@@ -11,7 +11,7 @@ import {CoreService, MessageService} from '@services/core';
   styleUrls: ['./password-change.component.scss']
 })
 export class PasswordChangeComponent implements OnInit {
-  form: FormGroup = this.newForm();
+  form: UntypedFormGroup = this.newForm();
   loaded$ = this.coreService.loaded$;
   progressBar: boolean = false;
 
@@ -20,7 +20,7 @@ export class PasswordChangeComponent implements OnInit {
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private coreService: CoreService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public messageService: MessageService,
   ) {
   }
@@ -29,7 +29,7 @@ export class PasswordChangeComponent implements OnInit {
 
   }
 
-  newForm(): FormGroup {
+  newForm(): UntypedFormGroup {
     return this.formBuilder.group({
       confirmationPassword: [null, [Validators.required]],
       newPassword: [null, [Validators.required, Validators.minLength(8)]],

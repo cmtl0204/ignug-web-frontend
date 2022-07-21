@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {MenuItem} from "primeng/api";
-import {FormControl} from "@angular/forms";
+import {UntypedFormControl} from "@angular/forms";
 import {CoreService, MessageService} from "@services/core";
 import {ColumnModel, PaginatorModel} from "@models/core";
 import {debounceTime} from "rxjs";
@@ -20,7 +20,7 @@ export class SearchComponent implements OnInit {
   @Output() searchOut: EventEmitter<string> = new EventEmitter<string>();
   loaded$ = this.coreService.loaded$;
   items: MenuItem[] = [];
-  search: FormControl = new FormControl('');
+  search: UntypedFormControl = new UntypedFormControl('');
   progressBarDelete: boolean = false;
   selectedRecords: any[] = [];
 

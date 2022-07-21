@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
 import {UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
@@ -22,8 +22,8 @@ export class ProfileComponent implements OnInit, OnExitInterface {
   emailVerifiedAt: Date | null = null;
   genders: CatalogueModel[] = [];
   identificationTypes: CatalogueModel[] = [];
-  formUser: FormGroup = this.newUserForm;
-  formProfile: FormGroup = this.newProfileForm;
+  formUser: UntypedFormGroup = this.newUserForm;
+  formProfile: UntypedFormGroup = this.newProfileForm;
   isLoading: boolean = false;
   loaded$ = this.coreService.loaded$;
   maritalStatus: CatalogueModel[] = [];
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     private coreService: CoreService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private messageService: MessageService,
   ) {
     this.breadcrumbService.setItems([
@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
     }
   }
 
-  get newUserForm(): FormGroup {
+  get newUserForm(): UntypedFormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       phone: [null, []],
@@ -79,7 +79,7 @@ export class ProfileComponent implements OnInit, OnExitInterface {
     });
   }
 
-  get newProfileForm(): FormGroup {
+  get newProfileForm(): UntypedFormGroup {
     return this.formBuilder.group({
       birthdate: [null, [DateValidators.max(new Date())]],
       bloodType: [null, []],

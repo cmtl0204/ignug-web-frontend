@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
@@ -17,9 +17,9 @@ import {DateValidators} from '@shared/validators';
 export class UserFormComponent implements OnInit, OnExitInterface {
   id: number = 0;
   bloodTypes: CatalogueModel[] = [];
-  form: FormGroup = this.newForm;
+  form: UntypedFormGroup = this.newForm;
   cardHeader: string = 'Create User';
-  isChangePassword: FormControl = new FormControl(false);
+  isChangePassword: UntypedFormControl = new UntypedFormControl(false);
   loaded$ = this.coreService.loaded$;
 
   constructor(
@@ -27,7 +27,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     private coreService: CoreService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private messageService: MessageService,
     private router: Router,
     private usersHttpService: UsersHttpService,
@@ -61,7 +61,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     }
   }
 
-  get newForm(): FormGroup {
+  get newForm(): UntypedFormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       lastname: [null, [Validators.required]],

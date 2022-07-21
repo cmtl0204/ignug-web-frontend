@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {AuthHttpService, AuthService} from '@services/auth';
 import {CoreService, MessageService, RoutesService} from '@services/core';
@@ -12,12 +12,12 @@ import {RolesEnum} from "@shared/enums";
 })
 
 export class LoginComponent implements OnInit {
-  formLogin: FormGroup;
+  formLogin: UntypedFormGroup;
   progressBar: boolean = false;
   loaded$ = this.coreService.loaded$;
   isPasswordReset = false;
 
-  constructor(private formBuilder: FormBuilder,
+  constructor(private formBuilder: UntypedFormBuilder,
               private authHttpService: AuthHttpService,
               private coreService: CoreService,
               public messageService: MessageService,
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
 
   }
 
-  newFormLogin(): FormGroup {
+  newFormLogin(): UntypedFormGroup {
     return this.formBuilder.group({
       // username: ['1234567891', [Validators.required]],
       username: [null, [Validators.required]],
