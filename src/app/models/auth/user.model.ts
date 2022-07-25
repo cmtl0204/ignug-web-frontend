@@ -21,6 +21,7 @@ export interface UserModel {
   lastname: string;
   name: string;
   password: string;
+  passwordChanged: boolean;
   phone: string;
   suspendedAt: Date;
   username: string;

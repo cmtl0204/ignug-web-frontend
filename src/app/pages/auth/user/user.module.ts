@@ -28,13 +28,19 @@ import {InputSwitchModule} from "primeng/inputswitch";
 import {PanelModule} from "primeng/panel";
 import {MenuModule} from 'primeng/menu';
 import {TagModule} from "primeng/tag";
+import {DividerModule} from "primeng/divider";
+import {AccordionModule} from "primeng/accordion";
+import {UserInformationComponent} from "./user-information/user-information.component";
+import {UserProfileComponent} from "./user-profile/user-profile.component";
 
 @NgModule({
   declarations: [
     UserComponent,
     UserFormComponent,
     UserListComponent,
-    ProfileComponent
+    ProfileComponent,
+    UserInformationComponent,
+    UserProfileComponent,
   ],
   imports: [
     NgCommonModule,
@@ -63,6 +69,8 @@ import {TagModule} from "primeng/tag";
     ToolbarModule,
     TooltipModule,
     ToastModule,
+    DividerModule,
+    AccordionModule,
   ]
 })
 export class UserModule {

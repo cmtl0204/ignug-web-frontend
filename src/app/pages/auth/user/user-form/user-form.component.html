@@ -1,6 +1,16 @@
 <app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
-<p-panel *ngIf="!isLoadingSkeleton" [header]="cardHeader" class="p-fluid" [toggleable]="true" collapseIcon="pi pi-times"
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
          (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===0" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id>0" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -42,8 +52,13 @@
         </small>
       </div>
     </div>
+    <div *ngIf="id>0" class="field">
+      <label for="isChangePassword" class="mr-4">Change Password:</label>
+      <p-inputSwitch id="isChangePassword" [formControl]="isChangePassword"
+                     (onChange)="handleChangePassword($event)"></p-inputSwitch>
+    </div>
     <div class="formgrid grid">
-      <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+      <div *ngIf="id===0 || isChangePassword.value" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="password" label="Password:" [required]="passwordField"></label>
         <input pPassword type="password" id="password" formControlName="password" [feedback]="true"/>
         <small appErrorMessage
@@ -51,23 +66,19 @@
                [touched]="passwordField.touched"
                [dirty]="passwordField.dirty">
         </small>
-        <p-checkbox id="passwordChanged" formControlName="passwordChanged"
-                    class="mt-2"
-                    [binary]="true"
-                    label="Require the user to change their password when they log in"></p-checkbox>
       </div>
-      <div *ngIf="id>0" class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
-        <label for="isChangePassword">Change Password</label>
-        <br>
-        <p-inputSwitch id="isChangePassword" [formControl]="isChangePassword"
-                       (onChange)="handleChangePassword($event)"></p-inputSwitch>
-      </div>
+    </div>
+    <div *ngIf="id===0 || isChangePassword.value" class="field">
+      <p-checkbox id="passwordChanged" formControlName="passwordChanged"
+                  class="mt-2"
+                  [binary]="true"
+                  label="Require the user to change their password when they log in"></p-checkbox>
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <button pButton pRipple id="btnBack" type="button"
                 label="Cancel"
-                class="p-button-info"
+                class="p-button-info p-button-outlined"
                 icon="pi pi-arrow-left"
                 [loading]="(loaded$|async)!"
                 (click)="back()"></button>

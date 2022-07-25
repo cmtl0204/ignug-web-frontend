@@ -42,6 +42,7 @@ export class PasswordChangeComponent implements OnInit {
       this.changePassword();
     } else {
       this.form.markAllAsTouched();
+      this.messageService.errorsFields.then();
     }
   }
 

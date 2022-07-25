@@ -13,7 +13,6 @@ const routes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    canDeactivate: [ExitGuard]
   },
   {
     path: ':id',

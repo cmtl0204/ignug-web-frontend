@@ -15,13 +15,15 @@ export class MessageService {
   error(error: ServerResponse) {
     if (error.statusCode === 422) {
       let i;
-      const fields = Object.values(error.message).toString().split('.,');
+      // const fields = Object.values(error.message).toString().split('.,');
+      const fields = error.message;
+
       let html = '<ul>';
-      for (i = 0; i < fields.length - 1; i++) {
-        html += `<li>${fields[i]}.</li>`;
+      for (i = 0; i < fields.length; i++) {
+        html += `<li class="pi pi-times"> ${fields[i]}.</li>`;
       }
-      html += `<li>${fields[i]}</li>`;
       html += '</ul>';
+
       return Swal.fire({
         title: error.error,
         html,
@@ -41,6 +43,14 @@ export class MessageService {
       title: serverResponse.title,
       text: serverResponse.message,
       icon: 'info'
+    });
+  }
+
+  get errorsFields() {
+    return Swal.fire({
+      title: 'Revise los campos',
+      html: 'Revise que los campos estén llenos de forma correcta',
+      icon: 'error'
     });
   }
 
@@ -66,6 +76,10 @@ export class MessageService {
       cancelButtonColor: '#3085d6',
       confirmButtonText: '<i class="pi pi-sign-out"> Si, salir</i>'
     });
+  }
+
+  get requiredFields(): string {
+    return `Todos los campos <b class="p-error">(*)</b> son obligatorios.`;
   }
 
   get fieldRequired(): string {

@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {MenuItem} from 'primeng/api';
-import {BreadcrumbService} from '@services/core';
+import {BreadcrumbService, CoreService} from '@services/core';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -13,8 +13,9 @@ export class BreadcrumbComponent {
   subscription: Subscription;
   items: MenuItem[] = [];
   home: MenuItem;
+  loaded$ = this.coreService.loaded$;
 
-  constructor(public breadcrumbService: BreadcrumbService) {
+  constructor(public breadcrumbService: BreadcrumbService,private coreService:CoreService) {
     this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
       this.items = response as MenuItem[];
     });

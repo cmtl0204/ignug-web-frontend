@@ -1,5 +1,4 @@
 import {Component} from '@angular/core';
-import {CoreService} from "@services/core";
 
 @Component({
   selector: 'app-main',
@@ -7,8 +6,4 @@ import {CoreService} from "@services/core";
   styleUrls: ['./main.component.css']
 })
 export class MainComponent {
-  constructor(private coreService: CoreService) {
-  }
-
-  loaded$ = this.coreService.loaded$;
 }

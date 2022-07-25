@@ -18,7 +18,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   id: number = 0;
   bloodTypes: CatalogueModel[] = [];
   form: UntypedFormGroup = this.newForm;
-  cardHeader: string = 'Create User';
+  panelHeader: string = 'Create User';
   isChangePassword: UntypedFormControl = new UntypedFormControl(false);
   isLoadingSkeleton: boolean = false;
   loaded$ = this.coreService.loaded$;
@@ -29,7 +29,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     private cataloguesHttpService: CataloguesHttpService,
     private coreService: CoreService,
     private formBuilder: UntypedFormBuilder,
-    private messageService: MessageService,
+    public messageService: MessageService,
     private router: Router,
     private usersHttpService: UsersHttpService,
   ) {
@@ -40,7 +40,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.cardHeader = 'Update User';
+      this.panelHeader = 'Update User';
     }
   }
 
@@ -83,6 +83,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
+      this.messageService.errorsFields.then();
     }
   }
 
@@ -91,6 +92,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   create(user: CreateUserDto): void {
+    user.passwordChanged = !user.passwordChanged;
     this.usersHttpService.create(user).subscribe(user => {
       this.form.reset(user);
       this.back();
@@ -122,6 +124,8 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   update(user: UpdateUserDto): void {
+    user.passwordChanged = !user.passwordChanged;
+
     this.usersHttpService.update(this.id, user).subscribe((user) => {
       this.form.reset(user);
       this.back()
