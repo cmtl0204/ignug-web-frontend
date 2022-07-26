@@ -14,7 +14,10 @@ export class TokenInterceptor implements HttpInterceptor {
     let headers = request.headers ? request.headers : new HttpHeaders();
 
     if (this.authService.token) {
-      headers = headers.append('Authorization', 'Bearer ' + this.authService.token);
+      headers = headers
+        .append(
+          'Authorization',
+          `Bearer ${this.authService.token.replace(/"/g, '')}`);
     }
 
     return next.handle(request.clone({headers}));

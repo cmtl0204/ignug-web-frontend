@@ -17,7 +17,6 @@ import {CatalogueTypeEnum} from "@shared/enums";
 })
 export class UserProfileComponent implements OnInit, OnExitInterface {
   dateFormat = new DateFormatPipe();
-  id: number = 0;
   bloodTypes: CatalogueModel[] = [];
   ethnicOrigins: CatalogueModel[] = [];
   genders: CatalogueModel[] = [];
@@ -38,12 +37,6 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {
-    this.breadcrumbService.setItems([
-      {label: 'Profile'}
-    ]);
-    if (this.authService.auth) {
-      this.id = this.authService.auth.id;
-    }
   }
 
   async onExit(): Promise<boolean> {
@@ -60,12 +53,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
     this.loadIdentificationTypes();
     this.loadMaritalStatus();
     this.loadSexes();
-
-    if (this.id > 0) {
-      this.getProfile();
-    } else {
-      //Todo: Revisar para el perfil, que mas se puede implementar
-    }
+    this.getProfile();
   }
 
   get newProfileForm(): FormGroup {
@@ -84,11 +72,11 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   }
 
   onSubmitProfile(): void {
-    this.birthdateField.setValue(this.dateFormat.transform(this.birthdateField.getRawValue()));
+    if (this.birthdateField.value)
+      this.birthdateField.setValue(this.dateFormat.transform(this.birthdateField.value));
+
     if (this.formProfile.valid) {
-      if (this.id > 0) {
-        this.updateProfile(this.formProfile.getRawValue());
-      }
+      this.updateProfile(this.formProfile.value);
     } else {
       this.formProfile.markAllAsTouched();
       this.messageService.errorsFields.then();
@@ -97,7 +85,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
 
   getProfile(): void {
     this.isLoadingSkeleton = true;
-    this.authHttpService.getProfile(this.id).subscribe((user) => {
+    this.authHttpService.getProfile().subscribe((user) => {
         this.isLoadingSkeleton = false;
         this.formProfile.patchValue(user);
       }
@@ -131,9 +119,10 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   }
 
   updateProfile(user: UpdateUserDto): void {
-    this.authHttpService.updateProfile(this.id, user).subscribe((user) => {
+    this.authHttpService.updateProfile(user).subscribe((user) => {
       this.formProfile.reset(user);
-      this.birthdateField.setValue(new Date(this.birthdateField.value));
+      if (this.birthdateField.value)
+        this.birthdateField.setValue(new Date(this.birthdateField.value));
     });
   }
 

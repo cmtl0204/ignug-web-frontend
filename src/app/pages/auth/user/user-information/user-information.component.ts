@@ -14,7 +14,6 @@ import {DateFormatPipe} from "@shared/pipes";
 })
 export class UserInformationComponent implements OnInit, OnExitInterface {
   dateFormat = new DateFormatPipe();
-  id: number = 0;
   emailVerifiedAt: Date | null = null;
   formUser: FormGroup = this.newUserForm;
   isLoadingSkeleton: boolean = false;
@@ -30,9 +29,6 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {
-    if (this.authService.auth) {
-      this.id = this.authService.auth.id;
-    }
   }
 
   async onExit(): Promise<boolean> {
@@ -43,11 +39,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-    if (this.id > 0) {
-      this.getUserInformation();
-    } else {
-      //Todo: Revisar para el perfil, que mas se puede implementar
-    }
+    this.getUserInformation();
   }
 
   get newUserForm(): FormGroup {
@@ -61,9 +53,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
 
   onSubmitUserInformation(): void {
     if (this.formUser.valid) {
-      if (this.id > 0) {
-        this.updateUserInformation(this.formUser.getRawValue());
-      }
+      this.updateUserInformation(this.formUser.value);
     } else {
       this.formUser.markAllAsTouched();
       this.messageService.errorsFields.then();
@@ -72,7 +62,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
 
   getUserInformation(): void {
     this.isLoadingSkeleton = true;
-    this.authHttpService.getUserInformation(this.id).subscribe((user) => {
+    this.authHttpService.getUserInformation().subscribe((user) => {
         this.isLoadingSkeleton = false;
         this.formUser.patchValue(user);
         this.emailVerifiedAt = user.emailVerifiedAt;
@@ -81,7 +71,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
   }
 
   updateUserInformation(user: UpdateUserDto): void {
-    this.authHttpService.updateUserInformation(this.id, user).subscribe((user) => {
+    this.authHttpService.updateUserInformation(user).subscribe((user) => {
       this.formUser.reset(user);
       this.authService.auth = user;
     });

@@ -161,8 +161,9 @@ export class AuthHttpService {
       );
   }
 
-  getProfile(id: number): Observable<UserModel> {
-    const url = `${this.API_URL}/${id}/profile`;
+  getProfile(): Observable<UserModel> {
+    console.log('asd');
+    const url = `${this.API_URL}/profile`;
 
     this.coreService.showLoad();
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -173,8 +174,8 @@ export class AuthHttpService {
     );
   }
 
-  getUserInformation(id: number): Observable<UserModel> {
-    const url = `${this.API_URL}/${id}/user-information`;
+  getUserInformation(): Observable<UserModel> {
+    const url = `${this.API_URL}/user-information`;
 
     this.coreService.showLoad();
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -185,8 +186,8 @@ export class AuthHttpService {
     );
   }
 
-  updateProfile(id: number, payload: UpdateUserDto): Observable<UserModel> {
-    const url = `${this.API_URL}/${id}/profile`;
+  updateProfile(payload: UpdateUserDto): Observable<UserModel> {
+    const url = `${this.API_URL}/profile`;
 
     this.coreService.showLoad();
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
@@ -198,8 +199,8 @@ export class AuthHttpService {
     );
   }
 
-  updateUserInformation(id: number, payload: UpdateUserDto): Observable<UserModel> {
-    const url = `${this.API_URL}/${id}/user-information`;
+  updateUserInformation(payload: UpdateUserDto): Observable<UserModel> {
+    const url = `${this.API_URL}/user-information`;
 
     this.coreService.showLoad();
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
