@@ -32,6 +32,9 @@ import {DividerModule} from "primeng/divider";
 import {AccordionModule} from "primeng/accordion";
 import {UserInformationComponent} from "./user-information/user-information.component";
 import {UserProfileComponent} from "./user-profile/user-profile.component";
+import {MultiSelectModule} from "primeng/multiselect";
+import {SplitButtonModule} from "primeng/splitbutton";
+import {BadgeModule} from 'primeng/badge';
 
 @NgModule({
   declarations: [
@@ -47,8 +50,9 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
     UserRoutingModule,
     ReactiveFormsModule,
     AuthModule,
-    //PrimeNg
     SharedModule,
+    //PrimeNg
+    BadgeModule,
     ButtonModule,
     CardModule,
     CalendarModule,
@@ -71,6 +75,8 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
     ToastModule,
     DividerModule,
     AccordionModule,
+    MultiSelectModule,
+    SplitButtonModule,
   ]
 })
 export class UserModule {

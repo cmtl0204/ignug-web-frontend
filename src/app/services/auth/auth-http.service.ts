@@ -4,12 +4,13 @@ import {Router} from '@angular/router';
 import {Observable, throwError} from 'rxjs';
 import {catchError, map, tap} from 'rxjs/operators';
 import {environment} from '@env/environment';
-import {LoginModel, PasswordChangeModel, PasswordResetModel, UpdateUserDto, UserModel} from '@models/auth';
+import {LoginModel, PasswordChangeModel, PasswordResetModel, RoleModel, UpdateUserDto, UserModel} from '@models/auth';
 import {LoginResponse, ServerResponse} from '@models/http-response';
 import {AuthService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
 // import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
 import {RoutesService} from "@services/core/routes.service";
+import {RolePipe} from "@shared/pipes/user/role.pipe";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class AuthHttpService {
       );
   }
 
-  changePassword(id: number, credentials: PasswordChangeModel): Observable<ServerResponse> {
+  changePassword(id: string, credentials: PasswordChangeModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/change-password`;
     this.coreService.showLoad();
     return this.httpClient.put<ServerResponse>(url, credentials)
@@ -153,12 +154,20 @@ export class AuthHttpService {
       );
   }
 
-  getRoles(): Observable<ServerResponse> {
-    const url = `${this.API_URL}/roles/catalogue`;
-    return this.httpClient.get<ServerResponse>(url)
-      .pipe(
-        map(response => response)
-      );
+  getRoles(): Observable<RoleModel[]> {
+    const url = `${this.API_URL}/roles`;
+
+    this.coreService.showLoad();
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => {
+        this.coreService.hideLoad();
+        const roles = response.data as string[];
+        const rolePipe = new RolePipe();
+        return roles.map(role => {
+          return {code: role, name: rolePipe.transform(role)};
+        });
+      })
+    );
   }
 
   getProfile(): Observable<UserModel> {

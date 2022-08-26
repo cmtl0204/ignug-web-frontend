@@ -1,7 +1,8 @@
 import {PermissionModel} from './permission.model';
 
 export interface RoleModel {
-  id?: number;
+  id?: string;
   name?: string;
+  code?: string;
   permissions?: PermissionModel[];
 }

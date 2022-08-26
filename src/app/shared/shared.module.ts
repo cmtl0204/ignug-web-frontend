@@ -25,6 +25,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
 import {RolePipe} from './pipes/user/role.pipe';
 import {DateFormatPipe, ExtensionsPipe} from '@shared/pipes';
+import {ActivePipe} from "@shared/pipes/user/active.pipe";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {DateFormatPipe, ExtensionsPipe} from '@shared/pipes';
     ExtensionsPipe,
     DateFormatPipe,
     RolePipe,
+    ActivePipe,
   ],
   exports: [
     SkeletonComponent,
@@ -50,6 +52,7 @@ import {DateFormatPipe, ExtensionsPipe} from '@shared/pipes';
     ExtensionsPipe,
     DateFormatPipe,
     RolePipe,
+    ActivePipe,
   ],
   imports: [
     CommonModule,

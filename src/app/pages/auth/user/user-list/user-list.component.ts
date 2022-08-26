@@ -2,10 +2,11 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {UntypedFormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {debounceTime} from "rxjs";
-import {UserModel} from '@models/auth';
+import {SelectUserDto, UserModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
-import {UsersHttpService} from '@services/auth';
+import {AuthService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CoreService, MessageService} from '@services/core';
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-user-list',
@@ -20,9 +21,12 @@ export class UserListComponent implements OnInit {
   paginator: PaginatorModel = this.coreService.paginator;
   search: UntypedFormControl = new UntypedFormControl('');
   selectedUsers: UserModel[] = [];
+  selectedUser: SelectUserDto = {};
   users: UserModel[] = [];
+  actionButtons: MenuItem[] = [];
 
   constructor(
+    public authService: AuthService,
     private coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
@@ -33,12 +37,21 @@ export class UserListComponent implements OnInit {
       {label: 'Users'}
     ]);
     this.columns = this.getColumns();
+    this.actionButtons = this.getActionButtons();
     this.pagination$.subscribe((pagination) => this.paginator = pagination);
     this.search.valueChanges.pipe(debounceTime(500)).subscribe((_) => this.findAll());
   }
 
   ngOnInit() {
     this.findAll();
+  }
+
+  checkState(user: UserModel): string {
+    if (user.suspendedAt) return 'danger';
+
+    if (user.maxAttempts === 0) return 'warning';
+
+    return 'success';
   }
 
   findAll(page: number = 0) {
@@ -51,7 +64,46 @@ export class UserListComponent implements OnInit {
       {field: 'name', header: 'Name'},
       {field: 'lastname', header: 'Lastname'},
       {field: 'email', header: 'Email'},
+      {field: 'roles', header: 'Roles'},
+      {field: 'suspendedAt', header: 'State'},
     ]
+  }
+
+  getActionButtons(): MenuItem[] {
+    return [
+      {
+        label: 'Update',
+        icon: 'pi pi-pencil',
+        command: () => {
+          if (this.selectedUser.id)
+            this.redirectEditForm(this.selectedUser.id);
+        },
+      },
+      {
+        label: 'Delete',
+        icon: 'pi pi-trash',
+        command: () => {
+          if (this.selectedUser.id)
+            this.remove(this.selectedUser.id);
+        },
+      },
+      {
+        label: 'Suspend',
+        icon: 'pi pi-lock',
+        command: () => {
+          if (this.selectedUser.id)
+            this.suspend(this.selectedUser.id);
+        },
+      },
+      {
+        label: 'Reactivate',
+        icon: 'pi pi-lock-open',
+        command: () => {
+          if (this.selectedUser.id)
+            this.reactivate(this.selectedUser.id);
+        },
+      }
+    ];
   }
 
   paginate(event: any) {
@@ -62,11 +114,11 @@ export class UserListComponent implements OnInit {
     this.router.navigate(['/administration/users', 'new']);
   }
 
-  redirectEditForm(id: number) {
+  redirectEditForm(id: string) {
     this.router.navigate(['/administration/users', id]);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
@@ -89,6 +141,24 @@ export class UserListComponent implements OnInit {
           this.selectedUsers = [];
         });
       }
+    });
+  }
+
+  selectUser(user: UserModel) {
+    this.selectedUser = user;
+  }
+
+  suspend(id: string) {
+    this.usersHttpService.suspend(id).subscribe(user => {
+      const index = this.users.findIndex(user => user.id === id);
+      this.users[index].suspendedAt = user.suspendedAt;
+    });
+  }
+
+  reactivate(id: string) {
+    this.usersHttpService.reactivate(id).subscribe(user => {
+      const index = this.users.findIndex(user => user.id === id);
+      this.users[index] = user;
     });
   }
 }

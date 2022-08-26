@@ -60,14 +60,14 @@ export class CataloguesHttpService {
     );
   }
 
-  findOne(id: number): Observable<UserModel> {
+  findOne(id: string): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => response.data)
     );
   }
 
-  update(id: number, payload: UpdateUserDto): Observable<UserModel> {
+  update(id: string, payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
@@ -77,7 +77,7 @@ export class CataloguesHttpService {
     );
   }
 
-  remove(id: number): Observable<boolean> {
+  remove(id: string): Observable<boolean> {
     const url = `${this.API_URL}/${id}`;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map(response => {
@@ -87,7 +87,7 @@ export class CataloguesHttpService {
     );
   }
 
-  removeAll(id: number[]): Observable<boolean> {
+  removeAll(id: CatalogueModel[]): Observable<boolean> {
     const url = `${this.API_URL}/${id}`;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map(response => {

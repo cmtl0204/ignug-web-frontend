@@ -1,4 +1,4 @@
 export interface CatalogueModel {
-  id: number;
+  id: string;
   name: string;
 }

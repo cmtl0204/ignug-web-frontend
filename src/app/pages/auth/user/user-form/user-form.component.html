@@ -5,13 +5,37 @@
          [toggleable]="true"
          (collapsedChange)="back()">
   <ng-template pTemplate="header">
-    <i *ngIf="id===0" class="pi pi-user-plus mr-2"></i>
-    <i *ngIf="id>0" class="pi pi-user-edit mr-2"></i>
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
     <h2 class="panel-header">{{panelHeader}}</h2>
   </ng-template>
   <small [innerHTML]="this.messageService.requiredFields"></small>
   <p-divider></p-divider>
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label appLabel for="roles" label="Roles:" [required]="rolesField"></label>
+      <p-multiSelect id="roles"
+                     formControlName="roles"
+                     [options]="roles"
+                     display="chip"
+                     optionLabel="name"
+                     optionValue="code"
+                     placeholder="Select roles">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="rolesField.value">
+            <div>{{rolesField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-multiSelect>
+      <small appErrorMessage
+             [errors]="rolesField.errors"
+             [touched]="rolesField.touched"
+             [dirty]="rolesField.dirty">
+      </small>
+    </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Name:" [required]="nameField"></label>
@@ -52,13 +76,13 @@
         </small>
       </div>
     </div>
-    <div *ngIf="id>0" class="field">
+    <div *ngIf="id!=''" class="field">
       <label for="isChangePassword" class="mr-4">Change Password:</label>
       <p-inputSwitch id="isChangePassword" [formControl]="isChangePassword"
                      (onChange)="handleChangePassword($event)"></p-inputSwitch>
     </div>
     <div class="formgrid grid">
-      <div *ngIf="id===0 || isChangePassword.value" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div *ngIf="id==='' || isChangePassword.value" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="password" label="Password:" [required]="passwordField"></label>
         <input pPassword type="password" id="password" formControlName="password" [feedback]="true"/>
         <small appErrorMessage
@@ -68,7 +92,7 @@
         </small>
       </div>
     </div>
-    <div *ngIf="id===0 || isChangePassword.value" class="field">
+    <div *ngIf="id==='' || isChangePassword.value" class="field">
       <p-checkbox id="passwordChanged" formControlName="passwordChanged"
                   class="mt-2"
                   [binary]="true"

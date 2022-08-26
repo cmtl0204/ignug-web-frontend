@@ -1,12 +1,18 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {AbstractControl, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators} from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  UntypedFormBuilder,
+  UntypedFormControl,
+  UntypedFormGroup,
+  Validators
+} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {CreateUserDto, UpdateUserDto} from '@models/auth';
+import {CreateUserDto, RoleModel, UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
-import {UsersHttpService} from '@services/auth';
+import {AuthHttpService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
-import {DateValidators} from '@shared/validators';
 
 @Component({
   selector: 'app-user-form',
@@ -15,8 +21,9 @@ import {DateValidators} from '@shared/validators';
   encapsulation: ViewEncapsulation.None
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
-  id: number = 0;
+  id: string = '';
   bloodTypes: CatalogueModel[] = [];
+  roles: RoleModel[] = [];
   form: UntypedFormGroup = this.newForm;
   panelHeader: string = 'Create User';
   isChangePassword: UntypedFormControl = new UntypedFormControl(false);
@@ -24,6 +31,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   loaded$ = this.coreService.loaded$;
 
   constructor(
+    private authHttpService: AuthHttpService,
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
@@ -52,7 +60,8 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-    if (this.id > 0) {
+    this.loadRoles();
+    if (this.id != '') {
       this.getUser();
       this.passwordField.clearValidators();
     } else {
@@ -67,16 +76,16 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       email: [null, [Validators.required, Validators.email]],
       lastname: [null, [Validators.required]],
       name: [null, [Validators.required]],
-      password: [{value: null, disabled: true}, [Validators.required]],
-      passwordChanged: [{value: false, disabled: true}],
-      roles: [['admin'], [Validators.required]],
+      password: [{value: null, disabled: true}, [Validators.required, Validators.minLength(8)]],
+      passwordChanged: [{value: true, disabled: true}],
+      roles: [null, [Validators.required]],
       username: [null, [Validators.required]],
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      if (this.id > 0) {
+      if (this.id != '') {
         this.update(this.form.value);
       } else {
         this.create(this.form.value);
@@ -99,6 +108,14 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+  loadRoles(): void {
+    this.isLoadingSkeleton = true;
+    this.authHttpService.getRoles().subscribe((roles) => {
+      this.isLoadingSkeleton = false;
+      this.roles = roles;
+    });
+  }
+
   getUser(): void {
     this.isLoadingSkeleton = true;
     this.usersHttpService.findOne(this.id).subscribe((user) => {
@@ -112,7 +129,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     if (this.isChangePassword.value) {
       this.passwordChangedField.enable();
       this.passwordField.enable();
-      this.passwordField.setValidators([Validators.required]);
+      this.passwordField.setValidators([Validators.required, Validators.minLength(8)]);
     } else {
       this.passwordChangedField.setValue(false);
       this.passwordChangedField.disable();
@@ -150,6 +167,10 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
   get passwordChangedField(): AbstractControl {
     return this.form.controls['passwordChanged'];
+  }
+
+  get rolesField(): FormArray {
+    return this.form.controls['roles'] as FormArray;
   }
 
   get usernameField(): AbstractControl {

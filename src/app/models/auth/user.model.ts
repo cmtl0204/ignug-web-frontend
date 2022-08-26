@@ -2,7 +2,7 @@ import {RoleModel} from '@models/auth';
 import {CatalogueModel} from '@models/core';
 
 export interface UserModel {
-  id: number;
+  id: string;
   identificationType: CatalogueModel;
   identificationTypeId: CatalogueModel;
   sex: CatalogueModel;
@@ -19,6 +19,7 @@ export interface UserModel {
   email: string;
   emailVerifiedAt: Date;
   lastname: string;
+  maxAttempts: number;
   name: string;
   password: string;
   passwordChanged: boolean;
@@ -31,4 +32,7 @@ export interface CreateUserDto extends Omit<UserModel, 'id'> {
 }
 
 export interface UpdateUserDto extends Partial<Omit<UserModel, 'id'>> {
+}
+
+export interface SelectUserDto extends Partial<UserModel> {
 }

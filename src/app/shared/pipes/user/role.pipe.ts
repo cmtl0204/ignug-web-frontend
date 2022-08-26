@@ -6,15 +6,16 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class RolePipe implements PipeTransform {
 
   transform(value: string): string {
+    if (value) value = value.toLowerCase();
     switch (value) {
       case 'admin':
-        return 'Administrador';
-      case 'support':
-        return 'Especialista';
-      case 'viewer':
-        return 'Revisor';
+        return 'Administrator';
+      case 'teacher':
+        return 'Teacher';
+      case 'student':
+        return 'Student';
     }
-    return 'Sin Rol';
+    return 'No Role';
   }
 
 }

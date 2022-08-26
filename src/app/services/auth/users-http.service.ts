@@ -3,10 +3,11 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth';
+import {CreateUserDto, RoleModel, UpdateUserDto, UserModel} from '@models/auth';
 import {PaginatorModel} from "@models/core";
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
+import {RolePipe} from "@shared/pipes/user/role.pipe";
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +57,7 @@ export class UsersHttpService {
     );
   }
 
-  findOne(id: number): Observable<UserModel> {
+  findOne(id: string): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.showLoad();
@@ -68,7 +69,7 @@ export class UsersHttpService {
     );
   }
 
-  update(id: number, payload: UpdateUserDto): Observable<UserModel> {
+  update(id: string, payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.showLoad();
@@ -81,7 +82,20 @@ export class UsersHttpService {
     );
   }
 
-  remove(id: number): Observable<UserModel> {
+  reactivate(id: string): Observable<UserModel> {
+    const url = `${this.API_URL}/${id}/reactivate`;
+
+    this.coreService.showLoad();
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.coreService.hideLoad();
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  remove(id: string): Observable<UserModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.showLoad();
@@ -99,6 +113,19 @@ export class UsersHttpService {
 
     this.coreService.showLoad();
     return this.httpClient.patch<ServerResponse>(url, users).pipe(
+      map((response) => {
+        this.coreService.hideLoad();
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  suspend(id: string): Observable<UserModel> {
+    const url = `${this.API_URL}/${id}/suspend`;
+
+    this.coreService.showLoad();
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
         this.coreService.hideLoad();
         this.messageService.success(response).then();
