@@ -35,6 +35,7 @@ import {UserProfileComponent} from "./user-profile/user-profile.component";
 import {MultiSelectModule} from "primeng/multiselect";
 import {SplitButtonModule} from "primeng/splitbutton";
 import {BadgeModule} from 'primeng/badge';
+import {AuthenticationModule} from "../authentication/authentication.module";
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import {BadgeModule} from 'primeng/badge';
     UserRoutingModule,
     ReactiveFormsModule,
     AuthModule,
+    AuthenticationModule,
     SharedModule,
     //PrimeNg
     BadgeModule,

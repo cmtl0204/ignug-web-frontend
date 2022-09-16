@@ -16,10 +16,10 @@
       <label appLabel for="roles" label="Roles:" [required]="rolesField"></label>
       <p-multiSelect id="roles"
                      formControlName="roles"
+                     dataKey="id"
                      [options]="roles"
                      display="chip"
                      optionLabel="name"
-                     optionValue="code"
                      placeholder="Select roles">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="rolesField.value">

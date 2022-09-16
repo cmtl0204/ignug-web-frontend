@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {MenuItem, PrimeIcons} from 'primeng/api';
-import {MenuHttpService} from '@services/auth/menu-http.service';
-import {AuthHttpService, AuthService} from "@services/auth";
 import {Router} from "@angular/router";
-import {UserModel} from "@models/auth";
+import {MenuItem, PrimeIcons} from 'primeng/api';
+import {AuthHttpService, AuthService, MenusHttpService} from "@services/auth";
+import {MenuModel} from "@models/auth";
 
 @Component({
   selector: 'app-sidebar',
@@ -13,11 +12,12 @@ import {UserModel} from "@models/auth";
 export class SidebarComponent implements OnInit {
   display = false;
   items: MenuItem[] = [];
+  menus: MenuModel[] = [];
   showedMenu: boolean = false;
   closed: boolean = true;
   closedLock: boolean | null = null;
 
-  constructor(private menuHttpService: MenuHttpService,
+  constructor(private menusHttpService: MenusHttpService,
               private authHttpService: AuthHttpService,
               public authService: AuthService,
               private router: Router) {
@@ -36,47 +36,11 @@ export class SidebarComponent implements OnInit {
   }
 
   getMenus() {
-    // this.menuHttpService.getMenusByRole().subscribe(
-    //   response => {
-    //     this.items = response.data;
-    //   }, error => {
-    //     console.log(error);
-    //   }
-    // )
-
-    this.items = [
-      {
-        label: 'Categories',
-        icon: PrimeIcons.LIST,
-        items: [
-          {
-            label: 'Category1',
-            icon: PrimeIcons.BOX,
-            routerLink: ['/categories'],
-          },
-          {
-            label: 'Category2',
-            icon: PrimeIcons.ANGLE_DOUBLE_RIGHT,
-            routerLink: ['/categories'],
-          },
-        ]
-      },
-      {
-        label: 'Users',
-        icon: PrimeIcons.USERS,
-        routerLink: ['/administration/users'],
-      },
-      {
-        label: 'Profile',
-        icon: PrimeIcons.ID_CARD,
-        routerLink: ['/administration/users/profile'],
-      },
-      {
-        label: 'Login',
-        icon: PrimeIcons.SIGN_IN,
-        routerLink: ['/auth/login'],
-      },
-    ]
+    this.menusHttpService.getMenusForSidebar().subscribe(
+      menus => {
+        this.menus = menus;
+      }
+    )
   }
 
   // lockMenu() {

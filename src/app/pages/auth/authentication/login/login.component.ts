@@ -32,10 +32,10 @@ export class LoginComponent implements OnInit {
 
   newFormLogin(): UntypedFormGroup {
     return this.formBuilder.group({
-      // username: ['1234567891', [Validators.required]],
-      username: [null, [Validators.required]],
-      // password: ['12345678', [Validators.required]],
-      password: [null, [Validators.required]],
+      username: ['admin', [Validators.required]],
+      // username: [null, [Validators.required]],
+      password: ['12345678', [Validators.required]],
+      // password: [null, [Validators.required]],
     });
   }
 
@@ -53,9 +53,9 @@ export class LoginComponent implements OnInit {
       .subscribe(
         response => {
           this.progressBar = false;
-          switch (this.authService.role?.name) {
+          switch (this.authService.role?.code) {
             case RolesEnum.ADMIN:
-              // this.redirectAdmin();
+              this.routesService.dashboard();
               break;
             default:
               this.routesService.dashboard();

@@ -7,6 +7,7 @@ const routes: Routes = [
   {
     path: '',
     component: MainComponent,
+    canActivate: [TokenGuard],
     children: [
       {path: '', redirectTo: '/', pathMatch: 'full'},
       {
@@ -20,6 +21,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
       },
     ]
+  },
+  {
+    path: 'login',
+    redirectTo: '/auth/authentication/login'
+  },
+  {
+    path: 'profile',
+    redirectTo: '/administration/users/profile'
   },
   {
     path: 'auth',

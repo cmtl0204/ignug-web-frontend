@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {BehaviorSubject, Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateUserDto, RoleModel, UpdateUserDto, UserModel} from '@models/auth';
+import {CreateRoleDto, RoleModel, UpdateRoleDto} from '@models/auth';
 import {PaginatorModel} from "@models/core";
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
@@ -11,8 +11,8 @@ import {CoreService, MessageService} from '@services/core';
 @Injectable({
   providedIn: 'root'
 })
-export class UsersHttpService {
-  API_URL = `${environment.API_URL}/users`;
+export class RolesHttpService {
+  API_URL = `${environment.API_URL}/roles`;
   private pagination = new BehaviorSubject<PaginatorModel>(this.coreService.paginator);
   public pagination$ = this.pagination.asObservable();
 
@@ -23,7 +23,7 @@ export class UsersHttpService {
   ) {
   }
 
-  create(payload: CreateUserDto): Observable<UserModel> {
+  create(payload: CreateRoleDto): Observable<RoleModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.showLoad();
@@ -36,7 +36,7 @@ export class UsersHttpService {
     );
   }
 
-  findAll(page: number = 0, search: string = ''): Observable<UserModel[]> {
+  findAll(page: number = 0, search: string = ''): Observable<RoleModel[]> {
     const url = this.API_URL;
 
     const headers = new HttpHeaders().append('pagination', 'true');
@@ -56,7 +56,7 @@ export class UsersHttpService {
     );
   }
 
-  findOne(id: string): Observable<UserModel> {
+  findOne(id: string): Observable<RoleModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.showLoad();
@@ -68,7 +68,7 @@ export class UsersHttpService {
     );
   }
 
-  update(id: string, payload: UpdateUserDto): Observable<UserModel> {
+  update(id: string, payload: UpdateRoleDto): Observable<RoleModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.showLoad();
@@ -81,20 +81,7 @@ export class UsersHttpService {
     );
   }
 
-  reactivate(id: string): Observable<UserModel> {
-    const url = `${this.API_URL}/${id}/reactivate`;
-
-    this.coreService.showLoad();
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.coreService.hideLoad();
-        this.messageService.success(response).then();
-        return response.data;
-      })
-    );
-  }
-
-  remove(id: string): Observable<UserModel> {
+  remove(id: string): Observable<RoleModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.showLoad();
@@ -107,24 +94,11 @@ export class UsersHttpService {
     );
   }
 
-  removeAll(users: UserModel[]): Observable<UserModel[]> {
+  removeAll(roles: RoleModel[]): Observable<RoleModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     this.coreService.showLoad();
-    return this.httpClient.patch<ServerResponse>(url, users).pipe(
-      map((response) => {
-        this.coreService.hideLoad();
-        this.messageService.success(response).then();
-        return response.data;
-      })
-    );
-  }
-
-  suspend(id: string): Observable<UserModel> {
-    const url = `${this.API_URL}/${id}/suspend`;
-
-    this.coreService.showLoad();
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, roles).pipe(
       map((response) => {
         this.coreService.hideLoad();
         this.messageService.success(response).then();

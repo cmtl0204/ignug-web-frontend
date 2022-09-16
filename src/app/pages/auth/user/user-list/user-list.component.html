@@ -64,7 +64,7 @@
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'roles'">
-            <p-tag *ngFor="let role of rowData[col.field]" severity="info" [value]="role|role" class="mr-1"></p-tag>
+            <p-tag *ngFor="let role of rowData[col.field]" severity="info" [value]="role.name" class="mr-1"></p-tag>
           </div>
           <div *ngSwitchCase="'suspendedAt'">
             <p-tag

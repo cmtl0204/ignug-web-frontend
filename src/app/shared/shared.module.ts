@@ -23,9 +23,7 @@ import {CardModule} from "primeng/card";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
-import {RolePipe} from './pipes/user/role.pipe';
-import {DateFormatPipe, ExtensionsPipe} from '@shared/pipes';
-import {ActivePipe} from "@shared/pipes/user/active.pipe";
+import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipes';
 
 @NgModule({
   declarations: [

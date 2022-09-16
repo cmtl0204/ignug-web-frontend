@@ -11,10 +11,6 @@ const routes: Routes = [
   },
   {
     path: 'not-found', component: NotFoundComponent,
-    canActivate: [RoleGuard],
-    data: {
-      roles: ['admin']
-    }
   },
   {
     path: 'under-maintenance', component: UnderMaintenanceComponent

@@ -21,18 +21,18 @@
     </li>
 
     <!--Menus-->
-    <li [id]="index" *ngFor="let item of items,let index = index" [ngClass]="{'showMenu':showedMenu}">
+    <li [id]="index" *ngFor="let item of menus,let index = index" [ngClass]="{'showMenu':showedMenu}">
       <div class="icon-link">
         <a [routerLink]="item.routerLink">
           <i [class]="item.icon"></i>
           <span class="link_name">{{item.label}}</span>
         </a>
-        <i *ngIf="item.items" class="pi pi-chevron-down arrow" (click)="showSubMenu(index)"></i>
+        <i *ngIf="item.children.length>0" class="pi pi-chevron-down arrow" (click)="showSubMenu(index)"></i>
       </div>
       <ul class="sub-menu">
         <li>
           <a class="link_name" [routerLink]="item.routerLink">{{item.label}}</a>
-          <a *ngFor="let subItem of item.items" [routerLink]="subItem.routerLink">{{subItem.label}}</a>
+          <a *ngFor="let subItem of item.children" [routerLink]="subItem.routerLink">{{subItem.label}}</a>
         </li>
       </ul>
     </li>
@@ -49,7 +49,7 @@
           <a href="javascript:void(0);" (click)="redirectProfile()" class="profile_name">
             {{authService.auth.username}}
           </a>
-          <div class="job">Web Desginer</div>
+          <a href="javascript:void(0);" class="job" (click)="redirectProfile()">Mi Perfil</a>
         </div>
         <i class="pi pi-sign-out" pTooltip="Sign Out" (click)="logout()"></i>
       </div>

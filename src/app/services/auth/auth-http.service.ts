@@ -10,7 +10,7 @@ import {AuthService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
 // import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
 import {RoutesService} from "@services/core/routes.service";
-import {RolePipe} from "@shared/pipes/user/role.pipe";
+import {RolePipe} from "@shared/pipes";
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +18,7 @@ import {RolePipe} from "@shared/pipes/user/role.pipe";
 
 export class AuthHttpService {
   API_URL: string = `${environment.API_URL}/auth`;
+  rolePipe: RolePipe = new RolePipe();
 
   constructor(private httpClient: HttpClient,
               private authService: AuthService,
@@ -67,8 +68,8 @@ export class AuthHttpService {
           this.authService.isLoggedIn = true;
           this.authService.token = response.data.accessToken;
           this.authService.auth = response.data.user;
+          this.authService.roles = response.data.user.roles;
           this.messageService.success(response).then();
-          // this.authService.roles = response.data.roles;
           // this.authService.role = response.data.roles[0];
           // this.authService.permissions = response.data.permissions;
           return response;
@@ -162,9 +163,8 @@ export class AuthHttpService {
       map(response => {
         this.coreService.hideLoad();
         const roles = response.data as string[];
-        const rolePipe = new RolePipe();
         return roles.map(role => {
-          return {code: role, name: rolePipe.transform(role)};
+          return {code: role, name: this.rolePipe.transform(role)};
         });
       })
     );

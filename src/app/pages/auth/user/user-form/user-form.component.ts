@@ -13,6 +13,7 @@ import {CatalogueModel} from '@models/core';
 import {AuthHttpService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
+import {RolesHttpService} from "@services/auth/roles-http.service";
 
 @Component({
   selector: 'app-user-form',
@@ -39,6 +40,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     private formBuilder: UntypedFormBuilder,
     public messageService: MessageService,
     private router: Router,
+    private rolesHttpService: RolesHttpService,
     private usersHttpService: UsersHttpService,
   ) {
     this.breadcrumbService.setItems([
@@ -109,11 +111,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   loadRoles(): void {
-    this.isLoadingSkeleton = true;
-    this.authHttpService.getRoles().subscribe((roles) => {
-      this.isLoadingSkeleton = false;
-      this.roles = roles;
-    });
+    this.rolesHttpService.findAll().subscribe((roles) => this.roles = roles);
   }
 
   getUser(): void {
