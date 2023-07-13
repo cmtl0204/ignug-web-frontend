@@ -13,8 +13,6 @@ import {CoreService, MessageService} from '@services/core';
 })
 export class RolesHttpService {
   API_URL = `${environment.API_URL}/roles`;
-  private pagination = new BehaviorSubject<PaginatorModel>(this.coreService.paginator);
-  public pagination$ = this.pagination.asObservable();
 
   constructor(
     private coreService: CoreService,
@@ -26,10 +24,10 @@ export class RolesHttpService {
   create(payload: CreateRoleDto): Observable<RoleModel> {
     const url = `${this.API_URL}`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
-        this.coreService.hideLoad();
+
         this.messageService.success(response).then();
         return response.data;
       })
@@ -44,13 +42,13 @@ export class RolesHttpService {
       .append('page', page)
       .append('search', search);
 
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
-        this.coreService.hideLoad();
-        if (response.pagination) {
-          this.pagination.next(response.pagination);
-        }
+
+        // if (response.pagination) {
+        //   this.pagination.next(response.pagination);
+        // }
         return response.data;
       })
     );
@@ -59,10 +57,10 @@ export class RolesHttpService {
   findOne(id: string): Observable<RoleModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         return response.data;
       })
     );
@@ -71,10 +69,10 @@ export class RolesHttpService {
   update(id: string, payload: UpdateRoleDto): Observable<RoleModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         this.messageService.success(response).then();
         return response.data;
       })
@@ -84,10 +82,10 @@ export class RolesHttpService {
   remove(id: string): Observable<RoleModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.coreService.hideLoad();
+
         this.messageService.success(response).then();
         return response.data;
       })
@@ -97,10 +95,10 @@ export class RolesHttpService {
   removeAll(roles: RoleModel[]): Observable<RoleModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.patch<ServerResponse>(url, roles).pipe(
       map((response) => {
-        this.coreService.hideLoad();
+
         this.messageService.success(response).then();
         return response.data;
       })

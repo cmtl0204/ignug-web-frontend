@@ -2,6 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpHeaders, HttpParams} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {CoreService} from "@services/core";
+import {tap} from "rxjs/operators";
 
 @Injectable()
 export class CoreInterceptor implements HttpInterceptor {
@@ -30,7 +31,11 @@ export class CoreInterceptor implements HttpInterceptor {
     if (!flag) {
       headers = headers.append('Content-Type', 'application/json')
     }
-
-    return next.handle(request.clone({headers, params}));
+    this.coreService.isLoading = true;
+    return next.handle(request.clone({headers, params})).pipe(
+      tap(value => {
+        this.coreService.isLoading = false;
+      })
+    );
   }
 }

@@ -1,1 +1,11 @@
 <router-outlet></router-outlet>
+<p-dialog header="Procesando"
+          [visible]="coreService.isLoading"
+          [modal]="true"
+          [closable]="false"
+          [style]="{width: '50vw'}">
+  <p>
+    Por favor espere, estamos procesando su petición...
+  </p>
+  <p-progressBar mode="indeterminate"></p-progressBar>
+</p-dialog>

@@ -26,6 +26,13 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "allowedCommonJsDependencies": [
+              "rxjs-compat",
+              "validator",
+              "twilio-video",
+              "chartjs",
+              "lodash"
+            ],
             "assets": [
               "src/favicon.ico",
               "src/assets"

@@ -48,7 +48,7 @@
                   (click)="hidePasswordReset()"></button>
         </div>
 
-        <div *ngIf="(loaded$|async)" class="field">
+        <div *ngIf="isLoading" class="field">
           <app-progress-bar [message]="messageService.progressBarLogin"></app-progress-bar>
         </div>
 

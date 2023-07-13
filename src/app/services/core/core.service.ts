@@ -7,29 +7,24 @@ import {PaginatorModel} from "@models/core";
 })
 
 export class CoreService {
-  private loaded = new BehaviorSubject<boolean>(false);
-  public loaded$ = this.loaded.asObservable();
-  public isLoading: boolean = false;
-  private paginatorModel = new BehaviorSubject<PaginatorModel>(this.paginator);
-  public paginator$ = this.paginatorModel.asObservable();
+  private _isLoading: boolean = false;
 
   constructor() {
   }
 
-  paginate(paginator: PaginatorModel): void {
-    this.paginatorModel.next(paginator);
+  get isLoading(): boolean {
+    return this._isLoading;
   }
 
-
-  showLoad(): void {
-    this.loaded.next(true);
-  }
-
-  hideLoad(): void {
-    this.loaded.next(false);
+  set isLoading(value: boolean) {
+    if (this._isLoading != value) {
+      setTimeout(() => {
+        this._isLoading = value;
+      }, 1);
+    }
   }
 
   get paginator(): PaginatorModel {
-    return {page: 0, limit: 5, totalItems: 0, firstItem: 1, lastPage: 1, lastItem: 1};
+    return {page: 0, limit: 10, totalItems: 0, firstItem: 1, lastPage: 1, lastItem: 1};
   }
 }

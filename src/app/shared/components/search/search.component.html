@@ -8,7 +8,7 @@
     </div>
     <div class="p-toolbar-group-right">
       <span class="p-input-icon-right">
-        <i class="pi pi-search" [ngClass]="{'pi-spin pi-spinner':(loaded$|async)}"></i>
+        <i class="pi pi-search" [ngClass]="{'pi-spin pi-spinner':isLoading}"></i>
         <input type="text" pInputText [formControl]="search" placeholder="Search">
       </span>
     </div>
@@ -18,7 +18,7 @@
     styleClass="p-datatable-striped"
     [value]="records"
     [columns]="columns"
-    [loading]="(loaded$|async)!"
+    [loading]="isLoading"
     [(selection)]="selectedRecords"
     [responsive]="true">
     <ng-template pTemplate="header" let-columns>

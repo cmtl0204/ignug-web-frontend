@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {UntypedFormControl} from "@angular/forms";
+import {FormControl, UntypedFormControl} from "@angular/forms";
 import {Router} from '@angular/router';
-import {debounceTime} from "rxjs";
+import {debounceTime, find} from "rxjs";
 import {SelectUserDto, UserModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
 import {AuthService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CoreService, MessageService} from '@services/core';
-import {MenuItem} from "primeng/api";
+import {MenuItem, PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-user-list',
@@ -15,50 +15,42 @@ import {MenuItem} from "primeng/api";
   encapsulation: ViewEncapsulation.None
 })
 export class UserListComponent implements OnInit {
-  columns: ColumnModel[];
-  isLoading = this.coreService.isLoading;
-  pagination$ = this.usersHttpService.pagination$;
-  paginator: PaginatorModel = this.coreService.paginator;
-  search: UntypedFormControl = new UntypedFormControl('');
-  selectedUsers: UserModel[] = [];
+  actionButtons: MenuItem[] = this.buildActionButtons;
+  columns: ColumnModel[] = this.buildColumns;
+  isActionButtons: boolean = false;
+  paginator: PaginatorModel;
   selectedUser: SelectUserDto = {};
+  selectedUsers: UserModel[] = [];
+  search: FormControl = new FormControl('');
   users: UserModel[] = [];
-  actionButtons: MenuItem[] = [];
 
   constructor(
     public authService: AuthService,
-    private coreService: CoreService,
+    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
     private router: Router,
     private usersHttpService: UsersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Users'}
+      {label: 'Users'},
     ]);
-    this.columns = this.getColumns();
-    this.actionButtons = this.getActionButtons();
-    this.pagination$.subscribe((pagination) => this.paginator = pagination);
-    this.search.valueChanges.pipe(debounceTime(500)).subscribe((_) => this.findAll());
+    this.paginator = this.coreService.paginator;
   }
 
   ngOnInit() {
     this.findAll();
   }
 
-  checkState(user: UserModel): string {
-    if (user.suspendedAt) return 'danger';
-
-    if (user.maxAttempts === 0) return 'warning';
-
-    return 'success';
-  }
-
   findAll(page: number = 0) {
-    this.usersHttpService.findAll(page, this.search.value).subscribe((users) => this.users = users);
+    this.usersHttpService.findAll(page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.users = response.data
+      });
   }
 
-  getColumns(): ColumnModel[] {
+  get buildColumns(): ColumnModel[] {
     return [
       {field: 'username', header: 'Username'},
       {field: 'name', header: 'Name'},
@@ -69,38 +61,34 @@ export class UserListComponent implements OnInit {
     ]
   }
 
-  getActionButtons(): MenuItem[] {
+  get buildActionButtons(): MenuItem[] {
     return [
       {
         label: 'Update',
-        icon: 'pi pi-pencil',
+        icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedUser.id)
-            this.redirectEditForm(this.selectedUser.id);
+          if (this.selectedUser?.id) this.redirectEditForm(this.selectedUser.id);
         },
       },
       {
         label: 'Delete',
-        icon: 'pi pi-trash',
+        icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedUser.id)
-            this.remove(this.selectedUser.id);
+          if (this.selectedUser?.id) this.remove(this.selectedUser.id);
         },
       },
       {
         label: 'Suspend',
-        icon: 'pi pi-lock',
+        icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedUser.id)
-            this.suspend(this.selectedUser.id);
+          if (this.selectedUser?.id) this.suspend(this.selectedUser.id);
         },
       },
       {
         label: 'Reactivate',
-        icon: 'pi pi-lock-open',
+        icon: PrimeIcons.LOCK_OPEN,
         command: () => {
-          if (this.selectedUser.id)
-            this.reactivate(this.selectedUser.id);
+          if (this.selectedUser?.id) this.reactivate(this.selectedUser.id);
         },
       }
     ];
@@ -145,6 +133,7 @@ export class UserListComponent implements OnInit {
   }
 
   selectUser(user: UserModel) {
+    this.isActionButtons = true;
     this.selectedUser = user;
   }
 
@@ -161,4 +150,7 @@ export class UserListComponent implements OnInit {
       this.users[index] = user;
     });
   }
+
+  protected readonly PrimeIcons = PrimeIcons;
+  protected readonly find = find;
 }

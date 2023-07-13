@@ -46,11 +46,11 @@ export class AuthHttpService {
 
   changePassword(id: string, credentials: PasswordChangeModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/change-password`;
-    this.coreService.showLoad();
+
     return this.httpClient.put<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
-          this.coreService.hideLoad();
+
           this.messageService.success(response).then();
           return response.data;
         })
@@ -60,11 +60,11 @@ export class AuthHttpService {
   login(credentials: LoginModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/login`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.post<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
-          this.coreService.hideLoad();
+
           this.authService.isLoggedIn = true;
           this.authService.token = response.data.accessToken;
           this.authService.auth = response.data.user;
@@ -158,10 +158,10 @@ export class AuthHttpService {
   getRoles(): Observable<RoleModel[]> {
     const url = `${this.API_URL}/roles`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         const roles = response.data as string[];
         return roles.map(role => {
           return {code: role, name: this.rolePipe.transform(role)};
@@ -174,10 +174,10 @@ export class AuthHttpService {
     console.log('asd');
     const url = `${this.API_URL}/profile`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         return response.data;
       })
     );
@@ -186,10 +186,10 @@ export class AuthHttpService {
   getUserInformation(): Observable<UserModel> {
     const url = `${this.API_URL}/user-information`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         return response.data;
       })
     );
@@ -198,10 +198,10 @@ export class AuthHttpService {
   updateProfile(payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/profile`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         this.messageService.success(response).then();
         return response.data;
       })
@@ -211,10 +211,10 @@ export class AuthHttpService {
   updateUserInformation(payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/user-information`;
 
-    this.coreService.showLoad();
+
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.hideLoad();
+
         this.messageService.success(response).then();
         return response.data;
       })

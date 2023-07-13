@@ -17,7 +17,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
   emailVerifiedAt: Date | null = null;
   formUser: FormGroup = this.newUserForm;
   isLoadingSkeleton: boolean = false;
-  loaded$ = this.coreService.loaded$;
+  isLoading: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,

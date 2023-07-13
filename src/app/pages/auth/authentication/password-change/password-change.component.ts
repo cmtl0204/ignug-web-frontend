@@ -12,7 +12,7 @@ import {CoreService, MessageService} from '@services/core';
 })
 export class PasswordChangeComponent implements OnInit {
   form: UntypedFormGroup = this.newForm();
-  loaded$ = this.coreService.loaded$;
+  isLoading: boolean = false;
   progressBar: boolean = false;
 
   constructor(

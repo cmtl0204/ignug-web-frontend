@@ -23,7 +23,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   identificationTypes: CatalogueModel[] = [];
   formProfile: FormGroup = this.newProfileForm;
   isLoadingSkeleton: boolean = false;
-  loaded$ = this.coreService.loaded$;
+  isLoading: boolean = false;
   maritalStatus: CatalogueModel[] = [];
   sexes: CatalogueModel[] = [];
 

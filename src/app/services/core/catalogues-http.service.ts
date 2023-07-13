@@ -14,8 +14,6 @@ import {CatalogueTypeEnum} from "@shared/enums";
 })
 export class CataloguesHttpService {
   API_URL = `${environment.API_URL}/catalogues`;
-  private pagination = new BehaviorSubject<PaginatorModel>(this.coreService.paginator);
-  public pagination$ = this.pagination.asObservable();
 
   constructor(private httpClient: HttpClient,
               private coreService: CoreService,
@@ -35,10 +33,9 @@ export class CataloguesHttpService {
   catalogue(type: CatalogueTypeEnum): Observable<CatalogueModel[]> {
     const url = `${this.API_URL}/catalogue`;
     const params = new HttpParams().append('type', type);
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url, {params}).pipe(
       map(response => {
-        this.coreService.hideLoad();
         return response.data
       })
     );
@@ -48,13 +45,12 @@ export class CataloguesHttpService {
     const url = this.API_URL;
     const headers = new HttpHeaders().append('pagination', 'true');
     const params = new HttpParams().append('page', page).append('search', search);
-    this.coreService.showLoad();
+
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map(response => {
-        this.coreService.hideLoad();
-        if (response.pagination) {
-          this.pagination.next(response.pagination);
-        }
+        // if (response.pagination) {
+        //   this.pagination.next(response.pagination);
+        // }
         return response.data;
       })
     );

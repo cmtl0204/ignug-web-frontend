@@ -18,6 +18,8 @@ import {MenubarModule} from 'primeng/menubar';
 import {ButtonModule} from 'primeng/button';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from "@shared/shared.module";
+import {DialogModule} from "primeng/dialog";
+import {ProgressBarModule} from "primeng/progressbar";
 
 @NgModule({
   declarations: [
@@ -38,12 +40,14 @@ import {SharedModule} from "@shared/shared.module";
     BreadcrumbModule,
     MenubarModule,
     ButtonModule,
+    DialogModule,
+    ProgressBarModule,
   ],
   providers: [
-    {
-      provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    },
+    // {
+    //   provide: LocationStrategy,
+    //   useClass: HashLocationStrategy
+    // },
     HttpInterceptorProviders,
   ],
   bootstrap: [AppComponent]

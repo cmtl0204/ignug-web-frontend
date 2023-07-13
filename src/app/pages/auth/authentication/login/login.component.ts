@@ -14,7 +14,7 @@ import {RolesEnum} from "@shared/enums";
 export class LoginComponent implements OnInit {
   formLogin: UntypedFormGroup;
   progressBar: boolean = false;
-  loaded$ = this.coreService.loaded$;
+  isLoading: boolean = false;
   isPasswordReset = false;
 
   constructor(private formBuilder: UntypedFormBuilder,

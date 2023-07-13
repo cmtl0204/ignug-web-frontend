@@ -36,6 +36,8 @@ import {MultiSelectModule} from "primeng/multiselect";
 import {SplitButtonModule} from "primeng/splitbutton";
 import {BadgeModule} from 'primeng/badge';
 import {AuthenticationModule} from "../authentication/authentication.module";
+import {SidebarModule} from "primeng/sidebar";
+import {PanelMenuModule} from "primeng/panelmenu";
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import {AuthenticationModule} from "../authentication/authentication.module";
     AccordionModule,
     MultiSelectModule,
     SplitButtonModule,
+    SidebarModule,
+    PanelMenuModule,
   ]
 })
 export class UserModule {

@@ -1,19 +1,17 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
-  UntypedFormBuilder,
-  UntypedFormControl,
-  UntypedFormGroup,
+  FormArray, FormControl,
+  FormGroup,
+  FormBuilder,
   Validators
 } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, RoleModel, UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
-import {AuthHttpService, UsersHttpService} from '@services/auth';
+import {AuthHttpService, AuthService, RolesHttpService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
-import {RolesHttpService} from "@services/auth/roles-http.service";
 
 @Component({
   selector: 'app-user-form',
@@ -23,21 +21,21 @@ import {RolesHttpService} from "@services/auth/roles-http.service";
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
   id: string = '';
-  bloodTypes: CatalogueModel[] = [];
-  roles: RoleModel[] = [];
-  form: UntypedFormGroup = this.newForm;
+  form: FormGroup;
   panelHeader: string = 'Create User';
-  isChangePassword: UntypedFormControl = new UntypedFormControl(false);
+  isChangePassword: FormControl = new FormControl(false);
   isLoadingSkeleton: boolean = false;
-  loaded$ = this.coreService.loaded$;
+  isLoading: boolean = false;
+  roles: RoleModel[] = [];
 
   constructor(
     private authHttpService: AuthHttpService,
+    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     private coreService: CoreService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     public messageService: MessageService,
     private router: Router,
     private rolesHttpService: RolesHttpService,
@@ -52,6 +50,8 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       this.id = activatedRoute.snapshot.params['id'];
       this.panelHeader = 'Update User';
     }
+
+    this.form = this.newForm;
   }
 
   async onExit(): Promise<boolean> {
@@ -63,6 +63,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
   ngOnInit(): void {
     this.loadRoles();
+
     if (this.id != '') {
       this.getUser();
       this.passwordField.clearValidators();
@@ -73,7 +74,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     }
   }
 
-  get newForm(): UntypedFormGroup {
+  get newForm(): FormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
       lastname: [null, [Validators.required]],

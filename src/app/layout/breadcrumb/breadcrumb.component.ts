@@ -13,9 +13,8 @@ export class BreadcrumbComponent {
   subscription: Subscription;
   items: MenuItem[] = [];
   home: MenuItem;
-  loaded$ = this.coreService.loaded$;
 
-  constructor(public breadcrumbService: BreadcrumbService,private coreService:CoreService) {
+  constructor(public breadcrumbService: BreadcrumbService, public coreService: CoreService) {
     this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
       this.items = response as MenuItem[];
     });

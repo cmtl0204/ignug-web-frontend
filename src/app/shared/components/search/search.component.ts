@@ -18,7 +18,7 @@ export class SearchComponent implements OnInit {
   @Output() displayModal: EventEmitter<boolean> = new EventEmitter<boolean>();
   @Output() paginatorOut: EventEmitter<number> = new EventEmitter<number>();
   @Output() searchOut: EventEmitter<string> = new EventEmitter<string>();
-  loaded$ = this.coreService.loaded$;
+  isLoading: boolean = false;
   items: MenuItem[] = [];
   search: UntypedFormControl = new UntypedFormControl('');
   progressBarDelete: boolean = false;

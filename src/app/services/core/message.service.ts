@@ -201,4 +201,8 @@ export class MessageService {
   get messageSuccessDelete(): string {
     return `Se eliminó correctamente`;
   }
+
+  get exceededMaxAttempts():string{
+    return 'Exceeded the maximum number of attempts allowed';
+  }
 }

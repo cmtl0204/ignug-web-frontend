@@ -24,6 +24,7 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
 import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipes';
+import {UserStatePipe} from "@shared/pipes/auth/userState.pipe";
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipe
     DateFormatPipe,
     RolePipe,
     ActivePipe,
+    UserStatePipe,
   ],
   exports: [
     SkeletonComponent,
@@ -51,6 +53,7 @@ import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipe
     DateFormatPipe,
     RolePipe,
     ActivePipe,
+    UserStatePipe,
   ],
   imports: [
     CommonModule,
