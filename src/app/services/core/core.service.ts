@@ -8,6 +8,7 @@ import {PaginatorModel} from "@models/core";
 
 export class CoreService {
   private _isLoading: boolean = false;
+  private _isProcessing: boolean = false;
 
   constructor() {
   }
@@ -20,6 +21,18 @@ export class CoreService {
     if (this._isLoading != value) {
       setTimeout(() => {
         this._isLoading = value;
+      }, 1);
+    }
+  }
+
+  get isProcessing(): boolean {
+    return this._isProcessing;
+  }
+
+  set isProcessing(value: boolean) {
+    if (this._isProcessing != value) {
+      setTimeout(() => {
+        this._isProcessing = value;
       }, 1);
     }
   }

@@ -8,10 +8,12 @@
     <button pButton type="button" label="Refresh"
             class="p-button-info mr-2"
             icon="pi pi-refresh"
+            [loading]="coreService.isLoading"
             (click)="findAll()"></button>
     <button *ngIf="selectedUsers.length>0" pButton type="button" label="Delete Users"
             class="p-button-danger"
             icon="pi pi-trash"
+            [loading]="coreService.isLoading"
             (click)="removeAll()"></button>
   </div>
   <div class="p-toolbar-group-right">
@@ -50,10 +52,17 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-      <td>
-        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-      </td>
-
+      <div *ngIf="rowData['id']!==authService.auth.id; then thenBlockCheckbox else elseBlockCheckbox">
+      </div>
+      <ng-template #thenBlockCheckbox>
+        <td>
+          <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+        </td>
+      </ng-template>
+      <ng-template #elseBlockCheckbox>
+        <td>
+        </td>
+      </ng-template>
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
