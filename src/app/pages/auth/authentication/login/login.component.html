@@ -21,9 +21,7 @@
         </div>
 
         <div *ngIf="!isPasswordReset" class="field">
-          <label for="password" appLabel label="Contraseña:"
-                 [required]="passwordField">
-          </label>
+          <label for="password" appLabel label="Contraseña:" [required]="passwordField"></label>
           <p-password id="password" formControlName="password" [feedback]="false"></p-password>
 
           <small appErrorMessage

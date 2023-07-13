@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
+import {MenusHttpService} from "@services/auth";
 
 @Component({
   selector: 'app-root',
@@ -10,6 +11,7 @@ export class AppComponent {
   title = 'ignug-frontend';
 
   constructor(private primengConfig: PrimeNGConfig) {
+
   }
 
   ngOnInit() {

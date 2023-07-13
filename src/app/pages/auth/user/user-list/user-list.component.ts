@@ -16,7 +16,7 @@ import {MenuItem} from "primeng/api";
 })
 export class UserListComponent implements OnInit {
   columns: ColumnModel[];
-  loaded$ = this.coreService.loaded$;
+  isLoading = this.coreService.isLoading;
   pagination$ = this.usersHttpService.pagination$;
   paginator: PaginatorModel = this.coreService.paginator;
   search: UntypedFormControl = new UntypedFormControl('');

@@ -9,6 +9,7 @@ import {PaginatorModel} from "@models/core";
 export class CoreService {
   private loaded = new BehaviorSubject<boolean>(false);
   public loaded$ = this.loaded.asObservable();
+  public isLoading: boolean = false;
   private paginatorModel = new BehaviorSubject<PaginatorModel>(this.paginator);
   public paginator$ = this.paginatorModel.asObservable();
 

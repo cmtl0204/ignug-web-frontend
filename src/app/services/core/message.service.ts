@@ -99,7 +99,7 @@ export class MessageService {
   }
 
   fieldMinLength(errors: ValidationErrors) {
-    return `Debe contener como mínimo de caracteres ${errors['minlength']['requiredLength']}.`;
+    return `Debe contener como mínimo ${errors['minlength']['requiredLength']} caracteres.`;
   }
 
   fieldMaxLength(errors: ValidationErrors): string {
