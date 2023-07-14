@@ -20,7 +20,7 @@ export class TokenGuard implements CanActivate {
     if (this.authService.token) {
       return true;
     }
-    this.router.navigate(['/authentication/login']);
+    this.router.navigate(['/login']);
     return false;
   }
 }

@@ -6,7 +6,9 @@ import {RippleModule} from "primeng/ripple";
 import {MessageModule} from "primeng/message";
 
 @NgModule({
-  declarations: [],
+  declarations: [
+
+  ],
   imports: [
     NgCommonModule,
     CoreRoutingModule,

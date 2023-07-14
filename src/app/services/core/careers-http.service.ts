@@ -10,10 +10,13 @@ import {MessageService} from "@services/core";
 @Injectable({
   providedIn: 'root'
 })
-export class UsersHttpService {
-  API_URL = `${environment.API_URL}/users`;
+export class CareersHttpService {
+  API_URL = `${environment.API_URL}/careers`;
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(
+    private httpClient: HttpClient,
+    private messageService: MessageService,
+  ) {
   }
 
   create(payload: CreateUserDto): Observable<UserModel> {
@@ -21,6 +24,7 @@ export class UsersHttpService {
 
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
+
         this.messageService.success(response).then();
         return response.data;
       })
@@ -47,6 +51,7 @@ export class UsersHttpService {
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
+
         return response.data;
       })
     );

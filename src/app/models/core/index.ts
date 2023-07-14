@@ -7,3 +7,4 @@ export * from './location.model'
 export * from './paginator.model';
 export * from './phone.model';
 export * from './state.model';
+export * from './career.model';

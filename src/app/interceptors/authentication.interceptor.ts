@@ -27,12 +27,12 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       }
       if (error.status === 401){
         this.authService.removeLogin();
-        this.routesService.login();
+        this.router.navigate(['/login']);
       }
       // Cuando el usuario no tiene permisos para acceder al recurso solicitado y se encuentra logueado
       if ((error.status === 401 || error.status === 403 || error.status === 423) && this.authService.token) {
         this.authService.removeLogin();
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
       }
 
       // Cuando el usuario no tiene permisos para acceder al recurso solicitado y no está logueado

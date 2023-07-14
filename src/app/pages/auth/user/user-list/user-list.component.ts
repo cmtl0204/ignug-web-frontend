@@ -1,12 +1,11 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormControl, UntypedFormControl} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
-import {debounceTime, find} from "rxjs";
+import {MenuItem, PrimeIcons} from "primeng/api";
 import {SelectUserDto, UserModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
 import {AuthService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CoreService, MessageService} from '@services/core';
-import {MenuItem, PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-user-list',
@@ -15,13 +14,14 @@ import {MenuItem, PrimeIcons} from "primeng/api";
   encapsulation: ViewEncapsulation.None
 })
 export class UserListComponent implements OnInit {
+  protected readonly PrimeIcons = PrimeIcons;
   actionButtons: MenuItem[] = this.buildActionButtons;
   columns: ColumnModel[] = this.buildColumns;
   isActionButtons: boolean = false;
   paginator: PaginatorModel;
+  search: FormControl = new FormControl('');
   selectedUser: SelectUserDto = {};
   selectedUsers: UserModel[] = [];
-  search: FormControl = new FormControl('');
   users: UserModel[] = [];
 
   constructor(
@@ -58,7 +58,7 @@ export class UserListComponent implements OnInit {
       {field: 'email', header: 'Email'},
       {field: 'roles', header: 'Roles'},
       {field: 'suspendedAt', header: 'State'},
-    ]
+    ];
   }
 
   get buildActionButtons(): MenuItem[] {
@@ -150,7 +150,4 @@ export class UserListComponent implements OnInit {
       this.users[index] = user;
     });
   }
-
-  protected readonly PrimeIcons = PrimeIcons;
-  protected readonly find = find;
 }

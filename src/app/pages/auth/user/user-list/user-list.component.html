@@ -19,7 +19,9 @@
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
       <input type="text" pInputText [formControl]="search" placeholder="Search">
-      <button type="button" pButton pRipple [class]="PrimeIcons.SEARCH" [loading]="coreService.isLoading"
+      <button type="button" pButton pRipple
+              [class]="PrimeIcons.SEARCH"
+              [loading]="coreService.isLoading"
               (click)="findAll()"></button>
     </div>
   </div>
