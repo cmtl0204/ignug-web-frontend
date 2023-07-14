@@ -37,22 +37,19 @@
       </ul>
     </li>
 
-    <!--Profile-->
-    <li>
-      <div class="profile-details">
-        <div class="profile-content">
-          <a href="javascript:void(0);" (click)="showCloseMenu()">
-            <img src="assets/images/layout/sidebar/user-profile.png" alt="profileImg">
-          </a>
-        </div>
-        <div class="name-job">
-          <a href="javascript:void(0);" (click)="redirectProfile()" class="profile_name">
-            {{authService.auth.name}}
-          </a>
-          <a href="javascript:void(0);" class="job" (click)="redirectProfile()">Mi Perfil</a>
-        </div>
-        <i class="pi pi-sign-out" pTooltip="Sign Out" (click)="logout()"></i>
+    <!--Sign Out-->
+    <li id="100" [ngClass]="{'showMenu':showedMenu}">
+      <div class="icon-link">
+        <a (click)="signOut()">
+          <i [class]="PrimeIcons.SIGN_OUT"></i>
+          <span class="link_name">Sign Out</span>
+        </a>
       </div>
+      <ul class="sub-menu">
+        <li>
+          <a class="link_name" (click)="signOut()">Sign Out</a>
+        </li>
+      </ul>
     </li>
   </ul>
 </div>

@@ -1,2 +1,12 @@
-<p-breadcrumb *ngIf="items?.length" [model]="items" [home]="home"></p-breadcrumb>
+<div class="grid">
+  <div class="xl:col-8 lg:col-8 md:col-8 sm:col-6">
+    <p-breadcrumb *ngIf="items?.length" [model]="items" [home]="home"></p-breadcrumb>
+  </div>
+  <div class="xl:col-4 lg:col-4 md:col-4 sm:col-6 text-right">
+    <div class="panel-messages-info">
+      <button pButton class="p-button-text" (click)="redirectProfile()">{{authService.auth.identification}}</button>
+      <button pButton class="p-button-text" (click)="redirectProfile()">{{authService.roles[0].name}}</button>
+    </div>
+  </div>
+</div>
 <app-progress-bar *ngIf="coreService.isLoading"></app-progress-bar>

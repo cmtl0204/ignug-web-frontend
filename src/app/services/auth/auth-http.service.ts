@@ -46,11 +46,11 @@ export class AuthHttpService {
 
   changePassword(id: string, credentials: PasswordChangeModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/change-password`;
-
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
-
+          this.coreService.isProcessing = false;
           this.messageService.success(response).then();
           return response.data;
         })
@@ -77,7 +77,7 @@ export class AuthHttpService {
       );
   }
 
-  logout(): void {
+  signOut(): void {
     this.authService.removeLogin();
     this.router.navigate(['/login']);
     /*
@@ -106,7 +106,9 @@ export class AuthHttpService {
     const url = `${this.API_URL}/reset-password`;
     return this.httpClient.post<LoginResponse>(url, credentials)
       .pipe(
-        map(response => response),
+        map(response => {
+          return response;
+        }),
         catchError(error => {
           this.authService.removeLogin();
           return throwError(error);
@@ -174,7 +176,6 @@ export class AuthHttpService {
   }
 
   getProfile(): Observable<UserModel> {
-    console.log('asd');
     const url = `${this.API_URL}/profile`;
 
 
@@ -201,10 +202,10 @@ export class AuthHttpService {
   updateProfile(payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/profile`;
 
-
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-
+        this.coreService.isProcessing = false;
         this.messageService.success(response).then();
         return response.data;
       })
@@ -214,10 +215,10 @@ export class AuthHttpService {
   updateUserInformation(payload: UpdateUserDto): Observable<UserModel> {
     const url = `${this.API_URL}/user-information`;
 
-
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-
+        this.coreService.isProcessing = false;
         this.messageService.success(response).then();
         return response.data;
       })

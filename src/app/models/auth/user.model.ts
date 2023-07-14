@@ -18,6 +18,7 @@ export interface UserModel {
   birthdate: string;
   email: string;
   emailVerifiedAt: Date;
+  identification: string;
   lastname: string;
   maxAttempts: number;
   name: string;

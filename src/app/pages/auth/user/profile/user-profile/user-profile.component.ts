@@ -13,19 +13,19 @@ import {CatalogueTypeEnum} from "@shared/enums";
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-.component.scss']
+  styleUrls: ['./user-profile.component.scss']
 })
 export class UserProfileComponent implements OnInit, OnExitInterface {
-  dateFormat = new DateFormatPipe();
-  bloodTypes: CatalogueModel[] = [];
-  ethnicOrigins: CatalogueModel[] = [];
-  genders: CatalogueModel[] = [];
-  identificationTypes: CatalogueModel[] = [];
-  formProfile: FormGroup = this.newProfileForm;
-  isLoadingSkeleton: boolean = false;
-  isLoading: boolean = false;
-  maritalStatus: CatalogueModel[] = [];
-  sexes: CatalogueModel[] = [];
+  protected dateFormat = new DateFormatPipe();
+  protected bloodTypes: CatalogueModel[] = [];
+  protected ethnicOrigins: CatalogueModel[] = [];
+  protected genders: CatalogueModel[] = [];
+  protected identificationTypes: CatalogueModel[] = [];
+  protected formProfile: FormGroup;
+  protected isLoadingSkeleton: boolean = false;
+  protected isLoading: boolean = false;
+  protected maritalStatus: CatalogueModel[] = [];
+  protected sexes: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,6 +37,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {
+    this.formProfile = this.newProfileForm;
   }
 
   async onExit(): Promise<boolean> {

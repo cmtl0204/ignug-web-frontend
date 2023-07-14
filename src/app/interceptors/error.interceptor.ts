@@ -16,6 +16,7 @@ export class ErrorInterceptor implements HttpInterceptor {
       delay(1000),
       catchError(error => {
         this.coreService.isLoading = false;
+        this.coreService.isProcessing = false;
         this.messageService.error(error.error);
         return throwError(error);
       }));

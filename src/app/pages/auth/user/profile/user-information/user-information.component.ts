@@ -13,9 +13,7 @@ import {DateFormatPipe} from "@shared/pipes";
   styleUrls: ['./user-information.component.scss']
 })
 export class UserInformationComponent implements OnInit, OnExitInterface {
-  dateFormat = new DateFormatPipe();
-  emailVerifiedAt: Date | null = null;
-  formUser: FormGroup = this.newUserForm;
+  form: FormGroup;
   isLoadingSkeleton: boolean = false;
   isLoading: boolean = false;
 
@@ -29,10 +27,11 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {
+    this.form = this.newForm;
   }
 
   async onExit(): Promise<boolean> {
-    if (this.formUser.touched || this.formUser.dirty) {
+    if (this.form.touched || this.form.dirty) {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
@@ -42,20 +41,21 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
     this.getUserInformation();
   }
 
-  get newUserForm(): FormGroup {
+  get newForm(): FormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
+      emailVerifiedAt: [{value: null, disabled: true}],
       phone: [null, []],
       // roles: [['admin'], []],
       username: [null, [Validators.required, Validators.minLength(3), Validators.maxLength(20)]],
     });
   }
 
-  onSubmitUserInformation(): void {
-    if (this.formUser.valid) {
-      this.updateUserInformation(this.formUser.value);
+  onSubmit(): void {
+    if (this.form.valid) {
+      this.updateUserInformation(this.form.value);
     } else {
-      this.formUser.markAllAsTouched();
+      this.form.markAllAsTouched();
       this.messageService.errorsFields.then();
     }
   }
@@ -64,28 +64,31 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
     this.isLoadingSkeleton = true;
     this.authHttpService.getUserInformation().subscribe((user) => {
         this.isLoadingSkeleton = false;
-        this.formUser.patchValue(user);
-        this.emailVerifiedAt = user.emailVerifiedAt;
+        this.form.patchValue(user);
       }
     );
   }
 
   updateUserInformation(user: UpdateUserDto): void {
     this.authHttpService.updateUserInformation(user).subscribe((user) => {
-      this.formUser.reset(user);
+      this.form.reset(user);
       this.authService.auth = user;
     });
   }
 
   get emailField(): AbstractControl {
-    return this.formUser.controls['email'];
+    return this.form.controls['email'];
+  }
+
+  get emailVerifiedAtField(): AbstractControl {
+    return this.form.controls['emailVerifiedAt'];
   }
 
   get phoneField(): AbstractControl {
-    return this.formUser.controls['phone'];
+    return this.form.controls['phone'];
   }
 
   get usernameField(): AbstractControl {
-    return this.formUser.controls['username'];
+    return this.form.controls['username'];
   }
 }

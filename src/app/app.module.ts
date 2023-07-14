@@ -20,6 +20,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {SharedModule} from "@shared/shared.module";
 import {DialogModule} from "primeng/dialog";
 import {ProgressBarModule} from "primeng/progressbar";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import {ProgressBarModule} from "primeng/progressbar";
     ButtonModule,
     DialogModule,
     ProgressBarModule,
+    DividerModule,
   ],
   providers: [
     // {

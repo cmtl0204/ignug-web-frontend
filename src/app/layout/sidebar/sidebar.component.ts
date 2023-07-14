@@ -10,12 +10,11 @@ import {MenuModel} from "@models/auth";
   styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-  display = false;
-  items: MenuItem[] = [];
-  menus: MenuModel[] = [];
-  showedMenu: boolean = false;
-  closed: boolean = true;
-  closedLock: boolean | null = null;
+  protected readonly PrimeIcons = PrimeIcons;
+  protected menus: MenuModel[] = [];
+  protected showedMenu: boolean = false;
+  protected closed: boolean = true;
+  protected closedLock: boolean | null = null;
 
   constructor(private menusHttpService: MenusHttpService,
               private authHttpService: AuthHttpService,
@@ -64,11 +63,11 @@ export class SidebarComponent implements OnInit {
     }
   }
 
-  logout() {
-    this.authHttpService.logout();
+  signOut() {
+    this.authHttpService.signOut();
   }
 
   redirectProfile() {
-    this.router.navigateByUrl('/administration/users/profile');
+    this.router.navigateByUrl('/profile');
   }
 }
