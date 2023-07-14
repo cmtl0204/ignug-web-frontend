@@ -1,13 +1,4 @@
-const HOST = 'https://rcvmonitor.com/public';
-// const URL_PUBLIC = 'https://localhost:8000';
-
 export const environment = {
   production: true,
-  HOST,
-  STORAGE_URL: HOST + '/storage',
-  // URL_PUBLIC,
-  URL_PRIVATE: HOST,
-  API_URL_PRIVATE: HOST + '/api/v1/private',
-  API_URL_PUBLIC: HOST + '/api/v1/public',
-  VERSION: '1.0.1',
+  API_URL: 'http://localhost:3000/api/v1',
 };

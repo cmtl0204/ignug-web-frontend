@@ -15,14 +15,14 @@ import {BreadcrumbService, CoreService, MessageService} from '@services/core';
 })
 export class UserListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  actionButtons: MenuItem[] = this.buildActionButtons;
-  columns: ColumnModel[] = this.buildColumns;
-  isActionButtons: boolean = false;
-  paginator: PaginatorModel;
-  search: FormControl = new FormControl('');
-  selectedUser: SelectUserDto = {};
-  selectedUsers: UserModel[] = [];
-  users: UserModel[] = [];
+  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected columns: ColumnModel[] = this.buildColumns;
+  protected isActionButtons: boolean = false;
+  protected paginator: PaginatorModel;
+  protected search: FormControl = new FormControl('');
+  protected selectedUser: SelectUserDto = {};
+  protected selectedUsers: UserModel[] = [];
+  protected users: UserModel[] = [];
 
   constructor(
     public authService: AuthService,
@@ -36,6 +36,11 @@ export class UserListComponent implements OnInit {
       {label: 'Users'},
     ]);
     this.paginator = this.coreService.paginator;
+    this.search.valueChanges.subscribe(value => {
+      if (value.length === 0) {
+        this.findAll();
+      }
+    });
   }
 
   ngOnInit() {
@@ -57,7 +62,7 @@ export class UserListComponent implements OnInit {
       {field: 'lastname', header: 'Lastname'},
       {field: 'email', header: 'Email'},
       {field: 'roles', header: 'Roles'},
-      {field: 'suspendedAt', header: 'State'},
+      {field: 'suspendedAt', header: 'State'}
     ];
   }
 

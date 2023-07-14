@@ -6,8 +6,6 @@ import {PermissionModel, RoleModel, UserModel} from '@models/auth';
   providedIn: 'root'
 })
 export class AuthService {
-  private login = new BehaviorSubject<boolean>(this.isLoggedIn);
-  public login$ = this.login.asObservable();
 
   constructor() {
   }
@@ -26,16 +24,15 @@ export class AuthService {
   }
 
   set isLoggedIn(value: boolean) {
-    this.login.next(value);
     localStorage.setItem('isLoggedIn', String(value));
   }
 
   get token(): string | null {
-    return localStorage.getItem('accessToken');
+    return sessionStorage.getItem('accessToken');
   }
 
   set token(value: string | undefined | null) {
-    localStorage.setItem('accessToken', JSON.stringify(value));
+    sessionStorage.setItem('accessToken', JSON.stringify(value));
   }
 
   get auth(): UserModel {
@@ -80,6 +77,6 @@ export class AuthService {
 
   removeLogin() {
     localStorage.clear();
-    this.login.next(false);
+    sessionStorage.clear();
   }
 }

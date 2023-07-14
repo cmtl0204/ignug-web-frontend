@@ -8,10 +8,10 @@ import {
 } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, RoleModel, UpdateUserDto} from '@models/auth';
-import {CatalogueModel} from '@models/core';
 import {AuthHttpService, AuthService, RolesHttpService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
+import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-user-form',
@@ -20,6 +20,7 @@ import {OnExitInterface} from '@shared/interfaces';
   encapsulation: ViewEncapsulation.None
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
+  protected readonly PrimeIcons = PrimeIcons;
   id: string = '';
   form: FormGroup;
   panelHeader: string = 'Create User';

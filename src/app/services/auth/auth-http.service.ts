@@ -77,10 +77,12 @@ export class AuthHttpService {
       );
   }
 
-  logout(): Observable<ServerResponse> {
+  logout(): void {
+    this.authService.removeLogin();
+    this.router.navigate(['/login']);
+    /*
     const url = `${this.API_URL}/logout`;
 
-    //this.appService.presentLoading();
     return this.httpClient.get<ServerResponse>(url)
       .pipe(
         map(response => {
@@ -91,6 +93,7 @@ export class AuthHttpService {
           this.routesService.login();
         })
       );
+      */
   }
 
   loginGoogle(): Observable<LoginResponse> {

@@ -23,7 +23,7 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       // Cuando el usuario está suspendido
       if (error.status === 429) {
         this.authService.removeLogin();
-        this.router.navigate(['/auth/login']);
+        this.router.navigate(['/login']);
       }
       if (error.status === 401){
         this.authService.removeLogin();

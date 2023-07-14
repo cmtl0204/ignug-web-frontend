@@ -65,7 +65,7 @@ export class SidebarComponent implements OnInit {
   }
 
   logout() {
-    this.authHttpService.logout().subscribe();
+    this.authHttpService.logout();
   }
 
   redirectProfile() {

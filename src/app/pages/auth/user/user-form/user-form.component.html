@@ -1,7 +1,8 @@
 <app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+
 <p-panel *ngIf="!isLoadingSkeleton"
          class="p-fluid"
-         collapseIcon="pi pi-times"
+         [expandIcon]="PrimeIcons.TIMES"
          [toggleable]="true"
          (collapsedChange)="back()">
   <ng-template pTemplate="header">
