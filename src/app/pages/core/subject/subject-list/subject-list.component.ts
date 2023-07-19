@@ -1,11 +1,10 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { FormControl, UntypedFormControl } from '@angular/forms';
-import { ColumnModel, PaginatorModel, SelectSubjectDto, SubjectModel } from '@models/core';
-import { MenuItem, PrimeIcons } from 'primeng/api';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormControl} from '@angular/forms';
+import {Router} from '@angular/router';
+import {MenuItem, PrimeIcons} from 'primeng/api';
+import {ColumnModel, PaginatorModel, SelectSubjectDto, SubjectModel} from '@models/core';
+import {BreadcrumbService, CoreService, MessageService, SubjectsHttpService} from '@services/core';
 
-import { BreadcrumbService, CoreService, MessageService, SubjectsHttpService } from '@services/core';
-import { Router } from '@angular/router';
-import { debounceTime } from 'rxjs';
 
 @Component({
   selector: 'app-subject-list',
@@ -25,18 +24,16 @@ export class SubjectListComponent implements OnInit {
   protected subjects: SubjectModel[] = [];
 
   constructor(
-    public subjectService: SubjectsHttpService,
     public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
     private router: Router,
+    private subjectsHttpService: SubjectsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Asignaturas'},
+      {label: 'Subjects'},
     ]);
-
     this.paginator = this.coreService.paginator;
-
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -48,8 +45,16 @@ export class SubjectListComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  checkState(subject: SubjectModel): string {
+    if (subject.state) return 'danger';
+
+    //if (subject.maxAttempts === 0) return 'warning';
+
+    return 'success';
+  }
+
   findAll(page: number = 0) {
-    this.subjectService.findAll(page, this.search.value).subscribe((subject) => this.subjects = subject);
+    this.subjectsService.findAll(page, this.search.value).subscribe((subject) => this.subjects = subject);
   }
 
   get buildColumns(): ColumnModel[] {
@@ -68,7 +73,7 @@ export class SubjectListComponent implements OnInit {
   get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Actualizar',
+        label: 'Update',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedSubject?.id) this.redirectEditForm(this.selectedSubject.id);
@@ -82,14 +87,14 @@ export class SubjectListComponent implements OnInit {
         },
       },
       {
-        label: 'Ocultar',
+        label: 'Suspend',
         icon: PrimeIcons.LOCK,
         command: () => {
           if (this.selectedSubject?.id) this.suspend(this.selectedSubject.id);
         },
       },
       {
-        label: 'Reactivar',
+        label: 'Reactivate',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
           if (this.selectedSubject?.id) this.reactivate(this.selectedSubject.id);
@@ -115,7 +120,7 @@ export class SubjectListComponent implements OnInit {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.subjectService.remove(id).subscribe((subject) => {
+          this.subjectsService.remove(id).subscribe((subject) => {
             this.subjects = this.subjects.filter(item => item.id !== subject.id);
             this.paginator.totalItems--;
           });
@@ -126,7 +131,7 @@ export class SubjectListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.subjectService.removeAll(this.selectedSubjects).subscribe((subjects) => {
+        this.subjectsService.removeAll(this.selectedSubject).subscribe((subjects) => {
           this.selectedSubject.forEach(subjectDeleted => {
             this.subjects = this.subjects.filter(subject => subject.id !== subjectDeleted.id);
             this.paginator.totalItems--;
@@ -137,19 +142,19 @@ export class SubjectListComponent implements OnInit {
     });
   }
 
-  selectSubject(subject: SubjectModel) {
+  selectsubject(subject: SubjectModel) {
     this.selectedSubject = subject;
   }
 
-  hide(id: string) {
-    this.subjectService.hide(id).subscribe(subject => {
+  suspend(id: string) {
+    this.subjectsService.suspend(id).subscribe(subject => {
       const index = this.subjects.findIndex(subject => subject.id === id);
       this.subjects[index].state = subject.state;
     });
   }
 
   reactivate(id: string) {
-    this.subjectService.reactivate(id).subscribe(subject => {
+    this.subjectsService.reactivate(id).subscribe(subject => {
       const index = this.subjects.findIndex(subject => subject.id === id);
       this.subjects[index] = subject;
     });

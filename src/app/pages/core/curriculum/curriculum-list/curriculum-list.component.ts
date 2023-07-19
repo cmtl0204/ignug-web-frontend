@@ -2,10 +2,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {SelectCurriculumDto, CurriculumModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
-import {AuthService, CurriculumService} from '@services/auth';
-import {BreadcrumbService, CoreService, MessageService} from '@services/core';
+import {BreadcrumbService, CoreService, CurriculumsHttpService, MessageService} from '@services/core';
 
 @Component({
   selector: 'app-curriculum-list',
@@ -20,17 +18,16 @@ export class CurriculumListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedCurriculm: SelectCurriculmDto = {};
-  protected selectedCurriculms: CurriculmModel[] = [];
-  protected curriculms: CurriculmModel[] = [];
+  protected selectedCurriculum: SelectCurriculmDto = {};
+  protected selectedCurriculmus: CurriculmModel[] = [];
+  protected curriculums: CurriculmModel[] = [];
 
   constructor(
-    public authService: AuthService,
     public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
     private router: Router,
-    private curriculmsHttpService: CurriculmsHttpService,
+    private curriculumsHttpService: CurriculumsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Curriculms'},
@@ -48,7 +45,7 @@ export class CurriculumListComponent implements OnInit {
   }
 
   findAll(page: number = 0) {
-    this.curriculmsHttpService.findAll(page, this.search.value)
+    this.curriculumsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.curriculms = response.data
@@ -57,12 +54,12 @@ export class CurriculumListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'username', header: 'Usuario'},
+      {field: 'code', header: 'Código'},
       {field: 'name', header: 'Nombre'},
-      {field: 'lastname', header: 'Apellido'},
-      {field: 'email', header: 'Email'},
-      {field: 'roles', header: 'Rol'},
-      {field: 'suspendedAt', header: 'Stado'}
+      {field: 'description', header: 'Descripción'},
+      {field: 'resolutionNumber', header: 'Número de resolución'},
+      {field: 'periodicAcademicNumber', header: 'Número de periodo académico'},
+      {field: 'weeksNumber', header: 'Número de semanas'}
     ];
   }
 
@@ -72,28 +69,28 @@ export class CurriculumListComponent implements OnInit {
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedCurriculm?.id) this.redirectEditForm(this.selectedCurriculm.id);
+          if (this.selectedCurriculum?.id) this.redirectEditForm(this.selectedCurriculum.id);
         },
       },
       {
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedCurriculm?.id) this.remove(this.selectedCurriculm.id);
+          if (this.selectedCurriculum?.id) this.remove(this.selectedCurriculum.id);
         },
       },
       {
         label: 'Suspender',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedCurriculm?.id) this.suspend(this.selectedCurriculm.id);
+          if (this.selectedCurriculum?.id) this.suspend(this.selectedCurriculum.id);
         },
       },
       {
         label: 'Reactivar',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
-          if (this.selectedCurriculm?.id) this.reactivate(this.selectedCurriculm.id);
+          if (this.selectedCurriculum?.id) this.reactivate(this.selectedCurriculum.id);
         },
       }
     ];
@@ -104,18 +101,18 @@ export class CurriculumListComponent implements OnInit {
   }
 
   redirectCreateForm() {
-    this.router.navigate(['/administration/Curriculms', 'new']);
+    this.router.navigate(['/administration/curriculums', 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate(['/administration/Curriculms', id]);
+    this.router.navigate(['/administration/curriculums', id]);
   }
 
   remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.curriculmsHttpService.remove(id).subscribe((curriculm) => {
+          this.curriculumsHttpService.remove(id).subscribe((curriculm) => {
             this.curriculms = this.curriculms.filter(item => item.id !== curriculm.id);
             this.paginator.totalItems--;
           });
@@ -126,7 +123,7 @@ export class CurriculumListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.curriculmsHttpService.removeAll(this.selectedCurriculms).subscribe((curriculms) => {
+        this.curriculumsHttpService.removeAll(this.selectedCurriculms).subscribe((curriculms) => {
           this.selectedCurriculms.forEach(curriculmDeleted => {
             this.curriculms = this.curriculms.filter(curriculm => curriculm.id !== curriculmDeleted.id);
             this.paginator.totalItems--;
@@ -139,18 +136,18 @@ export class CurriculumListComponent implements OnInit {
 
   selectUser(curriculm: CurriculmModel) {
     this.isActionButtons = true;
-    this.selectedCurriculm = curriculm;
+    this.selectedCurriculum = curriculm;
   }
 
   suspend(id: string) {
-    this.curriculmsHttpService.suspend(id).subscribe(curriculm => {
+    this.curriculumsHttpService.suspend(id).subscribe(curriculm => {
       const index = this.curriculms.findIndex(curriculm => curriculm.id === id);
-      this.curriculms[index].suspendedAt = curriculm.suspendedAt;
+      this.curriculms[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.curriculmsHttpService.reactivate(id).subscribe(curriculm => {
+    this.curriculumsHttpService.reactivate(id).subscribe(curriculm => {
       const index = this.curriculms.findIndex(curriculm => curriculm.id === id);
       this.curriculms[index] = curriculm;
     });

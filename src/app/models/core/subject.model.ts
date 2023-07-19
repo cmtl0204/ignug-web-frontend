@@ -1,24 +1,22 @@
-import {CatalogueModel, CurriculumModel} from '@models/core';
+import {RoleModel} from '@models/auth';
+import {CatalogueModel} from '@models/core';
+
 
 export interface SubjectModel {
   id: string;
-  createdAt: Date;
+  createAt: Date;
   updatedAt: Date;
   deletedAt: Date;
-  isVisible: boolean;
-
   academicPeriod: CatalogueModel;
-  curriculum: CurriculumModel;
-  state: CatalogueModel;
-  type: CatalogueModel;
-
+  //urriculum:CurriculumModel;
   autonomousHour: number;
   code: string;
-  credits: number;
+  credit: number;
   name: string;
   practicalHour: number;
   scale: number;
   teacherHour: number;
+  state: boolean;
 }
 
 export interface CreateSubjectDto extends Omit<SubjectModel, 'id'> {

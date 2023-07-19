@@ -1,12 +1,8 @@
-import {UserModel} from "@models/auth";
-import {InformationTeacherModel} from "@models/core";
+import { UserModel } from "@models/auth";
+import { InformationTeacherModel } from "./info-teacher.model";
 
-export interface TeacherModel {
-  id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
-  isVisible: boolean;
-  informationTeacher: InformationTeacherModel;
-  user: UserModel;
+export interface TeacherModel{
+  id?: string;
+  informationTeacher?: InformationTeacherModel;
+  user?: UserModel;
 }

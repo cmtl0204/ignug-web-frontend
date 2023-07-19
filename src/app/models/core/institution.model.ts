@@ -23,3 +23,12 @@ export interface InstitutionModel {
   slogan: string;
   web: string;
 }
+
+export interface CreateInstitutionDto extends Omit<InstitutionModel, 'id'> {
+}
+
+export interface UpdateInstitutionDto extends Partial<Omit<InstitutionModel, 'id'>> {
+}
+
+export interface SelectInstitutionDto extends Partial<InstitutionModel> {
+}

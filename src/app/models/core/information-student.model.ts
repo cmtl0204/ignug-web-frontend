@@ -1,4 +1,4 @@
-import {StudentModel} from "@models/core";
+import {StudentModel, CatalogueModel} from "@models/core";
 
 export interface InformationStudentModel {
   id: string;
@@ -8,6 +8,12 @@ export interface InformationStudentModel {
   isVisible: boolean;
 
   student: StudentModel;
+
+  isExecutedPractice: CatalogueModel;
+  isExecutedCommunity: CatalogueModel;
+  isDisability: CatalogueModel;
+  isLostGratuity: CatalogueModel;
+  isSubjectRepeat: CatalogueModel;
 
   address: string;
   community: number;

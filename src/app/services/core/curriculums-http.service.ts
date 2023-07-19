@@ -1,83 +1,109 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {PermissionModel, RoleModel, CurriculumModel} from '@models/auth';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {environment} from '@env/environment';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {CreateCurriculmDto, UpdateCurriculmDto, CurriculmModel} from '@models/auth';
+import {ServerResponse} from '@models/http-response';
+import {MessageService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
+export class CurriculumsHttpService {
+  API_URL = `${environment.API_URL}/curriculms`;
 
-  constructor() {
+  constructor(private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  changeTheme(theme: string) {
-    // const themePath = themes.find(element => element.name == theme)?.path;
-    //
-    // const element = document.getElementById('theme-css');
-    // if (element && themePath) {
-    //   element.setAttribute('href', themePath);
-    // }
+  create(payload: CreateCurriculmDto): Observable<CurriculmModel> {
+    const url = `${this.API_URL}`;
+
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 
-  get isLoggedIn(): boolean {
-    return Boolean(localStorage.getItem('isLoggedIn'));
+  findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = this.API_URL;
+
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
   }
 
-  set isLoggedIn(value: boolean) {
-    localStorage.setItem('isLoggedIn', String(value));
+  findOne(id: string): Observable<CurriculmModel> {
+    const url = `${this.API_URL}/${id}`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => {
+        return response.data;
+      })
+    );
   }
 
-  get token(): string | null {
-    return sessionStorage.getItem('accessToken');
+  update(id: string, payload: UpdateCurriculmDto): Observable<CurriculmModel> {
+    const url = `${this.API_URL}/${id}`;
+
+    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 
-  set token(value: string | undefined | null) {
-    sessionStorage.setItem('accessToken', JSON.stringify(value));
+  reactivate(id: string): Observable<CurriculmModel> {
+    const url = `${this.API_URL}/${id}/reactivate`;
+
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 
-  get auth(): CurriculumModel {
-    return JSON.parse(String(localStorage.getItem('auth')));
+  remove(id: string): Observable<CurriculmModel> {
+    const url = `${this.API_URL}/${id}`;
+
+    return this.httpClient.delete<ServerResponse>(url).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 
-  set auth(curriculum: CurriculumModel | undefined | null) {
-    localStorage.setItem('auth', JSON.stringify(curriculum));
+  removeAll(curriculms: CurriculmModel[]): Observable<CurriculmModel[]> {
+    const url = `${this.API_URL}/remove-all`;
+
+    return this.httpClient.patch<ServerResponse>(url, curriculms).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 
-  get permissions(): PermissionModel[] {
-    return JSON.parse(String(localStorage.getItem('permissions')));
-  }
+  suspend(id: string): Observable<CurriculmModel> {
+    const url = `${this.API_URL}/${id}/suspend`;
 
-  set permissions(permissions: PermissionModel[] | undefined | null) {
-    localStorage.setItem('permissions', JSON.stringify(permissions));
-  }
-
-  get role(): RoleModel {
-    return JSON.parse(String(localStorage.getItem('role')));
-  }
-
-  set role(role: RoleModel | undefined | null) {
-    localStorage.setItem('role', JSON.stringify(role));
-  }
-
-  get roles(): RoleModel[] {
-    return JSON.parse(String(localStorage.getItem('roles')));
-  }
-
-  set roles(roles: RoleModel[] | undefined | null) {
-    localStorage.setItem('roles', JSON.stringify(roles));
-  }
-
-  get keepSession(): boolean | null {
-    return JSON.parse(String(localStorage.getItem('keepSession')));
-  }
-
-  set keepSession(value: boolean | undefined | null) {
-    localStorage.setItem('keepSession', JSON.stringify(value));
-  }
-
-  removeLogin() {
-    localStorage.clear();
-    sessionStorage.clear();
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
   }
 }
-

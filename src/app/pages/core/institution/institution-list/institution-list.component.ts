@@ -2,10 +2,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {SelectInstitutionDto, InstitutionModel} from '@models/core';
-import {ColumnModel, PaginatorModel} from '@models/core';
-import {AuthService, InstitutionsHttpService} from '@services/core';
-import {BreadcrumbService, CoreService, MessageService} from '@services/core';
+import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} from '@models/core';
+import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService} from '@services/core';
 
 @Component({
   selector: 'app-institution-list',
@@ -25,7 +23,6 @@ export class InstitutionListComponent implements OnInit {
   protected institutions: InstitutionModel[] = [];
 
   constructor(
-    public authService: AuthService,
     public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
@@ -84,7 +81,7 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        label: 'Suspender',
+        label: 'Ocultar',
         icon: PrimeIcons.LOCK,
         command: () => {
           if (this.selectedInstitution?.id) this.suspend(this.selectedInstitution.id);
@@ -132,7 +129,7 @@ export class InstitutionListComponent implements OnInit {
             this.institutions = this.institutions.filter(institution => institution.id !== institutionDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedInstitution = [];
+          this.selectedInstitutions = [];
         });
       }
     });
@@ -143,10 +140,10 @@ export class InstitutionListComponent implements OnInit {
     this.selectedInstitution = institution;
   }
 
-  suspend(id: string) {
-    this.institutionsHttpService.suspend(id).subscribe(institution => {
+  hide(id: string) {
+    this.institutionsHttpService.hide(id).subscribe(institution => {
       const index = this.institutions.findIndex(institution => institution.id === id);
-      this.institutions[index].suspendedAt = institution.suspendedAt;
+      this.institutions[index].isVisible = false;
     });
   }
 

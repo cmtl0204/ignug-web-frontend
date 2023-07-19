@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
-import {CommonModule as NgCommonModule} from '@angular/common';
 import {ReactiveFormsModule} from "@angular/forms";
-import {CoreRoutingModule} from './core-routing.module';
+import {CommonModule as NgCommonModule} from '@angular/common';
+import {CareerRoutingModule} from './career-routing.module';
+
 // PrimeNg Modules
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -15,13 +16,18 @@ import {InputTextModule} from "primeng/inputtext";
 import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
 
+// Components
+import {CareerListComponent} from "./career-list/career-list.component";
+import {CareerFormComponent} from './career-form/career-form.component';
+
 @NgModule({
   declarations: [
-
+    CareerListComponent,
+    CareerFormComponent,
   ],
   imports: [
     NgCommonModule,
-    CoreRoutingModule,
+    CareerRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
@@ -36,5 +42,5 @@ import {PanelMenuModule} from "primeng/panelmenu";
     PanelMenuModule
   ]
 })
-export class CoreModule {
+export class CareerModule {
 }

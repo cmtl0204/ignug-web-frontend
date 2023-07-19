@@ -17,3 +17,11 @@ export interface CurriculumModel {
   periodicAcademicNumber: number;
   weeksNumber: number;
 }
+export interface CreateCurriculumDto extends Omit<CurriculumModel, 'id'> {
+}
+
+export interface UpdateCurriculumDto extends Partial<Omit<CurriculumModel, 'id'>> {
+}
+
+export interface SelectCurriculumDto extends Partial<CurriculumModel> {
+}

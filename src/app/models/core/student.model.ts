@@ -3,13 +3,10 @@ import {InformationStudentModel} from '@models/core';
 
 export interface StudentModel {
   id: string;
-  createdAt: Date;
-  updatedAt: Date;
-  deletedAt: Date;
-  isVisible: boolean;
-
   informationStudent: InformationStudentModel[];
   user: UserModel [];
+  suspendedAt: Date;
+  name: string;
 }
 
 export interface CreateStudentDto extends Omit<StudentModel, 'id'> {

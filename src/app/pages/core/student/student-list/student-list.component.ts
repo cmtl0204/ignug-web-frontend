@@ -1,105 +1,92 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {UntypedFormControl} from "@angular/forms";
+import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
-import {debounceTime} from "rxjs";
-import {ColumnModel, PaginatorModel, StudentModel, SelectStudentDto} from '@models/core';
-import {AuthService} from '@services/auth';
+import {MenuItem, PrimeIcons} from "primeng/api";
+import {ColumnModel, PaginatorModel, SelectStudentDto, StudentModel} from '@models/core';
 import {BreadcrumbService, CoreService, MessageService, StudentsHttpService} from '@services/core';
-import {MenuItem} from "primeng/api";
 
 @Component({
-  selector: 'app-student-list',
+  selector: 'app-user-list',
   templateUrl: './student-list.component.html',
-  styleUrls: ['./student-list.component.scss']
+  styleUrls: ['./student-list.component.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class StudentListComponent implements OnInit {
-
-  columns: ColumnModel[];
-  isLoading = this.coreService.isLoading;
-  pagination$ = this.studentsHttpService.pagination$;
-  paginator: PaginatorModel = this.coreService.paginator;
-  search: UntypedFormControl = new UntypedFormControl('');
-  selectedStudents: StudentModel[] = [];
-  selectedStudent: SelectStudentDto = {};
-  students: StudentModel[] = [];
-  actionButtons: MenuItem[] = [];
+  protected readonly PrimeIcons = PrimeIcons;
+  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected columns: ColumnModel[] = this.buildColumns;
+  protected isActionButtons: boolean = false;
+  protected paginator: PaginatorModel;
+  protected search: FormControl = new FormControl('');
+  protected selectedStudent: SelectStudentDto = {};
+  protected selectedStudents: StudentModel[] = [];
+  protected students: StudentModel[] = [];
 
   constructor(
-    public authService: AuthService,
-    private coreService: CoreService,
+    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
     private router: Router,
     private studentsHttpService: StudentsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Students'}
+      {label: 'Students'},
     ]);
-    this.columns = this.getColumns();
-    this.actionButtons = this.getActionButtons();
-    this.pagination$.subscribe((pagination) => this.paginator = pagination);
-    this.search.valueChanges.pipe(debounceTime(500)).subscribe((_) => this.findAll());
+    this.paginator = this.coreService.paginator;
+    this.search.valueChanges.subscribe(value => {
+      if (value.length === 0) {
+        this.findAll();
+      }
+    });
   }
 
   ngOnInit() {
     this.findAll();
   }
 
-  checkState(students: StudentModel): string {
-    if (students.suspendedAt) return 'danger';
-
-   /* if (students.maxAttempts === 0) return 'warning';*/
-
-    return 'success';
-  }
-
   findAll(page: number = 0) {
-    this.studentsHttpService.findAll(page, this.search.value).subscribe((students) => this.students = students);
+    this.studentsHttpService.findAll(page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.students = response.data
+      });
   }
 
-  getColumns(): ColumnModel[] {
+  get buildColumns(): ColumnModel[] {
     return [
-      {field: 'username', header: 'Username'},
-      {field: 'name', header: 'Name'},
-      {field: 'lastname', header: 'Lastname'},
-      {field: 'email', header: 'Email'},
-      {field: 'roles', header: 'Roles'},
-      {field: 'suspendedAt', header: 'State'},
-    ]
+      {field: 'informationStudent', header: 'Información'},
+      {field: 'user', header: 'Usuario'},
+    ];
   }
 
-  getActionButtons(): MenuItem[] {
+  get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Update',
-        icon: 'pi pi-pencil',
+        label: 'Actualizar',
+        icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedStudent.id)
-            this.redirectEditForm(this.selectedStudent.id);
+          if (this.selectedStudent?.id) this.redirectEditForm(this.selectedStudent.id);
         },
       },
       {
-        label: 'Delete',
-        icon: 'pi pi-trash',
+        label: 'Borrar',
+        icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedStudent.id)
-            this.remove(this.selectedStudent.id);
+          if (this.selectedStudent?.id) this.remove(this.selectedStudent.id);
         },
       },
       {
-        label: 'Suspend',
-        icon: 'pi pi-lock',
+        label: 'Oultar',
+        icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedStudent.id)
-            this.suspend(this.selectedStudent.id);
+          if (this.selectedStudent?.id) this.hide(this.selectedStudent.id);
         },
       },
       {
-        label: 'Reactivate',
-        icon: 'pi pi-lock-open',
+        label: 'Reactivar',
+        icon: PrimeIcons.LOCK_OPEN,
         command: () => {
-          if (this.selectedStudent.id)
-            this.reactivate(this.selectedStudent.id);
+          if (this.selectedStudent?.id) this.reactivate(this.selectedStudent.id);
         },
       }
     ];
@@ -143,12 +130,12 @@ export class StudentListComponent implements OnInit {
     });
   }
 
-  selectStudent(student: StudentModel) {
-    this.selectedStudent = student;
+  selectUser(user: StudentModel) {
+    this.selectedStudent = user;
   }
 
-  suspend(id: string) {
-    this.studentsHttpService.suspend(id).subscribe(student => {
+  hide(id: string) {
+    this.studentsHttpService.hide(id).subscribe(student => {
       const index = this.students.findIndex(student => student.id === id);
       this.students[index].suspendedAt = student.suspendedAt;
     });
@@ -160,5 +147,4 @@ export class StudentListComponent implements OnInit {
       this.students[index] = student;
     });
   }
-
 }
