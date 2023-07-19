@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, PaginatorModel} from '@models/core';
+import {CurriculumModel, ColumnModel, PaginatorModel, SelectCurriculumDto} from '@models/core';
 import {BreadcrumbService, CoreService, CurriculumsHttpService, MessageService} from '@services/core';
 
 @Component({
@@ -18,11 +18,12 @@ export class CurriculumListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedCurriculum: SelectCurriculmDto = {};
-  protected selectedCurriculmus: CurriculmModel[] = [];
-  protected curriculums: CurriculmModel[] = [];
+  protected selectedCurriculum: SelectCurriculumDto = {};
+  protected selectedCurriculums: CurriculumModel[] = [];
+  protected curriculums: CurriculumModel[] = [];
 
   constructor(
+    public authService: AuthService,
     public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
@@ -30,7 +31,7 @@ export class CurriculumListComponent implements OnInit {
     private curriculumsHttpService: CurriculumsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Curriculms'},
+      {label: 'Curriculums'},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -48,7 +49,7 @@ export class CurriculumListComponent implements OnInit {
     this.curriculumsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
-        this.curriculms = response.data
+        this.curriculums = response.data
       });
   }
 
@@ -83,7 +84,7 @@ export class CurriculumListComponent implements OnInit {
         label: 'Suspender',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedCurriculum?.id) this.suspend(this.selectedCurriculum.id);
+          if (this.selectedCurriculum?.id) this.hide(this.selectedCurriculum.id);
         },
       },
       {
@@ -112,8 +113,8 @@ export class CurriculumListComponent implements OnInit {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.curriculumsHttpService.remove(id).subscribe((curriculm) => {
-            this.curriculms = this.curriculms.filter(item => item.id !== curriculm.id);
+          this.curriculumsHttpService.remove(id).subscribe((curriculum) => {
+            this.curriculums = this.curriculums.filter(item => item.id !== curriculum.id);
             this.paginator.totalItems--;
           });
         }
@@ -123,33 +124,33 @@ export class CurriculumListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.curriculumsHttpService.removeAll(this.selectedCurriculms).subscribe((curriculms) => {
-          this.selectedCurriculms.forEach(curriculmDeleted => {
-            this.curriculms = this.curriculms.filter(curriculm => curriculm.id !== curriculmDeleted.id);
+        this.curriculumsHttpService.removeAll(this.selectedCurriculums).subscribe((curriculums) => {
+          this.selectedCurriculums.forEach(curriculumDeleted => {
+            this.curriculums = this.curriculums.filter(curriculum => curriculum.id !== curriculumDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedCurriculms = [];
+          this.selectedCurriculums = [];
         });
       }
     });
   }
 
-  selectUser(curriculm: CurriculmModel) {
+  selectUser(curriculum: CurriculumModel) {
     this.isActionButtons = true;
-    this.selectedCurriculum = curriculm;
+    this.selectedCurriculum = curriculum;
   }
 
-  suspend(id: string) {
-    this.curriculumsHttpService.suspend(id).subscribe(curriculm => {
-      const index = this.curriculms.findIndex(curriculm => curriculm.id === id);
-      this.curriculms[index].isVisible = false;
+  hide(id: string) {
+    this.curriculumsHttpService.hide(id).subscribe(curriculum => {
+      const index = this.curriculums.findIndex(curriculum => curriculum.id === id);
+      this.curriculums[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.curriculumsHttpService.reactivate(id).subscribe(curriculm => {
-      const index = this.curriculms.findIndex(curriculm => curriculm.id === id);
-      this.curriculms[index] = curriculm;
+    this.curriculumsHttpService.reactivate(id).subscribe(curriculum => {
+      const index = this.curriculums.findIndex(curriculum => curriculum.id === id);
+      this.curriculums[index] = curriculum;
     });
   }
 }

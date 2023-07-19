@@ -1,12 +1,10 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {UntypedFormControl} from "@angular/forms";
+import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {debounceTime} from "rxjs";
-import {ColumnModel, PaginatorModel} from '@models/core';
-import {TeacherService, TeachersHttpService} from '@services/core';
-import {BreadcrumbService, CoreService, MessageService} from '@services/core';
-import {MenuItem} from "primeng/api";
-import {SelectTeacherDto, TeacherModel} from '@models/core/teacher.model';
+import {MenuItem, PrimeIcons} from 'primeng/api';
+import {ColumnModel, PaginatorModel, SelectTeacherDto, TeacherModel} from '@models/core';
+import {BreadcrumbService, CoreService, MessageService, TeachersHttpService} from '@services/core';
+
 
 @Component({
   selector: 'app-teacher-list',
@@ -15,83 +13,95 @@ import {SelectTeacherDto, TeacherModel} from '@models/core/teacher.model';
   encapsulation: ViewEncapsulation.None
 })
 export class TeacherListComponent implements OnInit {
-  columns: ColumnModel[];
-  isLoading = this.coreService.isLoading;
-  pagination$ = this.teachersHttpService.pagination$;
-  paginator: PaginatorModel = this.coreService.paginator;
-  search: UntypedFormControl = new UntypedFormControl('');
-  selectedTeachers: TeacherModel[] = [];
-  selectedTeacher: SelectTeacherDto = {};
-  teachers: TeacherModel[] = [];
-  actionButtons: MenuItem[] = [];
+  protected readonly PrimeIcons = PrimeIcons;
+  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected columns: ColumnModel[] = this.buildColumns;
+  protected isActionButtons: boolean = false;
+  protected paginator: PaginatorModel;
+  protected search: FormControl = new FormControl('');
+  protected selectedTeacher: SelectTeacherDto = {};
+  protected selectedTeachers: TeacherModel[] = [];
+  protected teachers: TeacherModel[] = [];
 
   constructor(
-    public teacherService: TeacherService,
-    private coreService: CoreService,
+    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
     private router: Router,
     private teachersHttpService: TeachersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Teachers'}
+      {label: 'Teachers'},
     ]);
-    this.columns = this.getColumns();
-    this.actionButtons = this.getActionButtons();
-    this.pagination$.subscribe((pagination) => this.paginator = pagination);
-    this.search.valueChanges.pipe(debounceTime(500)).subscribe((_) => this.findAll());
+    this.paginator = this.coreService.paginator;
+    this.search.valueChanges.subscribe(value => {
+      if (value.length === 0) {
+        this.findAll();
+      }
+    });
   }
 
-  ngOnInit() {
-    this.findAll();
+
+  ngOnInit(): void {
+  }
+
+  checkState(teacher: TeacherModel): string {
+    if (teacher.state) return 'danger';
+
+    //if (teacher.maxAttempts === 0) return 'warning';
+
+    return 'success';
   }
 
   findAll(page: number = 0) {
     this.teachersHttpService.findAll(page, this.search.value).subscribe((teachers) => this.teachers = teachers);
   }
 
-  getColumns(): ColumnModel[] {
+  get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Name'}
-    ]
+      {field: 'teacher', header: 'Profesor'},
+      {field: 'countryHigherEducation', header: 'Nota mas alta'},
+      {field: 'higherEducation', header: 'Educacion superior'},
+      {field: 'academicUnit', header: 'Unidad academica'},
+      {field: 'classHours', header: 'Horas de clase'},
+      {field: 'holidays', header: 'Feriados'},
+      {field: 'state', header: 'Estado'}
+    ];
   }
 
-  getActionButtons(): MenuItem[] {
+  get buildActionButtons(): MenuItem[] {
     return [
       {
         label: 'Update',
-        icon: 'pi pi-pencil',
+        icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedTeacher.id)
-            this.redirectEditForm(this.selectedTeacher.id);
+          if (this.selectedTeacher?.id) this.redirectEditForm(this.selectedTeacher.id);
         },
       },
       {
         label: 'Delete',
-        icon: 'pi pi-trash',
+        icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedTeacher.id)
-            this.remove(this.selectedTeacher.id);
+          if (this.selectedTeacher?.id) this.remove(this.selectedTeacher.id);
         },
       },
       {
         label: 'Suspend',
-        icon: 'pi pi-lock',
+        icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedTeacher.id)
-            this.suspend(this.selectedTeacher.id);
+          if (this.selectedTeacher?.id) this.suspend(this.selectedTeacher.id);
         },
       },
       {
         label: 'Reactivate',
-        icon: 'pi pi-lock-open',
+        icon: PrimeIcons.LOCK_OPEN,
         command: () => {
-          if (this.selectedTeacher.id)
-            this.reactivate(this.selectedTeacher.id);
+          if (this.selectedTeacher?.id) this.reactivate(this.selectedTeacher.id);
         },
       }
     ];
   }
+
 
   paginate(event: any) {
     this.findAll(event.page);
@@ -121,8 +131,8 @@ export class TeacherListComponent implements OnInit {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
         this.teachersHttpService.removeAll(this.selectedTeachers).subscribe((teachers) => {
-          this.selectedTeachers.forEach(userDeleted => {
-            this.teachers = this.teachers.filter(user => user.id !== userDeleted.id);
+          this.selectedTeachers.forEach(teacherDeleted => {
+            this.teachers = this.teachers.filter(teacher => teacher.id !== teacherDeleted.id);
             this.paginator.totalItems--;
           });
           this.selectedTeachers = [];
@@ -133,6 +143,13 @@ export class TeacherListComponent implements OnInit {
 
   selectTeacher(teacher: TeacherModel) {
     this.selectedTeacher = teacher;
+  }
+
+  suspend(id: string) {
+    this.teachersHttpService.hide(id).subscribe(teacher => {
+      const index = this.teachers.findIndex(teacher => teacher.id === id);
+      // this.teachers[index].isVisible = teacher.state;
+    });
   }
 
   reactivate(id: string) {

@@ -1,7 +1,7 @@
 import {CareerModel,CatalogueModel} from "@models/core";
 
 export interface CurriculumModel {
-  id: number;
+  id: string;
   createAt: Date;
   updateAt: Date;
   deleteAt: Date;

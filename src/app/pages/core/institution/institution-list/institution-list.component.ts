@@ -84,7 +84,7 @@ export class InstitutionListComponent implements OnInit {
         label: 'Ocultar',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedInstitution?.id) this.suspend(this.selectedInstitution.id);
+          if (this.selectedInstitution?.id) this.hide(this.selectedInstitution.id);
         },
       },
       {

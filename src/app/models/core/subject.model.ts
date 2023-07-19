@@ -1,5 +1,5 @@
 import {RoleModel} from '@models/auth';
-import {CatalogueModel} from '@models/core';
+import { CatalogueModel, CurriculumModel } from '@models/core';
 
 
 export interface SubjectModel {
@@ -7,8 +7,12 @@ export interface SubjectModel {
   createAt: Date;
   updatedAt: Date;
   deletedAt: Date;
+
   academicPeriod: CatalogueModel;
-  //urriculum:CurriculumModel;
+  curriculum:CurriculumModel;
+  type: CatalogueModel;
+  state: CatalogueModel;
+
   autonomousHour: number;
   code: string;
   credit: number;
@@ -16,7 +20,7 @@ export interface SubjectModel {
   practicalHour: number;
   scale: number;
   teacherHour: number;
-  state: boolean;
+  isVisible: boolean;
 }
 
 export interface CreateSubjectDto extends Omit<SubjectModel, 'id'> {

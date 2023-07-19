@@ -1,16 +1,16 @@
 <!--<p-card>-->
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton type="button" label="Create Career"
+    <button pButton type="button" label="Crear Carrera"
             class="p-button-success mr-2"
             icon="pi pi-plus"
             (click)="redirectCreateForm()"></button>
-    <button pButton type="button" label="Refresh"
+    <button pButton type="button" label="Actualizar"
             class="p-button-info mr-2"
             icon="pi pi-refresh"
             [loading]="coreService.isLoading"
             (click)="findAll()"></button>
-    <button *ngIf="selectedCareers.length>0" pButton type="button" label="Delete Careers"
+    <button *ngIf="selectedCareers.length>0" pButton type="button" label="Eliminar Carrera"
             class="p-button-danger"
             icon="pi pi-trash"
             [loading]="coreService.isLoading"

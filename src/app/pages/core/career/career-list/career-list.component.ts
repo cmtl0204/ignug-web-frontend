@@ -56,12 +56,12 @@ export class CareerListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Name'},
-      {field: 'acronym', header: 'Acronym'},
-      {field: 'degree', header: 'Degree'},
-      {field: 'institution', header: 'Institution'},
-      {field: 'modality', header: 'Modality'},
-      {field: 'state', header: 'State'}
+      {field: 'name', header: 'Nombre'},
+      {field: 'acronym', header: 'Acrónimo'},
+      {field: 'degree', header: 'Grado'},
+      {field: 'institution', header: 'Institución'},
+      {field: 'modality', header: 'Modalidad'},
+      {field: 'state', header: 'Estado'}
     ];
   }
 

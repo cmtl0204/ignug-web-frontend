@@ -2,9 +2,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {ColumnModel, PaginatorModel, SelectSubjectDto, SubjectModel} from '@models/core';
-import {BreadcrumbService, CoreService, MessageService, SubjectsHttpService} from '@services/core';
-
+import {SubjectModel, ColumnModel, PaginatorModel, SelectSubjectDto} from '@models/core';
+import {BreadcrumbService, SubjectsHttpService, CoreService, MessageService} from '@services/core';
 
 @Component({
   selector: 'app-subject-list',
@@ -21,19 +20,21 @@ export class SubjectListComponent implements OnInit {
   protected search: FormControl = new FormControl('');
   protected selectedSubject: SelectSubjectDto = {};
   protected selectedSubjects: SubjectModel[] = [];
-  protected subjects: SubjectModel[] = [];
+  protected Subjects: SubjectModel[] = [];
 
   constructor(
-    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
+    private subjectsHttpService: SubjectsHttpService,
+    public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
-    private subjectsHttpService: SubjectsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Subjects'},
+      {label: 'Asignaturas'},
     ]);
+
     this.paginator = this.coreService.paginator;
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -41,20 +42,16 @@ export class SubjectListComponent implements OnInit {
     });
   }
 
-
-  ngOnInit(): void {
-  }
-
-  checkState(subject: SubjectModel): string {
-    if (subject.state) return 'danger';
-
-    //if (subject.maxAttempts === 0) return 'warning';
-
-    return 'success';
+  ngOnInit() {
+    this.findAll();
   }
 
   findAll(page: number = 0) {
-    this.subjectsService.findAll(page, this.search.value).subscribe((subject) => this.subjects = subject);
+    this.subjectsHttpService.findAll(page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.Subjects = response.data;
+      });
   }
 
   get buildColumns(): ColumnModel[] {
@@ -73,28 +70,28 @@ export class SubjectListComponent implements OnInit {
   get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Update',
+        label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedSubject?.id) this.redirectEditForm(this.selectedSubject.id);
         },
       },
       {
-        label: 'Delete',
+        label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
           if (this.selectedSubject?.id) this.remove(this.selectedSubject.id);
         },
       },
       {
-        label: 'Suspend',
+        label: 'Suspender',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedSubject?.id) this.suspend(this.selectedSubject.id);
+          if (this.selectedSubject?.id) this.hide(this.selectedSubject.id);
         },
       },
       {
-        label: 'Reactivate',
+        label: 'Reactivar',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
           if (this.selectedSubject?.id) this.reactivate(this.selectedSubject.id);
@@ -102,7 +99,6 @@ export class SubjectListComponent implements OnInit {
       }
     ];
   }
-
 
   paginate(event: any) {
     this.findAll(event.page);
@@ -120,8 +116,8 @@ export class SubjectListComponent implements OnInit {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.subjectsService.remove(id).subscribe((subject) => {
-            this.subjects = this.subjects.filter(item => item.id !== subject.id);
+          this.subjectsHttpService.remove(id).subscribe((subject) => {
+            this.Subjects = this.Subjects.filter(item => item.id !== subject.id);
             this.paginator.totalItems--;
           });
         }
@@ -131,32 +127,33 @@ export class SubjectListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.subjectsService.removeAll(this.selectedSubject).subscribe((subjects) => {
-          this.selectedSubject.forEach(subjectDeleted => {
-            this.subjects = this.subjects.filter(subject => subject.id !== subjectDeleted.id);
+        this.subjectsHttpService.removeAll(this.selectedSubjects).subscribe((subjects) => {
+          this.selectedSubjects.forEach(subjectDeleted => {
+            this.Subjects = this.Subjects.filter(subject => subject.id !== subjectDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedsubject = [];
+          this.selectedSubjects = [];
         });
       }
     });
   }
 
-  selectsubject(subject: SubjectModel) {
+  selectSubject(subject: SubjectModel) {
+    this.isActionButtons = true;
     this.selectedSubject = subject;
   }
 
-  suspend(id: string) {
-    this.subjectsService.suspend(id).subscribe(subject => {
-      const index = this.subjects.findIndex(subject => subject.id === id);
-      this.subjects[index].state = subject.state;
+  hide(id: string) {
+    this.subjectsHttpService.hide(id).subscribe(subject => {
+      const index = this.Subjects.findIndex(subject => subject.id === id);
+      this.Subjects[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.subjectsService.reactivate(id).subscribe(subject => {
-      const index = this.subjects.findIndex(subject => subject.id === id);
-      this.subjects[index] = subject;
+    this.subjectsHttpService.reactivate(id).subscribe(subject => {
+      const index = this.Subjects.findIndex(subject => subject.id === id);
+      this.Subjects[index] = subject;
     });
   }
 }

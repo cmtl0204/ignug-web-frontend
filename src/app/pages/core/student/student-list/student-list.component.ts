@@ -30,7 +30,7 @@ export class StudentListComponent implements OnInit {
     private studentsHttpService: StudentsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Students'},
+      {label: 'Estudiantes'},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -137,7 +137,7 @@ export class StudentListComponent implements OnInit {
   hide(id: string) {
     this.studentsHttpService.hide(id).subscribe(student => {
       const index = this.students.findIndex(student => student.id === id);
-      this.students[index].suspendedAt = student.suspendedAt;
+      this.students[index].isVisible = false;
     });
   }
 

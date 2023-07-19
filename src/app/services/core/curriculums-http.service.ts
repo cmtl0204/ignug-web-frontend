@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateCurriculmDto, UpdateCurriculmDto, CurriculmModel} from '@models/auth';
+import {CreateCurriculumDto, UpdateCurriculumDto, CurriculumModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {MessageService} from "@services/core";
 
@@ -11,12 +11,12 @@ import {MessageService} from "@services/core";
   providedIn: 'root'
 })
 export class CurriculumsHttpService {
-  API_URL = `${environment.API_URL}/curriculms`;
+  API_URL = `${environment.API_URL}/curriculums`;
 
   constructor(private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: CreateCurriculmDto): Observable<CurriculmModel> {
+  create(payload: CreateCurriculumDto): Observable<CurriculumModel> {
     const url = `${this.API_URL}`;
 
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
@@ -42,7 +42,7 @@ export class CurriculumsHttpService {
     );
   }
 
-  findOne(id: string): Observable<CurriculmModel> {
+  findOne(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -52,7 +52,7 @@ export class CurriculumsHttpService {
     );
   }
 
-  update(id: string, payload: UpdateCurriculmDto): Observable<CurriculmModel> {
+  update(id: string, payload: UpdateCurriculumDto): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
@@ -63,7 +63,7 @@ export class CurriculumsHttpService {
     );
   }
 
-  reactivate(id: string): Observable<CurriculmModel> {
+  reactivate(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
@@ -74,7 +74,7 @@ export class CurriculumsHttpService {
     );
   }
 
-  remove(id: string): Observable<CurriculmModel> {
+  remove(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
@@ -85,10 +85,10 @@ export class CurriculumsHttpService {
     );
   }
 
-  removeAll(curriculms: CurriculmModel[]): Observable<CurriculmModel[]> {
+  removeAll(curriculums: CurriculumModel[]): Observable<CurriculumModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
-    return this.httpClient.patch<ServerResponse>(url, curriculms).pipe(
+    return this.httpClient.patch<ServerResponse>(url, curriculums).pipe(
       map((response) => {
         this.messageService.success(response).then();
         return response.data;
@@ -96,7 +96,7 @@ export class CurriculumsHttpService {
     );
   }
 
-  suspend(id: string): Observable<CurriculmModel> {
+  suspend(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}/suspend`;
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
