@@ -6,26 +6,22 @@
     <i *ngIf="id!=''" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
     <h2 class="panel-header">{{panelHeader}}</h2>
   </ng-template>
+
   <small [innerHTML]="this.messageService.requiredFields"></small>
+
   <p-divider></p-divider>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="formgrid grid">
+      <!-- state & isVisible -->
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="state" label="Estado:" [required]="stateField"></label>
         <p-dropdown id="state"
-                    formControlName="state"
                     dataKey="id"
+                    formControlName="state"
                     [options]="states"
                     optionLabel="name"
                     placeholder="Seleccione">
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="stateField.value">
-              <div>{{stateField.value.name}}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{item.name}}
-          </ng-template>
         </p-dropdown>
         <small appErrorMessage
                [errors]="stateField.errors"
@@ -33,6 +29,7 @@
                [dirty]="stateField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
         <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
@@ -44,6 +41,7 @@
       </div>
     </div>
 
+    <!-- code & codeSniese -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="code" label="Código:" [required]="codeField"></label>
@@ -54,6 +52,7 @@
                [dirty]="codeField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="codeSniese" label="Código SNIESE:" [required]="codeSnieseField"></label>
         <input pInputText type="text" id="codeSniese" formControlName="codeSniese"/>
@@ -65,6 +64,7 @@
       </div>
     </div>
 
+    <!-- name & shortName -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
@@ -75,6 +75,7 @@
                [dirty]="nameField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
         <input pInputText type="text" id="shortName" formControlName="shortName"/>
@@ -86,6 +87,7 @@
       </div>
     </div>
 
+    <!-- startedAt & endedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="startedAt" label="Fecha Inicio:" [required]="startedAtField"></label>
@@ -93,24 +95,23 @@
                     formControlName="startedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="startedAtField.errors"
                [touched]="startedAtField.touched"
                [dirty]="startedAtField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="endedAt" label="Fecha Fin:" [required]="endedAtField"></label>
         <p-calendar id="endedAt"
                     formControlName="endedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="endedAtField.errors"
                [touched]="endedAtField.touched"
@@ -119,6 +120,7 @@
       </div>
     </div>
 
+    <!-- ordinaryStartedAt & ordinaryEndedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="ordinaryStartedAt" label="Fecha Inicio Ordinaria:"
@@ -127,24 +129,23 @@
                     formControlName="ordinaryStartedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="ordinaryStartedAtField.errors"
                [touched]="ordinaryStartedAtField.touched"
                [dirty]="ordinaryStartedAtField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="ordinaryEndedAt" label="Fecha Fin Ordinaria:" [required]="ordinaryEndedAtField"></label>
         <p-calendar id="ordinaryEndedAt"
                     formControlName="ordinaryEndedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="ordinaryEndedAtField.errors"
                [touched]="ordinaryEndedAtField.touched"
@@ -153,6 +154,7 @@
       </div>
     </div>
 
+    <!-- extraOrdinaryStartedAt & extraOrdinaryEndedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="extraOrdinaryStartedAt" label="Fecha Inicio Extraordinaria:"
@@ -161,15 +163,15 @@
                     formControlName="extraOrdinaryStartedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="extraOrdinaryStartedAtField.errors"
                [touched]="extraOrdinaryStartedAtField.touched"
                [dirty]="extraOrdinaryStartedAtField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="extraOrdinaryEndedAt" label="Fecha Fin Extraordinaria:"
                [required]="extraOrdinaryEndedAtField"></label>
@@ -177,9 +179,8 @@
                     formControlName="extraOrdinaryEndedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="extraOrdinaryEndedAtField.errors"
                [touched]="extraOrdinaryEndedAtField.touched"
@@ -188,6 +189,7 @@
       </div>
     </div>
 
+    <!-- especialStartedAt & especialEndedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="especialStartedAt" label="Fecha Inicio Especial:"
@@ -196,24 +198,23 @@
                     formControlName="especialStartedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="especialStartedAtField.errors"
                [touched]="especialStartedAtField.touched"
                [dirty]="especialStartedAtField.dirty">
         </small>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="especialEndedAt" label="Fecha Fin Especial:" [required]="especialEndedAtField"></label>
         <p-calendar id="especialEndedAt"
                     formControlName="especialEndedAt"
                     dateFormat="yy-mm-dd"
                     [showButtonBar]="true"
-                    [firstDayOfWeek]="1"
-                    [showOnFocus]="false"
-                    [showIcon]="true"></p-calendar>
+                    [firstDayOfWeek]="1">
+        </p-calendar>
         <small appErrorMessage
                [errors]="especialEndedAtField.errors"
                [touched]="especialEndedAtField.touched"
@@ -222,20 +223,21 @@
       </div>
     </div>
 
-    <!-- Buttons -->
+    <!-- Buttons Actions-->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple id="btnBack" type="button"
-                label="Cancel"
+        <button pButton pRipple type="button"
+                label="Cancelar"
                 class="p-button-info p-button-outlined"
-                icon="pi pi-arrow-left"
+                [icon]="PrimeIcons.ARROW_LEFT"
                 [loading]="coreService.isLoading"
                 (click)="back()"></button>
       </div>
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple id="submit" type="submit"
-                label="Save"
-                icon="pi pi-save"
+        <button pButton pRipple type="submit"
+                label="Guardar"
+                [icon]="PrimeIcons.SAVE"
                 [loading]="coreService.isLoading"></button>
       </div>
     </div>

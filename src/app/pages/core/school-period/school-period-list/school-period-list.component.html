@@ -1,35 +1,46 @@
-<!--<p-card>-->
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton type="button" label="Crear"
+    <button pButton pRipple type="button"
+            label="Crear"
             class="p-button-success mr-2"
-            icon="pi pi-plus"
-            (click)="redirectCreateForm()"></button>
-    <button pButton type="button" label="Actualizar"
+            [icon]="PrimeIcons.PLUS"
+            (click)="redirectCreateForm()">
+    </button>
+
+    <button pButton pRipple type="button"
+            label="Refrescar"
             class="p-button-info mr-2"
-            icon="pi pi-refresh"
+            [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
-            (click)="findAll()"></button>
-    <button *ngIf="selectedItems.length>0" pButton type="button" label="Eliminar Carrera"
+            (click)="findAll()">
+    </button>
+
+    <button pButton pRipple type="button"
+            label="Eliminar Seleccionados"
             class="p-button-danger"
-            icon="pi pi-trash"
+            [disabled]="selectedItems.length===0"
+            [icon]="PrimeIcons.TRASH"
             [loading]="coreService.isLoading"
-            (click)="removeAll()"></button>
+            (click)="removeAll()">
+    </button>
   </div>
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
       <input type="text" pInputText [formControl]="search" placeholder="Search">
-      <button type="button" pButton pRipple
-              [class]="PrimeIcons.SEARCH"
+      <button pButton pRipple type="button"
+              [icon]="PrimeIcons.SEARCH"
               [loading]="coreService.isLoading"
               (click)="findAll()"></button>
     </div>
   </div>
 </p-toolbar>
+
 <p-paginator
   [rows]="paginator.limit"
   [totalRecords]="paginator.totalItems"
-  (onPageChange)="paginate($event)"></p-paginator>
+  (onPageChange)="paginate($event)">
+</p-paginator>
+
 <p-table
   dataKey="id"
   styleClass="p-datatable-striped"
@@ -47,8 +58,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        <button pButton pRipple type="button" class="p-button-help p-button-outlined p-button-rounded"
-                icon="pi pi-cog"></button>
+        Acciones
       </th>
     </tr>
   </ng-template>
@@ -64,6 +74,7 @@
             <p-tag severity="info" [value]="rowData[col.field].name" class="mr-1"></p-tag>
           </div>
         </div>
+
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'startedAt'">
@@ -80,7 +91,7 @@
         </div>
       </td>
       <td class="text-center">
-        <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
+        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
       </td>
     </tr>
   </ng-template>
@@ -95,7 +106,6 @@
     {{messageService.paginatorTotalRegisters(paginator)}}
   </ng-template>
 </p-table>
-<!--</p-card>-->
 
 <p-sidebar [(visible)]="isActionButtons" position="right">
   <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>

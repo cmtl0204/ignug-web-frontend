@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
 import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, CreateSchoolPeriodDto, UpdateSchoolPeriodDto} from "@models/core";
+import {CatalogueModel, SchoolPeriodModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -12,6 +12,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from "@services/core";
+import {CatalogueCoreTypeEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-school-period-form',
@@ -20,10 +21,12 @@ import {
 })
 export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
-  id: string = '';
-  form: FormGroup;
-  panelHeader: string = 'Crear';
-  states: CatalogueModel[] = [];
+  protected id: string | null = null;
+  protected form: FormGroup;
+  protected panelHeader: string = 'Crear';
+
+  // Foreign Keys
+  protected states: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -31,7 +34,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     private cataloguesHttpService: CataloguesHttpService,
     protected coreService: CoreService,
     private formBuilder: FormBuilder,
-    public messageService: MessageService,
+    protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
@@ -59,13 +62,12 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   ngOnInit(): void {
     this.loadStates();
 
-    if (this.id != '') {
-      this.getItem();
+    if (this.id) {
+      this.get();
     }
   }
 
   get newForm(): FormGroup {
-    const currentDate = new Date();
     return this.formBuilder.group({
       code: [null, [Validators.required]],
       codeSniese: [null, []],
@@ -73,20 +75,20 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
       name: [null, [Validators.required]],
       shortName: [null, [Validators.required]],
       state: [null, [Validators.required]],
-      startedAt: [currentDate, [Validators.required]],
-      endedAt: [currentDate, [Validators.required]],
-      ordinaryStartedAt: [currentDate, [Validators.required]],
-      ordinaryEndedAt: [currentDate, [Validators.required]],
-      extraOrdinaryStartedAt: [currentDate, [Validators.required]],
-      extraOrdinaryEndedAt: [currentDate, [Validators.required]],
-      especialStartedAt: [currentDate, [Validators.required]],
-      especialEndedAt: [currentDate, [Validators.required]],
+      startedAt: [null, [Validators.required]],
+      endedAt: [null, [Validators.required]],
+      ordinaryStartedAt: [null, [Validators.required]],
+      ordinaryEndedAt: [null, [Validators.required]],
+      extraOrdinaryStartedAt: [null, [Validators.required]],
+      extraOrdinaryEndedAt: [null, [Validators.required]],
+      especialStartedAt: [null, [Validators.required]],
+      especialEndedAt: [null, [Validators.required]],
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      if (this.id != '') {
+      if (this.id) {
         this.update(this.form.value);
       } else {
         this.create(this.form.value);
@@ -101,30 +103,33 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     this.router.navigate([this.routesService.schoolPeriods]);
   }
 
-  create(item: CreateSchoolPeriodDto): void {
-    this.schoolPeriodsHttpService.create(item).subscribe(item => {
-      this.form.reset(item);
+  /** Actions **/
+  create(item: SchoolPeriodModel): void {
+    this.schoolPeriodsHttpService.create(item).subscribe(() => {
+      this.form.reset();
       this.back();
     });
   }
 
-  loadStates(): void {
-    this.cataloguesHttpService.findAll().subscribe((items) => this.states = items);
+  update(item: SchoolPeriodModel): void {
+    this.schoolPeriodsHttpService.update(this.id!, item).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
   }
 
-  getItem(): void {
-    this.schoolPeriodsHttpService.findOne(this.id).subscribe((item) => {
+  /** Load Data **/
+  get(): void {
+    this.schoolPeriodsHttpService.findOne(this.id!).subscribe((item) => {
       this.form.patchValue(item);
     });
   }
 
-  update(item: UpdateSchoolPeriodDto): void {
-    this.schoolPeriodsHttpService.update(this.id, item).subscribe((item) => {
-      this.form.reset(item);
-      this.back();
-    });
+  loadStates(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
   }
 
+  /** Form Getters **/
   get codeField(): AbstractControl {
     return this.form.controls['code'];
   }

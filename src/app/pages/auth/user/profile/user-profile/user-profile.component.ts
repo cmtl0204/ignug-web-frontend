@@ -8,7 +8,7 @@ import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} f
 import {OnExitInterface} from '@shared/interfaces';
 import {DateValidators} from '@shared/validators';
 import {DateFormatPipe} from "@shared/pipes";
-import {CatalogueTypeEnum} from "@shared/enums";
+import {CatalogueCoreTypeEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-user-profile',
@@ -94,29 +94,29 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   }
 
   loadBloodTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueTypeEnum.BLOOD_TYPE).subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
   }
 
   loadEthnicOrigins(): void {
-    this.cataloguesHttpService.catalogue(CatalogueTypeEnum.ETHNIC_ORIGIN).subscribe((ethnicOrigins) => this.ethnicOrigins = ethnicOrigins);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((ethnicOrigins) => this.ethnicOrigins = ethnicOrigins);
   }
 
   loadGenders(): void {
-    this.cataloguesHttpService.catalogue(CatalogueTypeEnum.GENDER).subscribe((genders) => this.genders = genders);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((genders) => this.genders = genders);
   }
 
   loadIdentificationTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueTypeEnum.IDENTIFICATION_TYPE).subscribe((identificationTypes) =>
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE).subscribe((identificationTypes) =>
       this.identificationTypes = identificationTypes
     );
   }
 
   loadMaritalStatus(): void {
-    this.cataloguesHttpService.catalogue(CatalogueTypeEnum.MARITAL_STATUS).subscribe((maritalStatus) => this.maritalStatus = maritalStatus);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.MARITAL_STATUS).subscribe((maritalStatus) => this.maritalStatus = maritalStatus);
   }
 
   loadSexes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueTypeEnum.SEX).subscribe((sexes) => this.sexes = sexes);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((sexes) => this.sexes = sexes);
   }
 
   updateProfile(user: UpdateUserDto): void {

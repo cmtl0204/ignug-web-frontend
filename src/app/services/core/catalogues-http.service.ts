@@ -7,7 +7,7 @@ import {map} from 'rxjs/operators';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 import {CatalogueModel, PaginatorModel} from '@models/core';
-import {CatalogueTypeEnum} from "@shared/enums";
+import {CatalogueCoreTypeEnum} from "@shared/enums";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +30,7 @@ export class CataloguesHttpService {
     );
   }
 
-  catalogue(type: CatalogueTypeEnum): Observable<CatalogueModel[]> {
+  catalogue(type: CatalogueCoreTypeEnum): Observable<CatalogueModel[]> {
     const url = `${this.API_URL}/catalogue`;
     const params = new HttpParams().append('type', type);
 

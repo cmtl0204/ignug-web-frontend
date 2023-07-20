@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
@@ -58,6 +58,7 @@ export class SchoolPeriodListComponent implements OnInit {
     this.findAll();
   }
 
+  /** Load Data **/
   findAll(page: number = 0) {
     this.schoolPeriodsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
@@ -66,6 +67,7 @@ export class SchoolPeriodListComponent implements OnInit {
       });
   }
 
+  /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'name', header: 'Nombre'},
@@ -109,24 +111,13 @@ export class SchoolPeriodListComponent implements OnInit {
     ];
   }
 
-  paginate(event: any) {
-    this.findAll(event.page);
-  }
-
-  redirectCreateForm() {
-    this.router.navigate([this.routesService.schoolPeriods, 'new']);
-  }
-
-  redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.schoolPeriods, id]);
-  }
-
+  /** Actions **/
   remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.schoolPeriodsHttpService.remove(id).subscribe((item) => {
-            this.items = this.items.filter(item => item.id !== item.id);
+          this.schoolPeriodsHttpService.remove(id).subscribe(() => {
+            this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
         }
@@ -136,7 +127,7 @@ export class SchoolPeriodListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.schoolPeriodsHttpService.removeAll(this.selectedItems).subscribe((items) => {
+        this.schoolPeriodsHttpService.removeAll(this.selectedItems).subscribe(() => {
           this.selectedItems.forEach(itemDeleted => {
             this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
@@ -145,11 +136,6 @@ export class SchoolPeriodListComponent implements OnInit {
         });
       }
     });
-  }
-
-  selectItem(item: SchoolPeriodModel) {
-    this.isActionButtons = true;
-    this.selectedItem = item;
   }
 
   hide(id: string) {
@@ -164,5 +150,23 @@ export class SchoolPeriodListComponent implements OnInit {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
     });
+  }
+
+  /** Select & Paginate **/
+  selectItem(item: SchoolPeriodModel) {
+    this.isActionButtons = true;
+    this.selectedItem = item;
+  }
+  paginate(event: any) {
+    this.findAll(event.page);
+  }
+
+  /** Redirects **/
+  redirectCreateForm() {
+    this.router.navigate([this.routesService.schoolPeriods, 'new']);
+  }
+
+  redirectEditForm(id: string) {
+    this.router.navigate([this.routesService.schoolPeriods, id]);
   }
 }
