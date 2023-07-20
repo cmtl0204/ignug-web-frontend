@@ -3,10 +3,10 @@ import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {CareerModel, ColumnModel, PaginatorModel, SelectCareerDto} from '@models/core';
-import {BreadcrumbService, CareersHttpService, CoreService, MessageService} from '@services/core';
+import {BreadcrumbService, CareersHttpService, CoreService, MessageService, RoutesService} from '@services/core';
 
 @Component({
-  selector: 'app-career-list',
+  selector: 'app-school-period-list',
   templateUrl: './career-list.component.html',
   styleUrls: ['./career-list.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -28,6 +28,7 @@ export class CareerListComponent implements OnInit {
     public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
+    private routesService: RoutesService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Carreras'},
@@ -103,7 +104,7 @@ export class CareerListComponent implements OnInit {
   }
 
   redirectCreateForm() {
-    this.router.navigate(['/administration/careers', 'new']);
+    this.router.navigate([this.routesService.careers, 'new']);
   }
 
   redirectEditForm(id: string) {

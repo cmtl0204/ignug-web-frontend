@@ -30,7 +30,7 @@ export class TeacherListComponent implements OnInit {
     private router: Router,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Asignaturas'},
+      {label: 'Docentes'},
     ]);
 
     this.paginator = this.coreService.paginator;

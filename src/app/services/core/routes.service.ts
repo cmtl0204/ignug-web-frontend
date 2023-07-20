@@ -16,11 +16,35 @@ export class RoutesService {
   }
 
   get core(): string {
-    return AppRoutesEnum.CORE;
+    return '/core';
+  }
+
+  get careers(): string {
+    return this.core + '/careers';
+  }
+
+  get curriculums(): string {
+    return this.core + '/curriculums';
+  }
+
+  get institutions(): string {
+    return this.core + '/curriculums';
+  }
+  get schoolPeriods(): string {
+    return this.core + '/school-periods';
+  }
+  get students(): string {
+    return this.core + '/students';
+  }
+  get subjects(): string {
+    return this.core + '/subjects';
+  }
+  get teachers(): string {
+    return this.core + '/teachers';
   }
 
   get common(): string {
-    return AppRoutesEnum.COMMON;
+    return '/common';
   }
 
   get appRoutes(): string {

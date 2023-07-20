@@ -7,12 +7,16 @@ const routes: Routes = [
     loadChildren: () => import('./career/career.module').then(m => m.CareerModule)
   },
   {
-    path: 'curriculum',
+    path: 'curriculums',
     loadChildren: () => import('./curriculum/curriculum.module').then(m => m.CurriculumModule)
   },
   {
     path: 'institutions',
     loadChildren: () => import('./institution/institution.module').then(m => m.InstitutionModule)
+  },
+  {
+    path: 'school-periods',
+    loadChildren: () => import('./school-period/school-period.module').then(m => m.SchoolPeriodModule)
   },
   {
     path: 'students',

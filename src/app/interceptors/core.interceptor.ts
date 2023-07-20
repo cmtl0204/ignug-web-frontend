@@ -31,6 +31,7 @@ export class CoreInterceptor implements HttpInterceptor {
     if (!flag) {
       headers = headers.append('Content-Type', 'application/json')
     }
+
     this.coreService.isLoading = true;
     return next.handle(request.clone({headers, params})).pipe(
       tap(value => {
