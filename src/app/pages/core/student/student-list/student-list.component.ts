@@ -130,7 +130,7 @@ export class StudentListComponent implements OnInit {
     });
   }
 
-  selectUser(user: StudentModel) {
+  selectStudent(user: StudentModel) {
     this.selectedStudent = user;
   }
 

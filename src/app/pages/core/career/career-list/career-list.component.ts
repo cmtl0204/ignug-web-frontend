@@ -85,7 +85,7 @@ export class CareerListComponent implements OnInit {
         label: 'Suspender',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedCareer?.id) this.suspend(this.selectedCareer.id);
+          if (this.selectedCareer?.id) this.hide(this.selectedCareer.id);
         },
       },
       {
@@ -142,7 +142,7 @@ export class CareerListComponent implements OnInit {
   }
 
   hide(id: string) {
-    this.careersHttpService.suspend(id).subscribe(career => {
+    this.careersHttpService.hide(id).subscribe(career => {
       const index = this.careers.findIndex(career => career.id === id);
       this.careers[index].isVisible = false;
     });

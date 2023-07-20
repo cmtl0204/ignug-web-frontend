@@ -2,9 +2,8 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {ColumnModel, PaginatorModel, SelectTeacherDto, TeacherModel} from '@models/core';
-import {BreadcrumbService, CoreService, MessageService, TeachersHttpService} from '@services/core';
-
+import {TeacherModel, ColumnModel, PaginatorModel, SelectTeacherDto} from '@models/core';
+import {BreadcrumbService, TeachersHttpService, CoreService, MessageService} from '@services/core';
 
 @Component({
   selector: 'app-teacher-list',
@@ -24,16 +23,18 @@ export class TeacherListComponent implements OnInit {
   protected teachers: TeacherModel[] = [];
 
   constructor(
-    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
+    private teachersHttpService: TeachersHttpService,
+    public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
-    private teachersHttpService: TeachersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Teachers'},
+      {label: 'Asignaturas'},
     ]);
+
     this.paginator = this.coreService.paginator;
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -41,59 +42,56 @@ export class TeacherListComponent implements OnInit {
     });
   }
 
-
-  ngOnInit(): void {
-  }
-
-  checkState(teacher: TeacherModel): string {
-    if (teacher.state) return 'danger';
-
-    //if (teacher.maxAttempts === 0) return 'warning';
-
-    return 'success';
+  ngOnInit() {
+    this.findAll();
   }
 
   findAll(page: number = 0) {
-    this.teachersHttpService.findAll(page, this.search.value).subscribe((teachers) => this.teachers = teachers);
+    this.teachersHttpService.findAll(page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.teachers = response.data;
+      });
   }
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'teacher', header: 'Profesor'},
-      {field: 'countryHigherEducation', header: 'Nota mas alta'},
-      {field: 'higherEducation', header: 'Educacion superior'},
-      {field: 'academicUnit', header: 'Unidad academica'},
-      {field: 'classHours', header: 'Horas de clase'},
-      {field: 'holidays', header: 'Feriados'},
-      {field: 'state', header: 'Estado'}
+      {field: 'autonomousHour', header: 'Horas autonomas'},
+      {field: 'code', header: 'Codigo'},
+      {field: 'name', header: 'Nombre'},
+      {field: 'practicalHour', header: 'Horas practicas'},
+      {field: 'scale', header: 'Escala'},
+      {field: 'credit', header: 'Credito'},
+      {field: 'teacherHour', header: 'Horas profesor'},
+      {field: 'suspendedAt', header: 'Estado'},
     ];
   }
 
   get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Update',
+        label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedTeacher?.id) this.redirectEditForm(this.selectedTeacher.id);
         },
       },
       {
-        label: 'Delete',
+        label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
           if (this.selectedTeacher?.id) this.remove(this.selectedTeacher.id);
         },
       },
       {
-        label: 'Suspend',
+        label: 'Suspender',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedTeacher?.id) this.suspend(this.selectedTeacher.id);
+          if (this.selectedTeacher?.id) this.hide(this.selectedTeacher.id);
         },
       },
       {
-        label: 'Reactivate',
+        label: 'Reactivar',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
           if (this.selectedTeacher?.id) this.reactivate(this.selectedTeacher.id);
@@ -102,17 +100,16 @@ export class TeacherListComponent implements OnInit {
     ];
   }
 
-
   paginate(event: any) {
     this.findAll(event.page);
   }
 
   redirectCreateForm() {
-    this.router.navigate(['/administration/teachers', 'new']);
+    this.router.navigate(['/administration/Teachers', 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate(['/administration/teachers', id]);
+    this.router.navigate(['/administration/Teachers', id]);
   }
 
   remove(id: string) {
@@ -130,9 +127,9 @@ export class TeacherListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.teachersHttpService.removeAll(this.selectedTeachers).subscribe((teachers) => {
-          this.selectedTeachers.forEach(teacherDeleted => {
-            this.teachers = this.teachers.filter(teacher => teacher.id !== teacherDeleted.id);
+        this.teachersHttpService.removeAll(this.selectedTeachers).subscribe((Teachers) => {
+          this.selectedTeachers.forEach(TeacherDeleted => {
+            this.teachers = this.teachers.filter(teacher => teacher.id !== TeacherDeleted.id);
             this.paginator.totalItems--;
           });
           this.selectedTeachers = [];
@@ -142,13 +139,14 @@ export class TeacherListComponent implements OnInit {
   }
 
   selectTeacher(teacher: TeacherModel) {
+    this.isActionButtons = true;
     this.selectedTeacher = teacher;
   }
 
-  suspend(id: string) {
+  hide(id: string) {
     this.teachersHttpService.hide(id).subscribe(teacher => {
       const index = this.teachers.findIndex(teacher => teacher.id === id);
-      // this.teachers[index].isVisible = teacher.state;
+      this.teachers[index].isVisible = false;
     });
   }
 

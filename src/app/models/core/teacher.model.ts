@@ -6,6 +6,7 @@ export interface TeacherModel{
   id?: string;
   informationTeacher?: InformationTeacherModel;
   user?: UserModel;
+  isVisible: boolean;
 }
 
 export interface CreateTeacherDto extends Omit<TeacherModel, 'id'> {}

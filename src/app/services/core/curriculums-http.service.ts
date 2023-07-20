@@ -96,7 +96,7 @@ export class CurriculumsHttpService {
     );
   }
 
-  suspend(id: string): Observable<CurriculumModel> {
+  hide(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}/suspend`;
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(

@@ -23,7 +23,6 @@ export class CurriculumListComponent implements OnInit {
   protected curriculums: CurriculumModel[] = [];
 
   constructor(
-    public authService: AuthService,
     public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
     public messageService: MessageService,
@@ -31,7 +30,7 @@ export class CurriculumListComponent implements OnInit {
     private curriculumsHttpService: CurriculumsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Curriculums'},
+      {label: 'Malla curricular'},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -81,7 +80,7 @@ export class CurriculumListComponent implements OnInit {
         },
       },
       {
-        label: 'Suspender',
+        label: 'Ocultar',
         icon: PrimeIcons.LOCK,
         command: () => {
           if (this.selectedCurriculum?.id) this.hide(this.selectedCurriculum.id);
@@ -135,7 +134,7 @@ export class CurriculumListComponent implements OnInit {
     });
   }
 
-  selectUser(curriculum: CurriculumModel) {
+  selectCurriculum(curriculum: CurriculumModel) {
     this.isActionButtons = true;
     this.selectedCurriculum = curriculum;
   }

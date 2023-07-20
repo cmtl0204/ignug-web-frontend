@@ -1,6 +1,6 @@
 <p-toolbar>
     <div class="p-toolbar-group-left">
-      <button pButton type="button" label="Crear Curriculo"
+      <button pButton type="button" label="Crear Malla Curricular"
               class="p-button-success mr-2"
               icon="pi pi-plus"
               (click)="redirectCreateForm()"></button>
@@ -9,7 +9,7 @@
               icon="pi pi-refresh"
               [loading]="coreService.isLoading"
               (click)="findAll()"></button>
-      <button *ngIf="selectedCurriculums.length>0" pButton type="button" label="Eliminar Curriculo"
+      <button *ngIf="selectedCurriculums.length>0" pButton type="button" label="Eliminar Malla Curricular"
               class="p-button-danger"
               icon="pi pi-trash"
               [loading]="coreService.isLoading"
@@ -53,8 +53,8 @@
     </ng-template>
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
       <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-        <div *ngIf="rowData['id']!==authService.auth.id; then thenBlockCheckbox else elseBlockCheckbox">
-        </div>
+        <!-- <div *ngIf="rowData['id']!==authService.auth.id; then thenBlockCheckbox else elseBlockCheckbox">
+        </div> -->
         <ng-template #thenBlockCheckbox>
           <td>
             <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
@@ -73,25 +73,36 @@
           </div>
           <!--Fields-->
           <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-            <div *ngSwitchCase="'roles'">
-              <p-tag *ngFor="let role of rowData[col.field]" severity="info" [value]="role.name" class="mr-1"></p-tag>
+            <div *ngSwitchCase="'curriculums'">
+              <p-tag *ngFor="let curriculum of rowData[col.field]" severity="info" [value]="curriculum.name" class="mr-1"></p-tag>
             </div>
-            <div *ngSwitchCase="'suspendedAt'">
-              <p-tag
-                [value]="rowData['suspendedAt']?'Suspended':'Active'"
-                [pTooltip]="rowData['maxAttempts']===0?messageService.exceededMaxAttempts:''"
-                [severity]="rowData | curriculumState"></p-tag>
+            <div *ngSwitchCase="'code'">
+              {{rowData[col.field]?.code}}
             </div>
-            <div *ngSwitchCase="'updatedAt'">{{rowData[col.field]|date}}</div>
+            <div *ngSwitchCase="'name'">
+              {{rowData[col.field]?.name}}
+            </div>
+            <div *ngSwitchCase="'description'">
+              {{rowData[col.field]?.description}}
+            </div>
+            <div *ngSwitchCase="'resolutionNumber'">
+              {{rowData[col.field]?.resolutionNumber}}
+            </div>
+            <div *ngSwitchCase="'periodicAcademicNumber'">
+              {{rowData[col.field]?.periodicAcademicNumber}}
+            </div>
+            <div *ngSwitchCase="'weeksNumber'">
+              {{rowData[col.field]?.weeksNumber}}
+            </div>
             <div *ngSwitchDefault>{{rowData[col.field]}}</div>
           </div>
         </td>
         <td class="text-center">
-          <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div>
+          <!-- <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div> -->
           <ng-template #thenBlock>
             <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectCurriculum(rowData)"></button>
           </ng-template>
-          <ng-template #elseBlock>Current Curriculum</ng-template>
+          <ng-template #elseBlock>Malla curricular actual</ng-template>
         </td>
       </tr>
     </ng-template>
@@ -107,7 +118,7 @@
     </ng-template>
   </p-table>
   <!--</p-card>-->
-  
+
   <p-sidebar [(visible)]="isActionButtons" position="right">
     <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
   </p-sidebar>

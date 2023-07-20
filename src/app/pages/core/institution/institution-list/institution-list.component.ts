@@ -30,7 +30,7 @@ export class InstitutionListComponent implements OnInit {
     private institutionsHttpService: InstitutionsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institutions'},
+      {label: 'Institucion'},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {

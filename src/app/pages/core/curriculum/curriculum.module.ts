@@ -27,7 +27,7 @@ import {CurriculumFormComponent} from './curriculum-form/curriculum-form.compone
   ],
   imports: [
     NgCommonModule,
-    InstitutionRoutingModule,
+    CurriculumRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
