@@ -109,7 +109,7 @@
         <p-calendar id="endedAt"
                     formControlName="endedAt"
                     dateFormat="yy-mm-dd"
-                    [minDate]="startedAtField.value"
+                    [minDate]="startedAt"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
@@ -138,13 +138,12 @@
                [dirty]="ordinaryStartedAtField.dirty">
         </small>
       </div>
-
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="ordinaryEndedAt" label="Fecha Fin Ordinaria:" [required]="ordinaryEndedAtField"></label>
         <p-calendar id="ordinaryEndedAt"
                     formControlName="ordinaryEndedAt"
                     dateFormat="yy-mm-dd"
-                    [minDate]="ordinaryStartedAtField.value"
+                    [minDate]="ordinaryStartedAt"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
@@ -180,7 +179,7 @@
         <p-calendar id="extraOrdinaryEndedAt"
                     formControlName="extraOrdinaryEndedAt"
                     dateFormat="yy-mm-dd"
-                    [minDate]="extraOrdinaryStartedAtField.value"
+                    [minDate]="extraOrdinaryStartedAt"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
@@ -215,7 +214,7 @@
         <p-calendar id="especialEndedAt"
                     formControlName="especialEndedAt"
                     dateFormat="yy-mm-dd"
-                    [minDate]="especialStartedAtField.value"
+                    [minDate]="especialStartedAt"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>

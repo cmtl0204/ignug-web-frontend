@@ -29,3 +29,8 @@ export enum CatalogueCoreTypeEnum {
   SCHOOL_PERIOD_STATE = 'SCHOOL_PERIOD_STATE',
   EVENT_STATE = 'EVENT_STATE',
 }
+
+export enum SchoolPeriodsStateEnum {
+  OPEN = 'open',
+  CLOSE = 'close',
+}

@@ -13,6 +13,7 @@ import {
   RoutesService
 } from "@services/core";
 import {CatalogueCoreTypeEnum} from "@shared/enums";
+import {isAfter} from "date-fns";
 
 @Component({
   selector: 'app-event-form',
@@ -24,6 +25,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected panelHeader: string = 'Crear';
+  protected startedAt: Date = new Date();
 
   // Foreign Keys
   protected states: CatalogueModel[] = [];
@@ -41,6 +43,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
     private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
+      {label: this.eventsService.model.routerLabel, routerLink: [this.eventsService.model.routerLink]},
       {label: 'Eventos', routerLink: [this.routesService.events]},
       {label: 'Form'},
     ]);
@@ -66,6 +69,13 @@ export class EventFormComponent implements OnInit, OnExitInterface {
     if (this.id) {
       this.get();
     }
+
+    this.startedAtField.valueChanges.subscribe(value => {
+      this.startedAt = new Date(value);
+      if (isAfter(this.startedAt, new Date(this.endedAtField.value))) {
+        this.endedAtField.setValue(this.startedAt);
+      }
+    });
   }
 
   get newForm(): FormGroup {

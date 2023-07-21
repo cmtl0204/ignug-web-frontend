@@ -109,4 +109,26 @@ export class SchoolPeriodsHttpService {
       })
     );
   }
+
+  open(id: string): Observable<SchoolPeriodModel> {
+    const url = `${this.API_URL}/${id}/open`;
+
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  close(id: string): Observable<SchoolPeriodModel> {
+    const url = `${this.API_URL}/${id}/close`;
+
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
 }

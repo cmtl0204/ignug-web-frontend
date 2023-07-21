@@ -13,6 +13,7 @@ import {
   SchoolPeriodsHttpService
 } from "@services/core";
 import {CatalogueCoreTypeEnum} from "@shared/enums";
+import {isAfter, isBefore} from "date-fns";
 
 @Component({
   selector: 'app-event-form',
@@ -24,6 +25,10 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected panelHeader: string = 'Crear';
+  protected startedAt: Date = new Date();
+  protected ordinaryStartedAt: Date = new Date();
+  protected extraOrdinaryStartedAt: Date = new Date();
+  protected especialStartedAt: Date = new Date();
 
   // Foreign Keys
   protected states: CatalogueModel[] = [];
@@ -65,6 +70,34 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     if (this.id) {
       this.get();
     }
+
+    this.startedAtField.valueChanges.subscribe(value => {
+      this.startedAt = new Date(value);
+      if (isAfter(this.startedAt, new Date(this.endedAtField.value))) {
+        this.endedAtField.setValue(this.startedAt);
+      }
+    });
+
+    this.ordinaryStartedAtField.valueChanges.subscribe(value => {
+      this.ordinaryStartedAt = new Date(value);
+      if (isAfter(this.ordinaryStartedAt, new Date(this.ordinaryEndedAtField.value))) {
+        this.ordinaryEndedAtField.setValue(this.ordinaryStartedAt);
+      }
+    });
+
+    this.extraOrdinaryStartedAtField.valueChanges.subscribe(value => {
+      this.extraOrdinaryStartedAt = new Date(value);
+      if (isAfter(this.extraOrdinaryStartedAt, new Date(this.extraOrdinaryEndedAtField.value))) {
+        this.extraOrdinaryEndedAtField.setValue(this.extraOrdinaryStartedAt);
+      }
+    });
+
+    this.especialStartedAtField.valueChanges.subscribe(value => {
+      this.especialStartedAt = new Date(value);
+      if (isAfter(this.especialStartedAt, new Date(this.especialEndedAtField.value))) {
+        this.especialEndedAtField.setValue(this.especialStartedAt);
+      }
+    });
   }
 
   get newForm(): FormGroup {
