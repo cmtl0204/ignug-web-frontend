@@ -6,7 +6,7 @@ import {CareerModel, ColumnModel, PaginatorModel, SelectCareerDto} from '@models
 import {BreadcrumbService, CareersHttpService, CoreService, MessageService, RoutesService} from '@services/core';
 
 @Component({
-  selector: 'app-school-period-list',
+  selector: 'app-event-list',
   templateUrl: './career-list.component.html',
   styleUrls: ['./career-list.component.scss'],
   encapsulation: ViewEncapsulation.None

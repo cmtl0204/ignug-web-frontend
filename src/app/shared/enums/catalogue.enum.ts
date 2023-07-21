@@ -27,4 +27,5 @@ export enum CatalogueCoreTypeEnum {
   YES_NO = 'YES_NO',
   YES_NO_NA = 'YES_NO_NA',
   SCHOOL_PERIOD_STATE = 'SCHOOL_PERIOD_STATE',
+  EVENT_STATE = 'EVENT_STATE',
 }

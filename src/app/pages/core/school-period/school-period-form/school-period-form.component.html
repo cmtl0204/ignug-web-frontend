@@ -109,6 +109,7 @@
         <p-calendar id="endedAt"
                     formControlName="endedAt"
                     dateFormat="yy-mm-dd"
+                    [minDate]="startedAtField.value"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
@@ -143,6 +144,7 @@
         <p-calendar id="ordinaryEndedAt"
                     formControlName="ordinaryEndedAt"
                     dateFormat="yy-mm-dd"
+                    [minDate]="ordinaryStartedAtField.value"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
@@ -178,6 +180,7 @@
         <p-calendar id="extraOrdinaryEndedAt"
                     formControlName="extraOrdinaryEndedAt"
                     dateFormat="yy-mm-dd"
+                    [minDate]="extraOrdinaryStartedAtField.value"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
@@ -212,6 +215,7 @@
         <p-calendar id="especialEndedAt"
                     formControlName="especialEndedAt"
                     dateFormat="yy-mm-dd"
+                    [minDate]="especialStartedAtField.value"
                     [showButtonBar]="true"
                     [firstDayOfWeek]="1">
         </p-calendar>
