@@ -70,7 +70,8 @@ export class MessageService {
       showCancelButton: true,
       confirmButtonColor: '#d33',
       cancelButtonColor: '#3085d6',
-      confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>'
+      confirmButtonText: '<i class="pi pi-trash"> Si, eliminar</i>',
+      cancelButtonText: 'Cancelar'
     });
   }
 

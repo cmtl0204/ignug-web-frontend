@@ -128,7 +128,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields;
     }
   }
 
@@ -159,7 +159,8 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+      .subscribe((items) => this.states = items);
   }
 
   /** Form Getters **/

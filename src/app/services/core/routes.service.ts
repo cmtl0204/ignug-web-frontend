@@ -32,7 +32,7 @@ export class RoutesService {
   }
 
   get institutions(): string {
-    return this.core + '/curriculums';
+    return this.core + '/institutions';
   }
 
   get schoolPeriods(): string {

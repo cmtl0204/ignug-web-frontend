@@ -70,9 +70,9 @@
         <label appLabel for="acronym" label="Acrónimo:" [required]="acronymField"></label>
         <input pInputText type="text" id="acronym" formControlName="acronym"/>
         <small appErrorMessage
-               [errors]="nameField.errors"
-               [touched]="nameField.touched"
-               [dirty]="nameField.dirty">
+               [errors]="acronymField.errors"
+               [touched]="acronymField.touched"
+               [dirty]="acronymField.dirty">
         </small>
       </div>
 
@@ -111,7 +111,7 @@
 
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
       <label appLabel for="logo" label="Logo:" [required]="logoField"></label>
-      <input pInputText type="image" id="logo" formControlName="logo"/>
+      <input pInputText type="text" id="logo" formControlName="logo"/>
       <small appErrorMessage
              [errors]="logoField.errors"
              [touched]="logoField.touched"

@@ -94,6 +94,13 @@ export class InstitutionListComponent implements OnInit {
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
+      },
+      {
+        label: 'Carreras',
+        icon: PrimeIcons.LOCK_OPEN,
+        command: () => {
+          this.router.navigate([this.routesService.careers]);
+        },
       }
     ];
   }

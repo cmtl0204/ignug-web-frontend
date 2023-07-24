@@ -95,6 +95,13 @@ export class CareerListComponent implements OnInit {
         command: () => {
           if (this.selectedCareer?.id) this.reactivate(this.selectedCareer.id);
         },
+      },
+      {
+        label: 'Malla Curricular',
+        icon: PrimeIcons.LOCK_OPEN,
+        command: () => {
+          this.router.navigate([this.routesService.curriculums]);
+        },
       }
     ];
   }

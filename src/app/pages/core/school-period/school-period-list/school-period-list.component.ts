@@ -18,10 +18,9 @@ import {
 import {ActionButtonsEnum, SchoolPeriodsStateEnum} from "@shared/enums";
 
 @Component({
-  selector: 'app-event-list',
+  selector: 'app-school-period-list',
   templateUrl: './school-period-list.component.html',
   styleUrls: ['./school-period-list.component.scss'],
-
 })
 export class SchoolPeriodListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
@@ -284,6 +283,4 @@ export class SchoolPeriodListComponent implements OnInit {
 
     this.router.navigate([this.routesService.events]);
   }
-
-  protected readonly SchoolPeriodsStateEnum = SchoolPeriodsStateEnum;
 }

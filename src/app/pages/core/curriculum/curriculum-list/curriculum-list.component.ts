@@ -108,6 +108,13 @@ export class CurriculumListComponent implements OnInit {
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
+      },
+      {
+        label: 'Asignaturas',
+        icon: PrimeIcons.LOCK_OPEN,
+        command: () => {
+          this.router.navigate([this.routesService.subjects]);
+        },
       }
     ];
   }
