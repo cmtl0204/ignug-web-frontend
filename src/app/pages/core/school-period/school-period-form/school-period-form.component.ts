@@ -16,7 +16,7 @@ import {CatalogueCoreTypeEnum} from "@shared/enums";
 import {isAfter, isBefore} from "date-fns";
 
 @Component({
-  selector: 'app-event-form',
+  selector: 'app-school-period-form',
   templateUrl: './school-period-form.component.html',
   styleUrls: ['./school-period-form.component.scss']
 })

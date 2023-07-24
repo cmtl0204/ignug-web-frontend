@@ -1,59 +1,53 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray, FormControl,
-  FormGroup,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
-import {AuthHttpService, AuthService, RolesHttpService} from '@services/auth';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PrimeIcons} from "primeng/api";
+import {OnExitInterface} from "@shared/interfaces";
+import {CatalogueModel, SchoolPeriodModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
-  CurriculumsHttpService,
-  MessageService
-} from '@services/core';
-import {OnExitInterface} from '@shared/interfaces';
-import {PrimeIcons} from "primeng/api";
+  MessageService,
+  RoutesService,
+  SchoolPeriodsHttpService
+} from "@services/core";
+import {CatalogueCoreTypeEnum} from "@shared/enums";
+import {isAfter, isBefore} from "date-fns";
 
 @Component({
   selector: 'app-curriculum-form',
   templateUrl: './curriculum-form.component.html',
-  styleUrls: ['./curriculum-form.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  styleUrls: ['./curriculum-form.component.scss']
 })
 export class CurriculumFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
-  id: string = '';
-  form: FormGroup;
-  panelHeader: string = 'Create Curriculum';
-  isChangePassword: FormControl = new FormControl(false);
-  isLoadingSkeleton: boolean = false;
-  isLoading: boolean = false;
+  protected id: string | null = null;
+  protected form: FormGroup;
+  protected panelHeader: string = 'Crear';
+
+  // Foreign Keys
+  protected states: CatalogueModel[] = [];
 
   constructor(
-    private authHttpService: AuthHttpService,
-    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
-    private coreService: CoreService,
+    protected coreService: CoreService,
     private formBuilder: FormBuilder,
-    public messageService: MessageService,
+    protected messageService: MessageService,
     private router: Router,
-    private rolesHttpService: RolesHttpService,
-    private curriculumsHttpService: CurriculumsHttpService,
+    private routesService: RoutesService,
+    private schoolPeriodsHttpService: SchoolPeriodsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Curriculums', routerLink: ['/administration/curriculums']},
+      {label: 'Periodos Lectivos', routerLink: [this.routesService.schoolPeriods]},
       {label: 'Form'},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Update Curriculum';
+      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.newForm;
@@ -67,33 +61,27 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-    this.loadRoles();
+    this.loadStates();
 
-    if (this.id != '') {
-      this.getCurriculum();
-      this.passwordField.clearValidators();
-    } else {
-      this.isChangePassword.setValue(true);
-      this.passwordField.enable();
-      this.passwordChangedField.enable();
+    if (this.id) {
+      this.get();
     }
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      lastname: [null, [Validators.required]],
+      code: [null, [Validators.required, Validators.email]],
       name: [null, [Validators.required]],
-      password: [{value: null, disabled: true}, [Validators.required, Validators.minLength(8)]],
-      passwordChanged: [{value: true, disabled: true}],
-      roles: [null, [Validators.required]],
-      username: [null, [Validators.required]],
+      description: [null, [Validators.required]],
+      resolutionNumber: [{value: null, disabled: true}, [Validators.required, Validators.minLength(8)]],
+      periodicAcademicNumber: [{value: true, disabled: true}],
+      weeksNumber: [null, [Validators.required]],
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
-      if (this.id != '') {
+      if (this.id) {
         this.update(this.form.value);
       } else {
         this.create(this.form.value);
@@ -105,79 +93,57 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate(['/administration/curriculums']);
+    this.router.navigate([this.routesService.schoolPeriods]);
   }
 
-  create(curriculum: CreateCurriculumDto): void {
-    curriculum.passwordChanged = !curriculum.passwordChanged;
-    this.curriculumsHttpService.create(curriculum).subscribe(curriculum => {
-      this.form.reset(curriculum);
+  /** Actions **/
+  create(item: SchoolPeriodModel): void {
+    this.schoolPeriodsHttpService.create(item).subscribe(() => {
+      this.form.reset();
       this.back();
     });
   }
 
-  loadRoles(): void {
-    this.rolesHttpService.findAll().subscribe((roles) => this.roles = roles);
-  }
-
-  getCurriculum(): void {
-    this.isLoadingSkeleton = true;
-    this.curriculumsHttpService.findOne(this.id).subscribe((curriculum) => {
-      this.isLoadingSkeleton = false;
-      this.form.patchValue(curriculum);
+  update(item: SchoolPeriodModel): void {
+    this.schoolPeriodsHttpService.update(this.id!, item).subscribe(() => {
+      this.form.reset();
+      this.back();
     });
   }
 
-  handleChangePassword(event: any) {
-    this.isChangePassword.setValue(event.checked);
-    if (this.isChangePassword.value) {
-      this.passwordChangedField.enable();
-      this.passwordField.enable();
-      this.passwordField.setValidators([Validators.required, Validators.minLength(8)]);
-    } else {
-      this.passwordChangedField.setValue(false);
-      this.passwordChangedField.disable();
-      this.passwordField.setValue(null);
-      this.passwordField.disable();
-      this.passwordField.clearValidators();
-    }
-    this.passwordField.updateValueAndValidity();
-  }
-
-  update(curriculum: UpdateCurriculumDto): void {
-    curriculum.passwordChanged = !curriculum.passwordChanged;
-
-    this.curriculumsHttpService.update(this.id, curriculum).subscribe((curriculum) => {
-      this.form.reset(curriculum);
-      this.back()
+  /** Load Data **/
+  get(): void {
+    this.schoolPeriodsHttpService.findOne(this.id!).subscribe((item) => {
+      this.form.patchValue(item);
     });
   }
 
-  get emailField(): AbstractControl {
-    return this.form.controls['email'];
+  loadStates(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
   }
 
-  get lastnameField(): AbstractControl {
-    return this.form.controls['lastname'];
+  /** Form Getters **/
+  get codeField(): AbstractControl {
+    return this.form.controls['code'];
   }
 
-  get nameField(): AbstractControl {
+  get codeSnieseField(): AbstractControl {
     return this.form.controls['name'];
   }
 
-  get passwordField(): AbstractControl {
-    return this.form.controls['password'];
+  get isVisibleField(): AbstractControl {
+    return this.form.controls['description'];
   }
 
-  get passwordChangedField(): AbstractControl {
-    return this.form.controls['passwordChanged'];
+  get nameField(): AbstractControl {
+    return this.form.controls['resolutionNumber'];
   }
 
-  get rolesField(): FormArray {
-    return this.form.controls['roles'] as FormArray;
+  get shortNameField(): AbstractControl {
+    return this.form.controls['periodicAcademicNumber'];
   }
 
-  get curriculumnameField(): AbstractControl {
-    return this.form.controls['curriculumname'];
+  get stateField(): AbstractControl {
+    return this.form.controls['weeksNumber'];
   }
 }

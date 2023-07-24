@@ -18,12 +18,17 @@ import {PanelMenuModule} from "primeng/panelmenu";
 
 // Components
 import {CurriculumListComponent} from "./curriculum-list/curriculum-list.component";
-import {CurriculumFormComponent} from './curriculum-form/curriculum-form.component';
+import {CurriculumFormComponent} from "./curriculum-form/curriculum-form.component";
+import {SharedModule} from "@shared/shared.module";
+import {PanelModule} from "primeng/panel";
+import {DividerModule} from "primeng/divider";
+import {InputSwitchModule} from "primeng/inputswitch";
+
 
 @NgModule({
   declarations: [
     CurriculumListComponent,
-    CurriculumFormComponent,
+    CurriculumFormComponent
   ],
   imports: [
     NgCommonModule,
@@ -39,7 +44,11 @@ import {CurriculumFormComponent} from './curriculum-form/curriculum-form.compone
     SplitButtonModule,
     InputTextModule,
     SidebarModule,
-    PanelMenuModule
+    PanelMenuModule,
+    SharedModule,
+    PanelModule,
+    DividerModule,
+    InputSwitchModule
   ]
 })
 export class CurriculumModule {
