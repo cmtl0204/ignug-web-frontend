@@ -1,15 +1,26 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {MenuItem, PrimeIcons} from "primeng/api";
-import {CurriculumModel, ColumnModel, PaginatorModel, SelectCurriculumDto} from '@models/core';
-import {BreadcrumbService, CoreService, CurriculumsHttpService, MessageService} from '@services/core';
+import {MenuItem, PrimeIcons} from 'primeng/api';
+import {
+  ColumnModel,
+  PaginatorModel,
+  CurriculumModel,
+  SelectCurriculumDto
+} from '@models/core';
+import {
+  BreadcrumbService,
+  CoreService,
+  MessageService,
+  RoutesService,
+  CurriculumsHttpService
+} from '@services/core';
 
 @Component({
   selector: 'app-curriculum-list',
   templateUrl: './curriculum-list.component.html',
   styleUrls: ['./curriculum-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+
 })
 export class CurriculumListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
@@ -18,21 +29,24 @@ export class CurriculumListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedCurriculum: SelectCurriculumDto = {};
-  protected selectedCurriculums: CurriculumModel[] = [];
-  protected curriculums: CurriculumModel[] = [];
+  protected selectedItem: SelectCurriculumDto = {};
+  protected selectedItems: CurriculumModel[] = [];
+  protected items: CurriculumModel[] = [];
 
   constructor(
-    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
+    public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
+    private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Malla curricular'},
     ]);
+
     this.paginator = this.coreService.paginator;
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -44,14 +58,16 @@ export class CurriculumListComponent implements OnInit {
     this.findAll();
   }
 
+  /** Load Data **/
   findAll(page: number = 0) {
     this.curriculumsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
-        this.curriculums = response.data
+        this.items = response.data
       });
   }
 
+  /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'code', header: 'Código'},
@@ -69,51 +85,40 @@ export class CurriculumListComponent implements OnInit {
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedCurriculum?.id) this.redirectEditForm(this.selectedCurriculum.id);
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedCurriculum?.id) this.remove(this.selectedCurriculum.id);
+          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
       },
       {
         label: 'Ocultar',
-        icon: PrimeIcons.LOCK,
+        icon: PrimeIcons.EYE_SLASH,
         command: () => {
-          if (this.selectedCurriculum?.id) this.hide(this.selectedCurriculum.id);
+          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
       },
       {
-        label: 'Reactivar',
-        icon: PrimeIcons.LOCK_OPEN,
+        label: 'Mostrar',
+        icon: PrimeIcons.EYE,
         command: () => {
-          if (this.selectedCurriculum?.id) this.reactivate(this.selectedCurriculum.id);
+          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
       }
     ];
   }
 
-  paginate(event: any) {
-    this.findAll(event.page);
-  }
-
-  redirectCreateForm() {
-    this.router.navigate(['/administration/curriculums', 'new']);
-  }
-
-  redirectEditForm(id: string) {
-    this.router.navigate(['/administration/curriculums', id]);
-  }
-
+  /** Actions **/
   remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.curriculumsHttpService.remove(id).subscribe((curriculum) => {
-            this.curriculums = this.curriculums.filter(item => item.id !== curriculum.id);
+          this.curriculumsHttpService.remove(id).subscribe(() => {
+            this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
         }
@@ -123,33 +128,46 @@ export class CurriculumListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.curriculumsHttpService.removeAll(this.selectedCurriculums).subscribe((curriculums) => {
-          this.selectedCurriculums.forEach(curriculumDeleted => {
-            this.curriculums = this.curriculums.filter(curriculum => curriculum.id !== curriculumDeleted.id);
+        this.curriculumsHttpService.removeAll(this.selectedItems).subscribe(() => {
+          this.selectedItems.forEach(itemDeleted => {
+            this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedCurriculums = [];
+          this.selectedItems = [];
         });
       }
     });
   }
 
-  selectCurriculum(curriculum: CurriculumModel) {
-    this.isActionButtons = true;
-    this.selectedCurriculum = curriculum;
-  }
-
   hide(id: string) {
-    this.curriculumsHttpService.hide(id).subscribe(curriculum => {
-      const index = this.curriculums.findIndex(curriculum => curriculum.id === id);
-      this.curriculums[index].isVisible = false;
+    this.curriculumsHttpService.hide(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.curriculumsHttpService.reactivate(id).subscribe(curriculum => {
-      const index = this.curriculums.findIndex(curriculum => curriculum.id === id);
-      this.curriculums[index] = curriculum;
+    this.curriculumsHttpService.reactivate(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = true;
     });
+  }
+
+  /** Select & Paginate **/
+  selectItem(item: CurriculumModel) {
+    this.isActionButtons = true;
+    this.selectedItem = item;
+  }
+  paginate(event: any) {
+    this.findAll(event.page);
+  }
+
+  /** Redirects **/
+  redirectCreateForm() {
+    this.router.navigate([this.routesService.curriculums, 'new']);
+  }
+
+  redirectEditForm(id: string) {
+    this.router.navigate([this.routesService.curriculums, id]);
   }
 }
