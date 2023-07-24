@@ -108,7 +108,7 @@ export class CareerListComponent implements OnInit {
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate(['/administration/careers', id]);
+    this.router.navigate([this.routesService.careers, id]);
   }
 
   remove(id: string) {
@@ -150,9 +150,9 @@ export class CareerListComponent implements OnInit {
   }
 
   reactivate(id: string) {
-    this.careersHttpService.reactivate(id).subscribe(career => {
+    this.careersHttpService.reactivate(id).subscribe(() => {
       const index = this.careers.findIndex(career => career.id === id);
-      this.careers[index] = career;
+      this.careers[index].isVisible = true;
     });
   }
 }

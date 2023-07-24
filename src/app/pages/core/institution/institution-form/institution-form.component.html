@@ -63,8 +63,8 @@
         </small>
       </div>
     </div>
-    
-    <!-- -->
+
+    <!-- acronym & phone -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="acronym" label="Acrónimo:" [required]="acronymField"></label>
@@ -92,9 +92,9 @@
         <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
         <input pInputText type="text" id="denomination" formControlName="denomination"/>
         <small appErrorMessage
-               [errors]="nameField.errors"
-               [touched]="nameField.touched"
-               [dirty]="nameField.dirty">
+               [errors]="denominationField.errors"
+               [touched]="denominationField.touched"
+               [dirty]="denominationField.dirty">
         </small>
       </div>
 
@@ -109,7 +109,6 @@
       </div>
     </div>
 
-    
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
       <label appLabel for="logo" label="Logo:" [required]="logoField"></label>
       <input pInputText type="image" id="logo" formControlName="logo"/>
@@ -119,7 +118,6 @@
              [dirty]="logoField.dirty">
       </small>
     </div>
-  </div>
 
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -143,17 +141,16 @@
       </div>
     </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
-        <input pInputText type="text" id="shortName" formControlName="shortName"/>
-        <small appErrorMessage
-               [errors]="shortNameField.errors"
-               [touched]="shortNameField.touched"
-               [dirty]="shortNameField.dirty">
-        </small>
-      </div>
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
+      <input pInputText type="text" id="shortName" formControlName="shortName"/>
+      <small appErrorMessage
+             [errors]="shortNameField.errors"
+             [touched]="shortNameField.touched"
+             [dirty]="shortNameField.dirty">
+      </small>
     </div>
-      
+
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
       <label appLabel for="slogan" label="Slogan:" [required]="sloganField"></label>
       <input pInputText type="text" id="slogan" formControlName="slogan"/>
@@ -163,18 +160,16 @@
              [dirty]="sloganField.dirty">
       </small>
     </div>
-  </div>
 
-  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-    <label appLabel for="web" label="Web:" [required]="webField"></label>
-    <input pInputText type="text" id="web" formControlName="web"/>
-    <small appErrorMessage
-           [errors]="sloganField.errors"
-           [touched]="sloganField.touched"
-           [dirty]="sloganField.dirty">
-    </small>
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="web" label="Web:" [required]="webField"></label>
+      <input pInputText type="text" id="web" formControlName="web"/>
+      <small appErrorMessage
+             [errors]="sloganField.errors"
+             [touched]="sloganField.touched"
+             [dirty]="sloganField.dirty">
+      </small>
     </div>
-  </div>
 
     <!-- Buttons Actions-->
     <div class="formgrid grid">

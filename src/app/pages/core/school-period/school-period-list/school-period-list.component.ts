@@ -236,7 +236,7 @@ export class SchoolPeriodListComponent implements OnInit {
   }
 
   reactivate(id: string) {
-    this.schoolPeriodsHttpService.reactivate(id).subscribe(item => {
+    this.schoolPeriodsHttpService.reactivate(id).subscribe(() => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
     });

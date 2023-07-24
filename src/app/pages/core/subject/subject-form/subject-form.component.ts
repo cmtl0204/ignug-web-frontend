@@ -71,8 +71,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     return this.formBuilder.group({
       autonomousHour: [null, [Validators.required]],
       code: [null, []],
-      // credits: [null, []],
-      // isVisible: [true, []],
+      credits: [null, []],
+      isVisible: [true, []],
       name: [null, [Validators.required]],
       practicalHour: [null, [Validators.required]],
       scale: [null, [Validators.required]],
@@ -136,13 +136,13 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     return this.form.controls['code'];
   }
 
-  // get isVisibleField(): AbstractControl {
-  //   return this.form.controls['isVisible'];
-  // }
+  get isVisibleField(): AbstractControl {
+    return this.form.controls['isVisible'];
+  }
 
-  // get creditsField(): AbstractControl {
-  //   return this.form.controls['credits'];
-  // }
+  get creditsField(): AbstractControl {
+    return this.form.controls['credits'];
+  }
 
   get nameField(): AbstractControl {
     return this.form.controls['name'];

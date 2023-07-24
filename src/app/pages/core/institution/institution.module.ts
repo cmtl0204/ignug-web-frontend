@@ -19,6 +19,10 @@ import {PanelMenuModule} from "primeng/panelmenu";
 // Components
 import {InstitutionListComponent} from "./institution-list/institution-list.component";
 import {InstitutionFormComponent} from './institution-form/institution-form.component';
+import {SharedModule} from "@shared/shared.module";
+import {PanelModule} from "primeng/panel";
+import {DividerModule} from "primeng/divider";
+import {InputSwitchModule} from "primeng/inputswitch";
 
 @NgModule({
   declarations: [
@@ -39,7 +43,11 @@ import {InstitutionFormComponent} from './institution-form/institution-form.comp
     SplitButtonModule,
     InputTextModule,
     SidebarModule,
-    PanelMenuModule
+    PanelMenuModule,
+    SharedModule,
+    PanelModule,
+    DividerModule,
+    InputSwitchModule
   ]
 })
 export class InstitutionModule {

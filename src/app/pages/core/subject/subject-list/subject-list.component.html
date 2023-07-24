@@ -77,12 +77,6 @@
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'startedAt'">
-            {{rowData[col.field]|date}}
-          </div>
-          <div *ngSwitchCase="'endedAt'">
-            {{rowData[col.field]|date}}
-          </div>
           <div *ngSwitchCase="'isVisible'">
             <p-tag *ngIf="!rowData[col.field]" severity="danger" value="No Visible" class="mr-1"></p-tag>
             <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>

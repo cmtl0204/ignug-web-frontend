@@ -52,15 +52,15 @@ export class InstitutionListComponent implements OnInit {
         this.items = response.data
       });
   }
-  
+
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
+      {field: 'name', header: 'Nombre'},
       {field: 'cellphone', header: 'Teléfono'},
       {field: 'code', header: 'Código'},
       {field: 'email', header: 'Email'},
       {field: 'logo', header: 'Logo'},
-      {field: 'name', header: 'Nombre'},
       {field: 'web', header: 'Web'},
     ];
   }
@@ -97,7 +97,7 @@ export class InstitutionListComponent implements OnInit {
       }
     ];
   }
-  
+
   /** Actions **/
   remove(id: string) {
     this.messageService.questionDelete()
