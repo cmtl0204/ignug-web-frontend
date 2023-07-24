@@ -1,7 +1,7 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {BreadcrumbService, CoreService} from '@services/core';
+import {BreadcrumbService, CoreService, RoutesService} from '@services/core';
 import {AuthService} from "@services/auth";
 import {Router} from "@angular/router";
 
@@ -20,14 +20,15 @@ export class BreadcrumbComponent {
   constructor(public breadcrumbService: BreadcrumbService,
               public coreService: CoreService,
               protected authService: AuthService,
-              private router: Router) {
+              private routesService: RoutesService) {
     this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
       this.items = response as MenuItem[];
     });
-    this.home = {icon: 'pi pi-home', routerLink: '/'};
+    console.log(authService.role?.code);
+    this.home = {icon: PrimeIcons.HOME, routerLink: `/core/dashboards/${authService.role?.code}`};
   }
 
   redirectProfile() {
-    this.router.navigateByUrl('/profile');
+    this.routesService.profile();
   }
 }

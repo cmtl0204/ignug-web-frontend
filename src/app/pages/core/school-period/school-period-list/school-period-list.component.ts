@@ -159,8 +159,14 @@ export class SchoolPeriodListComponent implements OnInit {
       //   return actionButton.id !== ActionButtonsEnum.SHOW_EVENTS && actionButton.id !== ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
       // });
 
-      const index = this.actionButtons.findIndex(actionButton => {
+      let index = this.actionButtons.findIndex(actionButton => {
         return actionButton.id === ActionButtonsEnum.SHOW_EVENTS;
+      });
+
+      this.actionButtons.splice(index, 1);
+
+      index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
       });
 
       this.actionButtons.splice(index, 1);
@@ -173,6 +179,22 @@ export class SchoolPeriodListComponent implements OnInit {
 
       const index = this.actionButtons.findIndex(actionButton => {
         return actionButton.id === ActionButtonsEnum.OPEN_SCHOOL_PERIOD;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.REACTIVATE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (!this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.HIDE;
       });
 
       this.actionButtons.splice(index, 1);

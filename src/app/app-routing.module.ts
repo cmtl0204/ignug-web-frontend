@@ -27,6 +27,10 @@ const routes: Routes = [
     redirectTo: '/auth/authentication/login'
   },
   {
+    path: 'password-reset',
+    redirectTo: '/auth/authentication/password-reset'
+  },
+  {
     path: 'profile',
     redirectTo: '/administration/users/profile'
   },

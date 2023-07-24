@@ -28,7 +28,7 @@ export class MenusHttpService {
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
 
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -53,6 +53,17 @@ export class MenusHttpService {
     return this.httpClient.get<ServerResponse>(url).pipe(
       map((response) => {
 
+        return response.data;
+      })
+    );
+  }
+
+  getMenusByRole(roleId:string): Observable<MenuModel[]> {
+    const url = `${this.API_URL}/roles/${roleId}`;
+
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
         return response.data;
       })
     );
@@ -97,7 +108,7 @@ export class MenusHttpService {
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
 
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -110,7 +121,7 @@ export class MenusHttpService {
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
 
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -123,7 +134,7 @@ export class MenusHttpService {
     return this.httpClient.patch<ServerResponse>(url, menus).pipe(
       map((response) => {
 
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );

@@ -46,6 +46,14 @@ export class MessageService {
     });
   }
 
+  successCustom(title: string, text: string) {
+    return Swal.fire({
+      title,
+      text,
+      icon: 'info'
+    });
+  }
+
   get errorsFields() {
     return Swal.fire({
       title: 'Revise los campos',
@@ -202,7 +210,7 @@ export class MessageService {
     return `Se eliminó correctamente`;
   }
 
-  get exceededMaxAttempts():string{
+  get exceededMaxAttempts(): string {
     return 'Exceeded the maximum number of attempts allowed';
   }
 }

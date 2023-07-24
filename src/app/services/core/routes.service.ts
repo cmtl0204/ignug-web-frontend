@@ -26,21 +26,27 @@ export class RoutesService {
   get curriculums(): string {
     return this.core + '/curriculums';
   }
+
   get events(): string {
     return this.core + '/events';
   }
+
   get institutions(): string {
     return this.core + '/curriculums';
   }
+
   get schoolPeriods(): string {
     return this.core + '/school-periods';
   }
+
   get students(): string {
     return this.core + '/students';
   }
+
   get subjects(): string {
     return this.core + '/subjects';
   }
+
   get teachers(): string {
     return this.core + '/teachers';
   }
@@ -54,14 +60,42 @@ export class RoutesService {
   }
 
   login() {
-    this.router.navigateByUrl(`${AppRoutesEnum.AUTH}/login`);
+    this.router.navigateByUrl(`/login`);
+  }
+
+  roleSelect() {
+    this.router.navigateByUrl(`/auth/authentication/role-select`);
   }
 
   profile() {
     this.router.navigateByUrl(`${AppRoutesEnum.AUTH}/profile`);
   }
 
-  dashboard() {
-    this.router.navigateByUrl(`/`);
+  dashboardAdmin() {
+    this.router.navigateByUrl(`/core/dashboards/admin`);
+  }
+
+  dashboardRector() {
+    this.router.navigateByUrl(`/core/dashboards/rector`);
+  }
+
+  dashboardTeacher() {
+    this.router.navigateByUrl(`/core/dashboards/teacher`);
+  }
+
+  dashboardStudent() {
+    this.router.navigateByUrl(`/core/dashboards/student`);
+  }
+
+  dashboardCoordinatorAdministrative() {
+    this.router.navigateByUrl(`/core/dashboards/coordinator-administrative`);
+  }
+
+  dashboardCoordinatorCareer() {
+    this.router.navigateByUrl(`/core/dashboards/coordinator-career`);
+  }
+
+  passwordReset() {
+    this.router.navigateByUrl(`/password-reset`);
   }
 }

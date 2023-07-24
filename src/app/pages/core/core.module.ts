@@ -14,10 +14,13 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {InputTextModule} from "primeng/inputtext";
 import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
 
+  
+    DashboardComponent
   ],
   imports: [
     NgCommonModule,
