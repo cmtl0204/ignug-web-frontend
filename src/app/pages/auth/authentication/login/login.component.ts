@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
 
   newForm(): FormGroup {
     return this.formBuilder.group({
-      username: ['admin', [Validators.required]],
+      username: ['coordinator_career', [Validators.required]],
       // username: [null, [Validators.required]],
       password: ['12345678', [Validators.required]],
       // password: [null, [Validators.required]],

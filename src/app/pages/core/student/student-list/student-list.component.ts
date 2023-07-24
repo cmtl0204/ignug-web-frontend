@@ -3,10 +3,10 @@ import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {ColumnModel, PaginatorModel, SelectStudentDto, StudentModel} from '@models/core';
-import {BreadcrumbService, CoreService, MessageService, StudentsHttpService} from '@services/core';
+import {BreadcrumbService, CoreService, MessageService, RoutesService, StudentsHttpService} from '@services/core';
 
 @Component({
-  selector: 'app-user-list',
+  selector: 'app-student-list',
   templateUrl: './student-list.component.html',
   styleUrls: ['./student-list.component.scss'],
   encapsulation: ViewEncapsulation.None
@@ -18,21 +18,23 @@ export class StudentListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedStudent: SelectStudentDto = {};
-  protected selectedStudents: StudentModel[] = [];
-  protected students: StudentModel[] = [];
+  protected selectedItem: SelectStudentDto = {};
+  protected selectedItems: StudentModel[] = [];
+  protected items: StudentModel[] = [];
 
   constructor(
-    public coreService: CoreService,
     private breadcrumbService: BreadcrumbService,
+    public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
+    private routesService: RoutesService,
     private studentsHttpService: StudentsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Estudiantes'},
     ]);
     this.paginator = this.coreService.paginator;
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -48,14 +50,18 @@ export class StudentListComponent implements OnInit {
     this.studentsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
-        this.students = response.data
+        this.items = response.data
       });
   }
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'informationStudent', header: 'Información'},
-      {field: 'user', header: 'Usuario'},
+      {field: 'address', header: 'Dirección de residencia'},
+      {field: 'community', header: 'Horas de integración'},
+      {field: 'contactEmergencyName', header: 'Nombre de contacto de emergencia'},
+      {field: 'contactEmergencyPhone', header: 'Número de contacto de emergencia'},
+      {field: 'email', header: 'Correo'},
+      {field: 'isVisible', header: 'Es Visible'}
     ];
   }
 
@@ -65,43 +71,31 @@ export class StudentListComponent implements OnInit {
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedStudent?.id) this.redirectEditForm(this.selectedStudent.id);
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
         label: 'Borrar',
         icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedStudent?.id) this.remove(this.selectedStudent.id);
+          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
       },
       {
-        label: 'Oultar',
+        label: 'Ocultar',
         icon: PrimeIcons.LOCK,
         command: () => {
-          if (this.selectedStudent?.id) this.hide(this.selectedStudent.id);
+          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
       },
       {
-        label: 'Reactivar',
+        label: 'Mostrar',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
-          if (this.selectedStudent?.id) this.reactivate(this.selectedStudent.id);
+          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
       }
     ];
-  }
-
-  paginate(event: any) {
-    this.findAll(event.page);
-  }
-
-  redirectCreateForm() {
-    this.router.navigate(['/administration/students', 'new']);
-  }
-
-  redirectEditForm(id: string) {
-    this.router.navigate(['/administration/students', id]);
   }
 
   remove(id: string) {
@@ -109,7 +103,7 @@ export class StudentListComponent implements OnInit {
       .then((result) => {
         if (result.isConfirmed) {
           this.studentsHttpService.remove(id).subscribe((student) => {
-            this.students = this.students.filter(item => item.id !== student.id);
+            this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
         }
@@ -119,32 +113,47 @@ export class StudentListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.studentsHttpService.removeAll(this.selectedStudents).subscribe((students) => {
-          this.selectedStudents.forEach(studentDeleted => {
-            this.students = this.students.filter(student => student.id !== studentDeleted.id);
+        this.studentsHttpService.removeAll(this.selectedItems).subscribe((students) => {
+          this.selectedItems.forEach(itemDeleted => {
+            this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedStudents = [];
+          this.selectedItems = [];
         });
       }
     });
   }
 
-  selectStudent(user: StudentModel) {
-    this.selectedStudent = user;
-  }
-
   hide(id: string) {
     this.studentsHttpService.hide(id).subscribe(student => {
-      const index = this.students.findIndex(student => student.id === id);
-      this.students[index].isVisible = false;
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
     this.studentsHttpService.reactivate(id).subscribe(student => {
-      const index = this.students.findIndex(student => student.id === id);
-      this.students[index] = student;
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = true;;
     });
+  }
+  
+  /** Select & Paginate **/
+  selectItem(item: StudentModel) {
+    this.isActionButtons = true;
+    this.selectedItem = item;
+  }
+  
+  paginate(event: any) {
+    this.findAll(event.page);
+  }
+
+  /** Redirects **/
+  redirectCreateForm() {
+    this.router.navigate([this.routesService.students, 'new']);
+  }
+
+  redirectEditForm(id: string) {
+    this.router.navigate([this.routesService.students, id]);
   }
 }

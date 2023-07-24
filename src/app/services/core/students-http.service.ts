@@ -25,7 +25,7 @@ export class StudentsHttpService {
 
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
-        this.messageService.success(response);
+        this.messageService.success(response).then();
         return response.data;
       })
     );
@@ -59,9 +59,11 @@ export class StudentsHttpService {
   update(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.messageService.success(response);
+        this.coreService.isProcessing = true;
+        this.messageService.success(response).then();
         return response.data;
       })
     );
@@ -72,7 +74,7 @@ export class StudentsHttpService {
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response);
+        this.messageService.success(response).then();
         return response.data;
       })
     );
@@ -83,7 +85,7 @@ export class StudentsHttpService {
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.messageService.success(response);
+        this.messageService.success(response).then();
         return response.data;
       })
     );
@@ -94,7 +96,7 @@ export class StudentsHttpService {
 
     return this.httpClient.patch<ServerResponse>(url, users).pipe(
       map((response) => {
-        this.messageService.success(response);
+        this.messageService.success(response).then();
         return response.data;
       })
     );
@@ -103,9 +105,9 @@ export class StudentsHttpService {
   hide(id: string): Observable<StudentModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response);
+        this.messageService.success(response).then();
         return response.data;
       })
     );
