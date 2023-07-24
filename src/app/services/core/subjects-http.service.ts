@@ -58,53 +58,66 @@ export class SubjectsHttpService {
 
     this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
-      map((response) => {
-        this.coreService.isProcessing = false;
-        this.messageService.success(response).then();
+      map(response => {
+        this.messageService.success(response);
         return response.data;
       })
-    );
+    )
+      ;
   }
 
-  reactivate(id: string): Observable<SubjectModel> {
+  reactivate(id: string):
+    Observable<SubjectModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
   }
 
-  remove(id: string): Observable<SubjectModel> {
+  remove(id
+           :
+           string
+  ):
+    Observable<SubjectModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
   }
 
-  removeAll(payload: SubjectModel[]): Observable<SubjectModel[]> {
+  removeAll(payload
+              :
+              SubjectModel[]
+  ):
+    Observable<SubjectModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, payload).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
   }
 
-  hide(id: string): Observable<SubjectModel> {
+  hide(id
+         :
+         string
+  ):
+    Observable<SubjectModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );

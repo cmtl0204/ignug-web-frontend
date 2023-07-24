@@ -51,7 +51,7 @@ export class AuthHttpService {
       .pipe(
         map(response => {
           this.coreService.isProcessing = false;
-          this.messageService.success(response).then();
+          this.messageService.success(response);
           return response.data;
         })
       );
@@ -60,18 +60,12 @@ export class AuthHttpService {
   login(credentials: LoginModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/login`;
 
-
     return this.httpClient.post<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
-
-          this.authService.isLoggedIn = true;
           this.authService.token = response.data.accessToken;
           this.authService.auth = response.data.user;
           this.authService.roles = response.data.user.roles;
-          this.messageService.success(response).then();
-          // this.authService.role = response.data.roles[0];
-          // this.authService.permissions = response.data.permissions;
           return response;
         })
       );
@@ -102,11 +96,12 @@ export class AuthHttpService {
     return this.httpClient.get<LoginResponse>(url);
   }
 
-  resetPassword(credentials: PasswordResetModel): Observable<LoginResponse> {
-    const url = `${this.API_URL}/reset-password`;
-    return this.httpClient.post<LoginResponse>(url, credentials)
+  resetPassword(credentials: PasswordResetModel): Observable<ServerResponse> {
+    const url = `${this.API_URL}/reset-passwords`;
+    return this.httpClient.patch<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
+          this.messageService.success(response);
           return response;
         }),
         catchError(error => {
@@ -149,9 +144,20 @@ export class AuthHttpService {
       );
   }
 
-  requestPasswordReset(username: string): Observable<ServerResponse> {
-    const url = `${this.API_URL}/request-password-reset`;
-    return this.httpClient.post<ServerResponse>(url, {username})
+  requestTransactionalCode(username: string): Observable<ServerResponse> {
+    const url = `${this.API_URL}/transactional-codes/${username}/request`;
+    return this.httpClient.get<ServerResponse>(url)
+      .pipe(
+        map(response => {
+          this.messageService.success(response);
+          return response.data;
+        })
+      );
+  }
+
+  verifyTransactionalCode(token: string): Observable<ServerResponse> {
+    const url = `${this.API_URL}/transactional-codes/${token}/verify`;
+    return this.httpClient.get<ServerResponse>(url)
       .pipe(
         map(response => {
           this.messageService.success(response);
@@ -206,7 +212,7 @@ export class AuthHttpService {
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
         this.coreService.isProcessing = false;
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -219,7 +225,7 @@ export class AuthHttpService {
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
         this.coreService.isProcessing = false;
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );

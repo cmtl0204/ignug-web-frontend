@@ -15,6 +15,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from '@services/core';
+import {ActionButtonsEnum, SchoolPeriodsStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-list',
@@ -24,7 +25,7 @@ import {
 })
 export class SchoolPeriodListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
@@ -79,46 +80,125 @@ export class SchoolPeriodListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
-    return [
+  buildActionButtons(): void {
+    this.actionButtons = [];
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.UPDATE,
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.DELETE,
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
           if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.HIDE,
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.REACTIVATE,
         label: 'Mostrar',
         icon: PrimeIcons.EYE,
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
 
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.SHOW_EVENTS,
         label: 'Eventos',
         icon: PrimeIcons.BARS,
         command: () => {
           if (this.selectedItem?.id) this.redirectEventList();
         },
+      });
 
-      }
-    ];
+    this.actionButtons.push(
+      {
+        id: ActionButtonsEnum.OPEN_SCHOOL_PERIOD,
+        label: 'Abrir Periodo Lectivo',
+        icon: PrimeIcons.LOCK_OPEN,
+        command: () => {
+          if (this.selectedItem?.id) this.open(this.selectedItem.id);
+        },
+      });
+
+    this.actionButtons.push(
+      {
+        id: ActionButtonsEnum.CLOSE_SCHOOL_PERIOD,
+        label: 'Cerrar Periodo Lectivo',
+        icon: PrimeIcons.UNLOCK,
+        command: () => {
+          if (this.selectedItem?.id) this.close(this.selectedItem.id);
+        },
+      });
+
+    /** Action Buttons Validations **/
+    if (this.selectedItem.state?.code === SchoolPeriodsStateEnum.CLOSE) {
+      // this.actionButtons = this.actionButtons.filter(actionButton => {
+      //   return actionButton.id !== ActionButtonsEnum.SHOW_EVENTS && actionButton.id !== ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
+      // });
+
+      let index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.SHOW_EVENTS;
+      });
+
+      this.actionButtons.splice(index, 1);
+
+      index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (this.selectedItem.state?.code === SchoolPeriodsStateEnum.OPEN) {
+      // this.actionButtons = this.actionButtons.filter(actionButton => {
+      //   return actionButton.id !== ActionButtonsEnum.OPEN_SCHOOL_PERIOD;
+      // });
+
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.OPEN_SCHOOL_PERIOD;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.REACTIVATE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (!this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.HIDE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
   }
 
   /** Actions **/
@@ -162,10 +242,23 @@ export class SchoolPeriodListComponent implements OnInit {
     });
   }
 
+  open(id: string) {
+    this.schoolPeriodsHttpService.open(id).subscribe(item => {
+      this.findAll();
+    });
+  }
+
+  close(id: string) {
+    this.schoolPeriodsHttpService.close(id).subscribe(item => {
+      this.findAll();
+    });
+  }
+
   /** Select & Paginate **/
   selectItem(item: SchoolPeriodModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
+    this.buildActionButtons();
   }
 
   paginate(event: any) {
@@ -191,4 +284,6 @@ export class SchoolPeriodListComponent implements OnInit {
 
     this.router.navigate([this.routesService.events]);
   }
+
+  protected readonly SchoolPeriodsStateEnum = SchoolPeriodsStateEnum;
 }

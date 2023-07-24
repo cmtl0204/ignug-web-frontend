@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {AuthHttpService, AuthService} from '@services/auth';
 import {CoreService, MessageService, RoutesService} from '@services/core';
 import {RolesEnum} from "@shared/enums";
+import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -12,25 +12,22 @@ import {RolesEnum} from "@shared/enums";
 })
 
 export class LoginComponent implements OnInit {
-  formLogin: UntypedFormGroup;
-  progressBar: boolean = false;
-  isLoading: boolean = false;
-  isPasswordReset = false;
+  form: FormGroup;
 
-  constructor(private formBuilder: UntypedFormBuilder,
+  constructor(private formBuilder: FormBuilder,
               private authHttpService: AuthHttpService,
-              private coreService: CoreService,
+              protected coreService: CoreService,
               public messageService: MessageService,
-              private authService: AuthService,
+              protected authService: AuthService,
               private routesService: RoutesService) {
-    this.formLogin = this.newFormLogin();
+    this.form = this.newForm();
   }
 
   ngOnInit(): void {
 
   }
 
-  newFormLogin(): UntypedFormGroup {
+  newForm(): FormGroup {
     return this.formBuilder.group({
       username: ['admin', [Validators.required]],
       // username: [null, [Validators.required]],
@@ -40,64 +37,65 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.formLogin.valid) {
+    if (this.form.valid) {
       this.login();
     } else {
-      this.formLogin.markAllAsTouched();
+      this.form.markAllAsTouched();
     }
   }
 
   login() {
-    this.progressBar = true;
-    this.authHttpService.login(this.formLogin.value)
+    this.authHttpService.login(this.form.value)
       .subscribe(
         response => {
-          this.progressBar = false;
-          switch (this.authService.role?.code) {
-            case RolesEnum.ADMIN:
-              this.routesService.dashboard();
-              break;
-            default:
-              this.routesService.dashboard();
+          if (this.authService.roles.length === 1) {
+            this.authService.role = this.authService.roles[0];
+
+            this.messageService.successCustom('Bienvenido', 'Ingreso Correcto');
+            switch (this.authService.roles[0].code) {
+              case RolesEnum.ADMIN: {
+                this.routesService.dashboardAdmin();
+                break;
+              }
+              case RolesEnum.RECTOR: {
+                this.routesService.dashboardRector();
+                break;
+              }
+              case RolesEnum.TEACHER: {
+                this.routesService.dashboardTeacher();
+                break;
+              }
+              case RolesEnum.STUDENT: {
+                this.routesService.dashboardStudent();
+                break;
+              }
+              case RolesEnum.COORDINATOR_ADMINISTRATIVE: {
+                this.routesService.dashboardCoordinatorAdministrative();
+                break;
+              }
+              case RolesEnum.COORDINATOR_CAREER: {
+                this.routesService.dashboardCoordinatorCareer();
+                break;
+              }
+            }
+          } else {
+            this.routesService.roleSelect();
           }
+
         });
   }
 
-  showPasswordReset() {
-    this.isPasswordReset = true;
-  }
-
-  hidePasswordReset() {
-    this.isPasswordReset = false;
-  }
-
-  requestPasswordReset() {
-    if (this.usernameField.valid) {
-      this.authHttpService.requestPasswordReset(this.usernameField.value)
-        .subscribe(
-          token => {
-            this.routesService.login();
-          });
-    } else {
-      this.usernameField.markAsTouched();
-    }
-  }
-
-  requestUserUnlock() {
-    this.progressBar = true;
-    this.authHttpService.login(this.usernameField.value)
-      .subscribe(
-        response => {
-          this.progressBar = false;
-          // this.redirect();
-        });
+  redirectPasswordReset() {
+    this.routesService.passwordReset();
   }
 
   get usernameField(): AbstractControl {
-    return this.formLogin.controls['username'];
+    return this.form.controls['username'];
   }
 
   get passwordField(): AbstractControl {
-    return this.formLogin.controls['password'];
+    return this.form.controls['password'];
   }
+
+  protected readonly PrimeIcons = PrimeIcons;
 }

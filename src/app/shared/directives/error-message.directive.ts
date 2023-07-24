@@ -33,6 +33,7 @@ export class ErrorMessageDirective {
   setMessage() {
     if (this._touched || this._dirty) {
       if (this._errors) {
+        console.log(this._errors);
         if (this._errors['required']) {
           this.nativeElement.innerText = this.messageService.fieldRequired;
         }
@@ -60,7 +61,7 @@ export class ErrorMessageDirective {
         if (this._errors['identification']) {
           this.nativeElement.innerText = this.messageService.fieldIdentification;
         }
-        if (this._errors['NoPasswordMatch']) {
+        if (this._errors['noPasswordMatch']) {
           this.nativeElement.innerText = this.messageService.fieldNoPasswordMatch;
         }
         if (this._errors['UserNotAvailable']) {

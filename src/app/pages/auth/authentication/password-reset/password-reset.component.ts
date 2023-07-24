@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {CustomValidators} from "@shared/validators/custom-validators";
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CustomValidators} from "@shared/validators";
 import {AuthHttpService, AuthService} from '@services/auth';
-import {MessageService} from '@services/core';
+import {CoreService, MessageService, RoutesService} from '@services/core';
+import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-password-reset',
@@ -11,30 +11,31 @@ import {MessageService} from '@services/core';
   styleUrls: ['./password-reset.component.scss']
 })
 export class PasswordResetComponent implements OnInit {
-  form: UntypedFormGroup;
-  progressBar: boolean = false;
+  protected form: FormGroup;
+  protected readonly PrimeIcons = PrimeIcons;
+  protected isValidTransactionalCode: boolean = false;
+  protected isRequestTransactionalCode: boolean = false;
 
-  constructor(private formBuilder: UntypedFormBuilder,
-              private authHttpService: AuthHttpService,
-              public messageService: MessageService,
-              private authService: AuthService,
-              private router: Router,
-              private activatedRoute: ActivatedRoute) {
+  constructor(
+    protected coreService: CoreService,
+    private formBuilder: FormBuilder,
+    private authHttpService: AuthHttpService,
+    public messageService: MessageService,
+    protected authService: AuthService,
+    protected routesService: RoutesService) {
     this.form = this.newForm();
   }
 
   ngOnInit(): void {
-    this.form.patchValue({
-      // username: this.activatedRoute.snapshot.queryParams['username'],
-      token: this.activatedRoute.snapshot.queryParams['token']
-    });
+
   }
 
-  newForm(): UntypedFormGroup {
+  newForm(): FormGroup {
     return this.formBuilder.group({
-      token: [null, [Validators.required]],
-      password: [null, [Validators.required, Validators.minLength(8)]],
+      transactionalCode: [null, [Validators.required, Validators.minLength(6)]],
+      newPassword: [null, [Validators.required, Validators.minLength(8)]],
       passwordConfirmation: [null, [Validators.required]],
+      username: [null, [Validators.required]],
     }, {validators: CustomValidators.passwordMatchValidator});
   }
 
@@ -47,28 +48,47 @@ export class PasswordResetComponent implements OnInit {
   }
 
   resetPassword() {
-    this.progressBar = true;
-    this.authHttpService.resetPassword(this.form.value)
-      .subscribe(
-        response => {
-          this.progressBar = false;
-          this.redirect();
-        }, error => {
-          this.messageService.error(error);
-          this.progressBar = false;
-        });
+    this.authHttpService.resetPassword(this.form.value).subscribe(() => this.routesService.login());
   }
 
-  redirect() {
-    this.router.navigate(['/auth/login']);
+  requestTransactionalCode() {
+    if (this.usernameField.valid) {
+      this.isRequestTransactionalCode = false;
+      this.transactionalCodeField.reset();
+      this.authHttpService.requestTransactionalCode(this.usernameField.value)
+        .subscribe(
+          token => {
+            // this.routesService.login();
+            this.isRequestTransactionalCode = true;
+          });
+    } else {
+      this.usernameField.markAsTouched();
+    }
+  }
+
+  verifyTransactionalCode() {
+    if (this.usernameField.valid) {
+      this.isValidTransactionalCode = false;
+      this.authHttpService.verifyTransactionalCode(this.transactionalCodeField.value)
+        .subscribe(
+          token => {
+            this.isValidTransactionalCode = true;
+          });
+    } else {
+      this.transactionalCodeField.markAsTouched();
+    }
   }
 
   get usernameField() {
     return this.form.controls['username'];
   }
 
-  get passwordField() {
-    return this.form.controls['password'];
+  get transactionalCodeField() {
+    return this.form.controls['transactionalCode'];
+  }
+
+  get newPasswordField() {
+    return this.form.controls['newPassword'];
   }
 
   get passwordConfirmationField() {

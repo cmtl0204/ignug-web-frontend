@@ -23,7 +23,7 @@ export class SchoolPeriodsHttpService {
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
         this.coreService.isProcessing = false;
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -60,7 +60,7 @@ export class SchoolPeriodsHttpService {
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map((response) => {
         this.coreService.isProcessing = false;
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -71,7 +71,7 @@ export class SchoolPeriodsHttpService {
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -82,7 +82,7 @@ export class SchoolPeriodsHttpService {
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -93,7 +93,7 @@ export class SchoolPeriodsHttpService {
 
     return this.httpClient.patch<ServerResponse>(url, payload).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -104,7 +104,29 @@ export class SchoolPeriodsHttpService {
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  open(id: string): Observable<SchoolPeriodModel> {
+    const url = `${this.API_URL}/${id}/open`;
+
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  close(id: string): Observable<SchoolPeriodModel> {
+    const url = `${this.API_URL}/${id}/close`;
+
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
         return response.data;
       })
     );

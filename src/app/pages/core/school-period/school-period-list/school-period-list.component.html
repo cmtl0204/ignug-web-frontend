@@ -71,7 +71,8 @@
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'state'">
-            <p-tag severity="info" [value]="rowData[col.field].name" class="mr-1"></p-tag>
+            <p-tag [severity]="rowData[col.field].code|schoolPeriodsState" [value]="rowData[col.field].name"
+                   class="mr-1"></p-tag>
           </div>
         </div>
 
@@ -84,7 +85,7 @@
             {{rowData[col.field]|date}}
           </div>
           <div *ngSwitchCase="'isVisible'">
-            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="No Visible" class="mr-1"></p-tag>
+            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="Oculto" class="mr-1"></p-tag>
             <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>
           </div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>

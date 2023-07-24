@@ -21,7 +21,7 @@ export class CurriculumsHttpService {
 
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -57,7 +57,7 @@ export class CurriculumsHttpService {
 
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -68,7 +68,7 @@ export class CurriculumsHttpService {
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -79,7 +79,7 @@ export class CurriculumsHttpService {
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -90,7 +90,7 @@ export class CurriculumsHttpService {
 
     return this.httpClient.patch<ServerResponse>(url, curriculums).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );
@@ -101,7 +101,7 @@ export class CurriculumsHttpService {
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
-        this.messageService.success(response).then();
+        this.messageService.success(response);
         return response.data;
       })
     );

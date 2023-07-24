@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {PermissionModel, RoleModel, UserModel} from '@models/auth';
+import {environment} from "@env/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,10 @@ export class AuthService {
 
   set keepSession(value: boolean | undefined | null) {
     localStorage.setItem('keepSession', JSON.stringify(value));
+  }
+
+  get system(): string | null {
+    return environment.APP_NAME;
   }
 
   removeLogin() {
