@@ -16,3 +16,5 @@ export * from './student.model';
 export * from './subject.model';
 export * from './teacher.model';
 export * from './school-period.model';
+export * from './event.model';
+export * from './model.model';

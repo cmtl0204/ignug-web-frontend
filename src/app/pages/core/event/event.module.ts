@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule as NgCommonModule} from '@angular/common';
-import { SubjectRoutingModule } from './subject-routing.module';
+import {EventRoutingModule} from './event-routing.module';
 
 // PrimeNg Modules
 import {ButtonModule} from "primeng/button";
@@ -17,6 +17,8 @@ import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
 
 // Components
+import {EventListComponent} from "./event-list/event-list.component";
+import {EventFormComponent} from './event-form/event-form.component';
 import {CheckboxModule} from "primeng/checkbox";
 import {DividerModule} from "primeng/divider";
 import {InputSwitchModule} from "primeng/inputswitch";
@@ -26,18 +28,15 @@ import {PanelModule} from "primeng/panel";
 import {PasswordModule} from "primeng/password";
 import {SharedModule} from "@shared/shared.module";
 import {CalendarModule} from "primeng/calendar";
-import { SubjectListComponent } from './subject-list/subject-list.component';
-import { SubjectFormComponent } from './subject-form/subject-form.component';
-
 
 @NgModule({
   declarations: [
-    SubjectListComponent,
-    SubjectFormComponent,
+    EventListComponent,
+    EventFormComponent,
   ],
   imports: [
     NgCommonModule,
-    SubjectRoutingModule,
+    EventRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
@@ -61,5 +60,5 @@ import { SubjectFormComponent } from './subject-form/subject-form.component';
     CalendarModule
   ]
 })
-export class SubjectModule {
+export class EventModule {
 }

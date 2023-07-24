@@ -11,4 +11,6 @@ export * from './students-http.service';
 export * from './subjects-http.service';
 export * from './teachers-http.service';
 export * from './school-periods-http.service';
+export * from './events-http.service';
+export * from './events.service';
 

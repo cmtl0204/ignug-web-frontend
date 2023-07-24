@@ -26,7 +26,9 @@ export class RoutesService {
   get curriculums(): string {
     return this.core + '/curriculums';
   }
-
+  get events(): string {
+    return this.core + '/events';
+  }
   get institutions(): string {
     return this.core + '/curriculums';
   }

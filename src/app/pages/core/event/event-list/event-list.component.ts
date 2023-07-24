@@ -5,33 +5,34 @@ import {MenuItem, PrimeIcons} from 'primeng/api';
 import {
   ColumnModel,
   PaginatorModel,
-  SchoolPeriodModel,
-  SelectSchoolPeriodDto
+  EventModel,
+  SelectEventDto, ModelI,
 } from '@models/core';
 import {
   BreadcrumbService,
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  SchoolPeriodsHttpService
 } from '@services/core';
+import {EventsHttpService} from "@services/core/events-http.service";
 
 @Component({
   selector: 'app-event-list',
-  templateUrl: './school-period-list.component.html',
-  styleUrls: ['./school-period-list.component.scss'],
+  templateUrl: './event-list.component.html',
+  styleUrls: ['./event-list.component.scss'],
 
 })
-export class SchoolPeriodListComponent implements OnInit {
+export class EventListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectSchoolPeriodDto = {};
-  protected selectedItems: SchoolPeriodModel[] = [];
-  protected items: SchoolPeriodModel[] = [];
+  protected selectedItem: SelectEventDto = {};
+  protected selectedItems: EventModel[] = [];
+  protected items: EventModel[] = [];
+  protected model: ModelI = {};
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -39,29 +40,31 @@ export class SchoolPeriodListComponent implements OnInit {
     public messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private schoolPeriodsHttpService: SchoolPeriodsHttpService,
+    private eventsHttpService: EventsHttpService,
     private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Periodos Lectivos'},
+      {label: this.eventsService.model.routerLabel, routerLink: [this.eventsService.model.routerLink]},
+      {label: 'Eventos'},
     ]);
 
     this.paginator = this.coreService.paginator;
 
+    this.model = eventsService.model;
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findAll();
+        this.findByModel();
       }
     });
   }
 
   ngOnInit() {
-    this.findAll();
+    this.findByModel();
   }
 
   /** Load Data **/
-  findAll(page: number = 0) {
-    this.schoolPeriodsHttpService.findAll(page, this.search.value)
+  findByModel(page: number = 0) {
+    this.eventsHttpService.findByModel(this.eventsService.model.entity.id, page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;
@@ -71,9 +74,10 @@ export class SchoolPeriodListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Nombre'},
+      {field: 'name', header: 'Evento'},
       {field: 'startedAt', header: 'Fecha Inicio'},
       {field: 'endedAt', header: 'Fecha Fin'},
+      {field: 'order', header: 'Orden'},
       {field: 'state', header: 'Estado'},
       {field: 'isVisible', header: 'Es Visible'}
     ];
@@ -108,15 +112,6 @@ export class SchoolPeriodListComponent implements OnInit {
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
-
-      },
-      {
-        label: 'Eventos',
-        icon: PrimeIcons.BARS,
-        command: () => {
-          if (this.selectedItem?.id) this.redirectEventList();
-        },
-
       }
     ];
   }
@@ -126,7 +121,7 @@ export class SchoolPeriodListComponent implements OnInit {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.schoolPeriodsHttpService.remove(id).subscribe(() => {
+          this.eventsHttpService.remove(id).subscribe(() => {
             this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
@@ -137,7 +132,7 @@ export class SchoolPeriodListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.schoolPeriodsHttpService.removeAll(this.selectedItems).subscribe(() => {
+        this.eventsHttpService.removeAll(this.selectedItems).subscribe(() => {
           this.selectedItems.forEach(itemDeleted => {
             this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
@@ -149,46 +144,35 @@ export class SchoolPeriodListComponent implements OnInit {
   }
 
   hide(id: string) {
-    this.schoolPeriodsHttpService.hide(id).subscribe(item => {
+    this.eventsHttpService.hide(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.schoolPeriodsHttpService.reactivate(id).subscribe(item => {
+    this.eventsHttpService.reactivate(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
     });
   }
 
   /** Select & Paginate **/
-  selectItem(item: SchoolPeriodModel) {
+  selectItem(item: EventModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
   }
 
   paginate(event: any) {
-    this.findAll(event.page);
+    this.findByModel(event.page);
   }
 
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.schoolPeriods, 'new']);
+    this.router.navigate([this.routesService.events, 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.schoolPeriods, id]);
-  }
-
-  redirectEventList() {
-    this.eventsService.model = {
-      entity: this.selectedItem,
-      label: 'Periodo Lectivo',
-      routerLink: this.routesService.schoolPeriods,
-      routerLabel: 'Periodos Lectivos',
-    };
-
-    this.router.navigate([this.routesService.events]);
+    this.router.navigate([this.routesService.events, id]);
   }
 }

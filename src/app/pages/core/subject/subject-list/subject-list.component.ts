@@ -1,15 +1,26 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {SubjectModel, ColumnModel, PaginatorModel, SelectSubjectDto} from '@models/core';
-import {BreadcrumbService, SubjectsHttpService, CoreService, MessageService} from '@services/core';
+import {
+  ColumnModel,
+  PaginatorModel,
+  SubjectModel,
+  SelectSubjectDto
+} from '@models/core';
+import {
+  BreadcrumbService,
+  CoreService, EventsService,
+  MessageService,
+  RoutesService,
+  SubjectsHttpService
+} from '@services/core';
 
 @Component({
-  selector: 'app-subject-list',
+  selector: 'app-event-list',
   templateUrl: './subject-list.component.html',
   styleUrls: ['./subject-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+
 })
 export class SubjectListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
@@ -18,16 +29,18 @@ export class SubjectListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedSubject: SelectSubjectDto = {};
-  protected selectedSubjects: SubjectModel[] = [];
-  protected Subjects: SubjectModel[] = [];
+  protected selectedItem: SelectSubjectDto = {};
+  protected selectedItems: SubjectModel[] = [];
+  protected items: SubjectModel[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
-    private subjectsHttpService: SubjectsHttpService,
     public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
+    private routesService: RoutesService,
+    private SubjectsHttpService: SubjectsHttpService,
+    private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Asignaturas'},
@@ -46,24 +59,22 @@ export class SubjectListComponent implements OnInit {
     this.findAll();
   }
 
+  /** Load Data **/
   findAll(page: number = 0) {
-    this.subjectsHttpService.findAll(page, this.search.value)
+    this.SubjectsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
-        this.Subjects = response.data;
+        this.items = response.data;
       });
   }
 
+  /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'autonomousHour', header: 'Horas autonomas'},
-      {field: 'code', header: 'Codigo'},
       {field: 'name', header: 'Nombre'},
+      {field: 'code', header: 'Codigo'},
       {field: 'practicalHour', header: 'Horas practicas'},
-      {field: 'scale', header: 'Escala'},
-      {field: 'credit', header: 'Credito'},
-      {field: 'teacherHour', header: 'Horas profesor'},
-      {field: 'suspendedAt', header: 'Estado'},
+      {field: 'isVisible', header: 'Es Visible'}
     ];
   }
 
@@ -73,51 +84,49 @@ export class SubjectListComponent implements OnInit {
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedSubject?.id) this.redirectEditForm(this.selectedSubject.id);
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedSubject?.id) this.remove(this.selectedSubject.id);
+          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
       },
       {
-        label: 'Suspender',
-        icon: PrimeIcons.LOCK,
+        label: 'Ocultar',
+        icon: PrimeIcons.EYE_SLASH,
         command: () => {
-          if (this.selectedSubject?.id) this.hide(this.selectedSubject.id);
+          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
       },
       {
-        label: 'Reactivar',
-        icon: PrimeIcons.LOCK_OPEN,
+        label: 'Mostrar',
+        icon: PrimeIcons.EYE,
         command: () => {
-          if (this.selectedSubject?.id) this.reactivate(this.selectedSubject.id);
+          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
+
+      },
+      {
+        label: 'Eventos',
+        icon: PrimeIcons.BARS,
+        command: () => {
+          if (this.selectedItem?.id) this.redirectEventList();
+        },
+
       }
     ];
   }
 
-  paginate(event: any) {
-    this.findAll(event.page);
-  }
-
-  redirectCreateForm() {
-    this.router.navigate(['/administration/subjects', 'new']);
-  }
-
-  redirectEditForm(id: string) {
-    this.router.navigate(['/administration/subjects', id]);
-  }
-
+  /** Actions **/
   remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.subjectsHttpService.remove(id).subscribe((subject) => {
-            this.Subjects = this.Subjects.filter(item => item.id !== subject.id);
+          this.SubjectsHttpService.remove(id).subscribe(() => {
+            this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
         }
@@ -127,33 +136,58 @@ export class SubjectListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.subjectsHttpService.removeAll(this.selectedSubjects).subscribe((subjects) => {
-          this.selectedSubjects.forEach(subjectDeleted => {
-            this.Subjects = this.Subjects.filter(subject => subject.id !== subjectDeleted.id);
+        this.SubjectsHttpService.removeAll(this.selectedItems).subscribe(() => {
+          this.selectedItems.forEach(itemDeleted => {
+            this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedSubjects = [];
+          this.selectedItems = [];
         });
       }
     });
   }
 
-  selectSubject(subject: SubjectModel) {
-    this.isActionButtons = true;
-    this.selectedSubject = subject;
-  }
-
   hide(id: string) {
-    this.subjectsHttpService.hide(id).subscribe(subject => {
-      const index = this.Subjects.findIndex(subject => subject.id === id);
-      this.Subjects[index].isVisible = false;
+    this.SubjectsHttpService.hide(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.subjectsHttpService.reactivate(id).subscribe(subject => {
-      const index = this.Subjects.findIndex(subject => subject.id === id);
-      this.Subjects[index] = subject;
+    this.SubjectsHttpService.reactivate(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = true;
     });
+  }
+
+  /** Select & Paginate **/
+  selectItem(item: SubjectModel) {
+    this.isActionButtons = true;
+    this.selectedItem = item;
+  }
+
+  paginate(event: any) {
+    this.findAll(event.page);
+  }
+
+  /** Redirects **/
+  redirectCreateForm() {
+    this.router.navigate([this.routesService.subjects, 'new']);
+  }
+
+  redirectEditForm(id: string) {
+    this.router.navigate([this.routesService.subjects, id]);
+  }
+
+  redirectEventList() {
+    this.eventsService.model = {
+      entity: this.selectedItem,
+      label: 'Asignatura',
+      routerLink: this.routesService.subjects,
+      routerLabel: 'Asignaturas',
+    };
+
+    this.router.navigate([this.routesService.events]);
   }
 }

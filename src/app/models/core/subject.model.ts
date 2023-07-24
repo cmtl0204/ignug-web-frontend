@@ -15,7 +15,7 @@ export interface SubjectModel {
 
   autonomousHour: number;
   code: string;
-  credit: number;
+  credits: number;
   name: string;
   practicalHour: number;
   scale: number;
