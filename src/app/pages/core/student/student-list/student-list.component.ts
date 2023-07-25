@@ -57,11 +57,9 @@ export class StudentListComponent implements OnInit {
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'user', header: 'Nombres'},
-      {field: 'community', header: 'Horas de integración'},
-      {field: 'contactEmergencyName', header: 'Nombre de contacto de emergencia'},
-      {field: 'contactEmergencyPhone', header: 'Número de contacto de emergencia'},
       {field: 'email', header: 'Correo'},
-      {field: 'isVisible', header: 'Es Visible'}
+      {field: 'phones', header: 'Nombre de contacto de emergencia'},
+      {field: 'address', header: 'Dirección'},
     ];
   }
 

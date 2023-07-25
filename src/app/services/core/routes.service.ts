@@ -68,7 +68,7 @@ export class RoutesService {
   }
 
   profile() {
-    this.router.navigateByUrl(`${AppRoutesEnum.AUTH}/profile`);
+    this.router.navigateByUrl(`/profile`);
   }
 
   dashboardAdmin() {
