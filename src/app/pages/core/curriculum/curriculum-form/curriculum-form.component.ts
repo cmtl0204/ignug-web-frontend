@@ -3,14 +3,14 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/form
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
 import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, SchoolPeriodModel} from "@models/core";
+import {CatalogueModel, CurriculumModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
   MessageService,
   RoutesService,
-  SchoolPeriodsHttpService
+  CurriculumsHttpService
 } from "@services/core";
 import {CatalogueCoreTypeEnum} from "@shared/enums";
 import {isAfter, isBefore} from "date-fns";
@@ -38,10 +38,10 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private schoolPeriodsHttpService: SchoolPeriodsHttpService,
+    private curriculumsHttpService: CurriculumsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Periodos Lectivos', routerLink: [this.routesService.schoolPeriods]},
+      {label: 'Malla Curricular', routerLink: [this.routesService.curriculums]},
       {label: 'Form'},
     ]);
 
@@ -70,11 +70,13 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      code: [null, [Validators.required, Validators.email]],
+      state: [null, [Validators.required]],
+      isVisible: [null, [Validators.required]],
+      code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null, [Validators.required]],
-      resolutionNumber: [{value: null, disabled: true}, [Validators.required, Validators.minLength(8)]],
-      periodicAcademicNumber: [{value: true, disabled: true}],
+      resolutionNumber: [null, [Validators.required]],
+      periodicAcademicNumber: [null, [Validators.required]],
       weeksNumber: [null, [Validators.required]],
     });
   }
@@ -93,19 +95,19 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.schoolPeriods]);
+    this.router.navigate([this.routesService.curriculums]);
   }
 
   /** Actions **/
-  create(item: SchoolPeriodModel): void {
-    this.schoolPeriodsHttpService.create(item).subscribe(() => {
+  create(item: CurriculumModel): void {
+    this.curriculumsHttpService.create(item).subscribe(() => {
       this.form.reset();
       this.back();
     });
   }
 
-  update(item: SchoolPeriodModel): void {
-    this.schoolPeriodsHttpService.update(this.id!, item).subscribe(() => {
+  update(item: CurriculumModel): void {
+    this.curriculumsHttpService.update(this.id!, item).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -113,7 +115,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
 
   /** Load Data **/
   get(): void {
-    this.schoolPeriodsHttpService.findOne(this.id!).subscribe((item) => {
+    this.curriculumsHttpService.findOne(this.id!).subscribe((item) => {
       this.form.patchValue(item);
     });
   }
@@ -123,27 +125,35 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   /** Form Getters **/
+  get stateField(): AbstractControl {
+    return this.form.controls['state'];
+  }
+
+  get isVisibleField(): AbstractControl {
+    return this.form.controls['isVisible']
+  }
+
   get codeField(): AbstractControl {
     return this.form.controls['code'];
   }
 
-  get codeSnieseField(): AbstractControl {
+  get nameField(): AbstractControl {
     return this.form.controls['name'];
   }
 
-  get isVisibleField(): AbstractControl {
+  get descriptionField(): AbstractControl {
     return this.form.controls['description'];
   }
 
-  get nameField(): AbstractControl {
+  get resolutionNumberField(): AbstractControl {
     return this.form.controls['resolutionNumber'];
   }
 
-  get shortNameField(): AbstractControl {
+  get periodicAcademicNumberField(): AbstractControl {
     return this.form.controls['periodicAcademicNumber'];
   }
 
-  get stateField(): AbstractControl {
+  get weeksNumberField(): AbstractControl {
     return this.form.controls['weeksNumber'];
   }
 }
