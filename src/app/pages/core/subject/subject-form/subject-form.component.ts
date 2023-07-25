@@ -1,23 +1,28 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PrimeIcons} from "primeng/api";
-import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, SubjectModel} from "@models/core";
+import { Component, OnInit } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PrimeIcons } from 'primeng/api';
+import { OnExitInterface } from '@shared/interfaces';
+import { CatalogueModel, SubjectModel } from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
   MessageService,
   RoutesService,
-  SubjectsHttpService
-} from "@services/core";
-import {CatalogueCoreTypeEnum} from "@shared/enums";
+  SubjectsHttpService,
+} from '@services/core';
+import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Component({
   selector: 'app-event-form',
   templateUrl: './subject-form.component.html',
-  styleUrls: ['./subject-form.component.scss']
+  styleUrls: ['./subject-form.component.scss'],
 })
 export class SubjectFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
@@ -37,11 +42,11 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private subjectsHttpService: SubjectsHttpService,
+    private subjectsHttpService: SubjectsHttpService
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Asignaturas', routerLink: [this.routesService.subjects]},
-      {label: 'Form'},
+      { label: 'Asignaturas', routerLink: [this.routesService.subjects] },
+      { label: 'Form' },
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -54,7 +59,9 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   async onExit(): Promise<boolean> {
     if (this.form.touched || this.form.dirty) {
-      return await this.messageService.questionOnExit().then(result => result.isConfirmed);
+      return await this.messageService
+        .questionOnExit()
+        .then((result) => result.isConfirmed);
     }
     return true;
   }
@@ -77,10 +84,9 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       practicalHour: [null, [Validators.required]],
       scale: [null, [Validators.required]],
       teacherHour: [null, [Validators.required]],
-      academicPeriod: [null, [Validators.required]],
-      curriculum: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      type: [null, [Validators.required]],
+      academicPeriod: [null, []],
+      state: [null, []],
+      type: [null, []],
     });
   }
 
@@ -124,7 +130,9 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
+    this.cataloguesHttpService
+      .catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+      .subscribe((items) => (this.states = items));
   }
 
   /** Form Getters **/
@@ -148,7 +156,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     return this.form.controls['name'];
   }
 
-
   get practicalHourField(): AbstractControl {
     return this.form.controls['practicalHour'];
   }
@@ -163,10 +170,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   get academicPeriodField(): AbstractControl {
     return this.form.controls['academicPeriod'];
-  }
-
-  get curriculumField(): AbstractControl {
-    return this.form.controls['curriculum'];
   }
 
   get stateField(): AbstractControl {

@@ -14,7 +14,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="formgrid grid">
       <!-- state & isVisible -->
-      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="state" label="Estado:" [required]="stateField"></label>
         <p-dropdown id="state"
                     dataKey="id"
@@ -28,9 +28,9 @@
                [touched]="stateField.touched"
                [dirty]="stateField.dirty">
         </small>
-      </div> -->
+      </div>
 
-      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
         <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
         <small appErrorMessage
@@ -38,7 +38,7 @@
                [touched]="isVisibleField.touched"
                [dirty]="isVisibleField.dirty">
         </small>
-      </div> -->
+      </div>
     </div>
 
     <!-- code & codeSniese -->
@@ -54,7 +54,7 @@
       </div>
 
 
-      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="credits" label="Creditos:" [required]="creditsField"></label>
         <input pInputText type="text" id="credits" formControlName="credits"/>
         <small appErrorMessage
@@ -62,7 +62,7 @@
                [touched]="creditsField.touched"
                [dirty]="creditsField.dirty">
         </small>
-      </div> -->
+      </div>
     </div>
 
     <!-- name & shortName -->
@@ -127,7 +127,7 @@
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="curriculum" label="Malla curricular:" [required]="curriculumField"></label>
         <input pInputText type="text" id="curriculum" formControlName="curriculum"/>
         <small appErrorMessage
@@ -135,17 +135,7 @@
                [touched]="curriculumField.touched"
                [dirty]="curriculumField.dirty">
         </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="state" label="Estado:" [required]="stateField"></label>
-        <input pInputText type="text" id="state" formControlName="state"/>
-        <small appErrorMessage
-               [errors]="stateField.errors"
-               [touched]="stateField.touched"
-               [dirty]="stateField.dirty">
-        </small>
-      </div>
+      </div> -->
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="type" label="Tipo:" [required]="typeField"></label>
