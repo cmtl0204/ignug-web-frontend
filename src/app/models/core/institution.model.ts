@@ -7,6 +7,7 @@ export interface InstitutionModel {
   deleteAt: Date;
   isVisible: boolean;
 
+  address: CatalogueModel;
   state: CatalogueModel;
   careers: CareerModel[];
   acronym: string;
