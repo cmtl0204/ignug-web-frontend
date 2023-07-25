@@ -12,215 +12,194 @@
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="formgrid grid">
-      <!-- state & isVisible -->
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
-        <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
-        <small appErrorMessage
-               [errors]="isVisibleField.errors"
-               [touched]="isVisibleField.touched"
-               [dirty]="isVisibleField.dirty">
-        </small>
-      </div>
-    </div>
 
     <!-- Information Student-->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="address" label="Dirección:" [required]="addressField"></label>
-        <input pInputText type="text" id="address" formControlName="address"/>
-        <small appErrorMessage
-               [errors]="addressField.errors"
-               [touched]="addressField.touched"
-               [dirty]="addressField.dirty">
-        </small>
+    <div formGroupName="informationStudent">
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="address" label="Dirección:" [required]="addressField"></label>
+          <input pInputText type="text" id="address" formControlName="address"/>
+          <small appErrorMessage
+                 [errors]="addressField.errors"
+                 [touched]="addressField.touched"
+                 [dirty]="addressField.dirty">
+          </small>
+        </div>
+
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="community" label="Comunidad:" [required]="communityField"></label>
+          <input pInputText type="text" id="community" formControlName="community"/>
+          <small appErrorMessage
+                 [errors]="communityField.errors"
+                 [touched]="communityField.touched"
+                 [dirty]="communityField.dirty">
+          </small>
+        </div>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="community" label="Comunidad:" [required]="communityField"></label>
-        <input pInputText type="text" id="community" formControlName="community"/>
-        <small appErrorMessage
-               [errors]="communityField.errors"
-               [touched]="communityField.touched"
-               [dirty]="communityField.dirty">
-        </small>
+      <!-- Emergency contacts -->
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="contactEmergencyName" label="Nombre del contacto de Emergencia:"
+                 [required]="contactEmergencyNameField"></label>
+          <input pInputText type="text" id="contactEmergencyName" formControlName="contactEmergencyName"/>
+          <small appErrorMessage
+                 [errors]="contactEmergencyNameField.errors"
+                 [touched]="contactEmergencyNameField.touched"
+                 [dirty]="contactEmergencyNameField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="contactEmergencyKinship" label="Nombre del contacto de emergencia de parentesco:"
+                 [required]="contactEmergencyKinshipField"></label>
+          <input pInputText type="text" id="contactEmergencyKinship" formControlName="contactEmergencyKinship"/>
+          <small appErrorMessage
+                 [errors]="contactEmergencyKinshipField.errors"
+                 [touched]="contactEmergencyKinshipField.touched"
+                 [dirty]="contactEmergencyKinshipField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="contactEmergencyPhone" label="Número del contacto de emergencia:"
+                 [required]="contactEmergencyPhoneField"></label>
+          <input pInputText type="text" id="contactEmergencyPhone" formControlName="contactEmergencyPhone"/>
+          <small appErrorMessage
+                 [errors]="contactEmergencyPhoneField.errors"
+                 [touched]="contactEmergencyPhoneField.touched"
+                 [dirty]="contactEmergencyPhoneField.dirty">
+          </small>
+        </div>
       </div>
-    </div> 
 
-    <!-- Emergency contacts -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="contactEmergencyName" label="Nombre del contacto de Emergencia:" [required]="contactEmergencyNameField"></label>
-        <input pInputText type="text" id="contactEmergencyName" formControlName="contactEmergencyName"/>
-        <small appErrorMessage
-                [errors]="contactEmergencyNameField.errors"
-                [touched]="contactEmergencyNameField.touched"
-                [dirty]="contactEmergencyNameField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="contactEmergencyKinship" label="Nombre del contacto de emergencia de parentesco:" [required]="contactEmergencyKinshipField"></label>
-        <input pInputText type="text" id="contactEmergencyKinship" formControlName="contactEmergencyKinship"/>
-        <small appErrorMessage
-                [errors]="contactEmergencyKinshipField.errors"
-                [touched]="contactEmergencyKinshipField.touched"
-                [dirty]="contactEmergencyKinshipField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="contactEmergencyPhone" label="Número del contacto de emergencia:" [required]="contactEmergencyPhoneField"></label>
-        <input pInputText type="text" id="contactEmergencyPhone" formControlName="contactEmergencyPhone"/>
-        <small appErrorMessage
-                [errors]="contactEmergencyPhoneField.errors"
-                [touched]="contactEmergencyPhoneField.touched"
-                [dirty]="contactEmergencyPhoneField.dirty">
-        </small>
-      </div>
-    </div>
-
-    <!-- Economic Partner -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="disabilityPercentage" label="Porcentaje de Discapacidad:" [required]="disabilityPercentageField"></label>
-        <input pInputText type="number" id="disabilityPercentage" formControlName="disabilityPercentage"/>
-        <small appErrorMessage
-                [errors]="disabilityPercentageField.errors"
-                [touched]="disabilityPercentageField.touched"
-                [dirty]="disabilityPercentageField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="economicAmount" label="Monto de ayuda económia:" [required]="economicAmountField"></label>
-        <input pInputText type="number" id="economicAmount" formControlName="economicAmount"/>
-        <small appErrorMessage
-                [errors]="economicAmountField.errors"
-                [touched]="economicAmountField.touched"
-                [dirty]="economicAmountField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="educationalAmount" label="Monto de crédito del estudiante:" [required]="educationalAmountField"></label>
-        <input pInputText type="number" id="educationalAmount" formControlName="educationalAmount"/>
-        <small appErrorMessage
-                [errors]="educationalAmountField.errors"
-                [touched]="educationalAmountField.touched"
-                [dirty]="educationalAmountField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="familyIncome" label="Dirección de residencia:" [required]="familyIncomeField"></label>
-        <input pInputText type="number" id="familyIncome" formControlName="familyIncome"/>
-        <small appErrorMessage
-                [errors]="familyIncomeField.errors"
-                [touched]="familyIncomeField.touched"
-                [dirty]="familyIncomeField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="financingScholarshipType" label="Recibe el estudiante un financiamiento:" [required]="financingScholarshipTypeField"></label>
-        <input pInputText type="text" id="financingScholarshipType" formControlName="financingScholarshipType"/>
-        <small appErrorMessage
-                [errors]="financingScholarshipTypeField.errors"
-                [touched]="financingScholarshipTypeField.touched"
-                [dirty]="financingScholarshipTypeField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="membersHouseNumber" label="Numero de familiares con quien vive el estudiante:" [required]="membersHouseNumberField"></label>
-        <input pInputText type="number" id="membersHouseNumber" formControlName="membersHouseNumber"/>
-        <small appErrorMessage
-                [errors]="membersHouseNumberField.errors"
-                [touched]="membersHouseNumberField.touched"
-                [dirty]="membersHouseNumberField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="practiceHours" label="Las horas realizadas en pasantias:" [required]="practiceHoursField"></label>
-        <input pInputText type="number" id="practiceHours" formControlName="practiceHours"/>
-        <small appErrorMessage
-                [errors]="practiceHoursField.errors"
-                [touched]="practiceHoursField.touched"
-                [dirty]="practiceHoursField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="postalCode" label="Código postal de residencia:" [required]="postalCodeField"></label>
-        <input pInputText type="number" id="postalCode" formControlName="postalCode"/>
-        <small appErrorMessage
-                [errors]="postalCodeField.errors"
-                [touched]="postalCodeField.touched"
-                [dirty]="postalCodeField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="scholarshipAmount" label="Monto de la beca:" [required]="scholarshipAmountField"></label>
-        <input pInputText type="number" id="scholarshipAmount" formControlName="scholarshipAmount"/>
-        <small appErrorMessage
-                [errors]="scholarshipAmountField.errors"
-                [touched]="scholarshipAmountField.touched"
-                [dirty]="scholarshipAmountField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="tariffScholarshipPercentage" label="El porcentaje de beca que cubre la institutcion:" [required]="tariffScholarshipPercentageField"></label>
-        <input pInputText type="number" id="tariffScholarshipPercentage" formControlName="tariffScholarshipPercentage"/>
-        <small appErrorMessage
-                [errors]="tariffScholarshipPercentageField.errors"
-                [touched]="tariffScholarshipPercentageField.touched"
-                [dirty]="tariffScholarshipPercentageField.dirty">
-        </small>
+      <!-- Economic Partner -->
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="disabilityPercentage" label="Porcentaje de Discapacidad:"
+                 [required]="disabilityPercentageField"></label>
+          <input pInputText type="number" id="disabilityPercentage" formControlName="disabilityPercentage"/>
+          <small appErrorMessage
+                 [errors]="disabilityPercentageField.errors"
+                 [touched]="disabilityPercentageField.touched"
+                 [dirty]="disabilityPercentageField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="economicAmount" label="Monto de ayuda económia:"
+                 [required]="economicAmountField"></label>
+          <input pInputText type="number" id="economicAmount" formControlName="economicAmount"/>
+          <small appErrorMessage
+                 [errors]="economicAmountField.errors"
+                 [touched]="economicAmountField.touched"
+                 [dirty]="economicAmountField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="educationalAmount" label="Monto de crédito del estudiante:"
+                 [required]="educationalAmountField"></label>
+          <input pInputText type="number" id="educationalAmount" formControlName="educationalAmount"/>
+          <small appErrorMessage
+                 [errors]="educationalAmountField.errors"
+                 [touched]="educationalAmountField.touched"
+                 [dirty]="educationalAmountField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="familyIncome" label="Dirección de residencia:" [required]="familyIncomeField"></label>
+          <input pInputText type="number" id="familyIncome" formControlName="familyIncome"/>
+          <small appErrorMessage
+                 [errors]="familyIncomeField.errors"
+                 [touched]="familyIncomeField.touched"
+                 [dirty]="familyIncomeField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="financingScholarshipType" label="Recibe el estudiante un financiamiento:"
+                 [required]="financingScholarshipTypeField"></label>
+          <input pInputText type="text" id="financingScholarshipType" formControlName="financingScholarshipType"/>
+          <small appErrorMessage
+                 [errors]="financingScholarshipTypeField.errors"
+                 [touched]="financingScholarshipTypeField.touched"
+                 [dirty]="financingScholarshipTypeField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="membersHouseNumber" label="Numero de familiares con quien vive el estudiante:"
+                 [required]="membersHouseNumberField"></label>
+          <input pInputText type="number" id="membersHouseNumber" formControlName="membersHouseNumber"/>
+          <small appErrorMessage
+                 [errors]="membersHouseNumberField.errors"
+                 [touched]="membersHouseNumberField.touched"
+                 [dirty]="membersHouseNumberField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="practiceHours" label="Las horas realizadas en pasantias:"
+                 [required]="practiceHoursField"></label>
+          <input pInputText type="number" id="practiceHours" formControlName="practiceHours"/>
+          <small appErrorMessage
+                 [errors]="practiceHoursField.errors"
+                 [touched]="practiceHoursField.touched"
+                 [dirty]="practiceHoursField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="postalCode" label="Código postal de residencia:" [required]="postalCodeField"></label>
+          <input pInputText type="number" id="postalCode" formControlName="postalCode"/>
+          <small appErrorMessage
+                 [errors]="postalCodeField.errors"
+                 [touched]="postalCodeField.touched"
+                 [dirty]="postalCodeField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="scholarshipAmount" label="Monto de la beca:" [required]="scholarshipAmountField"></label>
+          <input pInputText type="number" id="scholarshipAmount" formControlName="scholarshipAmount"/>
+          <small appErrorMessage
+                 [errors]="scholarshipAmountField.errors"
+                 [touched]="scholarshipAmountField.touched"
+                 [dirty]="scholarshipAmountField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="tariffScholarshipPercentage" label="El porcentaje de beca que cubre la institutcion:"
+                 [required]="tariffScholarshipPercentageField"></label>
+          <input pInputText type="number" id="tariffScholarshipPercentage"
+                 formControlName="tariffScholarshipPercentage"/>
+          <small appErrorMessage
+                 [errors]="tariffScholarshipPercentageField.errors"
+                 [touched]="tariffScholarshipPercentageField.touched"
+                 [dirty]="tariffScholarshipPercentageField.dirty">
+          </small>
+        </div>
       </div>
     </div>
 
     <!-- User -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="email" label="Email del estudiante:" [required]="emailField"></label>
-        <input pInputText type="email" id="email" formControlName="email"/>
-        <small appErrorMessage
-                [errors]="emailField.errors"
-                [touched]="emailField.touched"
-                [dirty]="emailField.dirty">
-        </small>
+    <div formGroupName="user">
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="email" label="Email del estudiante:" [required]="emailField"></label>
+          <input pInputText type="email" id="email" formControlName="email"/>
+          <small appErrorMessage
+                 [errors]="emailField.errors"
+                 [touched]="emailField.touched"
+                 [dirty]="emailField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="lastname" label="Apellido del estudiante:" [required]="lastnameField"></label>
+          <input pInputText type="text" id="lastname" formControlName="lastname"/>
+          <small appErrorMessage
+                 [errors]="lastnameField.errors"
+                 [touched]="lastnameField.touched"
+                 [dirty]="lastnameField.dirty">
+          </small>
+        </div>
       </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="lastname" label="Apellido del estudiante:" [required]="lastnameField"></label>
-        <input pInputText type="text" id="lastname" formControlName="lastname"/>
-        <small appErrorMessage
-                [errors]="lastnameField.errors"
-                [touched]="lastnameField.touched"
-                [dirty]="lastnameField.dirty">
-        </small>
+      <div class="formgrid grid">
+
       </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="password" label="Clave del estudiante:" [required]="passwordField"></label>
-        <input pInputText type="text" id="password" formControlName="password"/>
-        <small appErrorMessage
-                [errors]="passwordField.errors"
-                [touched]="passwordField.touched"
-                [dirty]="passwordField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="passwordChanged" label="Clave cambiada del estudiante:" [required]="passwordChangedField"></label>
-        <input pInputText type="text" id="passwordChanged" formControlName="passwordChanged"/>
-        <small appErrorMessage
-                [errors]="passwordChangedField.errors"
-                [touched]="passwordChangedField.touched"
-                [dirty]="passwordChangedField.dirty">
-        </small>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="username" label="Usuario del estudiante:" [required]="usernameField"></label>
-        <input pInputText type="text" id="username" formControlName="username"/>
-        <small appErrorMessage
-                [errors]="usernameField.errors"
-                [touched]="usernameField.touched"
-                [dirty]="usernameField.dirty">
-        </small>
-      </div>
-  </div>
+    </div>
 
     <!-- Buttons Actions-->
     <div class="formgrid grid">

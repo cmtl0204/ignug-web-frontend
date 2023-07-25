@@ -68,13 +68,12 @@
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td>
       <td *ngFor="let col of columns">
-
-        <!--Objects
+        <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'state'">
-            <p-tag severity="info" [value]="rowData[col.field].name" class="mr-1"></p-tag>
+          <div *ngSwitchCase="'user'">
+            {{rowData[col.field]?.name}}
           </div>
-        </div>-->
+        </div>
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">

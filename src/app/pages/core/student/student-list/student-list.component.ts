@@ -56,7 +56,7 @@ export class StudentListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'address', header: 'Dirección de residencia'},
+      {field: 'user', header: 'Nombres'},
       {field: 'community', header: 'Horas de integración'},
       {field: 'contactEmergencyName', header: 'Nombre de contacto de emergencia'},
       {field: 'contactEmergencyPhone', header: 'Número de contacto de emergencia'},
@@ -137,13 +137,13 @@ export class StudentListComponent implements OnInit {
       this.items[index].isVisible = true;;
     });
   }
-  
+
   /** Select & Paginate **/
   selectItem(item: StudentModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
   }
-  
+
   paginate(event: any) {
     this.findAll(event.page);
   }

@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
 import {OnExitInterface} from "@shared/interfaces";
 import {CatalogueModel, InformationStudentModel, StudentModel} from "@models/core";
-import { UserModel } from '@models/auth';
+import {UserModel} from '@models/auth';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -14,13 +14,12 @@ import {
   StudentsHttpService
 } from "@services/core";
 
-
 @Component({
   selector: 'app-student-form',
   templateUrl: './student-form.component.html',
   styleUrls: ['./student-form.component.scss']
 })
-export class StudentFormComponent implements OnInit, OnExitInterface  {
+export class StudentFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -33,10 +32,10 @@ export class StudentFormComponent implements OnInit, OnExitInterface  {
   protected isLostGratuity: CatalogueModel[] = [];
   protected isSubjectRepeat: CatalogueModel[] = [];
   protected phone: CatalogueModel[] = [];
-  protected bloodType : CatalogueModel[] = [];
-  protected ethnicOrigin : CatalogueModel[] = [];
-  protected gender : CatalogueModel[] = [];
-  protected sex : CatalogueModel[] = [];
+  protected bloodType: CatalogueModel[] = [];
+  protected ethnicOrigin: CatalogueModel[] = [];
+  protected gender: CatalogueModel[] = [];
+  protected sex: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -47,8 +46,8 @@ export class StudentFormComponent implements OnInit, OnExitInterface  {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private studentsHttppService: StudentsHttpService
-  ){
+    private studentsHttpService: StudentsHttpService
+  ) {
     this.breadcrumbService.setItems([
       {label: 'Estudiantes', routerLink: [this.routesService.students]},
       {label: 'Form'},
@@ -61,6 +60,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface  {
 
     this.form = this.newForm;
   }
+
   async onExit(): Promise<boolean> {
     if (this.form.touched || this.form.dirty) {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
@@ -74,55 +74,67 @@ export class StudentFormComponent implements OnInit, OnExitInterface  {
       this.get();
     }
   }
+
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      isVisible: [true, [Validators.required]],
-      informationStudents: this.informationStudentForm,
-      users: this.userForm,
-
+      informationStudent: this.informationStudentForm,
+      user: this.userForm
     });
   }
 
   get informationStudentForm(): FormGroup {
     return this.formBuilder.group({
-
-      isExecutedPractice: [null, [Validators.required]],
-      isExecutedCommunity: [null, [Validators.required]],
-      isDisability: [null, [Validators.required]],
-      isLostGratuity: [null, [Validators.required]],
-      isSubjectRepeat: [null, [Validators.required]],
-
-      address:  [null, [Validators.required]],
-      community:  [null, [Validators.required]],
-      contactEmergencyName:  [null, [Validators.required]],
-      contactEmergencyKinship:  [null, [Validators.required]],
-      contactEmergencyPhone:  [null, [Validators.required]],
-      disabilityPercentage:  [null, [Validators.required]],
-      economicAmount:  [null, [Validators.required]],
-      educationalAmount:  [null, [Validators.required]],
-      familyIncome:  [null, [Validators.required]],
-      financingScholarshipType:  [null, [Validators.required]],
-      membersHouseNumber:  [null, [Validators.required]],
-      practiceHours:  [null, [Validators.required]],
-      postalCode:  [null, [Validators.required]],
-      scholarshipAmount:  [null, [Validators.required]],
-      tariffScholarshipPercentage:  [null, [Validators.required]],
+      id: [null],
+      isExecutedPractice: [null, []],
+      isExecutedCommunity: [null, []],
+      isDisability: [null, []],
+      isLostGratuity: [null, []],
+      isSubjectRepeat: [null, []],
+      address: [null, []],
+      community: [null, []],
+      contactEmergencyName: [null, []],
+      contactEmergencyKinship: [null, []],
+      contactEmergencyPhone: [null, []],
+      disabilityPercentage: [null, []],
+      economicAmount: [null, []],
+      educationalAmount: [null, []],
+      familyIncome: [null, []],
+      financingScholarshipType: [null, []],
+      membersHouseNumber: [null, []],
+      practiceHours: [null, []],
+      postalCode: [null, []],
+      scholarshipAmount: [null, []],
+      tariffScholarshipPercentage: [null, []],
     });
   }
 
   get userForm(): FormGroup {
     return this.formBuilder.group({
-      email: [null, [Validators.required, Validators.email]],
-      birthdate: [null, [Validators.required]],
-      identification: [null, [Validators.required]],
-      lastname: [null, [Validators.required]],
-      personalEmail: [null,[Validators.required]],
-      phones: [null,[Validators.required]],
-      name: [null, [Validators.required]],
-      bloodType:[null,[Validators.required]],
-      ethnicOrigin: [null,[Validators.required]],
-      gender: [null,[Validators.required]],
-      sex: [null,[Validators.required]]
+      id: [null],
+      email: ['asd@gmail.com', [Validators.email]],
+      birthdate: ['2023-01-01', []],
+      identification: ['1234567890', []],
+      lastname: ['tamayo', []],
+      personalEmail: ['asd@asd.asd', []],
+      phone: ['0987654623', []],
+      name: ['cesar', []],
+      bloodType: [null, []],
+      ethnicOrigin: [null, []],
+      gender: [null, []],
+      sex: [null, []]
+      /*id: [null],
+      email: [null, [Validators.email]],
+      birthdate: [null, []],
+      identification: [null, []],
+      lastname: [null, []],
+      personalEmail: [null, []],
+      phone: [null, []],
+      name: [null, []],
+      bloodType: [null, []],
+      ethnicOrigin: [null, []],
+      gender: [null, []],
+      sex: [null, []]
+      */
     });
   }
 
@@ -138,20 +150,21 @@ export class StudentFormComponent implements OnInit, OnExitInterface  {
       this.messageService.errorsFields.then();
     }
   }
+
   back(): void {
-    this.router.navigate([this.routesService.schoolPeriods]);
+    this.router.navigate([this.routesService.students]);
   }
 
   /** Actions **/
   create(student: StudentModel): void {
-    this.studentsHttppService.create(student).subscribe(() => {
+    this.studentsHttpService.create(student).subscribe(() => {
       this.form.reset();
       this.back();
     });
   }
 
   update(student: StudentModel): void {
-    this.studentsHttppService.update(this.id!, student).subscribe(() => {
+    this.studentsHttpService.update(this.id!, student).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -159,86 +172,104 @@ export class StudentFormComponent implements OnInit, OnExitInterface  {
 
   /** Load Data **/
   get(): void {
-    this.studentsHttppService.findOne(this.id!).subscribe((student) => {
+    this.studentsHttpService.findOne(this.id!).subscribe((student) => {
       this.form.patchValue(student);
     });
   }
 
-    /** Form Getters **/  
-    get isVisibleField(): AbstractControl {
-      return this.form.controls['isVisible'];
-    }
-    get addressField(): AbstractControl {
-      return this.form.controls['address'];
-    }
-  
-    get communityField(): AbstractControl {
-      return this.form.controls['community'];
-    }
-  
-    get contactEmergencyNameField(): AbstractControl {
-      return this.form.controls['contactEmergencyName'];
-    }
-    get contactEmergencyKinshipField(): AbstractControl {
-      return this.form.controls['contactEmergencyKinship'];
-    }
-  
-    get contactEmergencyPhoneField(): AbstractControl {
-      return this.form.controls['contactEmergencyPhone'];
-    }
-  
-    get disabilityPercentageField(): AbstractControl {
-      return this.form.controls['disabilityPercentage'];
-    }
-    get economicAmountField(): AbstractControl {
-      return this.form.controls['economicAmount'];
-    }
-  
-    get educationalAmountField(): AbstractControl {
-      return this.form.controls['educationalAmount'];
-    }
-  
-    get familyIncomeField(): AbstractControl {
-      return this.form.controls['familyIncome'];
-    }
-    get financingScholarshipTypeField(): AbstractControl {
-      return this.form.controls['financingScholarshipType'];
-    }
-  
-    get membersHouseNumberField(): AbstractControl {
-      return this.form.controls['membersHouseNumber'];
-    }
-  
-    get practiceHoursField(): AbstractControl {
-      return this.form.controls['practiceHours'];
-    }
-    get postalCodeField(): AbstractControl {
-      return this.form.controls['postalCode'];
-    }
-  
-    get scholarshipAmountField(): AbstractControl {
-      return this.form.controls['scholarshipAmount'];
-    }
-  
-    get tariffScholarshipPercentageField(): AbstractControl {
-      return this.form.controls['tariffScholarshipPercentage'];
-    }
-    get emailField(): AbstractControl {
-      return this.form.controls['email'];
-    }
-  
-    get lastnameField(): AbstractControl {
-      return this.form.controls['lastname'];
-    }
-  
-    get passwordField(): AbstractControl {
-      return this.form.controls['password'];
-    }
-    get passwordChangedField(): AbstractControl {
-      return this.form.controls['passwordChanged'];
-    }
-  
-    get usernameField(): AbstractControl {
-      return this.form.controls['username'];
-    }
+  /** Form Getters **/
+  /** Student Form **/
+  get informationStudentField(): FormGroup {
+    return this.form.controls['informationStudent'] as FormGroup;
+  }
+
+  get userField(): FormGroup {
+    return this.form.controls['user'] as FormGroup;
+  }
+
+  /** Information Student Form **/
+  get addressField(): AbstractControl {
+    return this.informationStudentField.controls['address'];
+  }
+
+  get communityField(): AbstractControl {
+    return this.informationStudentField.controls['community'];
+  }
+
+  get contactEmergencyNameField(): AbstractControl {
+    return this.informationStudentField.controls['contactEmergencyName'];
+  }
+
+  get contactEmergencyKinshipField(): AbstractControl {
+    return this.informationStudentField.controls['contactEmergencyKinship'];
+  }
+
+  get contactEmergencyPhoneField(): AbstractControl {
+    return this.informationStudentField.controls['contactEmergencyPhone'];
+  }
+
+  get disabilityPercentageField(): AbstractControl {
+    return this.informationStudentField.controls['disabilityPercentage'];
+  }
+
+  get economicAmountField(): AbstractControl {
+    return this.informationStudentField.controls['economicAmount'];
+  }
+
+  get educationalAmountField(): AbstractControl {
+    return this.informationStudentField.controls['educationalAmount'];
+  }
+
+  get familyIncomeField(): AbstractControl {
+    return this.informationStudentField.controls['familyIncome'];
+  }
+
+  get financingScholarshipTypeField(): AbstractControl {
+    return this.informationStudentField.controls['financingScholarshipType'];
+  }
+
+  get membersHouseNumberField(): AbstractControl {
+    return this.informationStudentField.controls['membersHouseNumber'];
+  }
+
+  get practiceHoursField(): AbstractControl {
+    return this.informationStudentField.controls['practiceHours'];
+  }
+
+  get postalCodeField(): AbstractControl {
+    return this.informationStudentField.controls['postalCode'];
+  }
+
+  get scholarshipAmountField(): AbstractControl {
+    return this.informationStudentField.controls['scholarshipAmount'];
+  }
+
+  get tariffScholarshipPercentageField(): AbstractControl {
+    return this.informationStudentField.controls['tariffScholarshipPercentage'];
+  }
+
+  /** User Form **/
+  get emailField(): AbstractControl {
+    return this.userField.controls['email'];
+  }
+
+  get lastnameField(): AbstractControl {
+    return this.userField.controls['lastname'];
+  }
+
+  get userNameField(): AbstractControl {
+    return this.userField.controls['name'];
+  }
+
+  get passwordField(): AbstractControl {
+    return this.userField.controls['password'];
+  }
+
+  get passwordChangedField(): AbstractControl {
+    return this.userField.controls['passwordChanged'];
+  }
+
+  get usernameField(): AbstractControl {
+    return this.userField.controls['username'];
+  }
 }
