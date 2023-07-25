@@ -26,16 +26,15 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   protected panelHeader: string = 'Crear';
 
   // Foreign Keys
-  protected isExecutedPractice: CatalogueModel[] = [];
-  protected isExecutedCommunity: CatalogueModel[] = [];
-  protected isDisability: CatalogueModel[] = [];
-  protected isLostGratuity: CatalogueModel[] = [];
-  protected isSubjectRepeat: CatalogueModel[] = [];
-  protected phone: CatalogueModel[] = [];
-  protected bloodType: CatalogueModel[] = [];
-  protected ethnicOrigin: CatalogueModel[] = [];
-  protected gender: CatalogueModel[] = [];
-  protected sex: CatalogueModel[] = [];
+  protected isExecutedPractices: CatalogueModel[] = [];
+  protected isExecutedCommunities: CatalogueModel[] = [];
+  protected isDisabilities: CatalogueModel[] = [];
+  protected isLostGratuities: CatalogueModel[] = [];
+  protected isSubjectRepeats: CatalogueModel[] = [];
+  protected bloodTypes: CatalogueModel[] = [];
+  protected ethnicOrigins: CatalogueModel[] = [];
+  protected genders: CatalogueModel[] = [];
+  protected sexes: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
