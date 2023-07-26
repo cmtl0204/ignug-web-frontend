@@ -20,6 +20,8 @@ import {PanelMenuModule} from "primeng/panelmenu";
 // Components
 import {TeacherListComponent} from "./teacher-list/teacher-list.component";
 import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
+import {PanelModule} from "primeng/panel";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
     InputTextModule,
     SidebarModule,
     PanelMenuModule,
+    PanelModule,
+    DividerModule,
   ]
 })
 export class TeacherModule {
