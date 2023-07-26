@@ -8,7 +8,7 @@
               [loading]="coreService.isLoading"
               (click)="findAll()">
       </button>
-  
+
       <button pButton pRipple type="button"
               label="Eliminar Seleccionados"
               class="p-button-danger"
@@ -29,17 +29,17 @@
     </div>
   </p-toolbar>
 
-<p-paginator 
-  [rows]="paginator.limit" 
+<p-paginator
+  [rows]="paginator.limit"
   [totalRecords]="paginator.totalItems"
   (onPageChange)="paginate($event)">
 </p-paginator>
 
-<p-table 
-dataKey="id" 
-styleClass="p-datatable-striped" 
+<p-table
+dataKey="id"
+styleClass="p-datatable-striped"
 [value]="items" [columns]="columns"
-[loading]="coreService.isLoading" 
+[loading]="coreService.isLoading"
 [(selection)]="selectedItems">
   <ng-template pTemplate="header" let-columns>
     <tr>
@@ -101,7 +101,7 @@ styleClass="p-datatable-striped"
       <td class="text-center">
         <!-- <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div> -->
         <ng-template #thenBlock>
-          <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectTeacher(rowData)"></button>
+          <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
         </ng-template>
         <ng-template #elseBlock>Profesor actual</ng-template>
       </td>

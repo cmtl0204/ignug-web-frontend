@@ -19,7 +19,7 @@ import { CatalogueCoreTypeEnum } from "@shared/enums";
   templateUrl: './teacher-form.component.html',
   styleUrls: ['./teacher-form.component.scss']
 })
-export class TeachersFormComponent implements OnInit, OnExitInterface {
+export class TeacherFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -125,7 +125,7 @@ export class TeachersFormComponent implements OnInit, OnExitInterface {
       personalEmail: ['asd@asd.asd', []],
       phone: ['0987654623', []],
       name: ['cesar', []],
-      
+
       bloodType: [null, []],
       ethnicOrigin: [null, []],
       gender: [null, []],
