@@ -56,6 +56,7 @@ export class InstitutionListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
+      {field: 'address', header: 'Dirección'},
       {field: 'name', header: 'Nombre'},
       {field: 'cellphone', header: 'Teléfono'},
       {field: 'code', header: 'Código'},
