@@ -13,6 +13,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
+import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Component({
   selector: 'app-student-form',
@@ -72,12 +73,35 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     if (this.id) {
       this.get();
     }
+
+    this.loadBloodTypes();
+    this.loadEthnicOrigins();
+    this.loadGenders();
+    this.loadSexes();
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
       informationStudent: this.informationStudentForm,
       user: this.userForm
+    });
+  }
+
+  get userForm(): FormGroup {
+    return this.formBuilder.group({
+      id: [null],
+      email: ['asd@gmail.com', [Validators.email]],
+      birthdate: ['2023-01-01', []],
+      identification: ['1234567890', []],
+      lastname: ['tamayo', []],
+      personalEmail: ['asd@asd.asd', []],
+      phone: ['0987654623', []],
+      name: ['cesar', []],
+      username: ['cesar',[]],
+      bloodType: [null, []],
+      ethnicOrigin: [null, []],
+      gender: [null, []],
+      sex: [null, []]
     });
   }
 
@@ -104,36 +128,6 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
       postalCode: [null, []],
       scholarshipAmount: [null, []],
       tariffScholarshipPercentage: [null, []],
-    });
-  }
-
-  get userForm(): FormGroup {
-    return this.formBuilder.group({
-      id: [null],
-      email: ['asd@gmail.com', [Validators.email]],
-      birthdate: ['2023-01-01', []],
-      identification: ['1234567890', []],
-      lastname: ['tamayo', []],
-      personalEmail: ['asd@asd.asd', []],
-      phone: ['0987654623', []],
-      name: ['cesar', []],
-      bloodType: [null, []],
-      ethnicOrigin: [null, []],
-      gender: [null, []],
-      sex: [null, []]
-      /*id: [null],
-      email: [null, [Validators.email]],
-      birthdate: [null, []],
-      identification: [null, []],
-      lastname: [null, []],
-      personalEmail: [null, []],
-      phone: [null, []],
-      name: [null, []],
-      bloodType: [null, []],
-      ethnicOrigin: [null, []],
-      gender: [null, []],
-      sex: [null, []]
-      */
     });
   }
 
@@ -176,6 +170,26 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+  loadBloodTypes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
+  }
+
+  loadEthnicOrigins(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((ethnicOrigins) => this.ethnicOrigins = ethnicOrigins);
+  }
+
+  loadGenders(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((genders) => this.genders = genders);
+  }
+
+  loadSexes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((sexes) => this.sexes = sexes);
+  }
+  loadIsExecutedPractices(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.sexes = items);
+  }
+
+
   /** Form Getters **/
   /** Student Form **/
   get informationStudentField(): FormGroup {
@@ -186,10 +200,80 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     return this.form.controls['user'] as FormGroup;
   }
 
+  /** User Form **/
+  get emailField(): AbstractControl {
+    return this.userField.controls['email'];
+  }
+
+  get birthdateField(): AbstractControl {
+    return this.userField.controls['birthdate'];
+  }
+
+  get identificationField(): AbstractControl {
+    return this.userField.controls['identification'];
+  }
+
+  get lastnameField(): AbstractControl {
+    return this.userField.controls['lastname'];
+  }
+
+  get personalEmailField(): AbstractControl {
+    return this.userField.controls['personalEmail'];
+  }
+
+  get phoneField(): AbstractControl {
+    return this.userField.controls['phone'];
+  }
+
+  get nameField(): AbstractControl {
+    return this.userField.controls['name'];
+  }
+
+  get usernameField(): AbstractControl {
+    return this.userField.controls['username'];
+  }
+
+  get bloodTypeField(): AbstractControl {
+    return this.userField.controls['bloodType'];
+  }
+
+  get ethnicOriginField(): AbstractControl {
+    return this.userField.controls['ethnicOrigin'];
+  }
+
+  get genderField(): AbstractControl {
+    return this.userField.controls['gender'];
+  }
+
+  get sexField(): AbstractControl {
+    return this.userField.controls['sex'];
+  }
+
   /** Information Student Form **/
   get addressField(): AbstractControl {
     return this.informationStudentField.controls['address'];
   }
+
+  get isExecutedPracticeField(): AbstractControl {
+    return this.informationStudentField.controls['isExecutedPractice'];
+  }
+
+  get isExecutedCommunityField(): AbstractControl {
+    return this.informationStudentField.controls['isExecutedCommunity'];
+  }
+
+  get isDisabilityField(): AbstractControl {
+    return this.informationStudentField.controls['isDisability'];
+  }
+
+  get isLostGratuityField(): AbstractControl {
+    return this.informationStudentField.controls['isLostGratuity'];
+  }
+
+  get isSubjectRepeatField(): AbstractControl {
+    return this.informationStudentField.controls['isSubjectRepeat'];
+  }
+
 
   get communityField(): AbstractControl {
     return this.informationStudentField.controls['community'];
@@ -245,30 +329,5 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
 
   get tariffScholarshipPercentageField(): AbstractControl {
     return this.informationStudentField.controls['tariffScholarshipPercentage'];
-  }
-
-  /** User Form **/
-  get emailField(): AbstractControl {
-    return this.userField.controls['email'];
-  }
-
-  get lastnameField(): AbstractControl {
-    return this.userField.controls['lastname'];
-  }
-
-  get userNameField(): AbstractControl {
-    return this.userField.controls['name'];
-  }
-
-  get passwordField(): AbstractControl {
-    return this.userField.controls['password'];
-  }
-
-  get passwordChangedField(): AbstractControl {
-    return this.userField.controls['passwordChanged'];
-  }
-
-  get usernameField(): AbstractControl {
-    return this.userField.controls['username'];
   }
 }

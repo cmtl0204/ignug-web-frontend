@@ -61,23 +61,31 @@
         <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
       </td>
       <td *ngFor="let col of columns">
+        
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'user'">
-            {{rowData[col.field]?.name}} {{rowData[col.field]?.lastname}}
+            {{rowData[col.field]?.name}}
           </div>
         </div>
-
+        <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'user'">
+            {{rowData[col.field]?.lastname}}
+          </div>
+        </div>
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'username'">
+            {{rowData['user']?.username}}
+          </div>
           <div *ngSwitchCase="'email'">
             {{rowData['user']?.email}}
           </div>
-          <div *ngSwitchCase="'phones'">
-            {{rowData['user']?.phone}}
-          </div>
           <div *ngSwitchCase="'address'">
             {{rowData['informationStudent']?.address}}
+          </div>
+          <div *ngSwitchCase="'phone'">
+            {{rowData['user']?.phone}}
           </div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
