@@ -12,24 +12,6 @@
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="formgrid grid">
-      <!-- state & isVisible -->
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="state" label="Estado:" [required]="stateField"></label>
-        <p-dropdown id="state"
-                    dataKey="id"
-                    formControlName="state"
-                    [options]="states"
-                    optionLabel="name"
-                    placeholder="Seleccione">
-        </p-dropdown>
-        <small appErrorMessage
-               [errors]="stateField.errors"
-               [touched]="stateField.touched"
-               [dirty]="stateField.dirty">
-        </small>
-      </div>
-
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
         <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
@@ -39,9 +21,7 @@
                [dirty]="isVisibleField.dirty">
         </small>
       </div>
-    </div>
 
-    <!-- code & codeSniese -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="code" label="Código:" [required]="codeField"></label>
@@ -52,19 +32,8 @@
                [dirty]="codeField.dirty">
         </small>
       </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="codeSniese" label="Código SNIESE:" [required]="codeSnieseField"></label>
-        <input pInputText type="text" id="codeSniese" formControlName="codeSniese"/>
-        <small appErrorMessage
-               [errors]="codeSnieseField.errors"
-               [touched]="codeSnieseField.touched"
-               [dirty]="codeSnieseField.dirty">
-        </small>
-      </div>
     </div>
 
-    <!-- name & shortName -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
@@ -75,17 +44,69 @@
                [dirty]="nameField.dirty">
         </small>
       </div>
+    </div>
 
+    <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
-        <input pInputText type="text" id="shortName" formControlName="shortName"/>
+        <label appLabel for="description" label="Descripción:" [required]="descriptionField"></label>
+        <input pInputText type="text" id="description" formControlName="description"/>
         <small appErrorMessage
-               [errors]="shortNameField.errors"
-               [touched]="shortNameField.touched"
-               [dirty]="shortNameField.dirty">
+               [errors]="descriptionField.errors"
+               [touched]="descriptionField.touched"
+               [dirty]="descriptionField.dirty">
         </small>
       </div>
     </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="resolutionNumber" label="Número Resolución:" [required]="resolutionNumberField"></label>
+        <input pInputText type="text" id="resolutionNumber" formControlName="resolutionNumber"/>
+        <small appErrorMessage
+               [errors]="resolutionNumberField.errors"
+               [touched]="resolutionNumberField.touched"
+               [dirty]="resolutionNumberField.dirty">
+        </small>
+      </div>
+   </div>
+
+   <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="periodicAcademicNumber" label="Número de periodo académico:" [required]="periodicAcademicNumberField"></label>
+      <input pInputText type="int" id="periodicAcademicNumber" formControlName="periodicAcademicNumber"/>
+      <small appErrorMessage
+             [errors]="periodicAcademicNumberField.errors"
+             [touched]="periodicAcademicNumberField.touched"
+             [dirty]="periodicAcademicNumberField.dirty">
+      </small>
+    </div>
+  </div>
+
+  <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="weeksNumber" label="Número de semanas:" [required]="weeksNumberField"></label>
+      <input pInputText type="int" id="weeksNumber" formControlName="weeksNumber"/>
+      <small appErrorMessage
+             [errors]="weeksNumberField.errors"
+             [touched]="weeksNumberField.touched"
+             [dirty]="weeksNumberField.dirty">
+      </small>
+    </div>
+ </div>
+
+  <div class="formgrid grid">
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <label appLabel for="state" label="Estado:" [required]="stateField"></label>
+    <p-dropdown id="state" dataKey="id" formControlName="state" [options]="states" optionLabel="name" placeholder="Seleccione">
+    </p-dropdown>
+      <small appErrorMessage 
+        [errors]="stateField.errors" 
+        [touched]="stateField.touched" 
+        [dirty]="stateField.dirty">
+      </small>
+    </div>
+  </div>
+
 
     <!-- Buttons Actions-->
     <div class="formgrid grid">
