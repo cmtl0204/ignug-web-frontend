@@ -45,7 +45,16 @@
         </div>
       </div>
       <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="username" label="Nombre de Usuario:" [required]="usernameField"></label>
+          <input pInputText type="text" id="username" formControlName="username"/>
+          <small appErrorMessage
+                 [errors]="usernameField.errors"
+                 [touched]="usernameField.touched"
+                 [dirty]="usernameField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="email" label="Email:" [required]="emailField"></label>
           <input pInputText type="email" id="email" formControlName="email"/>
           <small appErrorMessage
@@ -54,7 +63,7 @@
                  [dirty]="emailField.dirty">
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="personalEmail" label="Email Personal:" [required]="personalEmailField"></label>
           <input pInputText type="email" id="personalEmail" formControlName="personalEmail"/>
           <small appErrorMessage
@@ -75,7 +84,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="phone" label="Celular:" [required]="phoneField"></label>
+          <label appLabel for="phone" label="Número Celular:" [required]="phoneField"></label>
           <input pInputText type="number" id="phone" formControlName="phone"/>
           <small appErrorMessage
                  [errors]="phoneField.errors"
@@ -86,16 +95,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="username" label="Nombre de Usuario:" [required]="usernameField"></label>
-          <input pInputText type="text" id="username" formControlName="username"/>
-          <small appErrorMessage
-                 [errors]="usernameField.errors"
-                 [touched]="usernameField.touched"
-                 [dirty]="usernameField.dirty">
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="bloodType" label="Blood Type:" [required]="bloodTypeField"></label>
+          <label appLabel for="bloodType" label="Tipo de Sangre:" [required]="bloodTypeField"></label>
           <p-dropdown id="bloodType"
                       formControlName="bloodType"
                       dataKey="id"
@@ -119,10 +119,8 @@
                  [dirty]="bloodTypeField.dirty">
           </small>
         </div>
-      </div>
-      <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="ethnicOrigin" label="Ethnic Origin:" [required]="ethnicOriginField"></label>
+          <label appLabel for="ethnicOrigin" label="Etnia:" [required]="ethnicOriginField"></label>
           <p-dropdown id="ethnicOrigin"
                       formControlName="ethnicOrigin"
                       dataKey="id"
@@ -150,7 +148,7 @@
         <!--sex && gender-->
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="sex" label="Sex:" [required]="sexField"></label>
+          <label appLabel for="sex" label="Sexo:" [required]="sexField"></label>
           <p-dropdown id="sex"
                       formControlName="sex"
                       dataKey="id"
@@ -175,7 +173,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="gender" label="Gender:" [required]="genderField"></label>
+          <label appLabel for="gender" label="Género:" [required]="genderField"></label>
           <p-dropdown id="gender"
                       formControlName="gender"
                       dataKey="id"
@@ -200,13 +198,14 @@
           </small>
         </div>
       </div>
-     </div>
+    </div>
 
     <!-- Information Student-->
+    <!-- Practices -->
     <div formGroupName="informationStudent">
       <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="address" label="Dirección:" [required]="addressField"></label>
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="address" label="Dirección donde reside el estudiante:" [required]="addressField"></label>
           <input pInputText type="text" id="address" formControlName="address"/>
           <small appErrorMessage
                  [errors]="addressField.errors"
@@ -214,73 +213,119 @@
                  [dirty]="addressField.dirty">
           </small>
         </div>
-
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="community" label="Horas realizadas por parte del estudiante en integracion con la sociedad:" [required]="communityField"></label>
-          <input pInputText type="text" id="community" formControlName="community"/>
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="membersHouseNumber" label="Numero de familiares con quien vive el estudiante:"
+                 [required]="membersHouseNumberField"></label>
+          <input pInputText type="number" id="membersHouseNumber" formControlName="membersHouseNumber"/>
           <small appErrorMessage
-                 [errors]="communityField.errors"
-                 [touched]="communityField.touched"
-                 [dirty]="communityField.dirty">
+                 [errors]="membersHouseNumberField.errors"
+                 [touched]="membersHouseNumberField.touched"
+                 [dirty]="membersHouseNumberField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="postalCode" label="Código postal de residencia:" [required]="postalCodeField"></label>
+          <input pInputText type="text" id="postalCode" formControlName="postalCode"/>
+          <small appErrorMessage
+                 [errors]="postalCodeField.errors"
+                 [touched]="postalCodeField.touched"
+                 [dirty]="postalCodeField.dirty">
+          </small>
+        </div>
+      </div>
+      <div  class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="isSubjectRepeat" label="Repite Materias:" [required]="isSubjectRepeatField"></label>
+          <p-dropdown id="isSubjectRepeat"
+                      formControlName="isSubjectRepeat"
+                      dataKey="id"
+                      [options]="isSubjectRepeats"
+                      optionLabel="name"
+                      [filter]="true"
+                      filterBy="name"
+                      placeholder="Select">
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="isSubjectRepeatField.value">
+                <div>{{isSubjectRepeatField.value.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-item>
+              {{item.name}}
+            </ng-template>
+          </p-dropdown>
+          <small appErrorMessage
+                [errors]="isSubjectRepeatField.errors"
+                [touched]="isSubjectRepeatField.touched"
+                [dirty]="isSubjectRepeatField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="isDisability" label="Perdida de Gratuidad:" [required]="isLostGratuityField"></label>
+          <p-dropdown id="isLostGratuity"
+                      formControlName="isLostGratuity"
+                      dataKey="id"
+                      [options]="isLostGratuities"
+                      optionLabel="name"
+                      [filter]="true"
+                      filterBy="name"
+                      placeholder="Select">
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="isLostGratuityField.value">
+                <div>{{isLostGratuityField.value.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-item>
+              {{item.name}}
+            </ng-template>
+          </p-dropdown>
+          <small appErrorMessage
+                [errors]="isLostGratuityField.errors"
+                [touched]="isLostGratuityField.touched"
+                [dirty]="isLostGratuityField.dirty">
           </small>
         </div>
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="isExecutedPractice" label="isExecutedPractice:" [required]="isExecutedPracticeField"></label>
-          <input pInputText type="text" id="isExecutedPractice" formControlName="isExecutedPractice"/>
+          <label appLabel for="isDisability" label="Tiene Discapacidad:" [required]="isDisabilityField"></label>
+          <p-dropdown id="isDisability"
+                      formControlName="isDisability"
+                      dataKey="id"
+                      [options]="isDisabilities"
+                      optionLabel="name"
+                      [filter]="true"
+                      filterBy="name"
+                      placeholder="Select">
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="isDisabilityField.value">
+                <div>{{isDisabilityField.value.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-item>
+              {{item.name}}
+            </ng-template>
+          </p-dropdown>
           <small appErrorMessage
-                 [errors]="isExecutedPracticeField.errors"
-                 [touched]="isExecutedPracticeField.touched"
-                 [dirty]="isExecutedPracticeField.dirty">
+                [errors]="isDisabilityField.errors"
+                [touched]="isDisabilityField.touched"
+                [dirty]="isDisabilityField.dirty">
           </small>
         </div>
-
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="isExecutedCommunity" label="isExecutedCommunity:" [required]="isExecutedCommunityField"></label>
-          <input pInputText type="text" id="isExecutedCommunity" formControlName="isExecutedCommunity"/>
+          <label appLabel for="disabilityPercentage" label="Porcentaje de Discapacidad:"
+                 [required]="disabilityPercentageField"></label>
+          <input pInputText type="number" id="disabilityPercentage" formControlName="disabilityPercentage"/>
           <small appErrorMessage
-                 [errors]="isExecutedCommunityField.errors"
-                 [touched]="isExecutedCommunityField.touched"
-                 [dirty]="isExecutedCommunityField.dirty">
-          </small>
-        </div>
-      </div>
-      <div class="formgrid grid">
-        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-          <label appLabel for="isDisability" label="isDisability:" [required]="isDisabilityField"></label>
-          <input pInputText type="text" id="isDisability" formControlName="isDisability"/>
-          <small appErrorMessage
-                 [errors]="isDisabilityField.errors"
-                 [touched]="isDisabilityField.touched"
-                 [dirty]="isDisabilityField.dirty">
-          </small>
-        </div>
-
-        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-          <label appLabel for="isLostGratuity" label="isLostGratuity:" [required]="isLostGratuityField"></label>
-          <input pInputText type="text" id="isLostGratuity" formControlName="isLostGratuity"/>
-          <small appErrorMessage
-                 [errors]="isLostGratuityField.errors"
-                 [touched]="isLostGratuityField.touched"
-                 [dirty]="isLostGratuityField.dirty">
-          </small>
-        </div>
-
-        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-          <label appLabel for="isSubjectRepeat" label="isSubjectRepeat:" [required]="isSubjectRepeatField"></label>
-          <input pInputText type="text" id="isSubjectRepeat" formControlName="isSubjectRepeat"/>
-          <small appErrorMessage
-                 [errors]="isSubjectRepeatField.errors"
-                 [touched]="isSubjectRepeatField.touched"
-                 [dirty]="isSubjectRepeatField.dirty">
+                 [errors]="disabilityPercentageField.errors"
+                 [touched]="disabilityPercentageField.touched"
+                 [dirty]="disabilityPercentageField.dirty">
           </small>
         </div>
       </div>
 
       <!-- Emergency contacts -->
       <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="contactEmergencyName" label="Nombre del contacto de Emergencia:"
                  [required]="contactEmergencyNameField"></label>
           <input pInputText type="text" id="contactEmergencyName" formControlName="contactEmergencyName"/>
@@ -290,8 +335,8 @@
                  [dirty]="contactEmergencyNameField.dirty">
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="contactEmergencyKinship" label="Nombre del contacto de emergencia de parentesco:"
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="contactEmergencyKinship" label="Parentesco del contacto de Emergencia:"
                  [required]="contactEmergencyKinshipField"></label>
           <input pInputText type="text" id="contactEmergencyKinship" formControlName="contactEmergencyKinship"/>
           <small appErrorMessage
@@ -300,7 +345,7 @@
                  [dirty]="contactEmergencyKinshipField.dirty">
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="contactEmergencyPhone" label="Número del contacto de emergencia:"
                  [required]="contactEmergencyPhoneField"></label>
           <input pInputText type="text" id="contactEmergencyPhone" formControlName="contactEmergencyPhone"/>
@@ -315,27 +360,14 @@
       <!-- Economic Partner -->
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="disabilityPercentage" label="Porcentaje de Discapacidad:"
-                 [required]="disabilityPercentageField"></label>
-          <input pInputText type="number" id="disabilityPercentage" formControlName="disabilityPercentage"/>
+          <label appLabel for="familyIncome" label="Ingresos Familiares:" [required]="familyIncomeField"></label>
+          <input pInputText type="number" id="familyIncome" formControlName="familyIncome"/>
           <small appErrorMessage
-                 [errors]="disabilityPercentageField.errors"
-                 [touched]="disabilityPercentageField.touched"
-                 [dirty]="disabilityPercentageField.dirty">
+                 [errors]="familyIncomeField.errors"
+                 [touched]="familyIncomeField.touched"
+                 [dirty]="familyIncomeField.dirty">
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="economicAmount" label="Monto de ayuda económia:"
-                 [required]="economicAmountField"></label>
-          <input pInputText type="number" id="economicAmount" formControlName="economicAmount"/>
-          <small appErrorMessage
-                 [errors]="economicAmountField.errors"
-                 [touched]="economicAmountField.touched"
-                 [dirty]="economicAmountField.dirty">
-          </small>
-        </div>
-      </div>
-      <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="educationalAmount" label="Monto de crédito del estudiante:"
                  [required]="educationalAmountField"></label>
@@ -344,15 +376,6 @@
                  [errors]="educationalAmountField.errors"
                  [touched]="educationalAmountField.touched"
                  [dirty]="educationalAmountField.dirty">
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="familyIncome" label="Dirección de residencia:" [required]="familyIncomeField"></label>
-          <input pInputText type="number" id="familyIncome" formControlName="familyIncome"/>
-          <small appErrorMessage
-                 [errors]="familyIncomeField.errors"
-                 [touched]="familyIncomeField.touched"
-                 [dirty]="familyIncomeField.dirty">
           </small>
         </div>
       </div>
@@ -368,34 +391,13 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="membersHouseNumber" label="Numero de familiares con quien vive el estudiante:"
-                 [required]="membersHouseNumberField"></label>
-          <input pInputText type="number" id="membersHouseNumber" formControlName="membersHouseNumber"/>
+          <label appLabel for="economicAmount" label="Monto de ayuda económia:"
+                 [required]="economicAmountField"></label>
+          <input pInputText type="number" id="economicAmount" formControlName="economicAmount"/>
           <small appErrorMessage
-                 [errors]="membersHouseNumberField.errors"
-                 [touched]="membersHouseNumberField.touched"
-                 [dirty]="membersHouseNumberField.dirty">
-          </small>
-        </div>
-      </div>
-      <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="practiceHours" label="Las horas realizadas en pasantias:"
-                 [required]="practiceHoursField"></label>
-          <input pInputText type="number" id="practiceHours" formControlName="practiceHours"/>
-          <small appErrorMessage
-                 [errors]="practiceHoursField.errors"
-                 [touched]="practiceHoursField.touched"
-                 [dirty]="practiceHoursField.dirty">
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="postalCode" label="Código postal de residencia:" [required]="postalCodeField"></label>
-          <input pInputText type="number" id="postalCode" formControlName="postalCode"/>
-          <small appErrorMessage
-                 [errors]="postalCodeField.errors"
-                 [touched]="postalCodeField.touched"
-                 [dirty]="postalCodeField.dirty">
+                 [errors]="economicAmountField.errors"
+                 [touched]="economicAmountField.touched"
+                 [dirty]="economicAmountField.dirty">
           </small>
         </div>
       </div>
@@ -421,18 +423,81 @@
           </small>
         </div>
       </div>
+
+      <!-- Practices -->
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="scholarshipAmount" label="Monto de la beca:" [required]="scholarshipAmountField"></label>
-          <input pInputText type="number" id="scholarshipAmount" formControlName="scholarshipAmount"/>
+          <label appLabel for="isExecutedPractice" label="Practicas Preprofesionales:" [required]="isExecutedPracticeField"></label>
+          <p-dropdown id="isExecutedPractice"
+                      formControlName="isExecutedPractice"
+                      dataKey="id"
+                      [options]="isExecutedPractices"
+                      optionLabel="name"
+                      [filter]="true"
+                      filterBy="name"
+                      placeholder="Select">
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="isExecutedPracticeField.value">
+                <div>{{isExecutedPracticeField.value.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-item>
+              {{item.name}}
+            </ng-template>
+          </p-dropdown>
           <small appErrorMessage
-                 [errors]="scholarshipAmountField.errors"
-                 [touched]="scholarshipAmountField.touched"
-                 [dirty]="scholarshipAmountField.dirty">
+                [errors]="isExecutedPracticeField.errors"
+                [touched]="isExecutedPracticeField.touched"
+                [dirty]="isExecutedPracticeField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="practiceHours" label="Horas realizadas en Practicas Preprofesionales:"
+                 [required]="practiceHoursField"></label>
+          <input pInputText type="number" id="practiceHours" formControlName="practiceHours"/>
+          <small appErrorMessage
+                 [errors]="practiceHoursField.errors"
+                 [touched]="practiceHoursField.touched"
+                 [dirty]="practiceHoursField.dirty">
           </small>
         </div>
       </div>
-
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="isExecutedCommunity" label="Integración a la sociedad:" [required]="isExecutedCommunityField"></label>
+          <p-dropdown id="isExecutedCommunity"
+                      formControlName="isExecutedCommunity"
+                      dataKey="id"
+                      [options]="isExecutedCommunities"
+                      optionLabel="name"
+                      [filter]="true"
+                      filterBy="name"
+                      placeholder="Select">
+            <ng-template pTemplate="selectedItem">
+              <div *ngIf="isExecutedCommunityField.value">
+                <div>{{isExecutedCommunityField.value.name}}</div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="item" let-item>
+              {{item.name}}
+            </ng-template>
+          </p-dropdown>
+          <small appErrorMessage
+                [errors]="isExecutedCommunityField.errors"
+                [touched]="isExecutedCommunityField.touched"
+                [dirty]="isExecutedCommunityField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="community" label="Horas realizadas en integracion con la sociedad:" [required]="communityField"></label>
+          <input pInputText type="number" id="community" formControlName="community"/>
+          <small appErrorMessage
+                 [errors]="communityField.errors"
+                 [touched]="communityField.touched"
+                 [dirty]="communityField.dirty">
+          </small>
+        </div>
+      </div>
     <!-- Buttons Actions-->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">

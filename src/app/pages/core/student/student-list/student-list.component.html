@@ -68,15 +68,10 @@
             {{rowData[col.field]?.name}}
           </div>
         </div>
-        <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'user'">
-            {{rowData[col.field]?.lastname}}
-          </div>
-        </div>
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'username'">
-            {{rowData['user']?.username}}
+          <div *ngSwitchCase="'lastname'">
+            {{rowData['user']?.lastname}}
           </div>
           <div *ngSwitchCase="'email'">
             {{rowData['user']?.email}}

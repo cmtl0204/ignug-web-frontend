@@ -78,6 +78,11 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     this.loadEthnicOrigins();
     this.loadGenders();
     this.loadSexes();
+    this.loadIsExecutedPractices();
+    this.loadisExecutedCommunities();
+    this.loadIsDisabilities();
+    this.loadIsLostGratuities();
+    this.loadIsSubjectRepeats();
   }
 
   get newForm(): FormGroup {
@@ -90,14 +95,14 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   get userForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      email: ['asd@gmail.com', [Validators.email]],
-      birthdate: ['2023-01-01', []],
-      identification: ['1234567890', []],
-      lastname: ['tamayo', []],
-      personalEmail: ['asd@asd.asd', []],
-      phone: ['0987654623', []],
-      name: ['cesar', []],
-      username: ['cesar',[]],
+      email: [null, [Validators.email]],
+      birthdate: [null, []],
+      identification: [null, []],
+      lastname: [null, []],
+      personalEmail: [null, []],
+      phone: [null, []],
+      name: [null, []],
+      username: [null,[]],
       bloodType: [null, []],
       ethnicOrigin: [null, []],
       gender: [null, []],
@@ -171,24 +176,35 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   }
 
   loadBloodTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
   }
 
   loadEthnicOrigins(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((ethnicOrigins) => this.ethnicOrigins = ethnicOrigins);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((items) => this.ethnicOrigins = items);
   }
 
   loadGenders(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((genders) => this.genders = genders);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((items) => this.genders = items);
   }
 
   loadSexes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((sexes) => this.sexes = sexes);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((items) => this.sexes = items);
   }
   loadIsExecutedPractices(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.sexes = items);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isExecutedPractices = items);
   }
-
+  loadisExecutedCommunities(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isExecutedCommunities = items);
+  }
+  loadIsDisabilities(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isDisabilities = items);
+  }
+  loadIsLostGratuities(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isLostGratuities = items);
+  }
+  loadIsSubjectRepeats(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isSubjectRepeats = items);
+  }
 
   /** Form Getters **/
   /** Student Form **/
