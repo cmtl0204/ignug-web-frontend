@@ -19,7 +19,7 @@ import { CatalogueCoreTypeEnum } from "@shared/enums";
   templateUrl: './teacher-form.component.html',
   styleUrls: ['./teacher-form.component.scss']
 })
-export class TeacherFormComponent implements OnInit, OnExitInterface {
+export class TeachersFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -118,19 +118,19 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   get userForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      email: ['asd@gmail.com', [Validators.email]],
-      birthdate: ['2023-01-01', []],
-      identification: ['1234567890', []],
-      lastname: ['tamayo', []],
-      personalEmail: ['asd@asd.asd', []],
-      phone: ['0987654623', []],
-      name: ['cesar', []],
-
+      email: [null, [Validators.email]],
+      birthdate: [null, []],
+      identification: [null, []],
+      lastname: [null, []],
+      personalEmail: [null, []],
+      phone: [null, []],
+      name: [null, []],
+      username: [null,[]],
       bloodType: [null, []],
       ethnicOrigin: [null, []],
       gender: [null, []],
       sex: [null, []]
-    })
+    });
   }
 
   onSubmit(): void {
@@ -291,12 +291,48 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     return this.userField.controls['email'];
   }
 
+  get birthdayField(): AbstractControl {
+    return this.userField.controls['birthday'];
+  }
+
+  get identificationField(): AbstractControl {
+    return this.userField.controls['identification'];
+  }
+  
   get lastnameField(): AbstractControl {
     return this.userField.controls['lastname'];
   }
 
-  get userNameField(): AbstractControl {
+  get personalEmailField(): AbstractControl {
+    return this.userField.controls['personalEmail'];
+  }
+
+  get phoneField(): AbstractControl {
+    return this.userField.controls['phone'];
+  }
+
+  get nameField(): AbstractControl {
     return this.userField.controls['name'];
+  }
+
+  get userNameField(): AbstractControl {
+    return this.userField.controls['userName'];
+  }
+
+  get bloodTypeField(): AbstractControl {
+    return this.userField.controls['bloodType'];
+  }
+
+  get ethnicOriginField(): AbstractControl {
+    return this.userField.controls['ethnicOrigin'];
+  }
+
+  get genderField(): AbstractControl {
+    return this.userField.controls['gender'];
+  }
+
+  get sexField(): AbstractControl {
+    return this.userField.controls['sex'];
   }
 
   get passwordField(): AbstractControl {
@@ -306,10 +342,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   get passwordChangedField(): AbstractControl {
     return this.userField.controls['passwordChanged'];
   }
-
-  get usernameField(): AbstractControl {
-    return this.userField.controls['username'];
-  }
 }
+
 
 
