@@ -59,6 +59,7 @@ export class SubjectsHttpService {
     this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
