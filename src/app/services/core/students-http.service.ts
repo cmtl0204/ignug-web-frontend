@@ -23,8 +23,10 @@ export class StudentsHttpService {
   create(payload: CreateStudentDto): Observable<StudentModel> {
     const url = `${this.API_URL}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response).then();
         return response.data;
       })
@@ -62,7 +64,7 @@ export class StudentsHttpService {
     this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.isProcessing = true;
+        this.coreService.isProcessing = false;
         this.messageService.success(response).then();
         return response.data;
       })

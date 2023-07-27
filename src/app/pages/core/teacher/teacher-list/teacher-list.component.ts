@@ -74,7 +74,7 @@ export class TeacherListComponent implements OnInit {
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
-      }
+      },
     ];
   }
 
@@ -82,8 +82,8 @@ export class TeacherListComponent implements OnInit {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
         this.teachersHttpService.removeAll(this.selectedItems).subscribe((Teachers) => {
-          this.selectedItems.forEach(TeacherDeleted => {
-            this.items = this.items.filter(teacher => teacher.id !== TeacherDeleted.id);
+          this.selectedItems.forEach(ItemDeleted => {
+            this.items = this.items.filter(item => item.id !== ItemDeleted.id);
             this.paginator.totalItems--;
           });
           this.selectedItems = [];

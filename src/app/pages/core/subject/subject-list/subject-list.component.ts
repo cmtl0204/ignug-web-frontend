@@ -73,8 +73,9 @@ export class SubjectListComponent implements OnInit {
     return [
       {field: 'name', header: 'Nombre'},
       {field: 'code', header: 'Codigo'},
-      {field: 'practicalHour', header: 'Horas practicas'},
-      {field: 'isVisible', header: 'Es Visible'}
+      {field: 'autonomousHour', header: 'Horas autonomas'},
+      {field: 'isVisible', header: 'Es Visible'},
+      {field: 'state', header: 'Estado'}
     ];
   }
 
