@@ -6,11 +6,11 @@ import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} fro
 import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService,RoutesService} from '@services/core';
 
 @Component({
-  selector: 'app-enrollment-list',
-  templateUrl: './institution-list.component.html',
-  styleUrls: ['./institution-list.component.scss'],
+  selector: 'app-enrollment-subject-list',
+  templateUrl: './enrollment-subject-list.component.html',
+  styleUrls: ['./enrollment-subject-list.component.scss'],
 })
-export class InstitutionListComponent implements OnInit {
+export class EnrollmentSubjectListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
@@ -30,7 +30,8 @@ export class InstitutionListComponent implements OnInit {
     private institutionsHttpService: InstitutionsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institución'},
+      {label: 'Matrículas',routerLink:[this.routesService.subjects]},
+      {label: 'Asignaturas'},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {

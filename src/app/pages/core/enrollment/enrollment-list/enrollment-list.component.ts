@@ -3,14 +3,21 @@ import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} from '@models/core';
-import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService,RoutesService} from '@services/core';
+import {
+  BreadcrumbService,
+  CoreService,
+  EnrollmentsHttpService,
+  InstitutionsHttpService,
+  MessageService,
+  RoutesService
+} from '@services/core';
 
 @Component({
   selector: 'app-enrollment-list',
-  templateUrl: './institution-list.component.html',
-  styleUrls: ['./institution-list.component.scss'],
+  templateUrl: './enrollment-list.component.html',
+  styleUrls: ['./enrollment-list.component.scss'],
 })
-export class InstitutionListComponent implements OnInit {
+export class EnrollmentListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
@@ -27,12 +34,12 @@ export class InstitutionListComponent implements OnInit {
     public messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private institutionsHttpService: InstitutionsHttpService,
+    private enrollmentsHttpService: EnrollmentsHttpService,
   ) {
-    this.breadcrumbService.setItems([
-      {label: 'Institución'},
-    ]);
+    this.breadcrumbService.setItems([{label: 'Matrículas'}]);
+
     this.paginator = this.coreService.paginator;
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -46,7 +53,7 @@ export class InstitutionListComponent implements OnInit {
 
   /** Load Data **/
   findAll(page: number = 0) {
-    this.institutionsHttpService.findAll(page, this.search.value)
+    this.enrollmentsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data
@@ -56,35 +63,34 @@ export class InstitutionListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'address', header: 'Dirección'},
-      {field: 'name', header: 'Nombre'},
-      {field: 'cellphone', header: 'Teléfono'},
-      {field: 'code', header: 'Código'},
-      {field: 'email', header: 'Email'},
-      {field: 'logo', header: 'Logo'},
-      {field: 'web', header: 'Web'},
+      {field: 'address', header: 'Identificación'},
+      {field: 'name', header: 'Apellidos y Nombres'},
+      {field: 'cellphone', header: 'Tipo Matrícula'},
+      {field: 'code', header: 'Nivel'},
+      {field: 'email', header: 'Jornada'},
+      {field: 'logo', header: 'Estado'},
     ];
   }
 
   get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Actualizar',
-        icon: PrimeIcons.PENCIL,
+        label: 'Descargar',
+        icon: PrimeIcons.DOWNLOAD,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
-        label: 'Eliminar',
-        icon: PrimeIcons.TRASH,
+        label: 'Asignaturas',
+        icon: PrimeIcons.BOOK,
         command: () => {
           if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
       },
       {
-        label: 'Ocultar',
-        icon: PrimeIcons.LOCK,
+        label: 'Anular',
+        icon: PrimeIcons.BAN,
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
@@ -111,7 +117,7 @@ export class InstitutionListComponent implements OnInit {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.institutionsHttpService.remove(id).subscribe(() => {
+          this.enrollmentsHttpService.remove(id).subscribe(() => {
             this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
@@ -122,7 +128,7 @@ export class InstitutionListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.institutionsHttpService.removeAll(this.selectedItems).subscribe(() => {
+        this.enrollmentsHttpService.removeAll(this.selectedItems).subscribe(() => {
           this.selectedItems.forEach(itemDeleted => {
             this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
@@ -134,14 +140,14 @@ export class InstitutionListComponent implements OnInit {
   }
 
   hide(id: string) {
-    this.institutionsHttpService.hide(id).subscribe(item => {
+    this.enrollmentsHttpService.hide(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.institutionsHttpService.reactivate(id).subscribe(item => {
+    this.enrollmentsHttpService.reactivate(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
     });
@@ -152,6 +158,7 @@ export class InstitutionListComponent implements OnInit {
     this.isActionButtons = true;
     this.selectedItem = item;
   }
+
   paginate(event: any) {
     this.findAll(event.page);
   }
