@@ -291,8 +291,8 @@ export class TeachersFormComponent implements OnInit, OnExitInterface {
     return this.userField.controls['email'];
   }
 
-  get birthdayField(): AbstractControl {
-    return this.userField.controls['birthday'];
+  get birthdateField(): AbstractControl {
+    return this.userField.controls['birthdate'];
   }
 
   get identificationField(): AbstractControl {

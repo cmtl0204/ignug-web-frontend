@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {environment} from '@env/environment';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {CreateTeacherDto, TeacherModel, UpdateTeacherDto} from '@models/core';
-import {ServerResponse} from '@models/http-response';
-import {CoreService, MessageService} from '@services/core';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { environment } from '@env/environment';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { CreateTeacherDto, TeacherModel, UpdateTeacherDto } from '@models/core';
+import { ServerResponse } from '@models/http-response';
+import { CoreService, MessageService } from '@services/core';
 
 @Injectable({
   providedIn: 'root'
@@ -39,9 +39,9 @@ export class TeachersHttpService {
       .append('page', page)
       .append('search', search);
 
-    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+    return this.httpClient.get<ServerResponse>(url, { headers, params }).pipe(
       map((response) => {
-        return response.data;
+        return response;
       })
     );
   }
@@ -59,8 +59,10 @@ export class TeachersHttpService {
   update(id: string, payload: UpdateTeacherDto): Observable<TeacherModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
+        this.coreService.isProcessing = true;
         this.messageService.success(response);
         return response.data;
       })
@@ -81,8 +83,10 @@ export class TeachersHttpService {
   remove(id: string): Observable<TeacherModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
+        this.coreService.isProcessing = true;
         this.messageService.success(response);
         return response.data;
       })
@@ -92,8 +96,10 @@ export class TeachersHttpService {
   removeAll(teachers: TeacherModel[]): Observable<TeacherModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.patch<ServerResponse>(url, teachers).pipe(
       map((response) => {
+        this.coreService.isProcessing = true;
         this.messageService.success(response);
         return response.data;
       })
