@@ -57,9 +57,10 @@ export class StudentListComponent implements OnInit {
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'user', header: 'Nombres'},
+      {field: 'lastname', header: 'Apellidos'},
       {field: 'email', header: 'Correo'},
-      {field: 'phones', header: 'Nombre de contacto de emergencia'},
       {field: 'address', header: 'Dirección'},
+      {field: 'phone', header: 'Teléfono'},
     ];
   }
 
@@ -72,40 +73,7 @@ export class StudentListComponent implements OnInit {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
-      {
-        label: 'Borrar',
-        icon: PrimeIcons.TRASH,
-        command: () => {
-          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Ocultar',
-        icon: PrimeIcons.LOCK,
-        command: () => {
-          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Mostrar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
-        },
-      }
     ];
-  }
-
-  remove(id: string) {
-    this.messageService.questionDelete()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.studentsHttpService.remove(id).subscribe((student) => {
-            this.items = this.items.filter(item => item.id !== id);
-            this.paginator.totalItems--;
-          });
-        }
-      });
   }
 
   removeAll() {
@@ -119,20 +87,6 @@ export class StudentListComponent implements OnInit {
           this.selectedItems = [];
         });
       }
-    });
-  }
-
-  hide(id: string) {
-    this.studentsHttpService.hide(id).subscribe(student => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
-    });
-  }
-
-  reactivate(id: string) {
-    this.studentsHttpService.reactivate(id).subscribe(student => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;;
     });
   }
 

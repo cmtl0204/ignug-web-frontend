@@ -10,10 +10,10 @@ import {
 } from '@models/core';
 import {
   BreadcrumbService,
-  CoreService,
+  CoreService, EventsService,
   MessageService,
   RoutesService,
-  CurriculumsHttpService
+  CurriculumsHttpService, CareersService
 } from '@services/core';
 
 @Component({
@@ -40,6 +40,8 @@ export class CurriculumListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
+    private careersService: CareersService,
+    private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Malla curricular'},
@@ -56,6 +58,7 @@ export class CurriculumListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
+    console.log(this.careersService.selectedCareer);
   }
 
   /** Load Data **/
@@ -176,5 +179,16 @@ export class CurriculumListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.curriculums, id]);
+  }
+
+  redirectEventList() {
+    this.eventsService.model = {
+      entity: this.selectedItem,
+      label: 'Malla Curricular',
+      routerLink: this.routesService.curriculums,
+      routerLabel: 'Mallas Curriculares',
+    };
+
+    this.router.navigate([this.routesService.events]);
   }
 }

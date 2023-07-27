@@ -1,42 +1,53 @@
-<!--<p-card>-->
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton type="button" label="Crear Carrera"
+    <button pButton pRipple type="button"
+            label="Crear"
             class="p-button-success mr-2"
             [icon]="PrimeIcons.PLUS"
-            (click)="redirectCreateForm()"></button>
-    <button pButton type="button" label="Actualizar"
+            (click)="redirectCreateForm()">
+    </button>
+
+    <button pButton pRipple type="button"
+            label="Refrescar"
             class="p-button-info mr-2"
-            icon="pi pi-refresh"
+            [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
-            (click)="findAll()"></button>
-    <button *ngIf="selectedCareers.length>0" pButton type="button" label="Eliminar Carrera"
+            (click)="findAll()">
+    </button>
+
+    <button pButton pRipple type="button"
+            label="Eliminar Seleccionados"
             class="p-button-danger"
-            icon="pi pi-trash"
+            [disabled]="selectedItems.length===0"
+            [icon]="PrimeIcons.TRASH"
             [loading]="coreService.isLoading"
-            (click)="removeAll()"></button>
+            (click)="removeAll()">
+    </button>
   </div>
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
       <input type="text" pInputText [formControl]="search" placeholder="Search">
-      <button type="button" pButton pRipple
-              [class]="PrimeIcons.SEARCH"
+      <button pButton pRipple type="button"
+              [icon]="PrimeIcons.SEARCH"
               [loading]="coreService.isLoading"
               (click)="findAll()"></button>
     </div>
   </div>
 </p-toolbar>
+
 <p-paginator
   [rows]="paginator.limit"
   [totalRecords]="paginator.totalItems"
-  (onPageChange)="paginate($event)"></p-paginator>
+  (onPageChange)="paginate($event)">
+</p-paginator>
+
 <p-table
   dataKey="id"
   styleClass="p-datatable-striped"
-  [value]="careers"
+  [value]="items"
   [columns]="columns"
   [loading]="coreService.isLoading"
-  [(selection)]="selectedCareers">
+  [(selection)]="selectedItems">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th style="width: 3rem">
@@ -47,57 +58,36 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        <button pButton pRipple type="button" class="p-button-help p-button-outlined p-button-rounded"
-                icon="pi pi-cog"></button>
+        Acciones
       </th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-      <!-- <div *ngIf="rowData['id']!==authService.auth.id; then thenBlockCheckbox else elseBlockCheckbox">
-      </div> -->
-      <ng-template #thenBlockCheckbox>
-        <td>
-          <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-        </td>
-      </ng-template>
-      <ng-template #elseBlockCheckbox>
-        <td>
-        </td>
-      </ng-template>
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
       <td *ngFor="let col of columns">
         <!--Objects-->
-        <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'object'">
-            {{rowData[col.field].name}}
-          </div>
-        </div>
+       
+
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'careers'">
-            <p-tag *ngFor="let career of rowData[col.field]" severity="info" [value]="career.name" class="mr-1"></p-tag>
+          <div *ngSwitchCase="'startedAt'">
+            {{rowData[col.field]|date}}
           </div>
-          <div *ngSwitchCase="'name'">
-            {{rowData[col.field]?.name}}
+          <div *ngSwitchCase="'endedAt'">
+            {{rowData[col.field]|date}}
           </div>
-          <div *ngSwitchCase="'acronym'">
-            {{rowData[col.field]?.acronym}
-          </div>
-          <div *ngSwitchCase="'degree'">
-            {{rowData[col.field]?.degree}}
-          </div>
-          <div *ngSwitchCase="'institution'">
-            {{rowData[col.field]?.institution}}
+          <div *ngSwitchCase="'isVisible'">
+            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="Oculto" class="mr-1"></p-tag>
+            <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>
           </div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
       </td>
       <td class="text-center">
-        <!-- <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div> -->
-        <ng-template #thenBlock>
-          <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectCareer(rowData)"></button>
-        </ng-template>
-        <ng-template #elseBlock>Carrera actual</ng-template>
+        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
       </td>
     </tr>
   </ng-template>
@@ -112,7 +102,6 @@
     {{messageService.paginatorTotalRegisters(paginator)}}
   </ng-template>
 </p-table>
-<!--</p-card>-->
 
 <p-sidebar [(visible)]="isActionButtons" position="right">
   <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
