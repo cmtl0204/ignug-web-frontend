@@ -1,37 +1,51 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {CareerModel, ColumnModel, PaginatorModel, SelectCareerDto} from '@models/core';
-import {BreadcrumbService, CareersHttpService, CoreService, MessageService, RoutesService} from '@services/core';
+import {
+  ColumnModel,
+  PaginatorModel,
+  CareerModel,
+  SelectCareerDto
+} from '@models/core';
+import {
+  BreadcrumbService,
+  CoreService, EventsService,
+  MessageService,
+  RoutesService,
+  CareersHttpService, CareersService
+} from '@services/core';
+import {ActionButtonsEnum} from "@shared/enums";
 
 @Component({
-  selector: 'app-event-list',
+  selector: 'app-career-list',
   templateUrl: './career-list.component.html',
   styleUrls: ['./career-list.component.scss'],
-  encapsulation: ViewEncapsulation.None
+
 })
 export class CareerListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedCareer: SelectCareerDto = {};
-  protected selectedCareers: CareerModel[] = [];
-  protected careers: CareerModel[] = [];
+  protected selectedItem: SelectCareerDto = {};
+  protected selectedItems: CareerModel[] = [];
+  protected items: CareerModel[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
-    private careersHttpService: CareersHttpService,
     public coreService: CoreService,
     public messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
+    private careersHttpService: CareersHttpService,
+    private careersService: CareersService,
+    private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Carreras'},
+      {label: 'Carrera'},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -47,83 +61,90 @@ export class CareerListComponent implements OnInit {
     this.findAll();
   }
 
+  /** Load Data **/
   findAll(page: number = 0) {
     this.careersHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
-        this.careers = response.data;
+        this.items = response.data;
       });
   }
 
+  /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Nombre'},
-      {field: 'acronym', header: 'Acrónimo'},
-      {field: 'degree', header: 'Grado'},
-      {field: 'institution', header: 'Institución'},
-      {field: 'modality', header: 'Modalidad'},
-      {field: 'state', header: 'Estado'}
+      { field: 'acronym', header: 'Siglas' },
+      { field: 'code', header: 'Código' },
+      { field: 'codeSniese', header: 'Código Sniese' },
+      {field: 'state', header: 'Estado'},
+      { field: 'logo', header: 'Logo' },
+      { field: 'shortName', header: 'Nombre Corto' },
+      { field: 'resolutionNumber', header: 'Número de Resolución' },
+      { field: 'degree', header: 'Título' }
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
-    return [
+  buildActionButtons(): void {
+    this.actionButtons = [];
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.UPDATE,
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
-          if (this.selectedCareer?.id) this.redirectEditForm(this.selectedCareer.id);
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.DELETE,
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
-          if (this.selectedCareer?.id) this.remove(this.selectedCareer.id);
+          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
-        label: 'Suspender',
-        icon: PrimeIcons.LOCK,
+        id: ActionButtonsEnum.HIDE,
+        label: 'Ocultar',
+        icon: PrimeIcons.EYE_SLASH,
         command: () => {
-          if (this.selectedCareer?.id) this.hide(this.selectedCareer.id);
+          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
-        label: 'Reactivar',
-        icon: PrimeIcons.LOCK_OPEN,
+        id: ActionButtonsEnum.REACTIVATE,
+        label: 'Mostrar',
+        icon: PrimeIcons.EYE,
         command: () => {
-          if (this.selectedCareer?.id) this.reactivate(this.selectedCareer.id);
+          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
-      },
+
+      });
+
+    this.actionButtons.push(
       {
-        label: 'Malla Curricular',
-        icon: PrimeIcons.LOCK_OPEN,
+        id: ActionButtonsEnum.SHOW_EVENTS,
+        label: 'Eventos',
+        icon: PrimeIcons.BARS,
         command: () => {
-          this.router.navigate([this.routesService.curriculums]);
+          if (this.selectedItem?.id) this.redirectEventList();
         },
-      }
-    ];
+      });
   }
 
-  paginate(event: any) {
-    this.findAll(event.page);
-  }
-
-  redirectCreateForm() {
-    this.router.navigate([this.routesService.careers, 'new']);
-  }
-
-  redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.careers, id]);
-  }
-
+  /** Actions **/
   remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.careersHttpService.remove(id).subscribe((career) => {
-            this.careers = this.careers.filter(item => item.id !== career.id);
+          this.careersHttpService.remove(id).subscribe(() => {
+            this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
         }
@@ -133,33 +154,62 @@ export class CareerListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.careersHttpService.removeAll(this.selectedCareers).subscribe((careers) => {
-          this.selectedCareers.forEach(careerDeleted => {
-            this.careers = this.careers.filter(career => career.id !== careerDeleted.id);
+        this.careersHttpService.removeAll(this.selectedItems).subscribe(() => {
+          this.selectedItems.forEach(itemDeleted => {
+            this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
           });
-          this.selectedCareers = [];
+          this.selectedItems = [];
         });
       }
     });
   }
 
-  selectCareer(career: CareerModel) {
-    this.isActionButtons = true;
-    this.selectedCareer = career;
-  }
-
   hide(id: string) {
-    this.careersHttpService.hide(id).subscribe(career => {
-      const index = this.careers.findIndex(career => career.id === id);
-      this.careers[index].isVisible = false;
+    this.careersHttpService.hide(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.careersHttpService.reactivate(id).subscribe(() => {
-      const index = this.careers.findIndex(career => career.id === id);
-      this.careers[index].isVisible = true;
+    this.careersHttpService.reactivate(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = true;
     });
   }
+
+  /** Select & Paginate **/
+  selectItem(item: CareerModel) {
+    this.isActionButtons = true;
+    this.selectedItem = item;
+    this.careersService.selectedCareer = item;
+    this.buildActionButtons();
+  }
+
+  paginate(event: any) {
+    this.findAll(event.page);
+  }
+
+  /** Redirects **/
+  redirectCreateForm() {
+    this.router.navigate([this.routesService.careers, 'new']);
+  }
+
+  redirectEditForm(id: string) {
+    this.router.navigate([this.routesService.careers, id]);
+  }
+
+  redirectEventList() {
+    this.eventsService.model = {
+      entity: this.selectedItem,
+      label: 'Carrera',
+      routerLink: this.routesService.careers,
+      routerLabel: 'Carreras',
+    };
+
+    this.router.navigate([this.routesService.events]);
+  }
+
+
 }

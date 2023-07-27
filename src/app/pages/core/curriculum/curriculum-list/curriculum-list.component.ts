@@ -13,7 +13,7 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CurriculumsHttpService
+  CurriculumsHttpService, CareersService
 } from '@services/core';
 
 @Component({
@@ -40,6 +40,7 @@ export class CurriculumListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
+    private careersService: CareersService,
     private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
@@ -57,6 +58,7 @@ export class CurriculumListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
+    console.log(this.careersService.selectedCareer);
   }
 
   /** Load Data **/

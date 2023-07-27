@@ -41,7 +41,7 @@ export class TeachersHttpService {
 
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
-        return response.data;
+        return response;
       })
     );
   }

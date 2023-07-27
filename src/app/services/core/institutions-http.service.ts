@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CreateInstitutionDto, UpdateInstitutionDto, InstitutionModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
-import {MessageService} from "@services/core";
+import {CoreService, MessageService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,16 @@ import {MessageService} from "@services/core";
 export class InstitutionsHttpService {
   API_URL = `${environment.API_URL}/institutions`;
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
   create(payload: CreateInstitutionDto): Observable<InstitutionModel> {
     const url = `${this.API_URL}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -55,8 +57,10 @@ export class InstitutionsHttpService {
   update(id: string, payload: UpdateInstitutionDto): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing=true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
+        this.coreService.isProcessing=false;
         this.messageService.success(response);
         return response.data;
       })
