@@ -19,28 +19,44 @@ import {PanelMenuModule} from "primeng/panelmenu";
 // Components
 import {CareerListComponent} from "./career-list/career-list.component";
 import {CareerFormComponent} from './career-form/career-form.component';
+import {CheckboxModule} from "primeng/checkbox";
+import {DividerModule} from "primeng/divider";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {KeyFilterModule} from "primeng/keyfilter";
+import {MultiSelectModule} from "primeng/multiselect";
+import {PanelModule} from "primeng/panel";
+import {SharedModule} from "@shared/shared.module";
+import {CalendarModule} from "primeng/calendar";
 
 @NgModule({
-  declarations: [
-    CareerListComponent,
-    CareerFormComponent,
-  ],
-  imports: [
-    NgCommonModule,
-    CareerRoutingModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    RippleModule,
-    MessageModule,
-    ToolbarModule,
-    PaginatorModule,
-    TableModule,
-    TagModule,
-    SplitButtonModule,
-    InputTextModule,
-    SidebarModule,
-    PanelMenuModule
-  ]
+    declarations: [
+        CareerListComponent,
+        CareerFormComponent,
+    ],
+    imports: [
+        NgCommonModule,
+        CareerRoutingModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        RippleModule,
+        MessageModule,
+        ToolbarModule,
+        PaginatorModule,
+        TableModule,
+        TagModule,
+        SplitButtonModule,
+        InputTextModule,
+        SidebarModule,
+        PanelMenuModule,
+        CheckboxModule,
+        DividerModule,
+        InputSwitchModule,
+        KeyFilterModule,
+        MultiSelectModule,
+        PanelModule,
+        SharedModule,
+        CalendarModule
+    ]
 })
 export class CareerModule {
 }

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule as NgCommonModule} from '@angular/common';
 import {TeacherRoutingModule} from './teacher-routing.module';
+import {SharedModule} from "@shared/shared.module";
 
 // PrimeNg Modules
 import {ButtonModule} from "primeng/button";
@@ -19,6 +20,8 @@ import {PanelMenuModule} from "primeng/panelmenu";
 // Components
 import {TeacherListComponent} from "./teacher-list/teacher-list.component";
 import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
+import {PanelModule} from "primeng/panel";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
@@ -29,6 +32,7 @@ import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
     NgCommonModule,
     TeacherRoutingModule,
     ReactiveFormsModule,
+    SharedModule,
     ButtonModule,
     RippleModule,
     MessageModule,
@@ -39,7 +43,9 @@ import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
     SplitButtonModule,
     InputTextModule,
     SidebarModule,
-    PanelMenuModule
+    PanelMenuModule,
+    PanelModule,
+    DividerModule,
   ]
 })
 export class TeacherModule {

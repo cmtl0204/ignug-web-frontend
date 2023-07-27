@@ -1,10 +1,178 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { PrimeIcons } from 'primeng/api';
+import { OnExitInterface } from '@shared/interfaces';
+import { CareerModel, CatalogueModel, InstitutionModel } from '@models/core';
+import {
+  BreadcrumbService,
+  CataloguesHttpService,
+  CoreService,
+  MessageService,
+  RoutesService,
+  CareersHttpService
+} from '@services/core';
+import { CatalogueCoreTypeEnum } from '@shared/enums';
 
 @Component({
-  selector: 'app-event-form',
+  selector: 'app-career-form',
   templateUrl: './career-form.component.html',
   styleUrls: ['./career-form.component.scss']
 })
-export class CareerFormComponent {
+export class CareerFormComponent implements OnInit, OnExitInterface {
+  PrimeIcons = PrimeIcons;
+  id: string | null = null;
+  form: FormGroup;
+  panelHeader = 'Crear';
+
+  // Foreign Keys
+  institutions: InstitutionModel[] = [];
+  states: CatalogueModel[] = [];
+  modality: CatalogueModel[] = [];
+  type: CatalogueModel[] = [];
+
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private breadcrumbService: BreadcrumbService,
+    private cataloguesHttpService: CataloguesHttpService,
+    public coreService: CoreService,
+    private formBuilder: FormBuilder,
+    public messageService: MessageService,
+    private router: Router,
+    private routesService: RoutesService,
+    private careersHttpService: CareersHttpService
+  ) {
+    this.breadcrumbService.setItems([
+      { label: 'Carreras', routerLink: [this.routesService.careers] },
+      { label: 'Form' },
+    ]);
+
+    if (activatedRoute.snapshot.params['id'] !== 'new') {
+      this.id = activatedRoute.snapshot.params['id'];
+      this.panelHeader = 'Actualizar';
+    }
+
+    this.form = this.newForm;
+  }
+
+  async onExit(): Promise<boolean> {
+    if (this.form.touched || this.form.dirty) {
+      return await this.messageService.questionOnExit().then(result => result.isConfirmed);
+    }
+    return true;
+  }
+
+  ngOnInit(): void {
+    this.loadStates();
+  
+
+    if (this.id) {
+      this.get();
+    }
+  }
+
+  get newForm(): FormGroup {
+    return this.formBuilder.group({
+      institution: [null, []],
+      modality: [null, []],
+      state: [null, [Validators.required]],
+      type: [null, []],
+      acronym: [null, [Validators.required]],
+      code: [null, [Validators.required]],
+      codeSniese: [null, []],
+      degree: [null, [Validators.required]],
+      logo: [null, []],
+      name: [null, [Validators.required]],
+      resolutionNumber: [null, []],
+      shortName: [null, [Validators.required]],
+    });
+  }
+
+  onSubmit(): void {
+    if (this.form.valid) {
+      if (this.id) {
+        this.update(this.form.value);
+      } else {
+        this.create(this.form.value);
+      }
+    } else {
+      this.form.markAllAsTouched();
+      this.messageService.errorsFields;
+    }
+  }
+
+  back(): void {
+    this.router.navigate([this.routesService.careers]);
+  }
+
+  /** Actions **/
+  create(item: CareerModel): void {
+    this.careersHttpService.create(item).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
+  }
+
+  update(item: CareerModel): void {
+    this.careersHttpService.update(this.id!, item).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
+  }
+
+  /** Load Data **/
+  get(): void {
+    this.careersHttpService.findOne(this.id!).subscribe((item) => {
+      this.form.patchValue(item);
+    });
+  }
+
+  loadStates(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+      .subscribe((items) => this.states = items);
+  }
+
+ 
+  
+
+  /** Form Getters **/
+  get acronymField(): AbstractControl {
+    return this.form.controls['acronym'];
+  }
+
+  get codeField(): AbstractControl {
+    return this.form.controls['code'];
+  }
+
+  get codeSnieseField(): AbstractControl {
+    return this.form.controls['codeSniese'];
+  }
+
+  get degreeField(): AbstractControl {
+    return this.form.controls['degree'];
+  }
+
+
+
+  get logoField(): AbstractControl {
+    return this.form.controls['logo'];
+  }
+
+  get nameField(): AbstractControl {
+    return this.form.controls['name'];
+  }
+
+  get resolutionNumberField(): AbstractControl {
+    return this.form.controls['resolutionNumber'];
+  }
+
+  get shortNameField(): AbstractControl {
+    return this.form.controls['shortName'];
+  }
+
+  get stateField(): AbstractControl {
+    return this.form.controls['state'];
+  }
+
 
 }

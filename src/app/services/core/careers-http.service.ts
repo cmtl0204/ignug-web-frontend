@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '@env/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CreateCareerDto, UpdateCareerDto, CareerModel } from '@models/core';
-import { ServerResponse } from '@models/http-response';
-import { MessageService } from '@services/core';
+import {Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {environment } from '@env/environment';
+import {Observable } from 'rxjs';
+import {map } from 'rxjs/operators';
+import {CreateCareerDto, UpdateCareerDto, CareerModel } from '@models/core';
+import {ServerResponse } from '@models/http-response';
+import {CoreService, MessageService } from '@services/core';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +13,16 @@ import { MessageService } from '@services/core';
 export class CareersHttpService {
   API_URL = `${environment.API_URL}/careers`;
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {}
+  constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
+  }
 
   create(payload: CreateCareerDto): Observable<CareerModel> {
     const url = `${this.API_URL}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -30,11 +33,10 @@ export class CareersHttpService {
     const url = this.API_URL;
 
     const headers = new HttpHeaders().append('pagination', 'true');
-    const params = new HttpParams()
-      .append('page', page.toString())
-      .append('search', search);
 
-    return this.httpClient.get<ServerResponse>(url, { headers, params }).pipe(
+    const params = new HttpParams().append('page', page.toString()).append('search', search);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
         return response;
       })
@@ -84,10 +86,10 @@ export class CareersHttpService {
     );
   }
 
-  removeAll(careers: CareerModel[]): Observable<CareerModel[]> {
+  removeAll(payload: CareerModel[]): Observable<CareerModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
-    return this.httpClient.patch<ServerResponse>(url, careers).pipe(
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -98,7 +100,29 @@ export class CareersHttpService {
   hide(id: string): Observable<CareerModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  open(id: string): Observable<CareerModel> {
+    const url = `${this.API_URL}/${id}/open`;
+
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  close(id: string): Observable<CareerModel> {
+    const url = `${this.API_URL}/${id}/close`;
+
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
