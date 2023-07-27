@@ -81,8 +81,10 @@ export class InstitutionsHttpService {
   remove(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing=true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
+        this.coreService.isProcessing=false;
         this.messageService.success(response);
         return response.data;
       })
@@ -92,8 +94,10 @@ export class InstitutionsHttpService {
   removeAll(institutions: InstitutionModel[]): Observable<InstitutionModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
+    this.coreService.isProcessing=true;
     return this.httpClient.patch<ServerResponse>(url, institutions).pipe(
       map((response) => {
+        this.coreService.isProcessing=false;
         this.messageService.success(response);
         return response.data;
       })

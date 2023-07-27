@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CreateCurriculumDto, UpdateCurriculumDto, CurriculumModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
-import {MessageService} from "@services/core";
+import {CoreService,MessageService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +13,16 @@ import {MessageService} from "@services/core";
 export class CurriculumsHttpService {
   API_URL = `${environment.API_URL}/curriculums`;
 
-  constructor(private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(private coreService:CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
   create(payload: CreateCurriculumDto): Observable<CurriculumModel> {
     const url = `${this.API_URL}`;
-
+    
+    this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -55,8 +57,10 @@ export class CurriculumsHttpService {
   update(id: string, payload: UpdateCurriculumDto): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -77,8 +81,10 @@ export class CurriculumsHttpService {
   remove(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -88,8 +94,10 @@ export class CurriculumsHttpService {
   removeAll(curriculums: CurriculumModel[]): Observable<CurriculumModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.patch<ServerResponse>(url, curriculums).pipe(
       map((response) => {
+        this.coreService.isProcessing = false;    
         this.messageService.success(response);
         return response.data;
       })

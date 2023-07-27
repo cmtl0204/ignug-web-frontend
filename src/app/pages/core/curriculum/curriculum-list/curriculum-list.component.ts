@@ -75,10 +75,9 @@ export class CurriculumListComponent implements OnInit {
     return [
       {field: 'code', header: 'Código'},
       {field: 'name', header: 'Nombre'},
-      {field: 'description', header: 'Descripción'},
-      {field: 'resolutionNumber', header: 'Número de resolución'},
       {field: 'periodicAcademicNumber', header: 'Número de periodo académico'},
-      {field: 'weeksNumber', header: 'Número de semanas'}
+      {field: 'weeksNumber', header: 'Número de semanas'},
+      {field: 'state', header: 'Estado'}
     ];
   }
 
