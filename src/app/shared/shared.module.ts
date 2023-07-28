@@ -26,6 +26,9 @@ import {SearchComponent} from './components/search/search.component';
 import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipes';
 import {UserStatePipe} from "@shared/pipes/auth/userState.pipe";
 import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pipe";
+import { LocationComponent } from './components/location/location.component';
+import {TagModule} from "primeng/tag";
+import { FileListComponent } from './components/file-list/file-list.component';
 
 @NgModule({
   declarations: [
@@ -42,11 +45,14 @@ import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pi
     ActivePipe,
     UserStatePipe,
     SchoolPeriodsStatePipe,
+    LocationComponent,
+    FileListComponent,
   ],
   exports: [
     SkeletonComponent,
     ProgressBarComponent,
     SearchComponent,
+    LocationComponent,
     ErrorMessageDirective,
     LabelDirective,
     RolesPermissionsDirective,
@@ -57,6 +63,7 @@ import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pi
     ActivePipe,
     UserStatePipe,
     SchoolPeriodsStatePipe,
+    FileListComponent,
   ],
   imports: [
     CommonModule,
@@ -76,6 +83,7 @@ import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pi
     DividerModule,
     CardModule,
     OverlayPanelModule,
+    TagModule,
   ]
 })
 export class SharedModule {
