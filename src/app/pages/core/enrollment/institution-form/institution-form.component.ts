@@ -69,12 +69,13 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
+      /* address: [null, []], */
       acronym: [null, [Validators.required]],
       cellphone: [null, [Validators.required]],
       code: [null, [Validators.required]],
       codeSniese: [null, []],
       denomination: [null, [Validators.required]],
-      email: [null,[Validators.required, Validators.email]],
+      email: [null, [Validators.required]],
       isVisible: [true, [Validators.required]],
       logo: [null, [Validators.required]],
       name: [null, [Validators.required]],
@@ -130,6 +131,10 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   }
 
   /** Form Getters **/
+  /* get addressField(): AbstractControl {
+    return this.form.controls['address'];
+  } */
+
   get acronymField(): AbstractControl {
     return this.form.controls['acronym'];
   }

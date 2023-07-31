@@ -1,22 +1,22 @@
-import {Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import {environment } from '@env/environment';
-import {Observable } from 'rxjs';
-import {map } from 'rxjs/operators';
-import {CreateCareerDto, UpdateCareerDto, CareerModel } from '@models/core';
-import {ServerResponse } from '@models/http-response';
-import {CoreService, MessageService } from '@services/core';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {environment} from '@env/environment';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {CreateInstitutionDto, UpdateInstitutionDto, InstitutionModel} from '@models/core';
+import {ServerResponse} from '@models/http-response';
+import {CoreService, MessageService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CareersHttpService {
-  API_URL = `${environment.API_URL}/careers`;
+export class EnrollmentsHttpService {
+  API_URL = `${environment.API_URL}/enrollments`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: CreateCareerDto): Observable<CareerModel> {
+  create(payload: CreateInstitutionDto): Observable<InstitutionModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -44,17 +44,17 @@ export class CareersHttpService {
     );
   }
 
-  findOne(id: string): Observable<CareerModel> {
+  findOne(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
-      map((response) => {
+      map(response => {
         return response.data;
       })
     );
   }
 
-  update(id: string, payload: UpdateCareerDto): Observable<CareerModel> {
+  update(id: string, payload: UpdateInstitutionDto): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -67,7 +67,7 @@ export class CareersHttpService {
     );
   }
 
-  reactivate(id: string): Observable<CareerModel> {
+  reactivate(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
@@ -78,23 +78,21 @@ export class CareersHttpService {
     );
   }
 
-  remove(id: string): Observable<CareerModel> {
+  remove(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.isProcessing=true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.coreService.isProcessing=false;
         this.messageService.success(response);
         return response.data;
       })
     );
   }
 
-  removeAll(payload: CareerModel[]): Observable<CareerModel[]> {
+  removeAll(institutions: InstitutionModel[]): Observable<InstitutionModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
-    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+    return this.httpClient.patch<ServerResponse>(url, institutions).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -102,32 +100,10 @@ export class CareersHttpService {
     );
   }
 
-  hide(id: string): Observable<CareerModel> {
+  hide(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-
-  open(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/open`;
-
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-
-  close(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/close`;
-
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;

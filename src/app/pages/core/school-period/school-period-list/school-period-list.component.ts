@@ -27,6 +27,7 @@ export class SchoolPeriodListComponent implements OnInit {
   protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
+  protected isFileList: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectSchoolPeriodDto = {};
@@ -81,6 +82,7 @@ export class SchoolPeriodListComponent implements OnInit {
 
   buildActionButtons(): void {
     this.actionButtons = [];
+
     this.actionButtons.push(
       {
         id: ActionButtonsEnum.UPDATE,
@@ -149,6 +151,16 @@ export class SchoolPeriodListComponent implements OnInit {
         icon: PrimeIcons.UNLOCK,
         command: () => {
           if (this.selectedItem?.id) this.close(this.selectedItem.id);
+        },
+      });
+
+    this.actionButtons.push(
+      {
+        id: ActionButtonsEnum.FILE_LIST,
+        label: 'Archivos',
+        icon: PrimeIcons.FILE,
+        command: () => {
+          if (this.selectedItem?.id) this.isFileList = true;
         },
       });
 

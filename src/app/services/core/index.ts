@@ -14,4 +14,6 @@ export * from './school-periods-http.service';
 export * from './events-http.service';
 export * from './events.service';
 export * from './careers.service';
+export * from './enrollments-http.service';
+export * from './files-http.service';
 

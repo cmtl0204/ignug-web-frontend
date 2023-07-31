@@ -3,34 +3,21 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateSubjectDto, SubjectModel, UpdateSubjectDto} from "@models/core";
+import {EventModel} from "@models/core";
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SubjectsHttpService {
-  API_URL = `${environment.API_URL}/subjects`;
+export class FilesHttpService {
+  API_URL = `${environment.API_URL}/files`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: SubjectModel): Observable<SubjectModel> {
-    const url = `${this.API_URL}`;
-
-    this.coreService.isProcessing = true;
-    return this.httpClient.post<ServerResponse>(url, payload).pipe(
-      map((response) => {
-        this.coreService.isProcessing = false;
-        this.messageService.success(response).then();
-        return response.data;
-      })
-    );
-  }
-
-  findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
-    const url = this.API_URL;
+  findByModel(modelId: string, page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = `${this.API_URL}/models/${modelId}`;
 
     const headers = new HttpHeaders().append('pagination', 'true');
 
@@ -43,7 +30,7 @@ export class SubjectsHttpService {
     );
   }
 
-  findOne(id: string): Observable<SubjectModel> {
+  findOne(id: string): Observable<EventModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -53,22 +40,20 @@ export class SubjectsHttpService {
     );
   }
 
-  update(id: string, payload: SubjectModel): Observable<SubjectModel> {
+  update(id: string, payload: EventModel): Observable<EventModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
-      map(response => {
+      map((response) => {
         this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
-    )
-      ;
+    );
   }
 
-  reactivate(id: string):
-    Observable<SubjectModel> {
+  reactivate(id: string): Observable<EventModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
@@ -79,11 +64,7 @@ export class SubjectsHttpService {
     );
   }
 
-  remove(id
-           :
-           string
-  ):
-    Observable<SubjectModel> {
+  remove(id: string): Observable<EventModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
@@ -94,11 +75,7 @@ export class SubjectsHttpService {
     );
   }
 
-  removeAll(payload
-              :
-              SubjectModel[]
-  ):
-    Observable<SubjectModel[]> {
+  removeAll(payload: EventModel[]): Observable<EventModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, payload).pipe(
@@ -109,11 +86,7 @@ export class SubjectsHttpService {
     );
   }
 
-  hide(id
-         :
-         string
-  ):
-    Observable<SubjectModel> {
+  hide(id: string): Observable<EventModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(

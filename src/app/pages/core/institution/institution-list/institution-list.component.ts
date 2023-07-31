@@ -6,7 +6,7 @@ import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} fro
 import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService,RoutesService} from '@services/core';
 
 @Component({
-  selector: 'app-institution-list',
+  selector: 'app-enrollment-list',
   templateUrl: './institution-list.component.html',
   styleUrls: ['./institution-list.component.scss'],
 })
@@ -56,13 +56,10 @@ export class InstitutionListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'address', header: 'Dirección'},
-      {field: 'name', header: 'Nombre'},
-      {field: 'cellphone', header: 'Teléfono'},
       {field: 'code', header: 'Código'},
+      {field: 'name', header: 'Nombre'},
       {field: 'email', header: 'Email'},
-      {field: 'logo', header: 'Logo'},
-      {field: 'web', header: 'Web'},
+      {field: 'cellphone', header: 'Teléfono'},
     ];
   }
 

@@ -11,7 +11,7 @@ export class CoreInterceptor implements HttpInterceptor {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let flag;
+    let flag: boolean | undefined = false;
     let headers = request.headers ? request.headers : new HttpHeaders();
     let params = request.params ? request.params : new HttpParams();
 
@@ -25,13 +25,17 @@ export class CoreInterceptor implements HttpInterceptor {
       }
     }
 
-    flag = request.headers.getAll('Content-Type')?.some(header => header === 'multipart/form-data');
+    // flag = request.headers.getAll('Content-Type')?.some(header => header === 'multipart/form-data');
+
     headers = headers.append('Accept', 'application/json')
 
-    if (!flag) {
-      headers = headers.append('Content-Type', 'application/json')
-    }
+    // if (!flag) {
+    //   headers = headers.append('Content-Type', 'application/json');
+    // } else {
+    //   headers.set('Content-Type','s');
+    // }
 
+    console.log()
     this.coreService.isLoading = true;
     return next.handle(request.clone({headers, params})).pipe(
       tap(value => {

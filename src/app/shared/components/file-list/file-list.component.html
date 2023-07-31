@@ -1,43 +1,28 @@
-<p-toolbar>
-  <div class="p-toolbar-group-left">
-    <button pButton pRipple type="button"
-            label="Crear"
-            class="p-button-success mr-2"
-            [icon]="PrimeIcons.PLUS"
-            (click)="redirectCreateForm()">
-    </button>
-
-    <button pButton pRipple type="button"
-            label="Refrescar"
-            class="p-button-info mr-2"
-            [icon]="PrimeIcons.REFRESH"
-            [loading]="coreService.isLoading"
-            (click)="findByModel()">
-    </button>
-
-    <button pButton pRipple type="button"
-            label="Eliminar Seleccionados"
-            class="p-button-danger"
-            [disabled]="selectedItems.length===0"
-            [icon]="PrimeIcons.TRASH"
-            [loading]="coreService.isLoading"
-            (click)="removeAll()">
-    </button>
-  </div>
-  <div class="p-toolbar-group-right">
-    <div class="p-inputgroup">
-      <input type="text" pInputText [formControl]="search" placeholder="Search">
-      <button pButton pRipple type="button"
-              [icon]="PrimeIcons.SEARCH"
-              [loading]="coreService.isLoading"
-              (click)="findByModel()"></button>
+<p-fileUpload
+  #uploadFiles
+  chooseLabel="Browse"
+  chooseIcon="pi pi-search"
+  uploadLabel="Subir archivos"
+  cancelLabel="Limpiar"
+  name="files[]"
+  [auto]="true"
+  [accept]="acceptAttributes"
+  [multiple]="multiple"
+  [maxFileSize]="maxFileSize"
+  [fileLimit]="fileLimit"
+  [customUpload]="true"
+  (uploadHandler)="upload($event,uploadFiles)">
+  <ng-template pTemplate="content" let-files>
+    <div class="p-text-center">
+      <img src="../../../../../../assets/layout/images/components/shared/files/upload.png" alt="upload">
+      <br>
+      <button pButton label="Browse" [icon]="'pi pi-search'" (click)="uploadFiles.choose()"></button>
+      <h6>
+        o arrastre aquí sus archivos
+      </h6>
     </div>
-  </div>
-</p-toolbar>
-
-<p-panel>
-  <h1>{{model.label}}: {{model.entity.name}}</h1>
-</p-panel>
+  </ng-template>
+</p-fileUpload>
 
 <p-paginator
   [rows]="paginator.limit"
@@ -114,7 +99,3 @@
     {{messageService.paginatorTotalRegisters(paginator)}}
   </ng-template>
 </p-table>
-
-<p-sidebar [(visible)]="isActionButtons" position="right">
-  <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
-</p-sidebar>
