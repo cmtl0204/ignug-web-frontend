@@ -1,32 +1,34 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
-import {PrimeIcons} from "primeng/api";
-import {ColumnModel, EventModel, ModelI, PaginatorModel, SelectEventDto} from "@models/core";
+import {ConfirmationService, MenuItem, PrimeIcons} from "primeng/api";
+import {ColumnModel, EventModel, FileModel, ModelI, PaginatorModel, SelectEventDto} from "@models/core";
 import {CoreService, FilesHttpService, MessageService} from "@services/core";
+import {ActionButtonsEnum, SchoolPeriodsStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-file-list',
   templateUrl: './file-list.component.html',
   styleUrls: ['./file-list.component.scss']
 })
-export class FileListComponent {
+export class FileListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   @Input() acceptAttributes = '.pdf,.txt,.doc,.docx,.xls,.xlsx,.csv,.ppt,.pptx,.zip,.rar,.7z,.tar, image/*';
   @Input() multiple = true;
   @Input() maxFileSize = 10240000 * 20;
   @Input() fileLimit = 20;
-  @Input() flagUploadFilesIn: boolean = false;
-  @Output() files = new EventEmitter<any[]>();
   @Input() modelId: string = '';
+  @Output() flagUploadFiles: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
+  protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectEventDto = {};
   protected selectedItems: EventModel[] = [];
   protected items: EventModel[] = [];
-  protected model: ModelI = {};
 
   constructor(
+    private confirmationService: ConfirmationService,
     public coreService: CoreService,
     public filesHttpService: FilesHttpService,
     public messageService: MessageService
@@ -39,6 +41,10 @@ export class FileListComponent {
         this.findByModel();
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.findByModel();
   }
 
   findByModel(page: number = 0) {
@@ -60,15 +66,48 @@ export class FileListComponent {
 
   selectItem(item: EventModel) {
     this.selectedItem = item;
+    this.buildActionButtons();
+    this.isActionButtons = true;
   }
 
   paginate(event: any) {
     this.findByModel(event.page);
   }
 
-  upload(event:any, uploadFiles:any) {
-    console.log(event);
-    console.log(uploadFiles);
+  buildActionButtons(): void {
+    this.actionButtons = [];
+
+    this.actionButtons.push(
+      {
+        icon: PrimeIcons.DOWNLOAD,
+        command: () => {
+          if (this.selectedItem?.id) this.download(this.selectedItem);
+        },
+      });
   }
 
+  download(file: FileModel) {
+    this.filesHttpService.downloadFile(file);
+  }
+
+  remove(event: Event, id: string) {
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: '¿Está seguro de eliminar?',
+      acceptLabel: 'Si',
+      rejectLabel: 'Cancelar',
+      icon: 'pi pi-exclamation-triangle',
+      accept: () => {
+        this.filesHttpService.remove(id).subscribe(() => {
+          this.items = this.items.filter(item => item.id !== id);
+          this.paginator.totalItems--;
+        });
+      },
+      reject: () => {
+        // this.messageService.add({severity: 'error', summary: 'Rejected', detail: 'You have rejected'});
+      }
+    });
+  }
+
+  protected readonly Math = Math;
 }

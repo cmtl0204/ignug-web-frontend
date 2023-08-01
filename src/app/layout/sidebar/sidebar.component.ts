@@ -37,7 +37,6 @@ export class SidebarComponent implements OnInit {
   getMenus() {
     this.menusHttpService.getMenusByRole(this.authService.role.id!).subscribe(
       menus => {
-        console.log(menus);
         this.menus = menus;
       }
     )
