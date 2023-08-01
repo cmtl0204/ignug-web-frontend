@@ -58,7 +58,6 @@ export class CurriculumListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
-    console.log(this.careersService.selectedCareer);
   }
 
   /** Load Data **/

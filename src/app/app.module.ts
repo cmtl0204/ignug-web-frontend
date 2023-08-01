@@ -21,6 +21,8 @@ import {SharedModule} from "@shared/shared.module";
 import {DialogModule} from "primeng/dialog";
 import {ProgressBarModule} from "primeng/progressbar";
 import {DividerModule} from "primeng/divider";
+import {ToastModule} from "primeng/toast";
+import {MessageService} from "primeng/api";
 
 @NgModule({
   declarations: [
@@ -44,6 +46,7 @@ import {DividerModule} from "primeng/divider";
     DialogModule,
     ProgressBarModule,
     DividerModule,
+    ToastModule,
   ],
   providers: [
     // {
@@ -51,6 +54,7 @@ import {DividerModule} from "primeng/divider";
     //   useClass: HashLocationStrategy
     // },
     HttpInterceptorProviders,
+    MessageService,
   ],
   bootstrap: [AppComponent]
 })

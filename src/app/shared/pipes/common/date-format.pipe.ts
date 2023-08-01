@@ -6,7 +6,6 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class DateFormatPipe implements PipeTransform {
 
   transform(value: string | unknown, ...args: unknown[]): string {
-    console.log(typeof value)
     if (typeof value === 'string') {
       const dateValid = value.includes('T');
       if (!dateValid) {
@@ -14,7 +13,6 @@ export class DateFormatPipe implements PipeTransform {
       }
     }
 
-    console.log(value);
     return <string>value;
   }
 

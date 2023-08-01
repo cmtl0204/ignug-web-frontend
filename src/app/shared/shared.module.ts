@@ -26,9 +26,16 @@ import {SearchComponent} from './components/search/search.component';
 import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipes';
 import {UserStatePipe} from "@shared/pipes/auth/userState.pipe";
 import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pipe";
-import { LocationComponent } from './components/location/location.component';
+import {LocationComponent} from './components/location/location.component';
 import {TagModule} from "primeng/tag";
-import { FileListComponent } from './components/file-list/file-list.component';
+import {FileListComponent} from './components/file-list/file-list.component';
+import {FileUploadComponent} from './components/file-upload/file-upload.component';
+import {PanelMenuModule} from "primeng/panelmenu";
+import {SidebarModule} from "primeng/sidebar";
+import {SpeedDialModule} from "primeng/speeddial";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ConfirmationService} from "primeng/api";
+import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
 
 @NgModule({
   declarations: [
@@ -45,8 +52,10 @@ import { FileListComponent } from './components/file-list/file-list.component';
     ActivePipe,
     UserStatePipe,
     SchoolPeriodsStatePipe,
+    SizesPipe,
     LocationComponent,
     FileListComponent,
+    FileUploadComponent,
   ],
   exports: [
     SkeletonComponent,
@@ -63,6 +72,7 @@ import { FileListComponent } from './components/file-list/file-list.component';
     ActivePipe,
     UserStatePipe,
     SchoolPeriodsStatePipe,
+    SizesPipe,
     FileListComponent,
   ],
   imports: [
@@ -84,7 +94,12 @@ import { FileListComponent } from './components/file-list/file-list.component';
     CardModule,
     OverlayPanelModule,
     TagModule,
-  ]
+    PanelMenuModule,
+    SidebarModule,
+    SpeedDialModule,
+    ConfirmPopupModule,
+  ],
+  providers: [ConfirmationService]
 })
 export class SharedModule {
 }

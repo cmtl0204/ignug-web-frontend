@@ -1,29 +1,10 @@
-<p-fileUpload
-  #uploadFiles
-  chooseLabel="Browse"
-  chooseIcon="pi pi-search"
-  uploadLabel="Subir archivos"
-  cancelLabel="Limpiar"
-  name="files[]"
-  [auto]="true"
-  [accept]="acceptAttributes"
-  [multiple]="multiple"
-  [maxFileSize]="maxFileSize"
-  [fileLimit]="fileLimit"
-  [customUpload]="true"
-  (uploadHandler)="upload($event,uploadFiles)">
-  <ng-template pTemplate="content" let-files>
-    <div class="p-text-center">
-      <img src="../../../../../../assets/layout/images/components/shared/files/upload.png" alt="upload">
-      <br>
-      <button pButton label="Browse" [icon]="'pi pi-search'" (click)="uploadFiles.choose()"></button>
-      <h6>
-        o arrastre aquí sus archivos
-      </h6>
-    </div>
-  </ng-template>
-</p-fileUpload>
-
+<app-file-upload [acceptAttributes]="acceptAttributes"
+                 [multiple]="multiple"
+                 [maxFileSize]="maxFileSize"
+                 [fileLimit]="fileLimit"
+                 [modelId]="modelId"
+                 (flagUploadFiles)="findByModel()"
+></app-file-upload>
 <p-paginator
   [rows]="paginator.limit"
   [totalRecords]="paginator.totalItems"
@@ -70,21 +51,32 @@
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'startedAt'">
-            {{rowData[col.field]|date}}
+          <div *ngSwitchCase="'extension'">
+            <img [src]="rowData.extension | extensions"
+                 [pTooltip]="rowData.extension"
+                 (click)="download(rowData)"
+                 alt="tipo">
           </div>
-          <div *ngSwitchCase="'endedAt'">
-            {{rowData[col.field]|date}}
-          </div>
-          <div *ngSwitchCase="'isVisible'">
-            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="No Visible" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>
+          <div *ngSwitchCase="'size'">
+            {{rowData[col.field] | fileSizes}}
           </div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
       </td>
       <td class="text-center">
-        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
+        <button pButton pRipple type="button"
+                class="p-button-outlined p-button-rounded"
+                [icon]="PrimeIcons.DOWNLOAD"
+                [loading]="coreService.isLoading"
+                (click)="download(rowData)"></button>
+
+        <p-confirmPopup></p-confirmPopup>
+
+        <button pButton pRipple type="button"
+                class="p-button-danger p-button-outlined p-button-rounded ml-2"
+                [icon]="PrimeIcons.TRASH"
+                [loading]="coreService.isLoading"
+                (click)="remove($event,rowData.id)"></button>
       </td>
     </tr>
   </ng-template>
@@ -99,3 +91,7 @@
     {{messageService.paginatorTotalRegisters(paginator)}}
   </ng-template>
 </p-table>
+
+<p-sidebar [(visible)]="isActionButtons" position="right">
+  <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
+</p-sidebar>
