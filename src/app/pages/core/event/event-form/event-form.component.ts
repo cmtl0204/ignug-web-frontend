@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
+import {isAfter} from "date-fns";
 import {OnExitInterface} from "@shared/interfaces";
 import {CatalogueModel, EventModel} from "@models/core";
 import {
@@ -13,7 +14,6 @@ import {
   RoutesService
 } from "@services/core";
 import {CatalogueCoreTypeEnum} from "@shared/enums";
-import {isAfter} from "date-fns";
 
 @Component({
   selector: 'app-event-form',
@@ -100,7 +100,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields;
     }
   }
 
