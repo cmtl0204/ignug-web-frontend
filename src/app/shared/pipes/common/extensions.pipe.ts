@@ -14,7 +14,7 @@ export class ExtensionsPipe implements PipeTransform {
         return pathAssets + 'pdf.png';
 
       case 'jpg':
-      case 'j.pg':
+      case '.jpg':
       case 'jpeg':
       case '.jpeg':
       case 'png':
@@ -31,11 +31,13 @@ export class ExtensionsPipe implements PipeTransform {
 
       case 'txt':
       case '.txt':
+        return pathAssets + 'txt.png';
+
       case 'doc':
       case '.doc':
       case 'docx':
       case '.docx':
-        return pathAssets + 'doc.png';
+        return pathAssets + 'word.png';
 
       case 'xls':
       case '.xls':

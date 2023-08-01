@@ -113,6 +113,9 @@
   <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
 </p-sidebar>
 
-<p-dialog [(visible)]="isFileList" >
+<p-dialog *ngIf="isFileList" [(visible)]="isFileList"
+          [modal]="true"
+          [style]="{width: '100%'}"
+          header="Gestión de Archivos">
   <app-file-list [modelId]="selectedItem.id!"></app-file-list>
 </p-dialog>

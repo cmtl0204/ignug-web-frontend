@@ -3,7 +3,8 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {EventModel} from "@models/core";
+import {MessageService as MessageServicePn} from 'primeng/api';
+import {EventModel, FileModel} from "@models/core";
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 
@@ -13,7 +14,9 @@ import {CoreService, MessageService} from '@services/core';
 export class FilesHttpService {
   API_URL = `${environment.API_URL}/files`;
 
-  constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(private messageServicePn: MessageServicePn,
+              private coreService: CoreService, private httpClient: HttpClient,
+              private messageService: MessageService) {
   }
 
   findByModel(modelId: string, page: number = 0, search: string = ''): Observable<ServerResponse> {
@@ -40,11 +43,30 @@ export class FilesHttpService {
     );
   }
 
-  update(id: string, payload: EventModel): Observable<EventModel> {
-    const url = `${this.API_URL}/${id}`;
+  uploadFile(modelId: string, payload: FormData): Observable<EventModel> {
+    const url = `${this.API_URL}/${modelId}/upload`;
 
     this.coreService.isProcessing = true;
-    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        this.messageServicePn.clear();
+        this.messageServicePn.add({
+          key: 'app',
+          severity: 'info',
+          summary: response.title,
+          detail: response.message
+        });
+        return response.data;
+      })
+    );
+  }
+
+  uploadFiles(modelId: string, payload: FormData): Observable<EventModel> {
+    const url = `${this.API_URL}/${modelId}/uploads`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
         this.coreService.isProcessing = false;
         this.messageService.success(response);
@@ -69,7 +91,13 @@ export class FilesHttpService {
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.messageService.success(response);
+        this.messageServicePn.clear();
+        this.messageServicePn.add({
+          key: 'app',
+          severity: 'info',
+          summary: response.title,
+          detail: response.message
+        });
         return response.data;
       })
     );
@@ -95,5 +123,19 @@ export class FilesHttpService {
         return response.data;
       })
     );
+  }
+
+  downloadFile(file: FileModel) {
+    const url = `${this.API_URL}/${file.id}/download`;
+    this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', file.originalName!);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
   }
 }

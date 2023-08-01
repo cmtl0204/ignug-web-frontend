@@ -2,9 +2,9 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <i *ngIf="id===''" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
-    <i *ngIf="id!=''" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
-    <h2 class="panel-header">{{panelHeader}}</h2>
+    <i *ngIf="id === ''" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+    <i *ngIf="id != ''" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
   </ng-template>
 
   <small [innerHTML]="this.messageService.requiredFields"></small>
@@ -12,162 +12,264 @@
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- state & isVisible -->
     <div class="formgrid grid">
-      <!-- state & isVisible -->
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="state" label="Estado:" [required]="stateField"></label>
-        <p-dropdown id="state"
-                    dataKey="id"
-                    formControlName="state"
-                    [options]="states"
-                    optionLabel="name"
-                    placeholder="Seleccione">
+        <label
+          appLabel
+          for="state"
+          label="Estado:"
+          [required]="stateField"
+        ></label>
+        <p-dropdown
+          id="state"
+          dataKey="id"
+          formControlName="state"
+          [options]="states"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
         </p-dropdown>
-        <small appErrorMessage
-               [errors]="stateField.errors"
-               [touched]="stateField.touched"
-               [dirty]="stateField.dirty">
+        <small
+          appErrorMessage
+          [errors]="stateField.errors"
+          [touched]="stateField.touched"
+          [dirty]="stateField.dirty"
+        >
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
-        <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
-        <small appErrorMessage
-               [errors]="isVisibleField.errors"
-               [touched]="isVisibleField.touched"
-               [dirty]="isVisibleField.dirty">
+        <label
+          appLabel
+          for="isVisible"
+          label="Visible:"
+          [required]="isVisibleField"
+        ></label>
+        <p-inputSwitch
+          id="isVisible"
+          formControlName="isVisible"
+          [trueValue]="true"
+        ></p-inputSwitch>
+        <small
+          appErrorMessage
+          [errors]="isVisibleField.errors"
+          [touched]="isVisibleField.touched"
+          [dirty]="isVisibleField.dirty"
+        >
         </small>
       </div>
     </div>
-
-    <!-- code & codeSniese -->
+    <!-- type & academicPeriod -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="code" label="Codigo:" [required]="codeField"></label>
-        <input pInputText type="text" id="code" formControlName="code"/>
-        <small appErrorMessage
-               [errors]="codeField.errors"
-               [touched]="codeField.touched"
-               [dirty]="codeField.dirty">
+        <label
+          appLabel
+          for="academicPeriod"
+          label="Periodo academico:"
+          [required]="academicPeriodField"
+        ></label>
+        <p-dropdown
+          id="academicPeriod"
+          dataKey="id"
+          formControlName="academicPeriod"
+          [options]="academicPeriods"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="academicPeriodField.errors"
+          [touched]="academicPeriodField.touched"
+          [dirty]="academicPeriodField.dirty"
+        >
         </small>
       </div>
-
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="credits" label="Creditos:" [required]="creditsField"></label>
-        <input pInputText type="text" id="credits" formControlName="credits"/>
-        <small appErrorMessage
-               [errors]="creditsField.errors"
-               [touched]="creditsField.touched"
-               [dirty]="creditsField.dirty">
-        </small>
-      </div>
-    </div>
-
-    <!-- name & shortName -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
-        <input pInputText type="text" id="name" formControlName="name"/>
-        <small appErrorMessage
-               [errors]="nameField.errors"
-               [touched]="nameField.touched"
-               [dirty]="nameField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="practicalHour" label="Horas practicas:" [required]="practicalHourField"></label>
-        <input pInputText type="text" id="practicalHour" formControlName="practicalHour"/>
-        <small appErrorMessage
-               [errors]="practicalHourField.errors"
-               [touched]="practicalHourField.touched"
-               [dirty]="practicalHourField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="scale" label="Escala:" [required]="scaleField"></label>
-        <input pInputText type="text" id="scale" formControlName="scale"/>
-        <small appErrorMessage
-               [errors]="scaleField.errors"
-               [touched]="scaleField.touched"
-               [dirty]="scaleField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="autonomousHour" label="Horas autonomas" [required]="autonomousHourField"></label>
-        <input pInputText type="text" id="autonomousHour" formControlName="autonomousHour"/>
-        <small appErrorMessage
-               [errors]="autonomousHourField.errors"
-               [touched]="autonomousHourField.touched"
-               [dirty]="autonomousHourField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="teacherHour" label="Horas profesor:" [required]="teacherHourField"></label>
-        <input pInputText type="text" id="teacherHour" formControlName="teacherHour"/>
-        <small appErrorMessage
-               [errors]="teacherHourField.errors"
-               [touched]="teacherHourField.touched"
-               [dirty]="teacherHourField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="academicPeriod" label="Periodo academico:" [required]="academicPeriodField"></label>
-        <input pInputText type="text" id="academicPeriod" formControlName="academicPeriod"/>
-        <small appErrorMessage
-               [errors]="academicPeriodField.errors"
-               [touched]="academicPeriodField.touched"
-               [dirty]="academicPeriodField.dirty">
-        </small>
-      </div>
-
-      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="curriculum" label="Malla curricular:" [required]="curriculumField"></label>
-        <input pInputText type="text" id="curriculum" formControlName="curriculum"/>
-        <small appErrorMessage
-               [errors]="curriculumField.errors"
-               [touched]="curriculumField.touched"
-               [dirty]="curriculumField.dirty">
-        </small>
-      </div> -->
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="type" label="Tipo:" [required]="typeField"></label>
-        <input pInputText type="text" id="type" formControlName="type"/>
-        <small appErrorMessage
-               [errors]="typeField.errors"
-               [touched]="typeField.touched"
-               [dirty]="typeField.dirty">
+        <p-dropdown
+          id="type"
+          dataKey="id"
+          formControlName="type"
+          [options]="types"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="typeField.errors"
+          [touched]="typeField.touched"
+          [dirty]="typeField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+    <!-- code & name -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="name"
+          label="Nombre:"
+          [required]="nameField"
+        ></label>
+        <input pInputText type="text" id="name" formControlName="name" />
+        <small
+          appErrorMessage
+          [errors]="nameField.errors"
+          [touched]="nameField.touched"
+          [dirty]="nameField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="code"
+          label="Codigo:"
+          [required]="codeField"
+        ></label>
+        <input pInputText type="text" id="code" formControlName="code" />
+        <small
+          appErrorMessage
+          [errors]="codeField.errors"
+          [touched]="codeField.touched"
+          [dirty]="codeField.dirty"
+        >
         </small>
       </div>
     </div>
 
+    <!-- credits & scale -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="credits"
+          label="Creditos:"
+          [required]="creditsField"
+        ></label>
+        <input pInputText type="text" id="credits" formControlName="credits" />
+        <small
+          appErrorMessage
+          [errors]="creditsField.errors"
+          [touched]="creditsField.touched"
+          [dirty]="creditsField.dirty"
+        >
+        </small>
+      </div>
 
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="scale"
+          label="Escala:"
+          [required]="scaleField"
+        ></label>
+        <input pInputText type="text" id="scale" formControlName="scale" />
+        <small
+          appErrorMessage
+          [errors]="scaleField.errors"
+          [touched]="scaleField.touched"
+          [dirty]="scaleField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-4">
+        <label
+          appLabel
+          for="practicalHour"
+          label="Horas practicas:"
+          [required]="practicalHourField"
+        ></label>
+        <input
+          pInputText
+          type="text"
+          id="practicalHour"
+          formControlName="practicalHour"
+        />
+        <small
+          appErrorMessage
+          [errors]="practicalHourField.errors"
+          [touched]="practicalHourField.touched"
+          [dirty]="practicalHourField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4">
+        <label
+          appLabel
+          for="autonomousHour"
+          label="Horas autonomas"
+          [required]="autonomousHourField"
+        ></label>
+        <input
+          pInputText
+          type="text"
+          id="autonomousHour"
+          formControlName="autonomousHour"
+        />
+        <small
+          appErrorMessage
+          [errors]="autonomousHourField.errors"
+          [touched]="autonomousHourField.touched"
+          [dirty]="autonomousHourField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4">
+        <label
+          appLabel
+          for="teacherHour"
+          label="Horas profesor"
+          [required]="teacherHourField"
+        ></label>
+        <input
+          pInputText
+          type="text"
+          id="teacherHour"
+          formControlName="teacherHour"
+        />
+        <small
+          appErrorMessage
+          [errors]="teacherHourField.errors"
+          [touched]="teacherHourField.touched"
+          [dirty]="teacherHourField.dirty"
+        >
+        </small>
+      </div>
+    </div>
     <!-- Buttons Actions-->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="button"
-                label="Cancelar"
-                class="p-button-info p-button-outlined"
-                [icon]="PrimeIcons.ARROW_LEFT"
-                [loading]="coreService.isLoading"
-                (click)="back()"></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          [icon]="PrimeIcons.ARROW_LEFT"
+          [loading]="coreService.isLoading"
+          (click)="back()"
+        ></button>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="submit"
-                label="Guardar"
-                [icon]="PrimeIcons.SAVE"
-                [loading]="coreService.isLoading"></button>
+        <button
+          pButton
+          pRipple
+          type="submit"
+          label="Guardar"
+          [icon]="PrimeIcons.SAVE"
+          [loading]="coreService.isLoading"
+        ></button>
       </div>
     </div>
   </form>
-  {{form.value | json}}
 </p-panel>
-

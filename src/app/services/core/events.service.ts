@@ -10,10 +10,10 @@ export class EventsService {
   }
 
   get model(): ModelI {
-    return JSON.parse(String(localStorage.getItem('model')));
+    return JSON.parse(String(sessionStorage.getItem('modelEvent')));
   }
 
   set model(value: ModelI) {
-    localStorage.setItem('model', JSON.stringify(value));
+    sessionStorage.setItem('modelEvent', JSON.stringify(value));
   }
 }

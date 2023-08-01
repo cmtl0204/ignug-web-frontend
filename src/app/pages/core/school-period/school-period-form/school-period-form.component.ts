@@ -7,7 +7,7 @@ import {CatalogueModel, SchoolPeriodModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
-  CoreService,
+  CoreService, FilesHttpService,
   MessageService,
   RoutesService,
   SchoolPeriodsHttpService
@@ -38,6 +38,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     protected coreService: CoreService,
+    private filesHttpService: FilesHttpService,
     private formBuilder: FormBuilder,
     protected messageService: MessageService,
     private router: Router,
@@ -161,6 +162,10 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   loadStates(): void {
     this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
       .subscribe((items) => this.states = items);
+  }
+
+  download() {
+    this.filesHttpService.downloadFile({id: '75a1b432-63f4-40e0-a0fd-b3fbb191a826',originalName:'My recipe (1).pdf',extension:'.xlsx'})
   }
 
   /** Form Getters **/

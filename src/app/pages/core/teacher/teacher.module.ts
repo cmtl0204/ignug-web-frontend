@@ -16,7 +16,8 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {InputTextModule} from "primeng/inputtext";
 import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
-
+import {InputNumberModule} from 'primeng/inputnumber';
+import { CalendarModule } from 'primeng/calendar';
 // Components
 import {TeacherListComponent} from "./teacher-list/teacher-list.component";
 import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
@@ -44,6 +45,8 @@ import {DividerModule} from "primeng/divider";
     InputTextModule,
     SidebarModule,
     PanelMenuModule,
+    InputNumberModule,
+    CalendarModule,
     PanelModule,
     DividerModule,
   ]

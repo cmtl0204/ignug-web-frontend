@@ -35,7 +35,6 @@ export class CoreInterceptor implements HttpInterceptor {
     //   headers.set('Content-Type','s');
     // }
 
-    console.log()
     this.coreService.isLoading = true;
     return next.handle(request.clone({headers, params})).pipe(
       tap(value => {

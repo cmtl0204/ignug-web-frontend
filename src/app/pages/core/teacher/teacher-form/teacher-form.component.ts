@@ -75,6 +75,10 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     if (this.id) {
       this.get();
     }
+    this.loadBloodTypes();
+    this.loadEthnicOrigins();
+    this.loadGenders();
+    this.loadSexes();
   }
 
   get teacherForm(): FormGroup {
@@ -88,7 +92,6 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     return this.formBuilder.group({
       id: [null,[]],
 
-      teacher: [null, []],
       countryHigherEducation:  [null, []],
       higherEducation:  [null, []],
       scholarship:  [null, []],
@@ -122,7 +125,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       birthdate: [null, []],
       identification: [null, []],
       lastname: [null, []],
-      personalEmail: [null, []],
+      personalEmail: [null, [Validators.email]],
       phone: [null, []],
       name: [null, []],
       username: [null,[]],
@@ -171,16 +174,27 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       this.form.patchValue(item);
     });
   }
+  loadBloodTypes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
+  }
 
-  loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
+  loadEthnicOrigins(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((items) => this.ethnicOrigins = items);
+  }
+
+  loadGenders(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((items) => this.genders = items);
+  }
+
+  loadSexes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((items) => this.sexes = items);
   }
 
   /** Form Getters **/
 
   /** Teachers Form **/
   get informationTeachersField(): FormGroup {
-    return this.form.controls['informationTeachers'] as FormGroup;
+    return this.form.controls['informationTeacher'] as FormGroup;
   }
 
   get userField(): FormGroup {
