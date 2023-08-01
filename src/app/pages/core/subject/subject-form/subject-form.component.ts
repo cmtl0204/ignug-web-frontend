@@ -32,6 +32,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   // Foreign Keys
   protected states: CatalogueModel[] = [];
+  protected academicPeriods: CatalogueModel[] = [];
+  protected types: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -68,6 +70,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   ngOnInit(): void {
     this.loadStates();
+    this.loadAcademicPeriods();
+    this.loadTypes();
 
     if (this.id) {
       this.get();
@@ -134,6 +138,19 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       .catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
       .subscribe((items) => (this.states = items));
   }
+
+  loadAcademicPeriods(): void {
+    this.cataloguesHttpService
+      .catalogue(CatalogueCoreTypeEnum.ACADEMIC_PERIOD)
+      .subscribe((items) => (this.academicPeriods = items));
+  }
+
+  loadTypes(): void {
+    this.cataloguesHttpService
+      .catalogue(CatalogueCoreTypeEnum.REGISTRATION_TYPE )
+      .subscribe((items) => (this.types = items));
+  }
+
 
   /** Form Getters **/
   get autonomousHourField(): AbstractControl {
