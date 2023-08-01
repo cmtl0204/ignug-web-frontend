@@ -10,7 +10,8 @@ import {
   CoreService,
   MessageService,
   RoutesService,
-  CareersHttpService
+  CareersHttpService,
+  InstitutionsHttpService
 } from '@services/core';
 import { CatalogueCoreTypeEnum } from '@shared/enums';
 
@@ -75,6 +76,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
     return this.formBuilder.group({
       institution: [null, []],
       modality: [null, []],
+      isVisible: [true, [Validators.required]],
       state: [null, [Validators.required]],
       type: [null, []],
       acronym: [null, [Validators.required]],
@@ -132,10 +134,12 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
       .subscribe((items) => this.states = items);
   }
 
- 
-  
 
   /** Form Getters **/
+  get isVisibleField(): AbstractControl {
+    return this.form.controls['isVisible'];
+  }
+  
   get acronymField(): AbstractControl {
     return this.form.controls['acronym'];
   }
