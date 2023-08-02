@@ -98,7 +98,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       academicPeriod: [null, [Validators.required]],
       state: [null, [Validators.required]],
       type: [null, [Validators.required]],
-      curriculum:[this.curriculumService.selectedCurriculum, [Validators.required]]
+      curriculum:[this.curriculumService.curriculum, [Validators.required]],
     });
   }
 

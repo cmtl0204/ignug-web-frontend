@@ -89,7 +89,7 @@ export class InstitutionListComponent implements OnInit {
       },
       {
         label: 'Carreras',
-        icon: PrimeIcons.TH_LARGE,
+        icon: PrimeIcons.BOOK,
         command: () => {
           this.router.navigate([this.routesService.careers]);
         },

@@ -112,7 +112,7 @@ export class CurriculumListComponent implements OnInit {
       },
       {
         label: 'Asignaturas',
-        icon: PrimeIcons.LOCK_OPEN,
+        icon: PrimeIcons.FOLDER,
         command: () => {
           this.router.navigate([this.routesService.subjects]);
         },

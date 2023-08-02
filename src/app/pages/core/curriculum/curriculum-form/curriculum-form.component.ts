@@ -74,7 +74,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
       isVisible: [null, [Validators.required]],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
-      description: [null, [Validators.required]],
+      description: [null, [Validators.required, Validators.minLength(10)]],
       resolutionNumber: [null, [Validators.required]],
       periodicAcademicNumber: [null, [Validators.required]],
       weeksNumber: [null, [Validators.required]],
