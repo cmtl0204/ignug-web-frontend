@@ -126,7 +126,7 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.INSTITUTIONS_STATE).subscribe((items) => this.states = items);
   }
 
   /** Form Getters **/

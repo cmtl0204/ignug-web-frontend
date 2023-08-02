@@ -3,7 +3,14 @@ import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} from '@models/core';
-import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService,RoutesService} from '@services/core';
+import {
+  BreadcrumbService,
+  CoreService,
+  InstitutionsHttpService,
+  InstitutionsService,
+  MessageService,
+  RoutesService
+} from '@services/core';
 
 @Component({
   selector: 'app-enrollment-list',
@@ -28,6 +35,7 @@ export class InstitutionListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private institutionsHttpService: InstitutionsHttpService,
+    private institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
       {label: 'Institución'},
@@ -148,7 +156,9 @@ export class InstitutionListComponent implements OnInit {
   selectItem(item: InstitutionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
+    this.institutionsService.institution = item;
   }
+
   paginate(event: any) {
     this.findAll(event.page);
   }

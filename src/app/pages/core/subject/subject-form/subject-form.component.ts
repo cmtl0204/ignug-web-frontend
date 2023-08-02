@@ -135,7 +135,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   loadStates(): void {
     this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+      .catalogue(CatalogueCoreTypeEnum.SUBJECTS_STATE)
       .subscribe((items) => (this.states = items));
   }
 

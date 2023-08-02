@@ -13,7 +13,7 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CareersHttpService, CareersService
+  CareersHttpService, CareersService, InstitutionsService
 } from '@services/core';
 import {ActionButtonsEnum} from "@shared/enums";
 
@@ -43,8 +43,10 @@ export class CareerListComponent implements OnInit {
     private careersHttpService: CareersHttpService,
     private careersService: CareersService,
     private eventsService: EventsService,
+    protected institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
+      {label: 'Institutos', routerLink: routesService.institutions},
       {label: 'Carrera'},
     ]);
 
@@ -73,14 +75,14 @@ export class CareerListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      { field: 'acronym', header: 'Siglas' },
-      { field: 'code', header: 'Código' },
-      { field: 'codeSniese', header: 'Código Sniese' },
+      {field: 'acronym', header: 'Siglas'},
+      {field: 'code', header: 'Código'},
+      {field: 'codeSniese', header: 'Código Sniese'},
       {field: 'state', header: 'Estado'},
-      { field: 'logo', header: 'Logo' },
-      { field: 'shortName', header: 'Nombre Corto' },
-      { field: 'resolutionNumber', header: 'Número de Resolución' },
-      { field: 'degree', header: 'Título' }
+      {field: 'logo', header: 'Logo'},
+      {field: 'shortName', header: 'Nombre Corto'},
+      {field: 'resolutionNumber', header: 'Número de Resolución'},
+      {field: 'degree', header: 'Título'}
     ];
   }
 
