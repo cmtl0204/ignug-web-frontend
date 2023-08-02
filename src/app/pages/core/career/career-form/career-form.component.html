@@ -11,6 +11,10 @@
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label appLabel for="institution" label="Instituto:" [required]="stateField"></label>
+      <h3 id="institution">{{institutionField.value?.name}}</h3>
+    </div>
     <div class="formgrid grid">
    <!-- state & isVisible -->
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -119,7 +123,7 @@
                [dirty]="acronymField.dirty">
         </small>
       </div>
-    
+
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="resolutionNumber" label="Número de Resolución:" [required]="resolutionNumberField"></label>
         <input pInputText type="text" id="resolutionNumber" formControlName="resolutionNumber"/>

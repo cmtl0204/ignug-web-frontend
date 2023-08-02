@@ -1,22 +1,20 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
-import {CreateInstitutionDto, UpdateInstitutionDto, InstitutionModel, SelectInstitutionDto} from '@models/core';
-import {CoreService, MessageService} from '@services/core';
+import {SelectInstitutionDto} from '@models/core';
 
 @Injectable({
   providedIn: 'root'
 })
 export class InstitutionsService {
 
-  constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
+  constructor() {
 
   }
 
-  get selectedInstitution(): SelectInstitutionDto | {} {
-    return sessionStorage.getItem('institution') as SelectInstitutionDto;
+  get institution(): SelectInstitutionDto {
+    return JSON.parse(String(sessionStorage.getItem('institution'))) as SelectInstitutionDto;
   }
 
-  set selectedInstitution(value: SelectInstitutionDto) {
-    sessionStorage.setItem('career', JSON.stringify(value));
+  set institution(value: SelectInstitutionDto) {
+    sessionStorage.setItem('institution', JSON.stringify(value));
   }
 }

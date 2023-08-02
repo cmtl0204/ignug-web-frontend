@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CareerModel, CatalogueModel, InstitutionModel } from '@models/core';
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons} from 'primeng/api';
+import {OnExitInterface} from '@shared/interfaces';
+import {CareerModel, CatalogueModel, InstitutionModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -11,9 +11,9 @@ import {
   MessageService,
   RoutesService,
   CareersHttpService,
-  InstitutionsHttpService
+  InstitutionsHttpService, InstitutionsService
 } from '@services/core';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import {CatalogueCoreTypeEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-career-form',
@@ -41,11 +41,13 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
     public messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private careersHttpService: CareersHttpService
+    private careersHttpService: CareersHttpService,
+    private institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      { label: 'Carreras', routerLink: [this.routesService.careers] },
-      { label: 'Form' },
+      {label: 'Institutos', routerLink: routesService.institutions},
+      {label: 'Carreras', routerLink: [this.routesService.careers]},
+      {label: 'Form'},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -65,7 +67,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
 
   ngOnInit(): void {
     this.loadStates();
-  
+
 
     if (this.id) {
       this.get();
@@ -74,7 +76,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      institution: [null, []],
+      institution: [this.institutionsService.institution, [Validators.required]],
       modality: [null, []],
       isVisible: [true, [Validators.required]],
       state: [null, [Validators.required]],
@@ -130,7 +132,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.CAREERS_STATE)
       .subscribe((items) => this.states = items);
   }
 
@@ -139,7 +141,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   get isVisibleField(): AbstractControl {
     return this.form.controls['isVisible'];
   }
-  
+
   get acronymField(): AbstractControl {
     return this.form.controls['acronym'];
   }
@@ -155,8 +157,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   get degreeField(): AbstractControl {
     return this.form.controls['degree'];
   }
-
-
 
   get logoField(): AbstractControl {
     return this.form.controls['logo'];
@@ -178,5 +178,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
     return this.form.controls['state'];
   }
 
-
+  get institutionField(): AbstractControl {
+    return this.form.controls['institution'];
+  }
 }

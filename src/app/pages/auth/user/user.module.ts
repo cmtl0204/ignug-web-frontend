@@ -38,6 +38,8 @@ import {BadgeModule} from 'primeng/badge';
 import {AuthenticationModule} from "../authentication/authentication.module";
 import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
+import {AvatarModule} from "primeng/avatar";
+import {FileUploadModule} from "primeng/fileupload";
 
 @NgModule({
   declarations: [
@@ -83,6 +85,8 @@ import {PanelMenuModule} from "primeng/panelmenu";
     SplitButtonModule,
     SidebarModule,
     PanelMenuModule,
+    AvatarModule,
+    FileUploadModule,
   ]
 })
 export class UserModule {

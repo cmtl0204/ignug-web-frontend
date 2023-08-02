@@ -15,6 +15,7 @@ import {
   RoutesService,
   SubjectsHttpService
 } from '@services/core';
+import { CurriculumsService } from '@services/core/curriculums.service';
 
 @Component({
   selector: 'app-event-list',
@@ -41,8 +42,12 @@ export class SubjectListComponent implements OnInit {
     private routesService: RoutesService,
     private SubjectsHttpService: SubjectsHttpService,
     private eventsService: EventsService,
+    protected curriculumService: CurriculumsService,
   ) {
     this.breadcrumbService.setItems([
+      { label: 'Institutos', routerLink: [this.routesService.institutions] },
+      { label: 'Carrera', routerLink: [this.routesService.careers] },
+      { label: 'Malla curricular', routerLink: [this.routesService.curriculums] },
       {label: 'Asignaturas'},
     ]);
 
@@ -71,10 +76,12 @@ export class SubjectListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Nombre'},
       {field: 'code', header: 'Codigo'},
+      {field: 'name', header: 'Nombre'},
       {field: 'autonomousHour', header: 'Horas autonomas'},
-      {field: 'isVisible', header: 'Es Visible'},
+      {field: 'teacherHour', header: 'Horas profesor'},
+      {field: 'practicalHour', header: 'Horas Practicas'},
+      {field: 'academicPeriod', header: 'Periodo Academico'},
       {field: 'state', header: 'Estado'}
     ];
   }

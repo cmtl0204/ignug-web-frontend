@@ -36,6 +36,7 @@ import {SpeedDialModule} from "primeng/speeddial";
 import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ConfirmationService} from "primeng/api";
 import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
+import {ImageUploadComponent} from "@shared/components/image-upload/image-upload.component";
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
     LocationComponent,
     FileListComponent,
     FileUploadComponent,
+    ImageUploadComponent,
   ],
   exports: [
     SkeletonComponent,
@@ -74,6 +76,8 @@ import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
     SchoolPeriodsStatePipe,
     SizesPipe,
     FileListComponent,
+    FileUploadComponent,
+    ImageUploadComponent,
   ],
   imports: [
     CommonModule,
