@@ -1,5 +1,4 @@
 <app-skeleton *ngIf="coreService.isLoading" [type]="'card'"></app-skeleton>
-
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
     <i *ngIf="id === ''" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
@@ -12,6 +11,10 @@
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="field">
+      <label appLabel for="Curriculum" label="Malla curricular:" [required]="stateField"></label>
+      <h3 id="institution">{{curriculumField.value?.name}}</h3>
+    </div>
     <!-- state & isVisible -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -132,7 +135,7 @@
           label="Codigo:"
           [required]="codeField"
         ></label>
-        <input pInputText type="text" id="code" formControlName="code" />
+        <input pInputText type="text" id="code" formControlName="code"           minlength="5" />
         <small
           appErrorMessage
           [errors]="codeField.errors"
@@ -169,7 +172,14 @@
           label="Escala:"
           [required]="scaleField"
         ></label>
-        <input pInputText type="text" id="scale" formControlName="scale" />
+        <input
+          pInputText
+          pKeyFilter="int"
+          type="text"
+          id="scale"
+          formControlName="scale"
+          maxlength="1"
+        />
         <small
           appErrorMessage
           [errors]="scaleField.errors"
@@ -190,9 +200,11 @@
         ></label>
         <input
           pInputText
+          pKeyFilter="int"
           type="text"
           id="practicalHour"
           formControlName="practicalHour"
+          maxlength="3"
         />
         <small
           appErrorMessage
@@ -211,9 +223,11 @@
         ></label>
         <input
           pInputText
+          pKeyFilter="int"
           type="text"
           id="autonomousHour"
           formControlName="autonomousHour"
+          maxlength="3"
         />
         <small
           appErrorMessage
@@ -232,9 +246,11 @@
         ></label>
         <input
           pInputText
+          pKeyFilter="int"
           type="text"
           id="teacherHour"
           formControlName="teacherHour"
+          maxlength="3"
         />
         <small
           appErrorMessage
