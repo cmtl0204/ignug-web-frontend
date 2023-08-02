@@ -88,6 +88,7 @@ export class CareerListComponent implements OnInit {
 
   buildActionButtons(): void {
     this.actionButtons = [];
+    
     this.actionButtons.push(
       {
         id: ActionButtonsEnum.UPDATE,
@@ -131,11 +132,10 @@ export class CareerListComponent implements OnInit {
 
     this.actionButtons.push(
       {
-        id: ActionButtonsEnum.SHOW_EVENTS,
-        label: 'Eventos',
-        icon: PrimeIcons.BARS,
+        label: 'Malla curricular',
+        icon: PrimeIcons.LOCK_OPEN,
         command: () => {
-          if (this.selectedItem?.id) this.redirectEventList();
+          this.router.navigate([this.routesService.curriculums]);
         },
       });
   }
