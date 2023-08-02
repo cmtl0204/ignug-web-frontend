@@ -62,6 +62,25 @@ export class FilesHttpService {
     );
   }
 
+  uploadImage(modelId: string, payload: FormData): Observable<EventModel> {
+    const url = `${this.API_URL}/${modelId}/upload-image`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        this.messageServicePn.clear();
+        this.messageServicePn.add({
+          key: 'app',
+          severity: 'info',
+          summary: response.title,
+          detail: response.message
+        });
+        return response.data;
+      })
+    );
+  }
+
   uploadFiles(modelId: string, payload: FormData): Observable<EventModel> {
     const url = `${this.API_URL}/${modelId}/uploads`;
 
