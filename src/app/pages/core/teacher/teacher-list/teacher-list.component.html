@@ -1,14 +1,5 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-<<<<<<< HEAD
-    <button pButton pRipple type="button" label="Refrescar" class="p-button-info mr-2" [icon]="PrimeIcons.REFRESH"
-      [loading]="coreService.isLoading" (click)="findAll()">
-    </button>
-
-    <button pButton pRipple type="button" label="Eliminar Seleccionados" class="p-button-danger"
-      [disabled]="selectedItems.length===0" [icon]="PrimeIcons.TRASH" [loading]="coreService.isLoading"
-      (click)="removeAll()">
-=======
     <button pButton pRipple type="button"
             label="Refrescar"
             class="p-button-info mr-2"
@@ -24,36 +15,21 @@
             [icon]="PrimeIcons.TRASH"
             [loading]="coreService.isLoading"
             (click)="removeAll()">
->>>>>>> 7131a678b8195cc1d4a0b54ea5372d530e028f86
     </button>
   </div>
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
       <input type="text" pInputText [formControl]="search" placeholder="Search">
-<<<<<<< HEAD
-      <button pButton pRipple type="button" [icon]="PrimeIcons.SEARCH" [loading]="coreService.isLoading"
-        (click)="findAll()"></button>
-=======
       <button pButton pRipple type="button"
               [icon]="PrimeIcons.SEARCH"
               [loading]="coreService.isLoading"
               (click)="findAll()"></button>
->>>>>>> 7131a678b8195cc1d4a0b54ea5372d530e028f86
     </div>
   </div>
 </p-toolbar>
 
-<<<<<<< HEAD
-<p-paginator [rows]="paginator.limit" [totalRecords]="paginator.totalItems" (onPageChange)="paginate($event)">
-</p-paginator>
 
-<p-table dataKey="id" styleClass="p-datatable-striped" [value]="items" [columns]="columns"
-  [loading]="coreService.isLoading" [(selection)]="selectedItems">
-=======
-<p-paginator
-  [rows]="paginator.limit"
-  [totalRecords]="paginator.totalItems"
-  (onPageChange)="paginate($event)">
+<p-paginator [rows]="paginator.limit" [totalRecords]="paginator.totalItems" (onPageChange)="paginate($event)">
 </p-paginator>
 
 <p-table
@@ -62,7 +38,6 @@
   [value]="items" [columns]="columns"
   [loading]="coreService.isLoading"
   [(selection)]="selectedItems">
->>>>>>> 7131a678b8195cc1d4a0b54ea5372d530e028f86
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th style="width: 3rem">
@@ -73,12 +48,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-<<<<<<< HEAD
         Acciones
-=======
-        <button pButton pRipple type="button" class="p-button-help p-button-outlined p-button-rounded"
-                icon="pi pi-cog"></button>
->>>>>>> 7131a678b8195cc1d4a0b54ea5372d530e028f86
       </th>
     </tr>
   </ng-template>
@@ -116,15 +86,7 @@
         </div>
       </td>
       <td class="text-center">
-<<<<<<< HEAD
         <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
-=======
-        <!-- <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div> -->
-        <ng-template #thenBlock>
-          <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
-        </ng-template>
-        <ng-template #elseBlock>Profesor actual</ng-template>
->>>>>>> 7131a678b8195cc1d4a0b54ea5372d530e028f86
       </td>
     </tr>
   </ng-template>
