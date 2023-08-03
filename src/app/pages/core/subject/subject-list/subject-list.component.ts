@@ -13,10 +13,10 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  SubjectsHttpService
+  SubjectsHttpService,
 } from '@services/core';
 import { CurriculumsService } from '@services/core/curriculums.service';
-import {BreadcrumbEnum} from "@shared/enums";
+import {BreadcrumbEnum, ActionButtonsEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-list',
@@ -26,9 +26,10 @@ import {BreadcrumbEnum} from "@shared/enums";
 })
 export class SubjectListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
+  protected isFileList: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectSubjectDto = {};
@@ -83,51 +84,91 @@ export class SubjectListComponent implements OnInit {
       {field: 'teacherHour', header: 'Horas profesor'},
       {field: 'practicalHour', header: 'Horas Practicas'},
       {field: 'academicPeriod', header: 'Periodo Academico'},
-      {field: 'state', header: 'Estado'}
+      {field: 'state', header: 'Estado'},
+      {field: 'isVisible', header: 'Es Visible'}
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
-    return [
+  buildActionButtons(): void {
+    this.actionButtons = [];
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.UPDATE,
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.DELETE,
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
           if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.HIDE,
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.REACTIVATE,
         label: 'Mostrar',
         icon: PrimeIcons.EYE,
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
 
-      },
+      });
+
+    this.actionButtons.push(
       {
+        id: ActionButtonsEnum.SHOW_EVENTS,
         label: 'Eventos',
         icon: PrimeIcons.BARS,
         command: () => {
           if (this.selectedItem?.id) this.redirectEventList();
         },
+      });
 
-      }
-    ];
-  }
+      this.actionButtons.push(
+        {
+          id: ActionButtonsEnum.FILE_LIST,
+          label: 'Archivos',
+          icon: PrimeIcons.FILE,
+          command: () => {
+            if (this.selectedItem?.id) this.isFileList = true;
+          },
+        });
+
+    if (this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.REACTIVATE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (!this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.HIDE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+}
 
   /** Actions **/
   remove(id: string) {
@@ -174,6 +215,7 @@ export class SubjectListComponent implements OnInit {
   selectItem(item: SubjectModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
+    this.buildActionButtons();
   }
 
   paginate(event: any) {

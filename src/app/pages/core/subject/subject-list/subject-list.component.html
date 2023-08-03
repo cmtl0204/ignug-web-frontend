@@ -81,6 +81,10 @@
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          <div *ngSwitchCase="'isVisible'">
+            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="Oculto" class="mr-1"></p-tag>
+            <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>
+          </div>
         </div>
       </td>
       <td class="text-center">
@@ -103,3 +107,10 @@
 <p-sidebar [(visible)]="isActionButtons" position="right">
   <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
 </p-sidebar>
+
+<p-dialog *ngIf="isFileList" [(visible)]="isFileList"
+          [modal]="true"
+          [style]="{width: '100%'}"
+          header="Gestión de Archivos">
+  <app-file-list [modelId]="selectedItem.id!"></app-file-list>
+</p-dialog>
