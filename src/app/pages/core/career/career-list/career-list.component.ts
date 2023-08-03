@@ -75,14 +75,11 @@ export class CareerListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'acronym', header: 'Siglas'},
       {field: 'code', header: 'Código'},
-      {field: 'codeSniese', header: 'Código Sniese'},
-      {field: 'state', header: 'Estado'},
-      {field: 'logo', header: 'Logo'},
+      {field: 'name', header: 'Nombre'},
       {field: 'shortName', header: 'Nombre Corto'},
-      {field: 'resolutionNumber', header: 'Número de Resolución'},
-      {field: 'degree', header: 'Título'}
+      {field: 'degree', header: 'Título'},
+      {field: 'isVisible', header: 'Es Visible'}
     ];
   }
 
@@ -138,6 +135,22 @@ export class CareerListComponent implements OnInit {
           this.router.navigate([this.routesService.curriculums]);
         },
       });
+
+      if (this.selectedItem.isVisible) {
+        const index = this.actionButtons.findIndex(actionButton => {
+          return actionButton.id === ActionButtonsEnum.REACTIVATE;
+        });
+  
+        this.actionButtons.splice(index, 1);
+      }
+  
+      if (!this.selectedItem.isVisible) {
+        const index = this.actionButtons.findIndex(actionButton => {
+          return actionButton.id === ActionButtonsEnum.HIDE;
+        });
+  
+        this.actionButtons.splice(index, 1);
+      }
   }
 
   /** Actions **/
@@ -175,7 +188,7 @@ export class CareerListComponent implements OnInit {
   }
 
   reactivate(id: string) {
-    this.careersHttpService.reactivate(id).subscribe(item => {
+    this.careersHttpService.reactivate(id).subscribe(() => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
     });
