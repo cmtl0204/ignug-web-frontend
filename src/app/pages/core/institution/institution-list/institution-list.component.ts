@@ -3,7 +3,15 @@ import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} from '@models/core';
-import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService,RoutesService} from '@services/core';
+import {
+  BreadcrumbService,
+  CoreService,
+  InstitutionsHttpService,
+  InstitutionsService,
+  MessageService,
+  RoutesService
+} from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -28,9 +36,10 @@ export class InstitutionListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private institutionsHttpService: InstitutionsHttpService,
+    private institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institución'},
+      {label: BreadcrumbEnum.INSTITUTIONS},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -80,22 +89,8 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        label: 'Ocultar',
-        icon: PrimeIcons.LOCK,
-        command: () => {
-          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Mostrar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
-        },
-      },
-      {
         label: 'Carreras',
-        icon: PrimeIcons.LOCK_OPEN,
+        icon: PrimeIcons.BOOK,
         command: () => {
           this.router.navigate([this.routesService.careers]);
         },
@@ -130,25 +125,13 @@ export class InstitutionListComponent implements OnInit {
     });
   }
 
-  hide(id: string) {
-    this.institutionsHttpService.hide(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
-    });
-  }
-
-  reactivate(id: string) {
-    this.institutionsHttpService.reactivate(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;
-    });
-  }
-
   /** Select & Paginate **/
   selectItem(item: InstitutionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
+    this.institutionsService.institution = item;
   }
+
   paginate(event: any) {
     this.findAll(event.page);
   }

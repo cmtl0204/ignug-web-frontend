@@ -33,8 +33,9 @@ export class CareersHttpService {
     const url = this.API_URL;
 
     const headers = new HttpHeaders().append('pagination', 'true');
-
-    const params = new HttpParams().append('page', page.toString()).append('search', search);
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
 
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
@@ -56,8 +57,10 @@ export class CareersHttpService {
   update(id: string, payload: UpdateCareerDto): Observable<CareerModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing=true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
-      map((response) => {
+      map(response => {
+        this.coreService.isProcessing=false;
         this.messageService.success(response);
         return response.data;
       })
@@ -78,8 +81,10 @@ export class CareersHttpService {
   remove(id: string): Observable<CareerModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing=true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
+        this.coreService.isProcessing=false;
         this.messageService.success(response);
         return response.data;
       })

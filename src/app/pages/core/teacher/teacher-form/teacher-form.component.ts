@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { PrimeIcons } from "primeng/api";
-import { OnExitInterface } from "@shared/interfaces";
-import { CatalogueModel, TeacherModel } from "@models/core";
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PrimeIcons} from "primeng/api";
+import {OnExitInterface} from "@shared/interfaces";
+import {CatalogueModel, TeacherModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -12,7 +12,7 @@ import {
   RoutesService,
   TeachersHttpService
 } from "@services/core";
-import { CatalogueCoreTypeEnum } from "@shared/enums";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-teacher-form',
@@ -52,8 +52,8 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     private teachersHttpService: TeachersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      { label: 'Profesores', routerLink: [this.routesService.teachers] },
-      { label: 'Form' },
+      {label: BreadcrumbEnum.TEACHERS, routerLink: [this.routesService.teachers]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -75,6 +75,10 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     if (this.id) {
       this.get();
     }
+    this.loadBloodTypes();
+    this.loadEthnicOrigins();
+    this.loadGenders();
+    this.loadSexes();
   }
 
   get teacherForm(): FormGroup {
@@ -86,14 +90,13 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
 
   get informationTeacherForm(): FormGroup {
     return this.formBuilder.group({
-      id: [null,[]],
+      id: [null, []],
 
-      teacher: [null, []],
-      countryHigherEducation:  [null, []],
-      higherEducation:  [null, []],
-      scholarship:  [null, []],
-      scholarshipType:  [null, []],
-      teachingLadder:  [null, []],
+      countryHigherEducation: [null, []],
+      higherEducation: [null, []],
+      scholarship: [null, []],
+      scholarshipType: [null, []],
+      teachingLadder: [null, []],
 
       academicUnit: [null, []],
       administrativeHours: [null, []],
@@ -122,10 +125,10 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       birthdate: [null, []],
       identification: [null, []],
       lastname: [null, []],
-      personalEmail: [null, []],
+      personalEmail: [null, [Validators.email]],
       phone: [null, []],
       name: [null, []],
-      username: [null,[]],
+      username: [null, []],
       bloodType: [null, []],
       ethnicOrigin: [null, []],
       gender: [null, []],
@@ -172,15 +175,27 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     });
   }
 
-  loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE).subscribe((items) => this.states = items);
+  loadBloodTypes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
+  }
+
+  loadEthnicOrigins(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((items) => this.ethnicOrigins = items);
+  }
+
+  loadGenders(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((items) => this.genders = items);
+  }
+
+  loadSexes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((items) => this.sexes = items);
   }
 
   /** Form Getters **/
 
   /** Teachers Form **/
   get informationTeachersField(): FormGroup {
-    return this.form.controls['informationTeachers'] as FormGroup;
+    return this.form.controls['informationTeacher'] as FormGroup;
   }
 
   get userField(): FormGroup {
@@ -342,6 +357,8 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   get passwordChangedField(): AbstractControl {
     return this.userField.controls['passwordChanged'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }
 
 

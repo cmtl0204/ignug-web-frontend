@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {TeacherModel, ColumnModel, PaginatorModel, SelectTeacherDto} from '@models/core';
 import {BreadcrumbService, TeachersHttpService, CoreService, MessageService, RoutesService} from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-teacher-list',
@@ -31,7 +32,7 @@ export class TeacherListComponent implements OnInit {
     private router: Router,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Profesores'},
+      {label: BreadcrumbEnum.TEACHERS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -57,7 +58,7 @@ export class TeacherListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'user', header: 'Nombre'},
+      {field: 'name', header: 'Nombre'},
       {field: 'code', header: 'Codigo'},
       {field: 'teacherHour', header: 'Horas profesor'},
       {field: 'practicalHour', header: 'Horas practicas'},

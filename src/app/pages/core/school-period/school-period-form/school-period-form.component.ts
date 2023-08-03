@@ -8,12 +8,13 @@ import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
+  FilesHttpService,
   MessageService,
   RoutesService,
   SchoolPeriodsHttpService
 } from "@services/core";
-import {CatalogueCoreTypeEnum} from "@shared/enums";
-import {isAfter, isBefore} from "date-fns";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
+import {isAfter} from "date-fns";
 
 @Component({
   selector: 'app-school-period-form',
@@ -22,6 +23,7 @@ import {isAfter, isBefore} from "date-fns";
 })
 export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
   protected panelHeader: string = 'Crear';
@@ -38,6 +40,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     protected coreService: CoreService,
+    private filesHttpService: FilesHttpService,
     private formBuilder: FormBuilder,
     protected messageService: MessageService,
     private router: Router,
@@ -45,8 +48,8 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Periodos Lectivos', routerLink: [this.routesService.schoolPeriods]},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.SCHOOL_PERIODS, routerLink: [this.routesService.schoolPeriods]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -159,7 +162,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE)
       .subscribe((items) => this.states = items);
   }
 

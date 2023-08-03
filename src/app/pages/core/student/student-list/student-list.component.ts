@@ -4,6 +4,7 @@ import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {ColumnModel, PaginatorModel, SelectStudentDto, StudentModel} from '@models/core';
 import {BreadcrumbService, CoreService, MessageService, RoutesService, StudentsHttpService} from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-student-list',
@@ -31,7 +32,7 @@ export class StudentListComponent implements OnInit {
     private studentsHttpService: StudentsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Estudiantes'},
+      {label: BreadcrumbEnum.STUDENTS},
     ]);
     this.paginator = this.coreService.paginator;
 

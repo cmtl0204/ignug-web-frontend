@@ -26,6 +26,17 @@ import {SearchComponent} from './components/search/search.component';
 import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe} from '@shared/pipes';
 import {UserStatePipe} from "@shared/pipes/auth/userState.pipe";
 import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pipe";
+import {LocationComponent} from './components/location/location.component';
+import {TagModule} from "primeng/tag";
+import {FileListComponent} from './components/file-list/file-list.component';
+import {FileUploadComponent} from './components/file-upload/file-upload.component';
+import {PanelMenuModule} from "primeng/panelmenu";
+import {SidebarModule} from "primeng/sidebar";
+import {SpeedDialModule} from "primeng/speeddial";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {ConfirmationService} from "primeng/api";
+import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
+import {ImageUploadComponent} from "@shared/components/image-upload/image-upload.component";
 
 @NgModule({
   declarations: [
@@ -42,11 +53,17 @@ import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pi
     ActivePipe,
     UserStatePipe,
     SchoolPeriodsStatePipe,
+    SizesPipe,
+    LocationComponent,
+    FileListComponent,
+    FileUploadComponent,
+    ImageUploadComponent,
   ],
   exports: [
     SkeletonComponent,
     ProgressBarComponent,
     SearchComponent,
+    LocationComponent,
     ErrorMessageDirective,
     LabelDirective,
     RolesPermissionsDirective,
@@ -57,6 +74,10 @@ import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pi
     ActivePipe,
     UserStatePipe,
     SchoolPeriodsStatePipe,
+    SizesPipe,
+    FileListComponent,
+    FileUploadComponent,
+    ImageUploadComponent,
   ],
   imports: [
     CommonModule,
@@ -76,7 +97,13 @@ import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pi
     DividerModule,
     CardModule,
     OverlayPanelModule,
-  ]
+    TagModule,
+    PanelMenuModule,
+    SidebarModule,
+    SpeedDialModule,
+    ConfirmPopupModule,
+  ],
+  providers: [ConfirmationService]
 })
 export class SharedModule {
 }

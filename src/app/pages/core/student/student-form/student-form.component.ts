@@ -1,10 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, Form, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
 import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, InformationStudentModel, StudentModel} from "@models/core";
-import {UserModel} from '@models/auth';
+import {CatalogueModel, StudentModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -13,7 +12,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-student-form',
@@ -49,8 +48,8 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     private studentsHttpService: StudentsHttpService
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Estudiantes', routerLink: [this.routesService.students]},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.students]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -346,4 +345,6 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   get tariffScholarshipPercentageField(): AbstractControl {
     return this.informationStudentField.controls['tariffScholarshipPercentage'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

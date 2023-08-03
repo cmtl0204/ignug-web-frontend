@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
-  Validators,
+  Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, SubjectModel } from '@models/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons} from 'primeng/api';
+import {OnExitInterface} from '@shared/interfaces';
+import {CatalogueModel, CurriculumModel, SubjectModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -17,7 +17,9 @@ import {
   RoutesService,
   SubjectsHttpService,
 } from '@services/core';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {CurriculumsService} from '@services/core/curriculums.service';
+
 
 @Component({
   selector: 'app-event-form',
@@ -31,7 +33,10 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   protected panelHeader: string = 'Crear';
 
   // Foreign Keys
+  protected curriculum: CurriculumModel[] = [];
   protected states: CatalogueModel[] = [];
+  protected academicPeriods: CatalogueModel[] = [];
+  protected types: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -42,11 +47,15 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private subjectsHttpService: SubjectsHttpService
+    private subjectsHttpService: SubjectsHttpService,
+    protected curriculumService: CurriculumsService,
   ) {
     this.breadcrumbService.setItems([
-      { label: 'Asignaturas', routerLink: [this.routesService.subjects] },
-      { label: 'Form' },
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
+      {label: BreadcrumbEnum.CAREERS, routerLink: [this.routesService.careers]},
+      {label: BreadcrumbEnum.CURRICULUMS, routerLink: [this.routesService.curriculums]},
+      {label: BreadcrumbEnum.SUBJECTS, routerLink: [this.routesService.subjects]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -68,6 +77,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   ngOnInit(): void {
     this.loadStates();
+    this.loadAcademicPeriods();
+    this.loadTypes();
 
     if (this.id) {
       this.get();
@@ -77,16 +88,17 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       autonomousHour: [null, [Validators.required]],
-      code: [null, []],
-      credits: [null, []],
-      isVisible: [true, []],
+      code: [null, [Validators.required]],
+      credits: [null, [Validators.required]],
+      isVisible: [true, [Validators.required]],
       name: [null, [Validators.required]],
       practicalHour: [null, [Validators.required]],
-      scale: [null, [Validators.required]],
+      scale: [null, [Validators.required, Validators.maxLength(1)]],
       teacherHour: [null, [Validators.required]],
-      academicPeriod: [null, []],
-      state: [null, []],
-      type: [null, []],
+      academicPeriod: [null, [Validators.required]],
+      state: [null, [Validators.required]],
+      type: [null, [Validators.required]],
+      curriculum: [this.curriculumService.curriculum, [Validators.required]],
     });
   }
 
@@ -131,9 +143,22 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   loadStates(): void {
     this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIOD_STATE)
+      .catalogue(CatalogueCoreTypeEnum.SUBJECTS_STATE)
       .subscribe((items) => (this.states = items));
   }
+
+  loadAcademicPeriods(): void {
+    this.cataloguesHttpService
+      .catalogue(CatalogueCoreTypeEnum.ACADEMIC_PERIOD)
+      .subscribe((items) => (this.academicPeriods = items));
+  }
+
+  loadTypes(): void {
+    this.cataloguesHttpService
+      .catalogue(CatalogueCoreTypeEnum.REGISTRATION_TYPE)
+      .subscribe((items) => (this.types = items));
+  }
+
 
   /** Form Getters **/
   get autonomousHourField(): AbstractControl {
@@ -179,4 +204,10 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get typeField(): AbstractControl {
     return this.form.controls['type'];
   }
+
+  get curriculumField(): AbstractControl {
+    return this.form.controls['curriculum'];
+  }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

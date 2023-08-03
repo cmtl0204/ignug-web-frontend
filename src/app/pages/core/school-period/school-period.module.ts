@@ -28,37 +28,41 @@ import {PanelModule} from "primeng/panel";
 import {PasswordModule} from "primeng/password";
 import {SharedModule} from "@shared/shared.module";
 import {CalendarModule} from "primeng/calendar";
+import {FileUploadModule} from "primeng/fileupload";
+import {DialogModule} from "primeng/dialog";
 
 @NgModule({
   declarations: [
     SchoolPeriodListComponent,
     SchoolPeriodFormComponent,
   ],
-  imports: [
-    NgCommonModule,
-    SchoolPeriodRoutingModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    RippleModule,
-    MessageModule,
-    ToolbarModule,
-    PaginatorModule,
-    TableModule,
-    TagModule,
-    SplitButtonModule,
-    InputTextModule,
-    SidebarModule,
-    PanelMenuModule,
-    CheckboxModule,
-    DividerModule,
-    InputSwitchModule,
-    KeyFilterModule,
-    MultiSelectModule,
-    PanelModule,
-    PasswordModule,
-    SharedModule,
-    CalendarModule
-  ]
+    imports: [
+        NgCommonModule,
+        SchoolPeriodRoutingModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        RippleModule,
+        MessageModule,
+        ToolbarModule,
+        PaginatorModule,
+        TableModule,
+        TagModule,
+        SplitButtonModule,
+        InputTextModule,
+        SidebarModule,
+        PanelMenuModule,
+        CheckboxModule,
+        DividerModule,
+        InputSwitchModule,
+        KeyFilterModule,
+        MultiSelectModule,
+        PanelModule,
+        PasswordModule,
+        SharedModule,
+        CalendarModule,
+        FileUploadModule,
+        DialogModule
+    ]
 })
 export class SchoolPeriodModule {
 }

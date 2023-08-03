@@ -2,8 +2,9 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} from '@models/core';
-import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService,RoutesService} from '@services/core';
+import {ColumnModel, InstitutionModel, PaginatorModel, SelectInstitutionDto} from '@models/core';
+import {BreadcrumbService, CoreService, InstitutionsHttpService, MessageService, RoutesService} from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-subject-list',
@@ -30,8 +31,8 @@ export class EnrollmentSubjectListComponent implements OnInit {
     private institutionsHttpService: InstitutionsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Matrículas',routerLink:[this.routesService.subjects]},
-      {label: 'Asignaturas'},
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.ENROLLMENT_SUBJECTS},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -153,6 +154,7 @@ export class EnrollmentSubjectListComponent implements OnInit {
     this.isActionButtons = true;
     this.selectedItem = item;
   }
+
   paginate(event: any) {
     this.findAll(event.page);
   }

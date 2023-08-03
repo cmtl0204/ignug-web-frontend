@@ -1,0 +1,26 @@
+<p-fileUpload
+  #uploadFiles
+  chooseLabel="Browse"
+  [chooseIcon]="PrimeIcons.SEARCH"
+  uploadLabel="Subir archivos"
+  cancelLabel="Limpiar"
+  name="files[]"
+  [auto]="true"
+  [accept]="acceptAttributes"
+  [multiple]="multiple"
+  [maxFileSize]="maxFileSize"
+  [mode]="mode"
+  [fileLimit]="fileLimit"
+  [customUpload]="true"
+  (uploadHandler)="uploadFile($event,uploadFiles)">
+  <ng-template pTemplate="content" let-files>
+    <div class="p-text-center">
+      <img src="assets/images/shared/files/upload.png" alt="upload">
+      <br>
+      <button pButton label="Browse" [icon]="PrimeIcons.SEARCH" (click)="uploadFiles.choose()"></button>
+      <h6>
+        o arrastre aquí sus archivos
+      </h6>
+    </div>
+  </ng-template>
+</p-fileUpload>

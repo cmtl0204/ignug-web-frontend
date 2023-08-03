@@ -8,6 +8,7 @@ export interface SubjectModel {
   updatedAt: Date;
   deletedAt: Date;
 
+  curriculum: CurriculumModel,
   academicPeriod: CatalogueModel;
   type: CatalogueModel;
   state: CatalogueModel;

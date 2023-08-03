@@ -131,4 +131,15 @@ export class SchoolPeriodsHttpService {
       })
     );
   }
+
+  upload(formData: FormData): Observable<SchoolPeriodModel> {
+    const url = `${this.API_URL}/upload/8976b073-cc99-4349-8e82-72778e84c8fb`;
+    // const headers = new HttpHeaders().append('Content-Type', 'multipart/form-data');
+    return this.httpClient.post<ServerResponse>(url, formData).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
 }

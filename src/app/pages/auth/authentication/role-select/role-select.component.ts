@@ -1,11 +1,10 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CustomValidators} from "@shared/validators";
-import {AuthHttpService, AuthService} from '@services/auth';
-import {CoreService, MessageService, RoutesService} from '@services/core';
 import {PrimeIcons} from "primeng/api";
-import {RoleModel} from "@models/auth";
 import {RolesEnum} from "@shared/enums";
+import {RoleModel} from "@models/auth";
+import {AuthService} from '@services/auth';
+import {CoreService, MessageService, RoutesService} from '@services/core';
 
 @Component({
   selector: 'app-role-select',

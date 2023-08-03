@@ -11,6 +11,7 @@ import {CoreService, MessageService} from '@services/core';
 // import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
 import {RoutesService} from "@services/core/routes.service";
 import {RolePipe} from "@shared/pipes";
+import {EventModel} from "@models/core";
 
 @Injectable({
   providedIn: 'root'
@@ -184,7 +185,6 @@ export class AuthHttpService {
   getProfile(): Observable<UserModel> {
     const url = `${this.API_URL}/profile`;
 
-
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
 
@@ -231,4 +231,16 @@ export class AuthHttpService {
     );
   }
 
+  uploadAvatar(id: string, payload: FormData): Observable<EventModel> {
+    const url = `${this.API_URL}/${id}/avatar`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
 }

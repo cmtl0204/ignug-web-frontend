@@ -1,17 +1,15 @@
-<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
-<p-panel *ngIf="!isLoadingSkeleton"
-         class="p-fluid"
-         [expandIcon]="PrimeIcons.TIMES"
-         [toggleable]="true"
-         (collapsedChange)="back()">
+<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
-    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+    <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
     <h2 class="panel-header">{{panelHeader}}</h2>
+    <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
   </ng-template>
-  <small [innerHTML]="this.messageService.requiredFields"></small>
+
   <p-divider></p-divider>
+
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
       <label appLabel for="roles" label="Roles:" [required]="rolesField"></label>
@@ -21,7 +19,7 @@
                      [options]="roles"
                      display="chip"
                      optionLabel="name"
-                     placeholder="Select roles">
+                     placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="rolesField.value">
             <div>{{rolesField.value.name}}</div>
@@ -39,7 +37,36 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="name" label="Name:" [required]="nameField"></label>
+        <label appLabel for="identificationType" label="Tipo de Documento:"
+               [required]="identificationTypeField"></label>
+        <p-dropdown id="identificationType"
+                    formControlName="identificationType"
+                    dataKey="id"
+                    [options]="identificationTypes"
+                    optionLabel="name"
+                    [filter]="true"
+                    filterBy="name"
+                    placeholder="Seleccione...">
+        </p-dropdown>
+        <small appErrorMessage
+               [errors]="identificationTypeField.errors"
+               [touched]="identificationTypeField.touched"
+               [dirty]="identificationTypeField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="identification" label="Número de Documento:" [required]="identificationField"></label>
+        <input pInputText type="text" id="identification" formControlName="identification"/>
+        <small appErrorMessage
+               [errors]="identificationField.errors"
+               [touched]="identificationField.touched"
+               [dirty]="identificationField.dirty">
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="name" label="Nombres:" [required]="nameField"></label>
         <input pInputText type="text" id="name" formControlName="name"/>
         <small appErrorMessage
                [errors]="nameField.errors"
@@ -48,7 +75,7 @@
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="lastname" label="Lastname:" [required]="lastnameField"></label>
+        <label appLabel for="lastname" label="Apellidos:" [required]="lastnameField"></label>
         <input pInputText type="text" id="lastname" formControlName="lastname"/>
         <small appErrorMessage
                [errors]="lastnameField.errors"
@@ -59,7 +86,7 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="username" label="Username:" [required]="usernameField"></label>
+        <label appLabel for="username" label="Usuario:" [required]="usernameField"></label>
         <input pInputText type="text" id="username" formControlName="username" pKeyFilter="alphanum"/>
         <small appErrorMessage
                [errors]="usernameField.errors"
@@ -68,7 +95,7 @@
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="email" label="Email:" [required]="emailField"></label>
+        <label appLabel for="email" label="Correo Electrónico:" [required]="emailField"></label>
         <input pInputText type="email" id="email" formControlName="email"/>
         <small appErrorMessage
                [errors]="emailField.errors"
@@ -77,14 +104,14 @@
         </small>
       </div>
     </div>
-    <div *ngIf="id!=''" class="field">
-      <label for="isChangePassword" class="mr-4">Change Password:</label>
+    <div *ngIf="id" class="field">
+      <label for="isChangePassword" class="mr-4">Cambiar Contraseña:</label>
       <p-inputSwitch id="isChangePassword" [formControl]="isChangePassword"
                      (onChange)="handleChangePassword($event)"></p-inputSwitch>
     </div>
     <div class="formgrid grid">
-      <div *ngIf="id==='' || isChangePassword.value" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="password" label="Password:" [required]="passwordField"></label>
+      <div *ngIf="!id || isChangePassword.value" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="password" label="Contraseña:" [required]="passwordField"></label>
         <input pPassword type="password" id="password" formControlName="password" [feedback]="true"/>
         <small appErrorMessage
                [errors]="passwordField.errors"
@@ -93,26 +120,26 @@
         </small>
       </div>
     </div>
-    <div *ngIf="id==='' || isChangePassword.value" class="field">
+    <div *ngIf="!id || isChangePassword.value" class="field">
       <p-checkbox id="passwordChanged" formControlName="passwordChanged"
                   class="mt-2"
                   [binary]="true"
-                  label="Require the user to change their password when they log in"></p-checkbox>
+                  label="Solicitar al usuario que cambie su contraseña cuando inicie sesión"></p-checkbox>
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <button pButton pRipple id="btnBack" type="button"
                 label="Cancel"
                 class="p-button-info p-button-outlined"
-                icon="pi pi-arrow-left"
-                [loading]="isLoading"
+                [icon]="PrimeIcons.ARROW_LEFT"
+                [loading]="coreService.isLoading"
                 (click)="back()"></button>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <button pButton pRipple id="submit" type="submit"
                 label="Save"
-                icon="pi pi-save"
-                [loading]="isLoading"></button>
+                [icon]="PrimeIcons.SAVE"
+                [loading]="coreService.isLoading"></button>
       </div>
     </div>
   </form>

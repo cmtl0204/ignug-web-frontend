@@ -1,20 +1,18 @@
-<app-skeleton *ngIf="coreService.isLoading" [type]="'card'"></app-skeleton>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <i *ngIf="id===''" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
-    <i *ngIf="id!=''" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
+    <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+    <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
     <h2 class="panel-header">{{panelHeader}}</h2>
+    <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
   </ng-template>
-
-  <small [innerHTML]="this.messageService.requiredFields"></small>
 
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
     <!-- User -->
-
     <div formGroupName="user">
       <div class="formgrid grid">
         <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
@@ -57,15 +55,18 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="birthdate" label="Fecha de Nacimiento:" [required]="birthdateField"></label>
-          <input pInputText type="date" id="birthdate" formControlName="birthdate" />
+          <input pInputText type="date" id="birthdate" formControlName="birthdate"/>
           <small appErrorMessage [errors]="birthdateField.errors" [touched]="birthdateField.touched"
             [dirty]="birthdateField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="phone" label="Celular:" [required]="phoneField"></label>
-          <input pInputText type="number" id="phone" formControlName="phone" />
-          <small appErrorMessage [errors]="phoneField.errors" [touched]="phoneField.touched" [dirty]="phoneField.dirty">
+          <label appLabel for="phone" label="Número Celular:" [required]="phoneField"></label>
+          <input pInputText type="number" id="phone" formControlName="phone"/>
+          <small appErrorMessage
+                 [errors]="phoneField.errors"
+                 [touched]="phoneField.touched"
+                 [dirty]="phoneField.dirty">
           </small>
         </div>
       </div>
@@ -117,7 +118,6 @@
     </div>
 
     <!-- Information Teacher -->
-
     <div formGroupName="informationTeacher">
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -130,7 +130,7 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="administrativeHours" label="Horas administrativas:"
             [required]="administrativeHoursField"></label>
-          <input pInputText type="text" id="administrativeHours" formControlName="administrativeHours" />
+            <input pInputText type="number" id="administrativeHours" formControlName="administrativeHours"/>
           <small appErrorMessage [errors]="administrativeHoursField.errors" [touched]="administrativeHoursField.touched"
             [dirty]="administrativeHoursField.dirty">
           </small>
@@ -139,14 +139,14 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="classHours" label="Horas de clase:" [required]="classHoursField"></label>
-          <input pInputText type="text" id="classHours" formControlName="classHours" />
+          <input pInputText type="number" id="classHours" formControlName="classHours"/>
           <small appErrorMessage [errors]="classHoursField.errors" [touched]="classHoursField.touched"
             [dirty]="classHoursField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="communityHours" label="Horas comunitarias:" [required]="communityHoursField"></label>
-          <input pInputText type="text" id="communityHours" formControlName="communityHours" />
+          <input pInputText type="number" id="communityHours" formControlName="communityHours"/>
           <small appErrorMessage [errors]="communityHoursField.errors" [touched]="communityHoursField.touched"
             [dirty]="communityHoursField.dirty">
           </small>
@@ -163,7 +163,7 @@
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="hoursWorked" label="Horas trabajadas:" [required]="hoursWorkedField"></label>
-          <input pInputText type="text" id="hoursWorked" formControlName="hoursWorked" />
+          <input pInputText type="number" id="hoursWorked" formControlName="hoursWorked"/>
           <small appErrorMessage [errors]="hoursWorkedField.errors" [touched]="hoursWorkedField.touched"
             [dirty]="hoursWorkedField.dirty">
           </small>
@@ -197,7 +197,7 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="investigationHours" label="Horas de investigación:"
             [required]="investigationHoursField"></label>
-          <input pInputText type="text" id="investigationHours" formControlName="investigationHours" />
+            <input pInputText type="number" id="investigationHours" formControlName="investigationHours"/>
           <small appErrorMessage [errors]="investigationHoursField.errors" [touched]="investigationHoursField.touched"
             [dirty]="investigationHoursField.dirty">
           </small>
@@ -206,7 +206,7 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="otherHours" label="Otras horas:" [required]="otherHoursField"></label>
-          <input pInputText type="text" id="otherHours" formControlName="otherHours" />
+          <input pInputText type="number" id="otherHours" formControlName="otherHours"/>
           <small appErrorMessage [errors]="otherHoursField.errors" [touched]="otherHoursField.touched"
             [dirty]="otherHoursField.dirty">
           </small>
@@ -222,14 +222,15 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="scholarshipAmount" label="Monto de la beca:" [required]="scholarshipAmountField"></label>
-          <input pInputText type="text" id="scholarshipAmount" formControlName="scholarshipAmount" />
+          <p-inputNumber formControlName="scholarshipAmount" id="scholarshipAmount" mode="currency" currency="USD"
+            locale="en-US"> </p-inputNumber>
           <small appErrorMessage [errors]="scholarshipAmountField.errors" [touched]="scholarshipAmountField.touched"
             [dirty]="scholarshipAmountField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="totalSubjects" label="Materias totales:" [required]="totalSubjectsField"></label>
-          <input pInputText type="text" id="totalSubjects" formControlName="totalSubjects" />
+          <input pInputText type="number" id="totalSubjects" formControlName="totalSubjects"/>
           <small appErrorMessage [errors]="totalSubjectsField.errors" [touched]="totalSubjectsField.touched"
             [dirty]="totalSubjectsField.dirty">
           </small>
@@ -253,8 +254,9 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="totalPublications" label="Publicaciones totales:" [required]="totalPublicationsField"></label>
-          <input pInputText type="text" id="totalPublications" formControlName="totalPublications" />
+          <label appLabel for="totalPublications" label="Publicaciones totales:"
+            [required]="totalPublicationsField"></label>
+            <input pInputText type="number" id="totalPublications" formControlName="totalPublications"/>
           <small appErrorMessage [errors]="totalPublicationsField.errors" [touched]="totalPublicationsField.touched"
             [dirty]="totalPublicationsField.dirty">
           </small>
@@ -262,22 +264,16 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <button pButton pRipple type="button"
-                  label="Cancelar"
-                  class="p-button-info p-button-outlined"
-                  [icon]="PrimeIcons.ARROW_LEFT"
-                  [loading]="coreService.isLoading"
-                  (click)="back()"></button>
+          <button pButton pRipple type="button" label="Cancelar" class="p-button-info p-button-outlined"
+            [icon]="PrimeIcons.ARROW_LEFT" [loading]="coreService.isLoading" (click)="back()"></button>
         </div>
-  
+
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <button pButton pRipple type="submit"
-                  label="Guardar"
-                  [icon]="PrimeIcons.SAVE"
-                  [loading]="coreService.isLoading"></button>
+          <button pButton pRipple type="submit" label="Guardar" [icon]="PrimeIcons.SAVE"
+            [loading]="coreService.isLoading"></button>
         </div>
       </div>
-      
+
     </div>
   </form>
 </p-panel>

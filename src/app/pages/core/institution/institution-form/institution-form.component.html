@@ -1,34 +1,42 @@
-<app-skeleton *ngIf="coreService.isLoading" [type]="'card'"></app-skeleton>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <i *ngIf="id === ''" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
-    <i *ngIf="id != ''" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
-    <h2 class="panel-header">{{ panelHeader }}</h2>
+    <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+    <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+    <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
   </ng-template>
-
-  <small [innerHTML]="this.messageService.requiredFields"></small>
 
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
     <div class="formgrid grid">
       <!-- state & isVisiible -->
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="state" label="Estado:" [required]="stateField"></label>
-        <p-dropdown id="state" dataKey="id" formControlName="state" [options]="states" optionLabel="name"
-          placeholder="Seleccione">
+        <p-dropdown id="state"
+                    dataKey="id"
+                    formControlName="state"
+                    [options]="states"
+                    optionLabel="name"
+                    placeholder="Seleccione">
         </p-dropdown>
-        <small appErrorMessage [errors]="stateField.errors" [touched]="stateField.touched" [dirty]="stateField.dirty">
+        <small appErrorMessage
+               [errors]="stateField.errors"
+               [touched]="stateField.touched"
+               [dirty]="stateField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
+        <label appLabel for="isVisible" label="Visible:"
+               [required]="isVisibleField"></label>
         <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
-        <small appErrorMessage [errors]="isVisibleField.errors" [touched]="isVisibleField.touched"
-          [dirty]="isVisibleField.dirty">
+        <small appErrorMessage
+               [errors]="isVisibleField.errors"
+               [touched]="isVisibleField.touched"
+               [dirty]="isVisibleField.dirty">
         </small>
       </div>
     </div>
@@ -45,8 +53,10 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="codeSniese" label="Código SNIESE:" [required]="codeSnieseField"></label>
         <input pInputText type="text" id="codeSniese" formControlName="codeSniese" />
-        <small appErrorMessage [errors]="codeSnieseField.errors" [touched]="codeSnieseField.touched"
-          [dirty]="codeSnieseField.dirty">
+        <small appErrorMessage
+               [errors]="codeSnieseField.errors"
+               [touched]="codeSnieseField.touched"
+               [dirty]="codeSnieseField.dirty">
         </small>
       </div>
     </div>
@@ -56,16 +66,20 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="acronym" label="Siglas:" [required]="acronymField"></label>
         <input pInputText type="text" id="acronym" formControlName="acronym" />
-        <small appErrorMessage [errors]="acronymField.errors" [touched]="acronymField.touched"
-          [dirty]="acronymField.dirty">
+        <small appErrorMessage
+               [errors]="acronymField.errors"
+               [touched]="acronymField.touched"
+               [dirty]="acronymField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="cellphone" label="Número Celular:" [required]="cellphoneField"></label>
-        <p-inputNumber id="cellphone" formControlName="cellphone"></p-inputNumber>
-        <small appErrorMessage [errors]="cellphoneField.errors" [touched]="cellphoneField.touched"
-          [dirty]="cellphoneField.dirty">
+        <input pInputText type="text" id="cellphone" formControlName="cellphone" />
+        <small appErrorMessage
+               [errors]="cellphoneField.errors"
+               [touched]="cellphoneField.touched"
+               [dirty]="cellphoneField.dirty">
         </small>
       </div>
     </div>
@@ -74,15 +88,20 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
         <input pInputText type="text" id="denomination" formControlName="denomination" />
-        <small appErrorMessage [errors]="denominationField.errors" [touched]="denominationField.touched"
-          [dirty]="denominationField.dirty">
+        <small appErrorMessage
+               [errors]="denominationField.errors"
+               [touched]="denominationField.touched"
+               [dirty]="denominationField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="email" label="Email:" [required]="emailField"></label>
         <input pInputText type="email" id="email" formControlName="email" />
-        <small appErrorMessage [errors]="emailField.errors" [touched]="emailField.touched" [dirty]="emailField.dirty">
+        <small appErrorMessage
+               [errors]="emailField.errors"
+               [touched]="emailField.touched"
+               [dirty]="emailField.dirty">
         </small>
       </div>
     </div>
@@ -91,15 +110,20 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
         <input pInputText type="text" id="name" formControlName="name" />
-        <small appErrorMessage [errors]="nameField.errors" [touched]="nameField.touched" [dirty]="nameField.dirty">
+        <small appErrorMessage
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
         <input pInputText type="text" id="shortName" formControlName="shortName" />
-        <small appErrorMessage [errors]="shortNameField.errors" [touched]="shortNameField.touched"
-          [dirty]="shortNameField.dirty">
+        <small appErrorMessage
+               [errors]="shortNameField.errors"
+               [touched]="shortNameField.touched"
+               [dirty]="shortNameField.dirty">
         </small>
       </div>
     </div>
@@ -107,16 +131,21 @@
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="phone" label="Teléfono:" [required]="phoneField"></label>
-        <p-inputNumber id="phone" formControlName="phone"></p-inputNumber>
-        <small appErrorMessage [errors]="phoneField.errors" [touched]="phoneField.touched" [dirty]="phoneField.dirty">
+        <input pInputText type="text" id="phone" formControlName="phone" />
+        <small appErrorMessage
+               [errors]="phoneField.errors"
+               [touched]="phoneField.touched"
+               [dirty]="phoneField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="slogan" label="Slogan:" [required]="sloganField"></label>
         <input pInputText type="text" id="slogan" formControlName="slogan" />
-        <small appErrorMessage [errors]="sloganField.errors" [touched]="sloganField.touched"
-          [dirty]="sloganField.dirty">
+        <small appErrorMessage
+               [errors]="sloganField.errors"
+               [touched]="sloganField.touched"
+               [dirty]="sloganField.dirty">
         </small>
       </div>
     </div>
@@ -125,31 +154,39 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="web" label="Web:" [required]="webField"></label>
         <input pInputText type="text" id="web" formControlName="web" />
-        <small appErrorMessage [errors]="sloganField.errors" [touched]="sloganField.touched"
-          [dirty]="sloganField.dirty">
+        <small appErrorMessage
+               [errors]="sloganField.errors"
+               [touched]="sloganField.touched"
+               [dirty]="sloganField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="logo" label="Logo:" [required]="logoField"></label>
         <input pInputText type="text" id="logo" formControlName="logo" />
-        <small appErrorMessage [errors]="logoField.errors" [touched]="logoField.touched" [dirty]="logoField.dirty">
+        <small appErrorMessage
+               [errors]="logoField.errors"
+               [touched]="logoField.touched"
+               [dirty]="logoField.dirty">
         </small>
       </div>
     </div>
 
-
-
     <!-- Buttons Actions-->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="button" label="Cancelar" class="p-button-info p-button-outlined"
-          [icon]="PrimeIcons.ARROW_LEFT" [loading]="coreService.isLoading" (click)="back()"></button>
+        <button pButton pRipple type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                [icon]="PrimeIcons.ARROW_LEFT"
+                [loading]="coreService.isLoading"
+                (click)="back()"></button>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="submit" label="Guardar" [icon]="PrimeIcons.SAVE"
-          [loading]="coreService.isLoading"></button>
+        <button pButton pRipple type="submit"
+                label="Guardar" [icon]="PrimeIcons.SAVE"
+                [loading]="coreService.isLoading"></button>
       </div>
     </div>
   </form>

@@ -1,24 +1,23 @@
-<!--<p-card>-->
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton type="button" label="Create User"
+    <button pButton type="button" label="Crear"
             class="p-button-success mr-2"
-            icon="pi pi-plus"
+            [icon]="PrimeIcons.PLUS"
             (click)="redirectCreateForm()"></button>
-    <button pButton type="button" label="Refresh"
+    <button pButton type="button" label="Refrescar"
             class="p-button-info mr-2"
-            icon="pi pi-refresh"
+            [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
             (click)="findAll()"></button>
-    <button *ngIf="selectedUsers.length>0" pButton type="button" label="Delete Users"
+    <button *ngIf="selectedUsers.length>0" pButton type="button" label="Eliminar Usuarios"
             class="p-button-danger"
-            icon="pi pi-trash"
+            [icon]="PrimeIcons.TRASH"
             [loading]="coreService.isLoading"
             (click)="removeAll()"></button>
   </div>
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
-      <input type="text" pInputText [formControl]="search" placeholder="Search">
+      <input type="text" pInputText [formControl]="search" placeholder="Buscar...">
       <button type="button" pButton pRipple
               [class]="PrimeIcons.SEARCH"
               [loading]="coreService.isLoading"
@@ -26,10 +25,12 @@
     </div>
   </div>
 </p-toolbar>
+
 <p-paginator
   [rows]="paginator.limit"
   [totalRecords]="paginator.totalItems"
   (onPageChange)="paginate($event)"></p-paginator>
+
 <p-table
   dataKey="id"
   styleClass="p-datatable-striped"
@@ -47,8 +48,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        <button pButton pRipple type="button" class="p-button-help p-button-outlined p-button-rounded"
-                icon="pi pi-cog"></button>
+        Acciones
       </th>
     </tr>
   </ng-template>
@@ -92,7 +92,7 @@
         <ng-template #thenBlock>
           <button type="button" pButton [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectUser(rowData)"></button>
         </ng-template>
-        <ng-template #elseBlock>Current User</ng-template>
+        <ng-template #elseBlock>Usuario Actual</ng-template>
       </td>
     </tr>
   </ng-template>
@@ -107,7 +107,6 @@
     {{messageService.paginatorTotalRegisters(paginator)}}
   </ng-template>
 </p-table>
-<!--</p-card>-->
 
 <p-sidebar [(visible)]="isActionButtons" position="right">
   <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>

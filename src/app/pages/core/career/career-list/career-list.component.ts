@@ -13,9 +13,9 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CareersHttpService, CareersService
+  CareersHttpService, CareersService, InstitutionsService
 } from '@services/core';
-import {ActionButtonsEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-career-list',
@@ -43,9 +43,11 @@ export class CareerListComponent implements OnInit {
     private careersHttpService: CareersHttpService,
     private careersService: CareersService,
     private eventsService: EventsService,
+    protected institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Carrera'},
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
+      {label: BreadcrumbEnum.CAREERS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -73,19 +75,20 @@ export class CareerListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      { field: 'acronym', header: 'Siglas' },
-      { field: 'code', header: 'Código' },
-      { field: 'codeSniese', header: 'Código Sniese' },
+      {field: 'acronym', header: 'Siglas'},
+      {field: 'code', header: 'Código'},
+      {field: 'codeSniese', header: 'Código Sniese'},
       {field: 'state', header: 'Estado'},
-      { field: 'logo', header: 'Logo' },
-      { field: 'shortName', header: 'Nombre Corto' },
-      { field: 'resolutionNumber', header: 'Número de Resolución' },
-      { field: 'degree', header: 'Título' }
+      {field: 'logo', header: 'Logo'},
+      {field: 'shortName', header: 'Nombre Corto'},
+      {field: 'resolutionNumber', header: 'Número de Resolución'},
+      {field: 'degree', header: 'Título'}
     ];
   }
 
   buildActionButtons(): void {
     this.actionButtons = [];
+
     this.actionButtons.push(
       {
         id: ActionButtonsEnum.UPDATE,
@@ -129,11 +132,10 @@ export class CareerListComponent implements OnInit {
 
     this.actionButtons.push(
       {
-        id: ActionButtonsEnum.SHOW_EVENTS,
-        label: 'Eventos',
-        icon: PrimeIcons.BARS,
+        label: 'Malla curricular',
+        icon: PrimeIcons.LIST,
         command: () => {
-          if (this.selectedItem?.id) this.redirectEventList();
+          this.router.navigate([this.routesService.curriculums]);
         },
       });
   }
@@ -183,7 +185,7 @@ export class CareerListComponent implements OnInit {
   selectItem(item: CareerModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-    this.careersService.selectedCareer = item;
+    this.careersService.career = item;
     this.buildActionButtons();
   }
 

@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
+import {isAfter} from "date-fns";
 import {OnExitInterface} from "@shared/interfaces";
 import {CatalogueModel, EventModel} from "@models/core";
 import {
@@ -12,8 +13,7 @@ import {
   MessageService,
   RoutesService
 } from "@services/core";
-import {CatalogueCoreTypeEnum} from "@shared/enums";
-import {isAfter} from "date-fns";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-form',
@@ -44,8 +44,8 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   ) {
     this.breadcrumbService.setItems([
       {label: this.eventsService.model.routerLabel, routerLink: [this.eventsService.model.routerLink]},
-      {label: 'Eventos', routerLink: [this.routesService.events]},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.EVENTS, routerLink: [this.routesService.events]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -100,7 +100,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields;
     }
   }
 
@@ -166,4 +166,6 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   get orderField(): AbstractControl {
     return this.form.controls['order'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

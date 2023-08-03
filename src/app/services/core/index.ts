@@ -7,6 +7,7 @@ export * from './routes.service';
 export * from './careers-http.service';
 export * from './curriculums-http.service';
 export * from './institutions-http.service';
+export * from './institutions.service';
 export * from './students-http.service';
 export * from './subjects-http.service';
 export * from './teachers-http.service';
@@ -15,4 +16,5 @@ export * from './events-http.service';
 export * from './events.service';
 export * from './careers.service';
 export * from './enrollments-http.service';
+export * from './files-http.service';
 

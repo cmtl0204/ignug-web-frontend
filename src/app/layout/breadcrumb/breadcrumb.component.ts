@@ -24,7 +24,7 @@ export class BreadcrumbComponent {
     this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
       this.items = response as MenuItem[];
     });
-    console.log(authService.role?.code);
+
     this.home = {icon: PrimeIcons.HOME, routerLink: `/core/dashboards/${authService.role?.code}`};
   }
 

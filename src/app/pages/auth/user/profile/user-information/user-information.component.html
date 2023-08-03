@@ -1,8 +1,8 @@
-<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
-<form *ngIf="!isLoadingSkeleton" [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid">
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
+<form *ngIf="!coreService.isLoading" [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid">
   <!--username-->
   <div class="field">
-    <label appLabel for="username" label="Username:" [required]="usernameField"></label>
+    <label appLabel for="username" label="Usuario:" [required]="usernameField"></label>
     <input pInputText type="text" id="username" formControlName="username" pKeyFilter="alphanum"/>
     <small appErrorMessage
            [errors]="usernameField.errors"
@@ -14,18 +14,18 @@
   <!--email && phone-->
   <div class="formgrid grid">
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="email" label="Email:" [required]="emailField"></label>
+      <label appLabel for="email" label="Correo Electrónico:" [required]="emailField"></label>
       <input pInputText type="email" id="email" formControlName="email" class="mb-1"/>
       <small appErrorMessage
              [errors]="emailField.errors"
              [touched]="emailField.touched"
              [dirty]="emailField.dirty">
       </small>
-      <p-tag *ngIf="emailVerifiedAtField.value" value="Verified Email" icon="pi pi-check" severity="success"></p-tag>
-      <p-tag *ngIf="!emailVerifiedAtField.value" value="Unverified Email" icon="pi pi-times" severity="danger"></p-tag>
+      <p-tag *ngIf="emailVerifiedAtField.value" value="Verified Email" [icon]="PrimeIcons.CHECK" severity="success"></p-tag>
+      <p-tag *ngIf="!emailVerifiedAtField.value" value="Correo no Verificado" [icon]="PrimeIcons.TIMES" severity="danger"></p-tag>
     </div>
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="phone" label="Phone:" [required]="phoneField"></label>
+      <label appLabel for="phone" label="Teléfono:" [required]="phoneField"></label>
       <input pInputText type="text" id="phone" formControlName="phone"/>
       <small appErrorMessage
              [errors]="phoneField.errors"
@@ -37,9 +37,9 @@
 
   <!--submit-->
   <div class="field">
-    <button pButton pRipple id="submitUserInformation" type="submit"
-            label="Update User Information"
-            icon="pi pi-save"
-            [loading]="isLoading"></button>
+    <button pButton pRipple type="submit" id="submitUserInformation"
+            label="Actualizar"
+            [icon]="PrimeIcons.SAVE"
+            [loading]="coreService.isLoading"></button>
   </div>
 </form>
