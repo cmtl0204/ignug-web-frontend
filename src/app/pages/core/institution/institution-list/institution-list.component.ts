@@ -11,6 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -38,7 +39,7 @@ export class InstitutionListComponent implements OnInit {
     private institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institución'},
+      {label: BreadcrumbEnum.INSTITUTIONS},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -88,22 +89,8 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        label: 'Ocultar',
-        icon: PrimeIcons.LOCK,
-        command: () => {
-          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Mostrar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
-        },
-      },
-      {
         label: 'Carreras',
-        icon: PrimeIcons.LOCK_OPEN,
+        icon: PrimeIcons.BOOK,
         command: () => {
           this.router.navigate([this.routesService.careers]);
         },
@@ -135,20 +122,6 @@ export class InstitutionListComponent implements OnInit {
           this.selectedItems = [];
         });
       }
-    });
-  }
-
-  hide(id: string) {
-    this.institutionsHttpService.hide(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
-    });
-  }
-
-  reactivate(id: string) {
-    this.institutionsHttpService.reactivate(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;
     });
   }
 

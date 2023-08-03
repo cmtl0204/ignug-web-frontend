@@ -11,6 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -36,7 +37,7 @@ export class EnrollmentListComponent implements OnInit {
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
   ) {
-    this.breadcrumbService.setItems([{label: 'Matrículas'}]);
+    this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENTS}]);
 
     this.paginator = this.coreService.paginator;
 

@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, CurriculumModel, SubjectModel } from '@models/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons} from 'primeng/api';
+import {OnExitInterface} from '@shared/interfaces';
+import {CatalogueModel, CurriculumModel, SubjectModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -17,8 +17,8 @@ import {
   RoutesService,
   SubjectsHttpService,
 } from '@services/core';
-import { CatalogueCoreTypeEnum } from '@shared/enums';
-import { CurriculumsService } from '@services/core/curriculums.service';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {CurriculumsService} from '@services/core/curriculums.service';
 
 
 @Component({
@@ -51,11 +51,11 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     protected curriculumService: CurriculumsService,
   ) {
     this.breadcrumbService.setItems([
-      { label: 'Institutos', routerLink: [this.routesService.institutions] },
-      { label: 'Carrera', routerLink: [this.routesService.careers] },
-      { label: 'Malla curricular', routerLink: [this.routesService.curriculums] },
-      { label: 'Asignaturas', routerLink: [this.routesService.subjects] },
-      { label: 'Form' },
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
+      {label: BreadcrumbEnum.CAREERS, routerLink: [this.routesService.careers]},
+      {label: BreadcrumbEnum.CURRICULUMS, routerLink: [this.routesService.curriculums]},
+      {label: BreadcrumbEnum.SUBJECTS, routerLink: [this.routesService.subjects]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -98,7 +98,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       academicPeriod: [null, [Validators.required]],
       state: [null, [Validators.required]],
       type: [null, [Validators.required]],
-      curriculum:[this.curriculumService.selectedCurriculum, [Validators.required]]
+      curriculum: [this.curriculumService.curriculum, [Validators.required]],
     });
   }
 
@@ -155,7 +155,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   loadTypes(): void {
     this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.REGISTRATION_TYPE )
+      .catalogue(CatalogueCoreTypeEnum.REGISTRATION_TYPE)
       .subscribe((items) => (this.types = items));
   }
 
@@ -208,4 +208,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get curriculumField(): AbstractControl {
     return this.form.controls['curriculum'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

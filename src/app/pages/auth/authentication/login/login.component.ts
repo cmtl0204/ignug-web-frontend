@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {PrimeIcons} from "primeng/api";
+import {RolesEnum} from "@shared/enums";
 import {AuthHttpService, AuthService} from '@services/auth';
 import {CoreService, MessageService, RoutesService} from '@services/core';
-import {RolesEnum} from "@shared/enums";
-import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-login',
@@ -12,6 +12,7 @@ import {PrimeIcons} from "primeng/api";
 })
 
 export class LoginComponent implements OnInit {
+  protected readonly PrimeIcons = PrimeIcons;
   form: FormGroup;
 
   constructor(private formBuilder: FormBuilder,
@@ -96,6 +97,4 @@ export class LoginComponent implements OnInit {
   get passwordField(): AbstractControl {
     return this.form.controls['password'];
   }
-
-  protected readonly PrimeIcons = PrimeIcons;
 }

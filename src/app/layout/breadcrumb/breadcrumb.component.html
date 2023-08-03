@@ -3,9 +3,13 @@
     <p-breadcrumb *ngIf="items?.length" [model]="items" [home]="home"></p-breadcrumb>
   </div>
   <div class="xl:col-4 lg:col-5 md:col-5 sm:col-6 text-right">
-    <div class="panel-messages-info">
-      <button pButton class="p-button-text" (click)="redirectProfile()">{{authService.auth.identification}}</button>
-      <button pButton class="p-button-text" (click)="redirectProfile()">{{authService.roles[0].name}}</button>
+    <div class="panel-profile">
+      <button pButton class="p-button-text" (click)="redirectProfile()">
+        Usuario: <b class="ml-1">{{authService.auth.identification}}</b>
+      </button>
+      <button pButton class="p-button-text" (click)="redirectProfile()">
+        Rol: <b class="ml-1">{{authService.role.name}}</b>
+      </button>
     </div>
   </div>
 </div>

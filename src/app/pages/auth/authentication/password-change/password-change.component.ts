@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
+import {PrimeIcons} from "primeng/api";
 import {CustomValidators} from "@shared/validators";
 import {AuthHttpService, AuthService} from '@services/auth';
 import {CoreService, MessageService} from '@services/core';
@@ -11,15 +12,14 @@ import {CoreService, MessageService} from '@services/core';
   styleUrls: ['./password-change.component.scss']
 })
 export class PasswordChangeComponent implements OnInit {
+  protected readonly PrimeIcons = PrimeIcons;
   form: FormGroup;
-  isLoading: boolean = false;
-  progressBar: boolean = false;
 
   constructor(
     private authHttpService: AuthHttpService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private coreService: CoreService,
+    protected coreService: CoreService,
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {

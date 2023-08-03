@@ -1,4 +1,4 @@
-<app-skeleton *ngIf="coreService.isLoading" [type]="'card'"></app-skeleton>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
