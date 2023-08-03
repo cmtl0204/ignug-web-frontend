@@ -15,6 +15,7 @@ import {
   RoutesService,
 } from '@services/core';
 import {EventsHttpService} from "@services/core/events-http.service";
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-list',
@@ -44,8 +45,8 @@ export class EventListComponent implements OnInit {
     private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: this.eventsService.model.routerLabel, routerLink: [this.eventsService.model.routerLink]},
-      {label: 'Eventos'},
+      {label: this.eventsService.model?.routerLabel, routerLink: [this.eventsService.model?.routerLink]},
+      {label: BreadcrumbEnum.EVENTS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -59,12 +60,13 @@ export class EventListComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.findByModel();
+    if (this.model)
+      this.findByModel();
   }
 
   /** Load Data **/
   findByModel(page: number = 0) {
-    this.eventsHttpService.findByModel(this.eventsService.model.entity.id, page, this.search.value)
+    this.eventsHttpService.findByModel(this.eventsService.model?.entity?.id, page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;

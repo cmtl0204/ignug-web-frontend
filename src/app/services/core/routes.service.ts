@@ -15,10 +15,17 @@ export class RoutesService {
   constructor(private router: Router) {
   }
 
+  get administration(): string {
+    return '/administration';
+  }
+
   get core(): string {
     return '/core';
   }
 
+  get users(): string {
+    return this.administration + '/users';
+  }
   get careers(): string {
     return this.core + '/careers';
   }

@@ -1,19 +1,18 @@
-<app-skeleton *ngIf="coreService.isLoading" [type]="'card'"></app-skeleton>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <i *ngIf="id === ''" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
-    <i *ngIf="id != ''" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
-    <h2 class="panel-header">{{ panelHeader }}</h2>
+    <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+    <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+    <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
   </ng-template>
-
-  <small [innerHTML]="this.messageService.requiredFields"></small>
 
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="field">
-      <label appLabel for="Curriculum" label="Malla curricular:" [required]="stateField"></label>
-      <h3 id="institution">{{curriculumField.value?.name}}</h3>
+      <label appLabel for="curriculum" label="Malla curricular:" [required]="stateField"></label>
+      <h3 id="curriculum">{{curriculumField.value?.name}}</h3>
     </div>
     <!-- state & isVisible -->
     <div class="formgrid grid">
@@ -119,7 +118,7 @@
           label="Nombre:"
           [required]="nameField"
         ></label>
-        <input pInputText type="text" id="name" formControlName="name" />
+        <input pInputText type="text" id="name" formControlName="name"/>
         <small
           appErrorMessage
           [errors]="nameField.errors"
@@ -135,7 +134,7 @@
           label="Codigo:"
           [required]="codeField"
         ></label>
-        <input pInputText type="text" id="code" formControlName="code"           minlength="5" />
+        <input pInputText type="text" id="code" formControlName="code" minlength="5"/>
         <small
           appErrorMessage
           [errors]="codeField.errors"
@@ -155,7 +154,7 @@
           label="Creditos:"
           [required]="creditsField"
         ></label>
-        <input pInputText type="text" id="credits" formControlName="credits" />
+        <input pInputText type="text" id="credits" formControlName="credits"/>
         <small
           appErrorMessage
           [errors]="creditsField.errors"

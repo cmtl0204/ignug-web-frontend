@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule, NgOptimizedImage} from '@angular/common';
 import {AuthenticationRoutingModule} from './authentication-routing.module';
 import {ReactiveFormsModule} from "@angular/forms";
 
@@ -23,20 +23,21 @@ import {DropdownModule} from "primeng/dropdown";
 @NgModule({
   declarations: [LoginComponent, PasswordChangeComponent, PasswordResetComponent, RoleSelectComponent],
   exports: [PasswordChangeComponent],
-  imports: [
-    CommonModule,
-    AuthenticationRoutingModule,
-    ReactiveFormsModule,
-    SharedModule,
-    ButtonModule,
-    CardModule,
-    CheckboxModule,
-    DividerModule,
-    InputTextModule,
-    PasswordModule,
-    RippleModule,
-    DropdownModule,
-  ]
+    imports: [
+        CommonModule,
+        AuthenticationRoutingModule,
+        ReactiveFormsModule,
+        SharedModule,
+        ButtonModule,
+        CardModule,
+        CheckboxModule,
+        DividerModule,
+        InputTextModule,
+        PasswordModule,
+        RippleModule,
+        DropdownModule,
+        NgOptimizedImage,
+    ]
 })
 export class AuthenticationModule {
 }

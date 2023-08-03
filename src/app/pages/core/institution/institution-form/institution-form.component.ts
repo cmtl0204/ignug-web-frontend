@@ -12,7 +12,7 @@ import {
   RoutesService,
   InstitutionsHttpService
 } from "@services/core";
-import {CatalogueCoreTypeEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-institution-form',
@@ -40,8 +40,8 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
     private institutionsHttpService: InstitutionsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Instituciones', routerLink: [this.routesService.institutions]},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -185,4 +185,6 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   get webField(): AbstractControl {
     return this.form.controls['web'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

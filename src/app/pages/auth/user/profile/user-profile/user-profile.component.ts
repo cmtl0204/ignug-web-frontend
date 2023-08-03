@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute} from '@angular/router';
+import {PrimeIcons} from "primeng/api";
 import {UpdateUserDto} from '@models/auth';
 import {CatalogueModel} from '@models/core';
 import {AuthHttpService, AuthService} from '@services/auth';
@@ -8,9 +9,8 @@ import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} f
 import {OnExitInterface} from '@shared/interfaces';
 import {DateValidators} from '@shared/validators';
 import {DateFormatPipe} from "@shared/pipes";
-import {CatalogueCoreTypeEnum} from "@shared/enums";
+import {CatalogueCoreTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
 import {environment} from "@env/environment.prod";
-import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-user-profile',
@@ -19,17 +19,16 @@ import {PrimeIcons} from "primeng/api";
 })
 export class UserProfileComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly SkeletonEnum = SkeletonEnum;
+  protected HOST_URL: string = environment.HOST_URL;
   protected dateFormat = new DateFormatPipe();
   protected bloodTypes: CatalogueModel[] = [];
   protected ethnicOrigins: CatalogueModel[] = [];
   protected genders: CatalogueModel[] = [];
   protected identificationTypes: CatalogueModel[] = [];
   protected form: FormGroup;
-  protected isLoadingSkeleton: boolean = false;
-  protected isLoading: boolean = false;
   protected maritalStatus: CatalogueModel[] = [];
   protected sexes: CatalogueModel[] = [];
-  protected HOST_URL: string = environment.HOST_URL;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -37,11 +36,18 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
     private authHttpService: AuthHttpService,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
-    private coreService: CoreService,
+    protected coreService: CoreService,
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {
     this.form = this.newForm;
+    this.identificationField.valueChanges.subscribe(value => {
+      if (value.code === UsersIdentificationTypeStateEnum.IDENTIFICATION) {
+        this.identificationField.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(10)])
+      } else {
+        this.identificationField.clearValidators();
+      }
+    });
   }
 
   async onExit(): Promise<boolean> {
@@ -91,9 +97,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   }
 
   getProfile(): void {
-    this.isLoadingSkeleton = true;
     this.authHttpService.getProfile().subscribe((user) => {
-        this.isLoadingSkeleton = false;
         this.form.patchValue(user);
       }
     );

@@ -38,3 +38,8 @@ export enum SchoolPeriodsStateEnum {
   OPEN = 'open',
   CLOSE = 'close',
 }
+
+export enum UsersIdentificationTypeStateEnum {
+  IDENTIFICATION = '1',
+  PASSPORT = '2',
+}

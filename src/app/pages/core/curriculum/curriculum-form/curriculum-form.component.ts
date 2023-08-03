@@ -10,9 +10,9 @@ import {
   CoreService,
   MessageService,
   RoutesService,
-  CurriculumsHttpService
+  CurriculumsHttpService, CareersService
 } from "@services/core";
-import {CatalogueCoreTypeEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
 import {isAfter, isBefore} from "date-fns";
 
 @Component({
@@ -39,10 +39,13 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
     private router: Router,
     private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
+    private careersService: CareersService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Malla Curricular', routerLink: [this.routesService.curriculums]},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
+      {label: BreadcrumbEnum.CAREERS, routerLink: routesService.careers},
+      {label: BreadcrumbEnum.CURRICULUMS, routerLink: [this.routesService.curriculums]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -70,8 +73,9 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
+      career: [this.careersService.career, [Validators.required]],
       state: [null, [Validators.required]],
-      isVisible: [null, [Validators.required]],
+      isVisible: [true, [Validators.required]],
       code: [null, [Validators.required]],
       name: [null, [Validators.required]],
       description: [null, [Validators.required, Validators.minLength(10)]],
@@ -125,6 +129,10 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   /** Form Getters **/
+  get careerField(): AbstractControl {
+    return this.form.controls['career'];
+  }
+
   get stateField(): AbstractControl {
     return this.form.controls['state'];
   }
@@ -156,4 +164,6 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   get weeksNumberField(): AbstractControl {
     return this.form.controls['weeksNumber'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

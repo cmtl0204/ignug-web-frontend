@@ -1,17 +1,13 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {
-  AbstractControl,
-  FormArray, FormControl,
-  FormGroup,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {CreateUserDto, RoleModel, UpdateUserDto} from '@models/auth';
 import {AuthHttpService, AuthService, RolesHttpService, UsersHttpService} from '@services/auth';
-import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
+import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService, RoutesService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from "primeng/api";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
+import {CatalogueModel} from "@models/core";
 
 @Component({
   selector: 'app-user-form',
@@ -21,13 +17,13 @@ import {PrimeIcons} from "primeng/api";
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
-  id: string = '';
-  form: FormGroup;
-  panelHeader: string = 'Create User';
-  isChangePassword: FormControl = new FormControl(false);
-  isLoadingSkeleton: boolean = false;
-  isLoading: boolean = false;
-  roles: RoleModel[] = [];
+  protected readonly SkeletonEnum = SkeletonEnum;
+  protected id: string | null = null;
+  protected form: FormGroup;
+  protected panelHeader: string = 'Crear';
+  protected isChangePassword: FormControl = new FormControl(false);
+  protected roles: RoleModel[] = [];
+  protected identificationTypes: CatalogueModel[] = [];
 
   constructor(
     private authHttpService: AuthHttpService,
@@ -35,24 +31,41 @@ export class UserFormComponent implements OnInit, OnExitInterface {
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
-    private coreService: CoreService,
+    protected coreService: CoreService,
     private formBuilder: FormBuilder,
     public messageService: MessageService,
     private router: Router,
     private rolesHttpService: RolesHttpService,
+    private routesService: RoutesService,
     private usersHttpService: UsersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Users', routerLink: ['/administration/users']},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.USERS, routerLink: [this.routesService.users]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Update User';
+      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.newForm;
+
+    this.identificationTypeField.valueChanges.subscribe(value => {
+      if (value) {
+        this.identificationField.enable();
+      } else {
+        this.identificationField.disable();
+      }
+
+      if (value.code === UsersIdentificationTypeStateEnum.IDENTIFICATION) {
+        this.identificationField.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(10)])
+      } else {
+        this.identificationField.clearValidators();
+      }
+
+      this.identificationField.updateValueAndValidity();
+    });
   }
 
   async onExit(): Promise<boolean> {
@@ -64,8 +77,9 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
   ngOnInit(): void {
     this.loadRoles();
+    this.loadIdentificationTypes();
 
-    if (this.id != '') {
+    if (this.id) {
       this.getUser();
       this.passwordField.clearValidators();
     } else {
@@ -78,6 +92,11 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
+      identification: [{
+        value: null,
+        disabled: true
+      }, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      identificationType: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       name: [null, [Validators.required]],
       password: [{value: null, disabled: true}, [Validators.required, Validators.minLength(8)]],
@@ -89,7 +108,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
   onSubmit(): void {
     if (this.form.valid) {
-      if (this.id != '') {
+      if (this.id) {
         this.update(this.form.value);
       } else {
         this.create(this.form.value);
@@ -101,7 +120,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate(['/administration/users']);
+    this.router.navigate([this.routesService.users]);
   }
 
   create(user: CreateUserDto): void {
@@ -117,11 +136,15 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   getUser(): void {
-    this.isLoadingSkeleton = true;
-    this.usersHttpService.findOne(this.id).subscribe((user) => {
-      this.isLoadingSkeleton = false;
+    this.usersHttpService.findOne(this.id!).subscribe((user) => {
       this.form.patchValue(user);
     });
+  }
+
+  loadIdentificationTypes(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE).subscribe((identificationTypes) =>
+      this.identificationTypes = identificationTypes
+    );
   }
 
   handleChangePassword(event: any) {
@@ -143,7 +166,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   update(user: UpdateUserDto): void {
     user.passwordChanged = !user.passwordChanged;
 
-    this.usersHttpService.update(this.id, user).subscribe((user) => {
+    this.usersHttpService.update(this.id!, user).subscribe((user) => {
       this.form.reset(user);
       this.back()
     });
@@ -151,6 +174,14 @@ export class UserFormComponent implements OnInit, OnExitInterface {
 
   get emailField(): AbstractControl {
     return this.form.controls['email'];
+  }
+
+  get identificationField(): AbstractControl {
+    return this.form.controls['identification'];
+  }
+
+  get identificationTypeField(): AbstractControl {
+    return this.form.controls['identificationType'];
   }
 
   get lastnameField(): AbstractControl {

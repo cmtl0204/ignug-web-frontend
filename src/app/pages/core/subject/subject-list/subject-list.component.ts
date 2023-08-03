@@ -16,6 +16,7 @@ import {
   SubjectsHttpService
 } from '@services/core';
 import { CurriculumsService } from '@services/core/curriculums.service';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-list',
@@ -45,10 +46,10 @@ export class SubjectListComponent implements OnInit {
     protected curriculumService: CurriculumsService,
   ) {
     this.breadcrumbService.setItems([
-      { label: 'Institutos', routerLink: [this.routesService.institutions] },
-      { label: 'Carrera', routerLink: [this.routesService.careers] },
-      { label: 'Malla curricular', routerLink: [this.routesService.curriculums] },
-      {label: 'Asignaturas'},
+      { label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions] },
+      { label: BreadcrumbEnum.CAREERS, routerLink: [this.routesService.careers] },
+      { label: BreadcrumbEnum.CURRICULUMS, routerLink: [this.routesService.curriculums] },
+      {label: BreadcrumbEnum.SUBJECTS},
     ]);
 
     this.paginator = this.coreService.paginator;

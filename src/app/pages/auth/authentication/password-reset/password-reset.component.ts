@@ -1,9 +1,9 @@
-import {Component, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {PrimeIcons} from "primeng/api";
 import {CustomValidators} from "@shared/validators";
 import {AuthHttpService, AuthService} from '@services/auth';
 import {CoreService, MessageService, RoutesService} from '@services/core';
-import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-password-reset',
@@ -55,12 +55,8 @@ export class PasswordResetComponent implements OnInit {
     if (this.usernameField.valid) {
       this.isRequestTransactionalCode = false;
       this.transactionalCodeField.reset();
-      this.authHttpService.requestTransactionalCode(this.usernameField.value)
-        .subscribe(
-          token => {
-            // this.routesService.login();
-            this.isRequestTransactionalCode = true;
-          });
+      this.authHttpService.requestTransactionalCode(this.usernameField.value).subscribe(
+        () => this.isRequestTransactionalCode = true);
     } else {
       this.usernameField.markAsTouched();
     }
@@ -69,11 +65,8 @@ export class PasswordResetComponent implements OnInit {
   verifyTransactionalCode() {
     if (this.usernameField.valid) {
       this.isValidTransactionalCode = false;
-      this.authHttpService.verifyTransactionalCode(this.transactionalCodeField.value)
-        .subscribe(
-          token => {
-            this.isValidTransactionalCode = true;
-          });
+      this.authHttpService.verifyTransactionalCode(this.transactionalCodeField.value).subscribe(
+        () => this.isValidTransactionalCode = true);
     } else {
       this.transactionalCodeField.markAsTouched();
     }

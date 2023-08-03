@@ -15,7 +15,7 @@ import {
   RoutesService,
   CareersHttpService, CareersService, InstitutionsService
 } from '@services/core';
-import {ActionButtonsEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-career-list',
@@ -46,8 +46,8 @@ export class CareerListComponent implements OnInit {
     protected institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institutos', routerLink: routesService.institutions},
-      {label: 'Carrera'},
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
+      {label: BreadcrumbEnum.CAREERS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -88,7 +88,7 @@ export class CareerListComponent implements OnInit {
 
   buildActionButtons(): void {
     this.actionButtons = [];
-    
+
     this.actionButtons.push(
       {
         id: ActionButtonsEnum.UPDATE,
@@ -133,7 +133,7 @@ export class CareerListComponent implements OnInit {
     this.actionButtons.push(
       {
         label: 'Malla curricular',
-        icon: PrimeIcons.LOCK_OPEN,
+        icon: PrimeIcons.LIST,
         command: () => {
           this.router.navigate([this.routesService.curriculums]);
         },
@@ -185,7 +185,7 @@ export class CareerListComponent implements OnInit {
   selectItem(item: CareerModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-    this.careersService.selectedCareer = item;
+    this.careersService.career = item;
     this.buildActionButtons();
   }
 

@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {BreadcrumbService, MessageService} from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,7 @@ export class ProfileComponent implements OnInit {
     public messageService: MessageService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Profile'}
+      {label: BreadcrumbEnum.PROFILE}
     ]);
   }
 
