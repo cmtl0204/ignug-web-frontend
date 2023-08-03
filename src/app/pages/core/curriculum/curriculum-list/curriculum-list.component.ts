@@ -15,6 +15,8 @@ import {
   RoutesService,
   CurriculumsHttpService, CareersService
 } from '@services/core';
+import {CurriculumsService} from "@services/core/curriculums.service";
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-curriculum-list',
@@ -40,11 +42,14 @@ export class CurriculumListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
+    private curriculumsService: CurriculumsService,
     private careersService: CareersService,
     private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Malla curricular'},
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
+      {label: BreadcrumbEnum.CAREERS, routerLink: routesService.careers},
+      {label: BreadcrumbEnum.CURRICULUMS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -112,7 +117,7 @@ export class CurriculumListComponent implements OnInit {
       },
       {
         label: 'Asignaturas',
-        icon: PrimeIcons.LOCK_OPEN,
+        icon: PrimeIcons.BOOK,
         command: () => {
           this.router.navigate([this.routesService.subjects]);
         },
@@ -165,7 +170,9 @@ export class CurriculumListComponent implements OnInit {
   selectItem(item: CurriculumModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
+    this.curriculumsService.curriculum = item;
   }
+
   paginate(event: any) {
     this.findAll(event.page);
   }
@@ -177,16 +184,5 @@ export class CurriculumListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.curriculums, id]);
-  }
-
-  redirectEventList() {
-    this.eventsService.model = {
-      entity: this.selectedItem,
-      label: 'Malla Curricular',
-      routerLink: this.routesService.curriculums,
-      routerLabel: 'Mallas Curriculares',
-    };
-
-    this.router.navigate([this.routesService.events]);
   }
 }

@@ -5,7 +5,8 @@ import {UpdateUserDto} from '@models/auth';
 import {AuthHttpService, AuthService} from '@services/auth';
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
-import {DateFormatPipe} from "@shared/pipes";
+import {SkeletonEnum} from "@shared/enums";
+import {PrimeIcons} from "primeng/api";
 
 @Component({
   selector: 'app-user-information',
@@ -13,9 +14,9 @@ import {DateFormatPipe} from "@shared/pipes";
   styleUrls: ['./user-information.component.scss']
 })
 export class UserInformationComponent implements OnInit, OnExitInterface {
+  protected readonly PrimeIcons = PrimeIcons;
+  protected readonly SkeletonEnum = SkeletonEnum;
   form: FormGroup;
-  isLoadingSkeleton: boolean = false;
-  isLoading: boolean = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -23,7 +24,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
     private authHttpService: AuthHttpService,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
-    private coreService: CoreService,
+    protected coreService: CoreService,
     private formBuilder: FormBuilder,
     public messageService: MessageService,
   ) {
@@ -61,9 +62,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
   }
 
   getUserInformation(): void {
-    this.isLoadingSkeleton = true;
     this.authHttpService.getUserInformation().subscribe((user) => {
-        this.isLoadingSkeleton = false;
         this.form.patchValue(user);
       }
     );

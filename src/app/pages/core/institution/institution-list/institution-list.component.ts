@@ -11,6 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -38,7 +39,7 @@ export class InstitutionListComponent implements OnInit {
     private institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institución'},
+      {label: BreadcrumbEnum.INSTITUTIONS},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -89,7 +90,7 @@ export class InstitutionListComponent implements OnInit {
       },
       {
         label: 'Carreras',
-        icon: PrimeIcons.TH_LARGE,
+        icon: PrimeIcons.BOOK,
         command: () => {
           this.router.navigate([this.routesService.careers]);
         },

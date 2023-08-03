@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PrimeIcons } from "primeng/api";
 import { OnExitInterface } from "@shared/interfaces";
 import { CatalogueModel, TeacherModel } from "@models/core";
+import {UserModel} from '@models/auth';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -12,7 +13,7 @@ import {
   RoutesService,
   TeachersHttpService
 } from "@services/core";
-import { CatalogueCoreTypeEnum } from "@shared/enums";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-teacher-form',
@@ -52,8 +53,8 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
     private teachersHttpService: TeachersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      { label: 'Profesores', routerLink: [this.routesService.teachers] },
-      { label: 'Form' },
+      {label: BreadcrumbEnum.TEACHERS, routerLink: [this.routesService.teachers]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -90,13 +91,13 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
 
   get informationTeacherForm(): FormGroup {
     return this.formBuilder.group({
-      id: [null,[]],
+      id: [null],
 
-      countryHigherEducation:  [null, []],
-      higherEducation:  [null, []],
-      scholarship:  [null, []],
-      scholarshipType:  [null, []],
-      teachingLadder:  [null, []],
+      countryHigherEducation: [null, []],
+      higherEducation: [null, []],
+      scholarship: [null, []],
+      scholarshipType: [null, []],
+      teachingLadder: [null, []],
 
       academicUnit: [null, []],
       administrativeHours: [null, []],
@@ -128,7 +129,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       personalEmail: [null, [Validators.email]],
       phone: [null, []],
       name: [null, []],
-      username: [null,[]],
+      username: [null, []],
       bloodType: [null, []],
       ethnicOrigin: [null, []],
       gender: [null, []],
@@ -170,10 +171,11 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
 
   /** Load Data **/
   get(): void {
-    this.teachersHttpService.findOne(this.id!).subscribe((item) => {
-      this.form.patchValue(item);
+    this.teachersHttpService.findOne(this.id!).subscribe((teacher) => {
+      this.form.patchValue(teacher);
     });
   }
+  
   loadBloodTypes(): void {
     this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
   }
@@ -356,6 +358,8 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   get passwordChangedField(): AbstractControl {
     return this.userField.controls['passwordChanged'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }
 
 

@@ -1,5 +1,5 @@
-<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
-<form *ngIf="!isLoadingSkeleton" [formGroup]="form" (ngSubmit)="onSubmitProfile()" class="p-fluid">
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
+<form *ngIf="!coreService.isLoading" [formGroup]="form" (ngSubmit)="onSubmitProfile()" class="p-fluid">
   <!--Avatar && identification && identificationType-->
   <div class="formgrid grid">
     <div class="field xl:col-2 lg:col-2 md:col-4 sm:col-12 text-center">
@@ -20,7 +20,7 @@
       </p-fileUpload>
     </div>
     <div class="field xl:col-5 lg:col-5 md:col-4 sm:col-12">
-      <label appLabel for="identificationType" label="Identification Type:"
+      <label appLabel for="identificationType" label="Tipo de Documento:"
              [required]="identificationTypeField"></label>
       <p-dropdown id="identificationType"
                   formControlName="identificationType"
@@ -29,15 +29,7 @@
                   optionLabel="name"
                   [filter]="true"
                   filterBy="name"
-                  placeholder="Select">
-        <ng-template pTemplate="selectedItem">
-          <div *ngIf="identificationTypeField.value">
-            <div>{{identificationTypeField.value.name}}</div>
-          </div>
-        </ng-template>
-        <ng-template pTemplate="item" let-item>
-          {{item.name}}
-        </ng-template>
+                  placeholder="Seleccione...">
       </p-dropdown>
       <small appErrorMessage
              [errors]="identificationTypeField.errors"
@@ -46,7 +38,7 @@
       </small>
     </div>
     <div class="field xl:col-5 lg:col-5 md:col-4 sm:col-12">
-      <label appLabel for="identification" label="Identification:" [required]="identificationField"></label>
+      <label appLabel for="identification" label="Número de Documento:" [required]="identificationField"></label>
       <input pInputText type="text" id="identification" formControlName="identification"/>
       <small appErrorMessage
              [errors]="identificationField.errors"
@@ -59,7 +51,7 @@
   <!--name && lastname-->
   <div class="formgrid grid">
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="name" label="Name:" [required]="nameField"></label>
+      <label appLabel for="name" label="Nombres:" [required]="nameField"></label>
       <input pInputText type="text" id="name" formControlName="name"/>
       <small appErrorMessage
              [errors]="nameField.errors"
@@ -68,7 +60,7 @@
       </small>
     </div>
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="lastname" label="Lastname:" [required]="lastnameField"></label>
+      <label appLabel for="lastname" label="Apellidos:" [required]="lastnameField"></label>
       <input pInputText type="text" id="lastname" formControlName="lastname"/>
       <small appErrorMessage
              [errors]="lastnameField.errors"
@@ -81,7 +73,7 @@
   <!--birthdate && ethnicOrigin-->
   <div class="formgrid grid">
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="birthdate" label="Birthdate: (yyyy-mm-dd)" [required]="birthdateField"></label>
+      <label appLabel for="birthdate" label="Fecha de Nacimiento: (yyyy-mm-dd)" [required]="birthdateField"></label>
       <p-calendar id="birthdate"
                   formControlName="birthdate"
                   dateFormat="yy-mm-dd"
@@ -96,7 +88,7 @@
       </small>
     </div>
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="ethnicOrigin" label="Ethnic Origin:" [required]="ethnicOriginField"></label>
+      <label appLabel for="ethnicOrigin" label="Etnia:" [required]="ethnicOriginField"></label>
       <p-dropdown id="ethnicOrigin"
                   formControlName="ethnicOrigin"
                   dataKey="id"
@@ -104,7 +96,7 @@
                   optionLabel="name"
                   [filter]="true"
                   filterBy="name"
-                  placeholder="Select">
+                  placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="ethnicOriginField.value">
             <div>{{ethnicOriginField.value.name}}</div>
@@ -125,7 +117,7 @@
   <!--sex && gender-->
   <div class="formgrid grid">
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="sex" label="Sex:" [required]="sexField"></label>
+      <label appLabel for="sex" label="Sexo:" [required]="sexField"></label>
       <p-dropdown id="sex"
                   formControlName="sex"
                   dataKey="id"
@@ -133,7 +125,7 @@
                   optionLabel="name"
                   [filter]="true"
                   filterBy="name"
-                  placeholder="Select">
+                  placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="sexField.value">
             <div>{{sexField.value.name}}</div>
@@ -150,7 +142,7 @@
       </small>
     </div>
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="gender" label="Gender:" [required]="genderField"></label>
+      <label appLabel for="gender" label="Género:" [required]="genderField"></label>
       <p-dropdown id="gender"
                   formControlName="gender"
                   dataKey="id"
@@ -158,7 +150,7 @@
                   optionLabel="name"
                   [filter]="true"
                   filterBy="name"
-                  placeholder="Select">
+                  placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="genderField.value">
             <div>{{genderField.value.name}}</div>
@@ -179,7 +171,7 @@
   <!--bloodType && maritalStatus-->
   <div class="formgrid grid">
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="bloodType" label="Blood Type:" [required]="bloodTypeField"></label>
+      <label appLabel for="bloodType" label="Tipo de Sangre:" [required]="bloodTypeField"></label>
       <p-dropdown id="bloodType"
                   formControlName="bloodType"
                   dataKey="id"
@@ -187,7 +179,7 @@
                   optionLabel="name"
                   [filter]="true"
                   filterBy="name"
-                  placeholder="Select">
+                  placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="bloodTypeField.value">
             <div>{{bloodTypeField.value.name}}</div>
@@ -204,7 +196,7 @@
       </small>
     </div>
     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="maritalStatus" label="Marital Status:" [required]="maritalStatusField"></label>
+      <label appLabel for="maritalStatus" label="Estado Civil:" [required]="maritalStatusField"></label>
       <p-dropdown id="maritalStatus"
                   formControlName="maritalStatus"
                   dataKey="id"
@@ -212,7 +204,7 @@
                   optionLabel="name"
                   [filter]="true"
                   filterBy="name"
-                  placeholder="Select">
+                  placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
           <div *ngIf="maritalStatusField.value">
             <div>{{maritalStatusField.value.name}}</div>
@@ -233,8 +225,8 @@
   <!--submit-->
   <div class="field">
     <button pButton pRipple id="submitProfile" type="submit"
-            label="Update Profile"
-            icon="pi pi-save"
-            [loading]="isLoading"></button>
+            label="Actualizar"
+            [icon]="PrimeIcons.SAVE"
+            [loading]="coreService.isLoading"></button>
   </div>
 </form>

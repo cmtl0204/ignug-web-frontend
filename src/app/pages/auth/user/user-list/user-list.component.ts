@@ -6,6 +6,7 @@ import {SelectUserDto, UserModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
 import {AuthService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CoreService, MessageService} from '@services/core';
+import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-user-list',
@@ -33,7 +34,7 @@ export class UserListComponent implements OnInit {
     private usersHttpService: UsersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Users'},
+      {label: BreadcrumbEnum.USERS},
     ]);
     this.paginator = this.coreService.paginator;
     this.search.valueChanges.subscribe(value => {
@@ -69,28 +70,28 @@ export class UserListComponent implements OnInit {
   get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Update',
+        label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedUser?.id) this.redirectEditForm(this.selectedUser.id);
         },
       },
       {
-        label: 'Delete',
+        label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
           if (this.selectedUser?.id) this.remove(this.selectedUser.id);
         },
       },
       {
-        label: 'Suspend',
+        label: 'Suspender',
         icon: PrimeIcons.LOCK,
         command: () => {
           if (this.selectedUser?.id) this.suspend(this.selectedUser.id);
         },
       },
       {
-        label: 'Reactivate',
+        label: 'Reactivar',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
           if (this.selectedUser?.id) this.reactivate(this.selectedUser.id);

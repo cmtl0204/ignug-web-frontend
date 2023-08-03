@@ -13,7 +13,7 @@ import {
   CareersHttpService,
   InstitutionsHttpService, InstitutionsService
 } from '@services/core';
-import {CatalogueCoreTypeEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-career-form',
@@ -45,9 +45,9 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
     private institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Institutos', routerLink: routesService.institutions},
-      {label: 'Carreras', routerLink: [this.routesService.careers]},
-      {label: 'Form'},
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
+      {label: BreadcrumbEnum.CAREERS, routerLink: [this.routesService.careers]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -181,4 +181,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   get institutionField(): AbstractControl {
     return this.form.controls['institution'];
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }
