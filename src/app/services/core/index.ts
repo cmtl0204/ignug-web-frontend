@@ -6,6 +6,7 @@ export * from './message.service';
 export * from './routes.service';
 export * from './careers-http.service';
 export * from './curriculums-http.service';
+export * from './curriculums.service';
 export * from './institutions-http.service';
 export * from './institutions.service';
 export * from './students-http.service';

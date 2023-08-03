@@ -13,7 +13,8 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CurriculumsHttpService, CareersService
+  CurriculumsHttpService,
+  CurriculumsService
 } from '@services/core';
 
 @Component({
@@ -40,7 +41,7 @@ export class CurriculumListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
-    private careersService: CareersService,
+    private curriculumService: CurriculumsService,
     private eventsService: EventsService,
   ) {
     this.breadcrumbService.setItems([
@@ -165,6 +166,7 @@ export class CurriculumListComponent implements OnInit {
   selectItem(item: CurriculumModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
+    this.curriculumService.curriculum = item;
   }
   paginate(event: any) {
     this.findAll(event.page);
