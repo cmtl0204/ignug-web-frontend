@@ -5,11 +5,13 @@ import { StudentRoutingModule } from './student-routing.module';
 
 // PrimeNg Modules
 import {ButtonModule} from "primeng/button";
+import {CalendarModule} from 'primeng/calendar';
 import {RippleModule} from "primeng/ripple";
 import {MessageModule} from "primeng/message";
 import {ToolbarModule} from "primeng/toolbar";
 import {PaginatorModule} from "primeng/paginator";
 import {TableModule} from "primeng/table";
+import {TabViewModule} from 'primeng/tabview';
 import {TagModule} from "primeng/tag";
 import {SplitButtonModule} from "primeng/splitbutton";
 import {InputTextModule} from "primeng/inputtext";
@@ -33,11 +35,13 @@ import {InputSwitchModule} from "primeng/inputswitch";
     NgCommonModule,
     ReactiveFormsModule,
     ButtonModule,
+    CalendarModule,
     RippleModule,
     MessageModule,
     ToolbarModule,
     PaginatorModule,
     TableModule,
+    TabViewModule,
     TagModule,
     SplitButtonModule,
     StudentRoutingModule,

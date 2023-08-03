@@ -63,11 +63,10 @@
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'name'">
+          <div *ngSwitchCase="'user'">
             {{rowData[col.field]?.name}}
           </div>
         </div>
-
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'code'">

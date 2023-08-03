@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PrimeIcons} from "primeng/api";
-import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, TeacherModel} from "@models/core";
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PrimeIcons } from "primeng/api";
+import { OnExitInterface } from "@shared/interfaces";
+import { CatalogueModel, TeacherModel } from "@models/core";
+import {UserModel} from '@models/auth';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -90,7 +91,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
 
   get informationTeacherForm(): FormGroup {
     return this.formBuilder.group({
-      id: [null, []],
+      id: [null],
 
       countryHigherEducation: [null, []],
       higherEducation: [null, []],
@@ -170,11 +171,11 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
 
   /** Load Data **/
   get(): void {
-    this.teachersHttpService.findOne(this.id!).subscribe((item) => {
-      this.form.patchValue(item);
+    this.teachersHttpService.findOne(this.id!).subscribe((teacher) => {
+      this.form.patchValue(teacher);
     });
   }
-
+  
   loadBloodTypes(): void {
     this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
   }

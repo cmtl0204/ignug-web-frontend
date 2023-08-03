@@ -58,7 +58,7 @@ export class TeacherListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Nombre'},
+      {field: 'user', header: 'Nombre'},
       {field: 'code', header: 'Codigo'},
       {field: 'teacherHour', header: 'Horas profesor'},
       {field: 'practicalHour', header: 'Horas practicas'},

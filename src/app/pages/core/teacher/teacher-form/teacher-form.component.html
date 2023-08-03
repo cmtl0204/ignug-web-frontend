@@ -18,7 +18,9 @@
         <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="identification" label="Identificación:" [required]="identificationField"></label>
           <input pInputText type="number" id="identification" formControlName="identification" />
-          <small appErrorMessage [errors]="identificationField.errors" [touched]="identificationField.touched"
+          <small appErrorMessage 
+            [errors]="identificationField.errors" 
+            [touched]="identificationField.touched"
             [dirty]="identificationField.dirty">
           </small>
         </div>
@@ -269,8 +271,12 @@
         </div>
 
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <button pButton pRipple type="submit" label="Guardar" [icon]="PrimeIcons.SAVE"
-            [loading]="coreService.isLoading"></button>
+          <button 
+          pButton pRipple 
+          type="submit" 
+          label="Guardar" 
+          [icon]="PrimeIcons.SAVE"
+          [loading]="coreService.isLoading"></button>
         </div>
       </div>
 
