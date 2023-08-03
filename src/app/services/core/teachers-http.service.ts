@@ -62,7 +62,7 @@ export class TeachersHttpService {
     this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.isProcessing = true;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })

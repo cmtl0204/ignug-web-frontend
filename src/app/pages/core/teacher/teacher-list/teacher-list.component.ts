@@ -31,7 +31,7 @@ export class TeacherListComponent implements OnInit {
     private router: Router,
   ) {
     this.breadcrumbService.setItems([
-      {label: 'Profesores'},
+      {label: 'Docentes'},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -57,7 +57,7 @@ export class TeacherListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'name', header: 'Nombre'},
+      {field: 'user', header: 'Nombre'},
       {field: 'code', header: 'Codigo'},
       {field: 'teacherHour', header: 'Horas profesor'},
       {field: 'practicalHour', header: 'Horas practicas'},
