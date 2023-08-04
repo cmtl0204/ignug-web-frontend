@@ -17,7 +17,13 @@
       <div class="formgrid grid">
         <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="identification" label="Identificación:" [required]="identificationField"></label>
-          <input pInputText type="number" id="identification" formControlName="identification"/>
+          <p-inputNumber  type="number" 
+                          id="identification" 
+                          formControlName="identification"
+                          mode="decimal"
+                          [useGrouping]="false"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="identificationField.errors"
                  [touched]="identificationField.touched"
@@ -91,7 +97,7 @@
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="phone" label="Número Celular:" [required]="phoneField"></label>
-          <input pInputText type="number" id="phone" formControlName="phone"/>
+          <input pInputText type="text" id="phone" formControlName="phone"/>
           <small appErrorMessage
                  [errors]="phoneField.errors"
                  [touched]="phoneField.touched"
@@ -222,7 +228,14 @@
         <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
           <label appLabel for="membersHouseNumber" label="Numero de familiares con quien vive el estudiante:"
                  [required]="membersHouseNumberField"></label>
-          <input pInputText type="number" id="membersHouseNumber" formControlName="membersHouseNumber"/>
+          <p-inputNumber  type="number" 
+                          id="membersHouseNumber" 
+                          formControlName="membersHouseNumber"
+                          mode="decimal"
+                          [useGrouping]="false"
+                          [showButtons]="true"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="membersHouseNumberField.errors"
                  [touched]="membersHouseNumberField.touched"
@@ -320,7 +333,12 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="disabilityPercentage" label="Porcentaje de Discapacidad:"
                  [required]="disabilityPercentageField"></label>
-          <input pInputText type="number" id="disabilityPercentage" formControlName="disabilityPercentage"/>
+          <p-inputNumber  type="number" 
+                          id="disabilityPercentage" 
+                          formControlName="disabilityPercentage"
+                          prefix="%"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="disabilityPercentageField.errors"
                  [touched]="disabilityPercentageField.touched"
@@ -367,7 +385,14 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="familyIncome" label="Ingresos Familiares:" [required]="familyIncomeField"></label>
-          <input pInputText type="number" id="familyIncome" formControlName="familyIncome"/>
+          <p-inputNumber  type="number" 
+                          id="familyIncome" 
+                          formControlName="familyIncome"
+                          [showButtons]="true"
+                          mode="currency" 
+                          currency="USD"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="familyIncomeField.errors"
                  [touched]="familyIncomeField.touched"
@@ -377,7 +402,14 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="educationalAmount" label="Monto de crédito del estudiante:"
                  [required]="educationalAmountField"></label>
-          <input pInputText type="number" id="educationalAmount" formControlName="educationalAmount"/>
+          <p-inputNumber  type="number" 
+                          id="educationalAmount" 
+                          formControlName="educationalAmount"
+                          [showButtons]="true"
+                          mode="currency" 
+                          currency="USD"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="educationalAmountField.errors"
                  [touched]="educationalAmountField.touched"
@@ -399,7 +431,13 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="economicAmount" label="Monto de ayuda económia:"
                  [required]="economicAmountField"></label>
-          <input pInputText type="number" id="economicAmount" formControlName="economicAmount"/>
+          <p-inputNumber  type="number" 
+                          id="economicAmount" 
+                          formControlName="economicAmount"
+                          [showButtons]="true"
+                          mode="currency" 
+                          currency="USD">
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="economicAmountField.errors"
                  [touched]="economicAmountField.touched"
@@ -410,7 +448,13 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="scholarshipAmount" label="Monto de la beca:" [required]="scholarshipAmountField"></label>
-          <input pInputText type="number" id="scholarshipAmount" formControlName="scholarshipAmount"/>
+          <p-inputNumber  type="number" 
+                          id="scholarshipAmount" 
+                          formControlName="scholarshipAmount"
+                          [showButtons]="true"
+                          mode="currency" 
+                          currency="USD">>
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="scholarshipAmountField.errors"
                  [touched]="scholarshipAmountField.touched"
@@ -420,8 +464,12 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="tariffScholarshipPercentage" label="El porcentaje de beca que cubre la institutcion:"
                  [required]="tariffScholarshipPercentageField"></label>
-          <input pInputText type="number" id="tariffScholarshipPercentage"
-                 formControlName="tariffScholarshipPercentage"/>
+          <p-inputNumber  type="number" 
+                          id="tariffScholarshipPercentage"
+                          formControlName="tariffScholarshipPercentage"
+                          prefix="%"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="tariffScholarshipPercentageField.errors"
                  [touched]="tariffScholarshipPercentageField.touched"
@@ -460,7 +508,13 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="practiceHours" label="Horas realizadas en Practicas Preprofesionales:"
                  [required]="practiceHoursField"></label>
-          <input pInputText type="number" id="practiceHours" formControlName="practiceHours"/>
+          <p-inputNumber  type="number" 
+                          id="practiceHours" 
+                          formControlName="practiceHours"
+                          mode="decimal"
+                          [useGrouping]="false"
+                          >
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="practiceHoursField.errors"
                  [touched]="practiceHoursField.touched"
@@ -496,7 +550,12 @@
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="community" label="Horas realizadas en integracion con la sociedad:" [required]="communityField"></label>
-          <input pInputText type="number" id="community" formControlName="community"/>
+          <p-inputNumber  type="number" 
+                          id="community" 
+                          formControlName="community"
+                          mode="decimal"
+                          [useGrouping]="false">
+          </p-inputNumber>
           <small appErrorMessage
                  [errors]="communityField.errors"
                  [touched]="communityField.touched"
