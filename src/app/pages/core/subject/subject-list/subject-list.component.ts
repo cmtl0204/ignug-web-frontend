@@ -15,11 +15,11 @@ import {
   RoutesService,
   SubjectsHttpService,
 } from '@services/core';
-import { CurriculumsService } from '@services/core/curriculums.service';
+import {CurriculumsService} from '@services/core';
 import {BreadcrumbEnum, ActionButtonsEnum} from "@shared/enums";
 
 @Component({
-  selector: 'app-event-list',
+  selector: 'app-subject-list',
   templateUrl: './subject-list.component.html',
   styleUrls: ['./subject-list.component.scss'],
 
@@ -47,9 +47,9 @@ export class SubjectListComponent implements OnInit {
     protected curriculumService: CurriculumsService,
   ) {
     this.breadcrumbService.setItems([
-      { label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions] },
-      { label: BreadcrumbEnum.CAREERS, routerLink: [this.routesService.careers] },
-      { label: BreadcrumbEnum.CURRICULUMS, routerLink: [this.routesService.curriculums] },
+      {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
+      {label: BreadcrumbEnum.CAREERS, routerLink: [this.routesService.careers]},
+      {label: BreadcrumbEnum.CURRICULUMS, routerLink: [this.routesService.curriculums]},
       {label: BreadcrumbEnum.SUBJECTS},
     ]);
 
@@ -143,15 +143,15 @@ export class SubjectListComponent implements OnInit {
         },
       });
 
-      this.actionButtons.push(
-        {
-          id: ActionButtonsEnum.FILE_LIST,
-          label: 'Archivos',
-          icon: PrimeIcons.FILE,
-          command: () => {
-            if (this.selectedItem?.id) this.isFileList = true;
-          },
-        });
+    this.actionButtons.push(
+      {
+        id: ActionButtonsEnum.FILE_LIST,
+        label: 'Archivos',
+        icon: PrimeIcons.FILE,
+        command: () => {
+          if (this.selectedItem?.id) this.isFileList = true;
+        },
+      });
 
     if (this.selectedItem.isVisible) {
       const index = this.actionButtons.findIndex(actionButton => {
@@ -161,6 +161,7 @@ export class SubjectListComponent implements OnInit {
       this.actionButtons.splice(index, 1);
     }
 
+    /** Action Buttons Validations **/
     if (!this.selectedItem.isVisible) {
       const index = this.actionButtons.findIndex(actionButton => {
         return actionButton.id === ActionButtonsEnum.HIDE;
@@ -168,7 +169,7 @@ export class SubjectListComponent implements OnInit {
 
       this.actionButtons.splice(index, 1);
     }
-}
+  }
 
   /** Actions **/
   remove(id: string) {
