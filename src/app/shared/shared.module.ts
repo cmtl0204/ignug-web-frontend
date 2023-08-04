@@ -37,6 +37,7 @@ import {ConfirmPopupModule} from "primeng/confirmpopup";
 import {ConfirmationService} from "primeng/api";
 import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
 import {ImageUploadComponent} from "@shared/components/image-upload/image-upload.component";
+import {HeaderFormComponent} from './components/header-form/header-form.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import {ImageUploadComponent} from "@shared/components/image-upload/image-upload
     FileListComponent,
     FileUploadComponent,
     ImageUploadComponent,
+    HeaderFormComponent,
   ],
   exports: [
     SkeletonComponent,
@@ -78,6 +80,7 @@ import {ImageUploadComponent} from "@shared/components/image-upload/image-upload
     FileListComponent,
     FileUploadComponent,
     ImageUploadComponent,
+    HeaderFormComponent,
   ],
   imports: [
     CommonModule,

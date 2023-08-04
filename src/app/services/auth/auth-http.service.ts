@@ -74,6 +74,7 @@ export class AuthHttpService {
 
   signOut(): void {
     this.authService.removeLogin();
+    this.messageService.successCustom('Cerrar Sesión', 'Se cerró correctamente');
     this.router.navigate(['/login']);
     /*
     const url = `${this.API_URL}/logout`;
