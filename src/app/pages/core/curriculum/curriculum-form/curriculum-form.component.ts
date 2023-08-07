@@ -76,7 +76,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
       career: [this.careersService.career, [Validators.required]],
       state: [null, [Validators.required]],
       isVisible: [true, [Validators.required]],
-      code: [null, [Validators.required]],
+      code: [null, [Validators.required, Validators.minLength(3)]],
       name: [null, [Validators.required]],
       description: [null, [Validators.required, Validators.minLength(10)]],
       resolutionNumber: [null, [Validators.required]],

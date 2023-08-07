@@ -82,7 +82,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="bloodType" label="Blood Type:" [required]="bloodTypeField"></label>
+          <label appLabel for="bloodType" label="Tipo de sangre:" [required]="bloodTypeField"></label>
           <p-dropdown id="bloodType" formControlName="bloodType" dataKey="id" [options]="bloodTypes" optionLabel="name"
             [filter]="true" filterBy="name" placeholder="Select">
             <ng-template pTemplate="selectedItem">
@@ -101,7 +101,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="ethnicOrigin" label="Ethnic Origin:" [required]="ethnicOriginField"></label>
+          <label appLabel for="ethnicOrigin" label="Etnia:" [required]="ethnicOriginField"></label>
           <p-dropdown id="ethnicOrigin" formControlName="ethnicOrigin" dataKey="id" [options]="ethnicOrigins"
             optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
             <ng-template pTemplate="selectedItem">
@@ -126,7 +126,7 @@
     <div formGroupName="informationTeacher">
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="academicUnit" label="Unidad Académica:" [required]="academicUnitField"></label>
+          <label appLabel for="academicUnit" label="Nombre de la unidad académica:" [required]="academicUnitField"></label>
           <input pInputText type="text" id="academicUnit" formControlName="academicUnit" />
           <small appErrorMessage [errors]="academicUnitField.errors" [touched]="academicUnitField.touched"
             [dirty]="academicUnitField.dirty">
@@ -143,7 +143,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="classHours" label="Horas de clase:" [required]="classHoursField"></label>
+          <label appLabel for="classHours" label="Horas de clases:" [required]="classHoursField"></label>
           <input pInputText type="number" id="classHours" formControlName="classHours"/>
           <small appErrorMessage [errors]="classHoursField.errors" [touched]="classHoursField.touched"
             [dirty]="classHoursField.dirty">
@@ -159,7 +159,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="degreeHigherEducation" label="Nota mas alta:"
+          <label appLabel for="degreeHigherEducation" label="Grado de educación superior:"
             [required]="degreeHigherEducationField"></label>
           <input pInputText type="text" id="degreeHigherEducation" formControlName="degreeHigherEducation" />
           <small appErrorMessage [errors]="degreeHigherEducationField.errors"
@@ -177,14 +177,24 @@
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="holidays" label="Feriado:" [required]="holidaysField"></label>
-          <input pInputText type="text" id="holidays" formControlName="holidays" />
+          <p-calendar id="holidays"
+                    formControlName="holidays"
+                    dateFormat="yy-mm-dd"
+                    [showButtonBar]="true"
+                    [firstDayOfWeek]="1">
+        </p-calendar>
           <small appErrorMessage [errors]="holidaysField.errors" [touched]="holidaysField.touched"
             [dirty]="holidaysField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="homeVacation" label="Vacaciones:" [required]="homeVacationField"></label>
-          <input pInputText type="text" id="homeVacation" formControlName="homeVacation" />
+          <p-calendar id="homeVacation"
+                    formControlName="homeVacation"
+                    dateFormat="yy-mm-dd"
+                    [showButtonBar]="true"
+                    [firstDayOfWeek]="1">
+        </p-calendar>
           <small appErrorMessage [errors]="homeVacationField.errors" [touched]="homeVacationField.touched"
             [dirty]="homeVacationField.dirty">
           </small>
@@ -192,7 +202,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="institutionHigherEducation" label="Nota institucional mas alta:"
+          <label appLabel for="institutionHigherEducation" label="Nombre de la institución de eduación superior:"
             [required]="institutionHigherEducationField"></label>
           <input pInputText type="text" id="institutionHigherEducation" formControlName="institutionHigherEducation" />
           <small appErrorMessage [errors]="institutionHigherEducationField.errors"
@@ -210,7 +220,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="otherHours" label="Otras horas:" [required]="otherHoursField"></label>
+          <label appLabel for="otherHours" label="Horas dedicadas a otras actividades:" [required]="otherHoursField"></label>
           <input pInputText type="number" id="otherHours" formControlName="otherHours"/>
           <small appErrorMessage [errors]="otherHoursField.errors" [touched]="otherHoursField.touched"
             [dirty]="otherHoursField.dirty">
@@ -243,14 +253,14 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="technical" label="Tecnica a utilizar:" [required]="technicalField"></label>
+          <label appLabel for="technical" label="Técnica a utilizar:" [required]="technicalField"></label>
           <input pInputText type="text" id="technical" formControlName="technical" />
           <small appErrorMessage [errors]="technicalField.errors" [touched]="technicalField.touched"
             [dirty]="technicalField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="technology" label="Tecnologia:" [required]="technologyField"></label>
+          <label appLabel for="technology" label="Tecnología:" [required]="technologyField"></label>
           <input pInputText type="text" id="technology" formControlName="technology" />
           <small appErrorMessage [errors]="technologyField.errors" [touched]="technologyField.touched"
             [dirty]="technologyField.dirty">
