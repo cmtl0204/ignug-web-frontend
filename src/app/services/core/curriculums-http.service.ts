@@ -70,7 +70,7 @@ export class CurriculumsHttpService {
   reactivate(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -105,9 +105,9 @@ export class CurriculumsHttpService {
   }
 
   hide(id: string): Observable<CurriculumModel> {
-    const url = `${this.API_URL}/${id}/suspend`;
+    const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;

@@ -2,10 +2,7 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
-    <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
-    <h2 class="panel-header">{{panelHeader}}</h2>
-    <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
+    <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>
   </ng-template>
 
   <p-divider></p-divider>
@@ -16,35 +13,35 @@
       <h3 id="institution">{{institutionField.value?.name}}</h3>
     </div>
     <div class="formgrid grid">
-   <!-- state & isVisible -->
-    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="state" label="Estado:" [required]="stateField"></label>
-      <p-dropdown id="state"
-                  dataKey="id"
-                  formControlName="state"
-                  [options]="states"
-                  optionLabel="name"
-                  placeholder="Seleccione...">
-      </p-dropdown>
-      <small appErrorMessage
-             [errors]="stateField.errors"
-             [touched]="stateField.touched"
-             [dirty]="stateField.dirty">
-      </small>
+      <!-- state & isVisible -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="state" label="Estado:" [required]="stateField"></label>
+        <p-dropdown id="state"
+                    dataKey="id"
+                    formControlName="state"
+                    [options]="states"
+                    optionLabel="name"
+                    placeholder="Seleccione...">
+        </p-dropdown>
+        <small appErrorMessage
+               [errors]="stateField.errors"
+               [touched]="stateField.touched"
+               [dirty]="stateField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
+        <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
+        <small appErrorMessage
+               [errors]="isVisibleField.errors"
+               [touched]="isVisibleField.touched"
+               [dirty]="isVisibleField.dirty">
+        </small>
+      </div>
     </div>
 
-    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
-      <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
-      <small appErrorMessage
-             [errors]="isVisibleField.errors"
-             [touched]="isVisibleField.touched"
-             [dirty]="isVisibleField.dirty">
-      </small>
-    </div>
-  </div>
-
-<!-- code & codeSniese  -->
+    <!-- code & codeSniese  -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="code" label="Código:" [required]="codeField"></label>
@@ -89,7 +86,7 @@
         </small>
       </div>
     </div>
-<!-- degree & logo  -->
+    <!-- degree & logo  -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="degree" label="Grado:" [required]="degreeField"></label>

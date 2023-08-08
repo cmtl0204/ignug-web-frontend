@@ -11,6 +11,7 @@ import {MessageModule} from "primeng/message";
 import {ToolbarModule} from "primeng/toolbar";
 import {PaginatorModule} from "primeng/paginator";
 import {TableModule} from "primeng/table";
+import {TabViewModule} from 'primeng/tabview';
 import {TagModule} from "primeng/tag";
 import {SplitButtonModule} from "primeng/splitbutton";
 import {InputTextModule} from "primeng/inputtext";
@@ -40,6 +41,7 @@ import {DividerModule} from "primeng/divider";
     ToolbarModule,
     PaginatorModule,
     TableModule,
+    TabViewModule,
     TagModule,
     SplitButtonModule,
     InputTextModule,

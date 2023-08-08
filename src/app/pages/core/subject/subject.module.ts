@@ -28,6 +28,8 @@ import {SharedModule} from "@shared/shared.module";
 import {CalendarModule} from "primeng/calendar";
 import { SubjectListComponent } from './subject-list/subject-list.component';
 import { SubjectFormComponent } from './subject-form/subject-form.component';
+import { FileUploadModule } from 'primeng/fileupload';
+import { DialogModule } from 'primeng/dialog';
 
 
 @NgModule({
@@ -58,7 +60,9 @@ import { SubjectFormComponent } from './subject-form/subject-form.component';
     PanelModule,
     PasswordModule,
     SharedModule,
-    CalendarModule
+    CalendarModule,
+    FileUploadModule,
+    DialogModule
   ]
 })
 export class SubjectModule {

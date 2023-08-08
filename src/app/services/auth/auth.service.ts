@@ -80,6 +80,10 @@ export class AuthService {
     return environment.APP_NAME;
   }
 
+  get systemShortName(): string | null {
+    return environment.APP_SHORT_NAME;
+  }
+
   removeLogin() {
     localStorage.clear();
     sessionStorage.clear();

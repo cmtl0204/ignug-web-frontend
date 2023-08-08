@@ -71,7 +71,9 @@
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'state'">
-            <p-tag severity="info" [value]="rowData[col.field].code" class="mr-1"></p-tag>
+            <p-tag [severity]="rowData[col.field].code" [value]="rowData[col.field].name"
+                   class="mr-1"></p-tag>
+
           </div>
         </div>
 

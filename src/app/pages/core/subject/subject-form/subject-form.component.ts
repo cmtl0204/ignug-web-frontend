@@ -13,21 +13,23 @@ import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
+  FilesHttpService,
   MessageService,
   RoutesService,
   SubjectsHttpService,
 } from '@services/core';
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
-import {CurriculumsService} from '@services/core/curriculums.service';
+import {CurriculumsService} from '@services/core';
 
 
 @Component({
-  selector: 'app-event-form',
+  selector: 'app-subject-form',
   templateUrl: './subject-form.component.html',
   styleUrls: ['./subject-form.component.scss'],
 })
 export class SubjectFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
   protected panelHeader: string = 'Crear';
@@ -76,8 +78,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-    this.loadStates();
     this.loadAcademicPeriods();
+    this.loadStates();
     this.loadTypes();
 
     if (this.id) {
@@ -141,16 +143,16 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     });
   }
 
-  loadStates(): void {
-    this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.SUBJECTS_STATE)
-      .subscribe((items) => (this.states = items));
-  }
-
   loadAcademicPeriods(): void {
     this.cataloguesHttpService
       .catalogue(CatalogueCoreTypeEnum.ACADEMIC_PERIOD)
       .subscribe((items) => (this.academicPeriods = items));
+  }
+
+  loadStates(): void {
+    this.cataloguesHttpService
+      .catalogue(CatalogueCoreTypeEnum.SUBJECTS_STATE)
+      .subscribe((items) => (this.states = items));
   }
 
   loadTypes(): void {
@@ -208,6 +210,4 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get curriculumField(): AbstractControl {
     return this.form.controls['curriculum'];
   }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
 }

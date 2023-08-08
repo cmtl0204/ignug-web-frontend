@@ -70,7 +70,7 @@ export class CareersHttpService {
   reactivate(id: string): Observable<CareerModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -104,28 +104,6 @@ export class CareersHttpService {
 
   hide(id: string): Observable<CareerModel> {
     const url = `${this.API_URL}/${id}/hide`;
-
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-
-  open(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/open`;
-
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-
-  close(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/close`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
