@@ -1,9 +1,9 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
-import {PrimeIcons} from "primeng/api";
-import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, StudentModel} from "@models/core";
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ActivatedRoute, Router } from "@angular/router";
+import { PrimeIcons, MenuItem } from "primeng/api";
+import { OnExitInterface } from "@shared/interfaces";
+import { CatalogueModel, StudentModel } from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -12,7 +12,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import { BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum } from '@shared/enums';
 
 @Component({
   selector: 'app-student-form',
@@ -48,8 +48,8 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     private studentsHttpService: StudentsHttpService
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.students]},
-      {label: BreadcrumbEnum.FORM},
+      { label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.students] },
+      { label: BreadcrumbEnum.FORM },
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -101,7 +101,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
       personalEmail: [null, [Validators.email, Validators.required]],
       phone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
       name: [null, [Validators.required]],
-      username: [null,[Validators.required]],
+      username: [null, [Validators.required]],
       bloodType: [null, [Validators.required]],
       ethnicOrigin: [null, [Validators.required]],
       gender: [null, [Validators.required]],
