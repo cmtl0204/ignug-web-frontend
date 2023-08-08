@@ -1,9 +1,10 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {MenuItem, PrimeIcons} from 'primeng/api';
+import {MegaMenuItem, MenuItem, PrimeIcons} from 'primeng/api';
 import {BreadcrumbService, CoreService, RoutesService} from '@services/core';
-import {AuthService} from "@services/auth";
+import {AuthHttpService, AuthService} from "@services/auth";
 import {Router} from "@angular/router";
+import {environment} from "@env/environment.prod";
 
 @Component({
   selector: 'app-breadcrumb',
@@ -13,12 +14,14 @@ import {Router} from "@angular/router";
 })
 export class BreadcrumbComponent {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly HOST_URL: string = environment.HOST_URL;
   protected subscription: Subscription;
   protected items: MenuItem[] = [];
   protected home: MenuItem;
 
   constructor(public breadcrumbService: BreadcrumbService,
               public coreService: CoreService,
+              private authHttpService: AuthHttpService,
               protected authService: AuthService,
               private routesService: RoutesService) {
     this.subscription = breadcrumbService.itemsHandler.subscribe(response => {
@@ -28,7 +31,12 @@ export class BreadcrumbComponent {
     this.home = {icon: PrimeIcons.HOME, routerLink: `/core/dashboards/${authService.role?.code}`};
   }
 
+
   redirectProfile() {
     this.routesService.profile();
+  }
+
+  signOut() {
+    this.authHttpService.signOut();
   }
 }

@@ -7,6 +7,7 @@ import {MessageService as MessageServicePn} from 'primeng/api';
 import {EventModel, FileModel} from "@models/core";
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
+import {CoreMessageEnum} from "@shared/enums";
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +53,7 @@ export class FilesHttpService {
         this.coreService.isProcessing = false;
         this.messageServicePn.clear();
         this.messageServicePn.add({
-          key: 'app',
+          key: CoreMessageEnum.APP_TOAST,
           severity: 'info',
           summary: response.title,
           detail: response.message
@@ -71,7 +72,7 @@ export class FilesHttpService {
         this.coreService.isProcessing = false;
         this.messageServicePn.clear();
         this.messageServicePn.add({
-          key: 'app',
+          key: CoreMessageEnum.APP_TOAST,
           severity: 'info',
           summary: response.title,
           detail: response.message
@@ -112,7 +113,7 @@ export class FilesHttpService {
       map((response) => {
         this.messageServicePn.clear();
         this.messageServicePn.add({
-          key: 'app',
+          key: CoreMessageEnum.APP_TOAST,
           severity: 'info',
           summary: response.title,
           detail: response.message

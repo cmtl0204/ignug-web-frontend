@@ -4,5 +4,6 @@ export * from './roles.enum';
 export * from './action-buttons.enum';
 export * from './breadcrumb.enum';
 export * from './skeleton.enum';
+export * from './core.enum';
 
 // export * from './routes.enum';

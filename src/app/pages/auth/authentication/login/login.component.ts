@@ -49,47 +49,44 @@ export class LoginComponent implements OnInit {
     this.authHttpService.login(this.form.value)
       .subscribe(
         response => {
+          if (this.authService.roles.length === 0) {
+            this.messageService.errorCustom('Sin Rol', 'No cuenta con un rol asignado');
+            this.authService.removeLogin();
+            return;
+          }
+
           if (this.authService.roles.length === 1) {
             this.authService.role = this.authService.roles[0];
 
-            this.messageService.successCustom('Bienvenido', 'Ingreso Correcto');
-            switch (this.authService.roles[0].code) {
-              case RolesEnum.ADMIN: {
-                this.routesService.dashboardAdmin();
-                break;
-              }
-              case RolesEnum.RECTOR: {
-                this.routesService.dashboardRector();
-                break;
-              }
-              case RolesEnum.TEACHER: {
-                this.routesService.dashboardTeacher();
-                break;
-              }
-              case RolesEnum.STUDENT: {
-                this.routesService.dashboardStudent();
-                break;
-              }
-              case RolesEnum.COORDINATOR_ADMINISTRATIVE: {
-                this.routesService.dashboardCoordinatorAdministrative();
-                break;
-              }
-              case RolesEnum.COORDINATOR_CAREER: {
-                this.routesService.dashboardCoordinatorCareer();
-                break;
-              }
+            if (this.authService.institutions.length === 0 && this.authService.role.code !== RolesEnum.ADMIN) {
+              this.messageService.errorCustom('Sin Institución', 'No cuenta con al menos una Institución asignada');
+              this.authService.removeLogin();
+              return;
+            }
+
+            if (this.authService.role.code === RolesEnum.ADMIN) {
+              this.authService.selectDashboard();
+              return;
+            }
+
+            if (this.authService.institutions.length === 1) {
+              this.authService.institution = this.authService.institutions[0];
+              this.authService.selectDashboard();
+            } else {
+              this.routesService.institutionSelect();
             }
           } else {
             this.routesService.roleSelect();
           }
-
         });
   }
 
+  /** Redirects **/
   redirectPasswordReset() {
     this.routesService.passwordReset();
   }
 
+  /** Getters **/
   get usernameField(): AbstractControl {
     return this.form.controls['username'];
   }

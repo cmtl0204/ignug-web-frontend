@@ -4,7 +4,7 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpInterceptorProviders} from './interceptors';
 import {HttpClientModule} from '@angular/common/http';
-import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+
 import {
   FooterComponent,
   TopbarComponent,
@@ -23,6 +23,14 @@ import {ProgressBarModule} from "primeng/progressbar";
 import {DividerModule} from "primeng/divider";
 import {ToastModule} from "primeng/toast";
 import {MessageService} from "primeng/api";
+import {ConfirmDialogModule} from "primeng/confirmdialog";
+import {ConfirmPopupModule} from "primeng/confirmpopup";
+import {MegaMenuModule} from "primeng/megamenu";
+import {DropdownModule} from "primeng/dropdown";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {RippleModule} from "primeng/ripple";
+import {AvatarModule} from "primeng/avatar";
+import {FileUploadModule} from "primeng/fileupload";
 
 @NgModule({
   declarations: [
@@ -47,6 +55,14 @@ import {MessageService} from "primeng/api";
     ProgressBarModule,
     DividerModule,
     ToastModule,
+    ConfirmDialogModule,
+    ConfirmPopupModule,
+    MegaMenuModule,
+    DropdownModule,
+    OverlayPanelModule,
+    RippleModule,
+    AvatarModule,
+    FileUploadModule,
   ],
   providers: [
     // {

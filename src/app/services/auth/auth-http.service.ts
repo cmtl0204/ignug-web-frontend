@@ -67,6 +67,7 @@ export class AuthHttpService {
           this.authService.token = response.data.accessToken;
           this.authService.auth = response.data.user;
           this.authService.roles = response.data.user.roles;
+          this.authService.institutions = response.data.user.institutions;
           return response;
         })
       );
@@ -168,21 +169,6 @@ export class AuthHttpService {
       );
   }
 
-  getRoles(): Observable<RoleModel[]> {
-    const url = `${this.API_URL}/roles`;
-
-
-    return this.httpClient.get<ServerResponse>(url).pipe(
-      map(response => {
-
-        const roles = response.data as string[];
-        return roles.map(role => {
-          return {code: role, name: this.rolePipe.transform(role)};
-        });
-      })
-    );
-  }
-
   getProfile(): Observable<UserModel> {
     const url = `${this.API_URL}/profile`;
 
@@ -232,7 +218,7 @@ export class AuthHttpService {
     );
   }
 
-  uploadAvatar(id: string, payload: FormData): Observable<EventModel> {
+  uploadAvatar(id: string, payload: FormData): Observable<UserModel> {
     const url = `${this.API_URL}/${id}/avatar`;
 
     this.coreService.isProcessing = true;

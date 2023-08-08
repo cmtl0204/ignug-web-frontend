@@ -38,6 +38,7 @@ import {ConfirmationService} from "primeng/api";
 import {SizesPipe} from "@shared/pipes/common/sizes.pipe";
 import {ImageUploadComponent} from "@shared/components/image-upload/image-upload.component";
 import {HeaderFormComponent} from './components/header-form/header-form.component';
+import {ConfirmDialogModule} from "primeng/confirmdialog";
 
 @NgModule({
   declarations: [
@@ -105,6 +106,7 @@ import {HeaderFormComponent} from './components/header-form/header-form.componen
     SidebarModule,
     SpeedDialModule,
     ConfirmPopupModule,
+    ConfirmDialogModule,
   ],
   providers: [ConfirmationService]
 })

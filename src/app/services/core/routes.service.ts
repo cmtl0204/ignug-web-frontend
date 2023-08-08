@@ -73,6 +73,9 @@ export class RoutesService {
     this.router.navigateByUrl(`/login`);
   }
 
+  institutionSelect() {
+    this.router.navigateByUrl(`/auth/authentication/institution-select`);
+  }
   roleSelect() {
     this.router.navigateByUrl(`/auth/authentication/role-select`);
   }

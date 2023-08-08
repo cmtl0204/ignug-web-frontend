@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ValidationErrors} from '@angular/forms';
-import Swal from 'sweetalert2'
+import {default as Swal} from 'sweetalert2';
 import {PaginatorModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 
@@ -51,6 +51,14 @@ export class MessageService {
       title,
       text,
       icon: 'info'
+    });
+  }
+
+  errorCustom(title: string, text: string) {
+    return Swal.fire({
+      title,
+      text,
+      icon: 'error'
     });
   }
 

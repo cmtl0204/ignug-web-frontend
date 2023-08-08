@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {LoginComponent} from "./login/login.component";
 import {PasswordResetComponent} from "./password-reset/password-reset.component";
 import {RoleSelectComponent} from "./role-select/role-select.component";
+import {InstitutionSelectComponent} from "./institution-select/institution-select.component";
 
 const routes: Routes = [
   {
@@ -16,6 +17,10 @@ const routes: Routes = [
   {
     path: 'role-select',
     component: RoleSelectComponent
+  },
+  {
+    path: 'institution-select',
+    component: InstitutionSelectComponent
   }
 ];
 

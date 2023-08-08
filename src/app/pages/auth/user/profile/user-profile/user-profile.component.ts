@@ -69,7 +69,6 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      id: [null],
       avatar: [null],
       birthdate: [null, [DateValidators.max(new Date())]],
       bloodType: [null, []],
@@ -99,6 +98,8 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   getProfile(): void {
     this.authHttpService.getProfile().subscribe((user) => {
         this.form.patchValue(user);
+      if (this.birthdateField.value)
+        this.birthdateField.setValue(new Date(this.birthdateField.value));
       }
     );
   }
@@ -131,23 +132,18 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
 
   updateProfile(user: UpdateUserDto): void {
     this.authHttpService.updateProfile(user).subscribe((user) => {
-      this.form.reset(user);
-      if (this.birthdateField.value)
-        this.birthdateField.setValue(new Date(this.birthdateField.value));
+      this.getProfile();
     });
   }
 
   uploadAvatar(event: any, uploadFiles: any) {
     const formData = new FormData();
     formData.append('avatar', event.files[0]);
-    this.authHttpService.uploadAvatar(this.idField.value, formData).subscribe(response => {
+    this.authHttpService.uploadAvatar(this.authService.auth.id, formData).subscribe(response => {
       uploadFiles.clear();
+      this, this.authService.avatar = response.avatar;
       this.getProfile();
     }, error => uploadFiles.clear());
-  }
-
-  get idField(): AbstractControl {
-    return this.form.controls['id'];
   }
 
   get avatarField(): AbstractControl {

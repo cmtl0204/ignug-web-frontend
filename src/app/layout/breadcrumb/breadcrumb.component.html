@@ -1,16 +1,52 @@
-<div class="grid">
-  <div class="xl:col-7 lg:col-7 md:col-12 sm:col-6">
-    <p-breadcrumb *ngIf="items?.length" [model]="items" [home]="home"></p-breadcrumb>
-  </div>
-  <div class="xl:col-5 lg:col-5 md:col-12 sm:col-6 text-right">
-    <div class="panel-profile">
-      <button *ngIf="authService.auth" pButton class="p-button-text" (click)="redirectProfile()">
-        Usuario: <b class="ml-1">{{authService.auth.identification}}</b>
-      </button>
-      <button *ngIf="authService.role"  pButton class="p-button-text" (click)="redirectProfile()">
-        Rol: <b class="ml-1">{{authService.role.name}}</b>
-      </button>
+<div class="p-fluid">
+  <div class="grid">
+    <div class="field xl:col-9 lg:col-9 md:col-12 sm:col-6">
+      <p-breadcrumb *ngIf="items?.length" [model]="items" [home]="home"></p-breadcrumb>
+    </div>
+    <div *ngIf="authService.auth" class="field xl:col-3 lg:col-3 md:col-12 sm:col-12 mt-1">
+      <div class="formgrid">
+        <p-overlayPanel #op>
+          <div class="text-center">
+            <p-avatar [image]="HOST_URL+authService.auth.avatar" styleClass="mr-2" size="xlarge"
+                      shape="circle"></p-avatar>
+          </div>
+          <div class="field">
+            <button pButton pRipple type="button"
+                    class="p-button-text"
+                    [icon]="PrimeIcons.USER"
+                    pTooltip="Usuario"
+                    [label]="authService.auth.name + ' ' + authService.auth.lastname"
+                    (click)="redirectProfile()"></button>
+            <p-divider></p-divider>
+            <button pButton pRipple type="button"
+                    class="p-button-text"
+                    [icon]="PrimeIcons.ID_CARD"
+                    pTooltip="Rol"
+                    [label]="authService.role.name"
+                    (click)="redirectProfile()"></button>
+            <br>
+            <button *ngIf="authService.institution" pButton pRipple type="button"
+                    class="p-button-text"
+                    [icon]="PrimeIcons.BUILDING"
+                    pTooltip="Institución"
+                    [label]="authService.institution.name"
+                    (click)="redirectProfile()"></button>
+            <p-divider></p-divider>
+            <button pButton pRipple type="button"
+                    class="p-button-danger p-button-text"
+                    [icon]="PrimeIcons.SIGN_OUT"
+                    label="Cerrar Sesión"
+                    (click)="signOut()"></button>
+          </div>
+        </p-overlayPanel>
+      </div>
+      <button pButton pRipple type="button" (click)="op.toggle($event)"
+              class="p-button-outlined"
+              [icon]="PrimeIcons.INFO_CIRCLE"
+              [label]="authService.auth.identification"></button>
     </div>
   </div>
 </div>
+
 <app-progress-bar *ngIf="coreService.isLoading"></app-progress-bar>
+

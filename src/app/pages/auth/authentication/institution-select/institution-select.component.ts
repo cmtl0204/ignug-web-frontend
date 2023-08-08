@@ -5,16 +5,17 @@ import {RolesEnum} from "@shared/enums";
 import {RoleModel} from "@models/auth";
 import {AuthService} from '@services/auth';
 import {CoreService, MessageService, RoutesService} from '@services/core';
+import {InstitutionModel} from "@models/core";
 
 @Component({
-  selector: 'app-role-select',
-  templateUrl: './role-select.component.html',
-  styleUrls: ['./role-select.component.scss']
+  selector: 'app-institution-select',
+  templateUrl: './institution-select.component.html',
+  styleUrls: ['./institution-select.component.scss']
 })
-export class RoleSelectComponent implements OnInit {
+export class InstitutionSelectComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected form: FormGroup;
-  protected roles: RoleModel[] = [];
+  protected institutions: InstitutionModel[] = [];
 
   constructor(
     protected coreService: CoreService,
@@ -26,38 +27,27 @@ export class RoleSelectComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.roles = this.authService.roles;
+    this.institutions = this.authService.institutions;
   }
 
   newForm(): FormGroup {
-    return this.formBuilder.group({role: [null, [Validators.required]]});
+    return this.formBuilder.group({institution: [null, [Validators.required]]});
   }
 
   onSubmit() {
     if (this.form.valid) {
-      this.selectRole();
+      this.selectInstitution();
     } else {
       this.form.markAllAsTouched();
     }
   }
 
-  selectRole() {
-    this.authService.role = this.roleField.value;
-
-    if (this.authService.role.code === RolesEnum.ADMIN) {
-      this.authService.selectDashboard();
-      return;
-    }
-
-    if (this.authService.institutions.length === 1) {
-      this.authService.institution = this.authService.institutions[0];
-      this.authService.selectDashboard();
-    } else {
-      this.routesService.institutionSelect();
-    }
+  selectInstitution() {
+    this.authService.institution = this.institutionField.value;
+    this.authService.selectDashboard();
   }
 
-  get roleField() {
-    return this.form.controls['role'];
+  get institutionField() {
+    return this.form.controls['institution'];
   }
 }

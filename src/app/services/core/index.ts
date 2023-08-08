@@ -18,4 +18,5 @@ export * from './events.service';
 export * from './careers.service';
 export * from './enrollments-http.service';
 export * from './files-http.service';
+export * from './overlays.service';
 

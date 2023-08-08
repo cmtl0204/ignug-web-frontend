@@ -2,26 +2,26 @@
   <div class="p-fluid panel-auth">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="field text-center">
-        <h1>Seleccione un Rol</h1>
+        <h1>Seleccione una Institución</h1>
         <img src="assets/images/logo/logo-sm.png" alt="">
         <h2>{{authService.system}}</h2>
       </div>
 
       <div class="field">
-        <label for="role" appLabel label="Seleccione un Rol:" [required]="roleField"></label>
+        <label for="role" appLabel label="Seleccione una Institución:" [required]="institutionField"></label>
         <p-dropdown id="role"
-                    formControlName="role"
+                    formControlName="institution"
                     dataKey="id"
-                    [options]="roles"
+                    [options]="institutions"
                     optionLabel="name"
                     [filter]="true"
                     filterBy="name"
                     placeholder="Seleccione...">
         </p-dropdown>
         <small appErrorMessage
-               [errors]="roleField.errors"
-               [touched]="roleField.touched"
-               [dirty]="roleField.dirty">
+               [errors]="institutionField.errors"
+               [touched]="institutionField.touched"
+               [dirty]="institutionField.dirty">
         </small>
       </div>
 

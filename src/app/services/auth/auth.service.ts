@@ -1,14 +1,16 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
 import {PermissionModel, RoleModel, UserModel} from '@models/auth';
 import {environment} from "@env/environment";
+import {InstitutionModel} from "@models/core";
+import {RolesEnum} from "@shared/enums";
+import {MessageService, RoutesService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor() {
+  constructor(private routesService: RoutesService, private messageService: MessageService) {
   }
 
   changeTheme(theme: string) {
@@ -40,6 +42,12 @@ export class AuthService {
     return JSON.parse(String(localStorage.getItem('auth')));
   }
 
+  set avatar(value: string) {
+    const auth = this.auth;
+    auth.avatar = value;
+    localStorage.setItem('auth', JSON.stringify(auth));
+  }
+
   set auth(user: UserModel | undefined | null) {
     localStorage.setItem('auth', JSON.stringify(user));
   }
@@ -50,6 +58,22 @@ export class AuthService {
 
   set permissions(permissions: PermissionModel[] | undefined | null) {
     localStorage.setItem('permissions', JSON.stringify(permissions));
+  }
+
+  get institution(): InstitutionModel {
+    return JSON.parse(String(localStorage.getItem('institution')));
+  }
+
+  set institution(institution: InstitutionModel | undefined | null) {
+    localStorage.setItem('institution', JSON.stringify(institution));
+  }
+
+  get institutions(): InstitutionModel[] {
+    return JSON.parse(String(localStorage.getItem('institutions')));
+  }
+
+  set institutions(institutions: InstitutionModel[] | undefined | null) {
+    localStorage.setItem('institutions', JSON.stringify(institutions));
   }
 
   get role(): RoleModel {
@@ -87,5 +111,35 @@ export class AuthService {
   removeLogin() {
     localStorage.clear();
     sessionStorage.clear();
+  }
+
+  selectDashboard() {
+    this.messageService.successCustom('Bienvenido', 'Ingreso Correcto');
+    switch (this.role.code) {
+      case RolesEnum.ADMIN: {
+        this.routesService.dashboardAdmin();
+        break;
+      }
+      case RolesEnum.RECTOR: {
+        this.routesService.dashboardRector();
+        break;
+      }
+      case RolesEnum.TEACHER: {
+        this.routesService.dashboardTeacher();
+        break;
+      }
+      case RolesEnum.STUDENT: {
+        this.routesService.dashboardStudent();
+        break;
+      }
+      case RolesEnum.COORDINATOR_ADMINISTRATIVE: {
+        this.routesService.dashboardCoordinatorAdministrative();
+        break;
+      }
+      case RolesEnum.COORDINATOR_CAREER: {
+        this.routesService.dashboardCoordinatorCareer();
+        break;
+      }
+    }
   }
 }

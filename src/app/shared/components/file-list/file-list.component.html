@@ -71,8 +71,6 @@
                 [loading]="coreService.isLoading"
                 (click)="download(rowData)"></button>
 
-        <p-confirmPopup></p-confirmPopup>
-
         <button pButton pRipple type="button"
                 class="p-button-danger p-button-outlined p-button-rounded ml-2"
                 [icon]="PrimeIcons.TRASH"
@@ -96,3 +94,5 @@
 <p-sidebar [(visible)]="isActionButtons" position="right">
   <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
 </p-sidebar>
+
+<p-confirmPopup></p-confirmPopup>
