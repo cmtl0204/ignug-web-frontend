@@ -15,29 +15,33 @@ import {InputTextModule} from "primeng/inputtext";
 import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { SubjectRequirementComponent } from './subject-requirement/subject-requirement.component';
+import {OrganizationChartModule} from "primeng/organizationchart";
 
 @NgModule({
   declarations: [
 
-  
-    DashboardComponent
+
+    DashboardComponent,
+          SubjectRequirementComponent
   ],
-  imports: [
-    NgCommonModule,
-    CoreRoutingModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    RippleModule,
-    MessageModule,
-    ToolbarModule,
-    PaginatorModule,
-    TableModule,
-    TagModule,
-    SplitButtonModule,
-    InputTextModule,
-    SidebarModule,
-    PanelMenuModule
-  ]
+    imports: [
+        NgCommonModule,
+        CoreRoutingModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        RippleModule,
+        MessageModule,
+        ToolbarModule,
+        PaginatorModule,
+        TableModule,
+        TagModule,
+        SplitButtonModule,
+        InputTextModule,
+        SidebarModule,
+        PanelMenuModule,
+        OrganizationChartModule
+    ]
 })
 export class CoreModule {
 }

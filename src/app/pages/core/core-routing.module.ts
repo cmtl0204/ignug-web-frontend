@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {SubjectRequirementComponent} from "./subject-requirement/subject-requirement.component";
 
 const routes: Routes = [
   {
@@ -41,6 +42,10 @@ const routes: Routes = [
   {
     path: 'teachers',
     loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule)
+  },
+  {
+    path: 'subject-requirements',
+    component: SubjectRequirementComponent
   }
 ];
 
