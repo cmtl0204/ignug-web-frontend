@@ -1,12 +1,14 @@
-import {Component} from '@angular/core';
-import {TreeNode} from "primeng/api";
+import {Component, OnInit} from '@angular/core';
+import {PrimeIcons, TreeNode} from "primeng/api";
+import {SubjectsHttpService} from "@services/core";
+import {SubjectModel} from "@models/core";
 
 @Component({
   selector: 'app-subject-requirement',
   templateUrl: './subject-requirement.component.html',
   styleUrls: ['./subject-requirement.component.scss']
 })
-export class SubjectRequirementComponent {
+export class SubjectRequirementComponent implements OnInit {
   selectedNodes: TreeNode[] = [];
   data: TreeNode[] = [
     {
@@ -55,4 +57,24 @@ export class SubjectRequirementComponent {
       ]
     }
   ];
+  protected subjects: SubjectModel[] = [];
+
+  constructor(private subjectsHttpService: SubjectsHttpService) {
+  }
+
+  ngOnInit(): void {
+    this.getSubjectsByCurriculum();
+  }
+
+  getSubjectsByCurriculum() {
+    this.subjectsHttpService.findByCurriculum('288c72d4-4a95-4357-9e22-a400a350c9e3').subscribe((subjects: SubjectModel[]) => {
+      this.subjects = subjects;
+    });
+  }
+
+  getSubjectsByEnrollment() {
+
+  }
+
+  protected readonly PrimeIcons = PrimeIcons;
 }

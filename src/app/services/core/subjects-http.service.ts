@@ -53,6 +53,26 @@ export class SubjectsHttpService {
     );
   }
 
+  findByCurriculum(curriculumId: string): Observable<SubjectModel[]> {
+    const url = `${this.API_URL}/curriculums/${curriculumId}`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
+
+  findByEnrollment(enrollmentId: string): Observable<SubjectModel[]> {
+    const url = `${this.API_URL}/enrollments/${enrollmentId}`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
+
   update(id: string, payload: SubjectModel): Observable<SubjectModel> {
     const url = `${this.API_URL}/${id}`;
 

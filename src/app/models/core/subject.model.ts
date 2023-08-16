@@ -1,5 +1,5 @@
 import {RoleModel} from '@models/auth';
-import { CatalogueModel, CurriculumModel } from '@models/core';
+import {CatalogueModel, CurriculumModel, SubjectRequirementModel} from '@models/core';
 
 
 export interface SubjectModel {
@@ -12,6 +12,7 @@ export interface SubjectModel {
   academicPeriod: CatalogueModel;
   type: CatalogueModel;
   state: CatalogueModel;
+  subjectRequirements: SubjectRequirementModel[];
 
   autonomousHour: number;
   code: string;

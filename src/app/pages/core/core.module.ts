@@ -17,6 +17,8 @@ import {PanelMenuModule} from "primeng/panelmenu";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SubjectRequirementComponent } from './subject-requirement/subject-requirement.component';
 import {OrganizationChartModule} from "primeng/organizationchart";
+import {CardModule} from "primeng/card";
+import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
@@ -25,23 +27,25 @@ import {OrganizationChartModule} from "primeng/organizationchart";
     DashboardComponent,
           SubjectRequirementComponent
   ],
-    imports: [
-        NgCommonModule,
-        CoreRoutingModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        RippleModule,
-        MessageModule,
-        ToolbarModule,
-        PaginatorModule,
-        TableModule,
-        TagModule,
-        SplitButtonModule,
-        InputTextModule,
-        SidebarModule,
-        PanelMenuModule,
-        OrganizationChartModule
-    ]
+  imports: [
+    NgCommonModule,
+    CoreRoutingModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    RippleModule,
+    MessageModule,
+    ToolbarModule,
+    PaginatorModule,
+    TableModule,
+    TagModule,
+    SplitButtonModule,
+    InputTextModule,
+    SidebarModule,
+    PanelMenuModule,
+    OrganizationChartModule,
+    CardModule,
+    DividerModule
+  ]
 })
 export class CoreModule {
 }

@@ -1,11 +1,21 @@
-<p-organizationChart [value]="data" selectionMode="multiple" [(selection)]="selectedNodes">
-  <ng-template let-node pTemplate="person">
-    <div class="p-2 text-center">
-      <img [src]="node.data.image" class="mb-3 w-3rem h-3rem" alt="asignatura"/>
-      <div class="font-bold">{{ node.data.name }}</div>
-      <div>{{ node.data.title }}</div>
+<div class="p-fluid">
+  <div class="formgrid grid">
+    <div *ngFor="let subject of subjects" class="panel-messages-info field xl:col-12">
+      <h3 class="text-center">
+        {{subject.academicPeriod.name}}
+      </h3>
+      <h3 class="text-center">
+        {{subject.name}}
+      </h3>
+      <p-divider></p-divider>
+      <ul>
+        <li *ngFor="let subjectRequirement of subject.subjectRequirements">
+          {{subjectRequirement.requirement.name}} {{subjectRequirement.type}}
+        </li>
+      </ul>
+      <ng-template pTemplate="footer">
+        <p-button label="save" icon="pi pi-check"></p-button>
+      </ng-template>
     </div>
-  </ng-template>
-</p-organizationChart>
-
-{{selectedNodes|json}}
+  </div>
+</div>
