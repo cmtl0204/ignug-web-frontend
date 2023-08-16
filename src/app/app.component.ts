@@ -1,7 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, Inject} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
 import {BreadcrumbService, CoreService} from "@services/core";
 import {BreadcrumbEnum, CoreMessageEnum} from "@shared/enums";
+import {DOCUMENT} from "@angular/common";
 
 @Component({
   selector: 'app-root',
@@ -10,11 +11,20 @@ import {BreadcrumbEnum, CoreMessageEnum} from "@shared/enums";
 })
 export class AppComponent {
   protected readonly CoreMessageEnum = CoreMessageEnum;
-  constructor(private primengConfig: PrimeNGConfig, public coreService: CoreService, private breadcrumbService: BreadcrumbService) {
+
+  constructor(@Inject(DOCUMENT) private document: Document, private primengConfig: PrimeNGConfig, public coreService: CoreService, private breadcrumbService: BreadcrumbService) {
     this.breadcrumbService.setItems([{label: BreadcrumbEnum.HOME}]);
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+  }
+
+  switchTheme(theme: string) {
+    let themeLink = this.document.getElementById('app-theme') as HTMLLinkElement;
+
+    if (theme)
+      themeLink.href = `./assets/themes/${theme}/theme.css`;
+    console.log(themeLink.href);
   }
 }
