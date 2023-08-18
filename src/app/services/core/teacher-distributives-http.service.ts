@@ -3,20 +3,20 @@ import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {environment } from '@env/environment';
 import {Observable } from 'rxjs';
 import {map } from 'rxjs/operators';
-import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel } from '@models/core';
+import {CreateTeacherDistributiveDto, TeacherDistributiveModel, UpdateTeacherDistributiveDto } from '@models/core';
 import {ServerResponse } from '@models/http-response';
 import {CoreService, MessageService } from '@services/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CareersHttpService {
-  API_URL = `${environment.API_URL}/careers`;
+export class TeacherDistributivesHttpService {
+  API_URL = `${environment.API_URL}/teacher-distributives`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: CreateCareerDto): Observable<CareerModel> {
+  create(payload: CreateTeacherDistributiveDto): Observable<TeacherDistributiveModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -44,7 +44,7 @@ export class CareersHttpService {
     );
   }
 
-  findOne(id: string): Observable<CareerModel> {
+  findOne(id: string): Observable<TeacherDistributiveModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -54,7 +54,7 @@ export class CareersHttpService {
     );
   }
 
-  update(id: string, payload: UpdateCareerDto): Observable<CareerModel> {
+  update(id: string, payload: UpdateTeacherDistributiveDto): Observable<TeacherDistributiveModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -67,18 +67,8 @@ export class CareersHttpService {
     );
   }
 
-  reactivate(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/reactivate`;
 
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-
-  remove(id: string): Observable<CareerModel> {
+  remove(id: string): Observable<TeacherDistributiveModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -91,7 +81,7 @@ export class CareersHttpService {
     );
   }
 
-  removeAll(payload: CareerModel[]): Observable<CareerModel[]> {
+  removeAll(payload: TeacherDistributiveModel[]): Observable<TeacherDistributiveModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, payload).pipe(
@@ -102,24 +92,6 @@ export class CareersHttpService {
     );
   }
 
-  hide(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-  
-  findTeachersByCareer(id: string): Observable<TeacherModel[]> {
-    const url = `${this.API_URL}/${id}/teachers`;
 
-    return this.httpClient.get<ServerResponse>(url).pipe(
-      map((response) => {
-        return response.data;
-      })
-    );
-  }
 }

@@ -61,6 +61,11 @@ export class RoutesService {
   get enrollments(): string {
     return this.core + '/enrollments';
   }
+
+  get teacherDistributives(): string {
+    return this.core + '/teacher-distributives';
+  }
+
   get common(): string {
     return '/common';
   }

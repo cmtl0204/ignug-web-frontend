@@ -19,3 +19,4 @@ export * from './school-period.model';
 export * from './event.model';
 export * from './model.model';
 export * from './subject-requirement.model';
+export * from './teacher-distributive.model';

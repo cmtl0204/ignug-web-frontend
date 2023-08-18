@@ -11,12 +11,16 @@ export * from './institutions-http.service';
 export * from './institutions.service';
 export * from './students-http.service';
 export * from './subjects-http.service';
+export * from './subjects.service';
 export * from './teachers-http.service';
+export * from './teachers.service';
 export * from './school-periods-http.service';
+export * from './school-periods.service';
 export * from './events-http.service';
 export * from './events.service';
 export * from './careers.service';
 export * from './enrollments-http.service';
 export * from './files-http.service';
 export * from './overlays.service';
-
+export * from './teacher-distributives-http.service';
+export * from './teacher-distributives.service';
