@@ -3,7 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
 import {OnExitInterface} from '@shared/interfaces';
-import {TeacherDistributiveModel, CatalogueModel, SchoolPeriodModel, SubjectModel, TeacherModel} from '@models/core';
+import {CatalogueModel, CareerModel, TeacherDistributiveModel,TeacherModel, SchoolPeriodModel, SubjectModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -15,6 +15,7 @@ import {
   SubjectsService,
   TeachersService,
   CareersHttpService,
+  CareersService,
 } from '@services/core';
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
@@ -33,6 +34,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
   protected schoolPeriods: SchoolPeriodModel[] = [];
   protected subjects: SubjectModel[] = [];
   protected teachers: TeacherModel[] = [];
+  protected careers: CareerModel[] = [];
   protected parallels: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
 
@@ -49,6 +51,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
     private schoolPeriodsService: SchoolPeriodsService,
     private subjectsService: SubjectsService,
     private teachersService: TeachersService,
+    private careersService: CareersService,
     private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
@@ -87,6 +90,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
       teacher: [this.teachersService.teacher, [Validators.required]],
       schoolPeriod: [this.schoolPeriodsService.schoolPeriod, [Validators.required]],
       subject: [this.subjectsService.subject, [Validators.required]],
+      career: [this.careersService.career, [Validators.required]],
       workday: [null, [Validators.required]],
       hours: [null, []],
     });
@@ -108,6 +112,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
   back(): void {
     this.router.navigate([this.routesService.teacherDistributives]);
   }
+
 
   /** Actions **/
   create(item: TeacherDistributiveModel): void {
@@ -142,12 +147,10 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
   }
 
    loadTeachersByCareer(): void {
-    this.careersHttpService.findTeachersByCareer('676d65c4-64a4-4626-8c08-1147dccc502c')
+    this.careersHttpService.findTeachersByCareer('0fd07cdc-17ea-4404-b55d-95fb2a2a62fd')
       .subscribe((items) => this.teachers = items);
   }
-
- 
-
+  
   /** Form Getters **/
   get hoursField(): AbstractControl {
     return this.form.controls['hours'];
@@ -167,6 +170,10 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
   
   get subjectField(): AbstractControl {
     return this.form.controls['subject'];
+  }
+
+  get careerField(): AbstractControl {
+    return this.form.controls['career'];
   }
   
   get workdayField(): AbstractControl {

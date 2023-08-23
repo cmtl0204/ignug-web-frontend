@@ -13,7 +13,11 @@ import {CoreService, MessageService } from '@services/core';
 export class TeacherDistributivesHttpService {
   API_URL = `${environment.API_URL}/teacher-distributives`;
 
-  constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(
+    private coreService: CoreService, 
+    private httpClient: HttpClient, 
+    private messageService: MessageService
+    ) {
   }
 
   create(payload: CreateTeacherDistributiveDto): Observable<TeacherDistributiveModel> {
@@ -92,6 +96,18 @@ export class TeacherDistributivesHttpService {
     );
   }
 
+  createMany(payload: CreateTeacherDistributiveDto[]): Observable<TeacherDistributiveModel[]> {
+    const url = `${this.API_URL}/create-many`;
+  
+    this.coreService.isProcessing = true;
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
 
-
+ 
 }

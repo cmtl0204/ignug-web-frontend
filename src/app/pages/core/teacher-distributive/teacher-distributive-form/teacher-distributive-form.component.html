@@ -5,50 +5,8 @@
     <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>
   </ng-template>
 
-  <p-divider></p-divider>
-
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- parallel, teacher -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="parallel" label="Paralelo:" [required]="parallelField"></label>
-        <p-dropdown id="parallel" 
-        dataKey="id" 
-        formControlName="parallel" 
-        [options]="parallels" 
-        optionLabel="name"
-          placeholder="Seleccione..."></p-dropdown>
-        <small appErrorMessage [errors]="parallelField.errors" [touched]="parallelField.touched"
-          [dirty]="parallelField.dirty"></small>
-      </div>
-      {{ teacherField.value|json}}
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="teacher" label="Docente:" [required]="teacherField"></label>
-        <p-dropdown id="teacher" 
-        dataKey="id" 
-        formControlName="teacher" 
-        [options]="teachers" 
-        optionLabel="name"
-        [filter]="true"
-
-          placeholder="Seleccione...">
-          <ng-template pTemplate="selectedItem">
-            <div class="flex align-items-center gap-2" *ngIf="teacherField.value">
-                <div>{{ teacherField.value.user.name }}</div>
-            </div>
-        </ng-template>
-        <ng-template let-selectedItem pTemplate="item">
-          <div class="flex align-items-center gap-2">
-               <div>{{ selectedItem.user.name }}</div>
-          </div>
-      </ng-template>
-        </p-dropdown>
-        <small appErrorMessage [errors]="teacherField.errors" [touched]="teacherField.touched"
-          [dirty]="teacherField.dirty"></small>
-      </div>
-    </div>
-
-    <!-- schoolPeriod, subject -->
+    <!-- schoolPeriod, career -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="schoolPeriod" label="Periodo Escolar:" [required]="schoolPeriodField"></label>
@@ -59,15 +17,57 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="career" label="Carrera:" [required]="careerField"></label>
+        <p-dropdown id="career" dataKey="id" formControlName="career" [options]="careers" optionLabel="name"
+          placeholder="Seleccione..."></p-dropdown>
+        <small appErrorMessage [errors]="careerField.errors" [touched]="careerField.touched"
+          [dirty]="careerField.dirty"></small>
+      </div>
+    </div>
+
+    <p-divider></p-divider>
+
+    <!-- subject, parallel, teacher -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="subject" label="Asignatura:" [required]="subjectField"></label>
         <p-dropdown id="subject" dataKey="id" formControlName="subject" [options]="subjects" optionLabel="name"
           placeholder="Seleccione..."></p-dropdown>
         <small appErrorMessage [errors]="subjectField.errors" [touched]="subjectField.touched"
           [dirty]="subjectField.dirty"></small>
       </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="parallel" label="Paralelo:" [required]="parallelField"></label>
+        <p-dropdown id="parallel" dataKey="id" formControlName="parallel" [options]="parallels" optionLabel="name"
+          placeholder="Seleccione..."></p-dropdown>
+        <small appErrorMessage [errors]="parallelField.errors" [touched]="parallelField.touched"
+          [dirty]="parallelField.dirty"></small>
+      </div>
+
+
     </div>
 
     <!-- workday, hours -->
+    <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
+      <label appLabel for="teacher" label="Docente:" [required]="teacherField"></label>
+      <p-dropdown id="teacher" dataKey="id" formControlName="teacher" [options]="teachers" optionLabel="name"
+        [filter]="true" placeholder="Seleccione...">
+        <ng-template pTemplate="selectedItem">
+          <div class="flex align-items-center gap-2" *ngIf="teacherField.value">
+            <div>{{ teacherField.value.user.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-selectedItem pTemplate="item">
+          <div class="flex align-items-center gap-2">
+            <div>{{ selectedItem.user.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="teacherField.errors" [touched]="teacherField.touched"
+        [dirty]="teacherField.dirty"></small>
+    </div>
+
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="workday" label="Jornada de trabajo:" [required]="workdayField"></label>

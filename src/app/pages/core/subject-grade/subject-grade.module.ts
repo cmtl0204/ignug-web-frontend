@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule as NgCommonModule} from '@angular/common';
-import {EnrollmentRoutingModule} from './enrollment-routing.module';
+import {SubjectGradeListRoutingModule} from './subject-grade-routing.module';
 import {SharedModule} from "@shared/shared.module";
 
 // PrimeNg Modules
@@ -19,23 +19,17 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ToolbarModule} from "primeng/toolbar";
-import { TabViewModule } from 'primeng/tabview';
 
 // Components
-import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
-import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollment-subject-list.component";
-import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
-import { CalendarModule } from 'primeng/calendar';
+import {SubjectGradeListComponent } from "./subject-list/subject-grade-list.component";
 
 @NgModule({
   declarations: [
-    EnrollmentListComponent,
-    EnrollmentSubjectListComponent,
-    EnrollmentFormComponent
+    SubjectGradeListComponent 
   ],
   imports: [
+    SubjectGradeListRoutingModule,
     NgCommonModule,
-    EnrollmentRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
@@ -51,12 +45,8 @@ import { CalendarModule } from 'primeng/calendar';
     SharedModule,
     PanelModule,
     DividerModule,
-    InputSwitchModule,
-    TableModule,
-    TabViewModule,
-    CalendarModule,
-
+    InputSwitchModule
   ]
 })
-export class EnrollmentModule {
+export class SubjectGradeModule {
 }

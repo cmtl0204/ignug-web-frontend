@@ -1,4 +1,4 @@
-import { CatalogueModel, TeacherModel, SchoolPeriodModel, SubjectModel } from '@models/core';
+import { CatalogueModel, CareerModel, TeacherModel, SchoolPeriodModel, SubjectModel} from '@models/core';
 
 export interface TeacherDistributiveModel {
   id: string;
@@ -11,6 +11,7 @@ export interface TeacherDistributiveModel {
   schoolPeriod: SchoolPeriodModel;
   subject: SubjectModel;
   workday: CatalogueModel;
+  career: CareerModel;
 
   hours: number;
 }

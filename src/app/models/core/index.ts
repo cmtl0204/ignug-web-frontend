@@ -20,3 +20,5 @@ export * from './event.model';
 export * from './model.model';
 export * from './subject-requirement.model';
 export * from './teacher-distributive.model';
+export * from './enrollment.model';
+export * from './grade-model';

@@ -2,31 +2,25 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel} from '@models/core';
-import {
-  BreadcrumbService,
-  CoreService,
-  EnrollmentsHttpService,
-  MessageService,
-  RoutesService
-} from '@services/core';
+import {ColumnModel, InstitutionModel, PaginatorModel, SelectInstitutionDto} from '@models/core';
+import {BreadcrumbService, CoreService, EnrollmentsHttpService, InstitutionsHttpService, MessageService, RoutesService} from '@services/core';
 import {BreadcrumbEnum} from "@shared/enums";
 
 @Component({
-  selector: 'app-enrollment-list',
-  templateUrl: './enrollment-list.component.html',
-  styleUrls: ['./enrollment-list.component.scss'],
+  selector: 'app-subject-grade-list',
+  templateUrl: './subject-grade-list.component.html',
+  styleUrls: ['./subject-grade-list.component.scss'],
 })
-export class EnrollmentListComponent implements OnInit {
+export class SubjectGradeListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectEnrollmentDto = {};
-  protected selectedItems: EnrollmentModel[] = [];
-  protected items: EnrollmentModel[] = [];
+  protected selectedItem: SelectInstitutionDto = {};
+  protected selectedItems: InstitutionModel[] = [];
+  protected items: InstitutionModel[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -36,10 +30,11 @@ export class EnrollmentListComponent implements OnInit {
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
   ) {
-    this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENTS}]);
-
+    this.breadcrumbService.setItems([
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.ENROLLMENT_SUBJECTS},
+    ]);
     this.paginator = this.coreService.paginator;
-
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -57,52 +52,42 @@ export class EnrollmentListComponent implements OnInit {
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data
+        console.log(this.items)
       });
   }
 
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'number', header: 'Numero de matricula'},
-      {field: 'date', header: 'Fecha'},
-      {field: 'finalAttendance', header: 'Última asistencia'},
-      {field: 'finalGrade', header: 'Nota final'},
-      {field: 'state', header: 'Estado'},
+      {field: 'subject', header: 'Asignatura'},
+      {field: '', header: 'Nota Parcial 1'},
+      {field: '', header: 'Nota Parcial 2'},
+      {field: '', header: 'Asistencia Parcial 1'},
+      {field: '', header: 'Asistencia Parcial 2'},
+      {field: 'finalGrade', header: 'Nota Final'},
+      {field: 'finalAttendance', header: 'Asistencia Final'},
+      {field: 'academicState', header: 'Estado Academico'},
     ];
   }
 
   get buildActionButtons(): MenuItem[] {
     return [
       {
-        label: 'Descargar',
-        icon: PrimeIcons.DOWNLOAD,
+        label: 'Actualizar',
+        icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
-        label: 'Asignaturas',
-        icon: PrimeIcons.BOOK,
+        label: 'Eliminar',
+        icon: PrimeIcons.TRASH,
         command: () => {
           if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
       },
       {
-        label: 'Anular',
-        icon: PrimeIcons.BAN,
-        command: () => {
-          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Mostrar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Carreras',
+        label: 'Reporte de Notas',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
           this.router.navigate([this.routesService.careers]);
@@ -135,20 +120,6 @@ export class EnrollmentListComponent implements OnInit {
           this.selectedItems = [];
         });
       }
-    });
-  }
-
-  hide(id: string) {
-    this.enrollmentsHttpService.hide(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
-    });
-  }
-
-  reactivate(id: string) {
-    this.enrollmentsHttpService.reactivate(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;
     });
   }
 

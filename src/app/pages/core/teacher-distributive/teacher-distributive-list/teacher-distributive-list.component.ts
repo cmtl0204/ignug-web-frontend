@@ -1,19 +1,20 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-import {MenuItem, PrimeIcons} from 'primeng/api';
+import {MenuItem, PrimeIcons, SelectItem} from 'primeng/api';
 import {
   ColumnModel,
   PaginatorModel,
   TeacherDistributiveModel,
-  SelectTeacherDistributiveDto
+  SelectTeacherDistributiveDto,
+  CareerModel,
 } from '@models/core';
 import {
   BreadcrumbService,
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  TeacherDistributivesHttpService, TeacherDistributivesService, SchoolPeriodsService, TeachersService, SubjectsService
+  CareersHttpService, TeacherDistributivesHttpService, TeacherDistributivesService, SchoolPeriodsService
 } from '@services/core';
 import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
@@ -32,6 +33,9 @@ export class TeacherDistributiveListComponent implements OnInit {
   protected selectedItem: SelectTeacherDistributiveDto = {};
   protected selectedItems: TeacherDistributiveModel[] = [];
   protected items: TeacherDistributiveModel[] = [];
+  protected careerOptions: SelectItem[] = [];
+  protected selectedCareer: any;
+  protected isCareerSelected: boolean = false;
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -43,6 +47,7 @@ export class TeacherDistributiveListComponent implements OnInit {
     private teacherDistributivesService: TeacherDistributivesService,
     private eventsService: EventsService,
     protected schoolPeriodsService: SchoolPeriodsService,
+    private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.TEACHER_DISTRIBUTIVES},
@@ -59,7 +64,22 @@ export class TeacherDistributiveListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
+    this.loadCareerOptions();
   }
+
+  careerNames: string[] = [];
+
+  loadCareerOptions() {
+    this.careersHttpService.getAllCareerNames().subscribe({
+      next: (careers: CareerModel[]) => {
+        this.careerOptions = careers.map(career => ({ label: career.name, value: career.name }));
+      },
+      error: (error) => {
+        console.error("Error loading career options:", error);
+      }
+    });
+  }
+  
 
   /** Load Data **/
   findAll(page: number = 0) {
@@ -167,5 +187,8 @@ export class TeacherDistributiveListComponent implements OnInit {
     this.router.navigate([this.routesService.events]);
   }
 
+  onCareerSelected() {
+    this.isCareerSelected = true;
+  }
 
 }

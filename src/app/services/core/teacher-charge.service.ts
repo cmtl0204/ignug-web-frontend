@@ -3,30 +3,21 @@ import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {environment } from '@env/environment';
 import {Observable } from 'rxjs';
 import {map } from 'rxjs/operators';
-import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel } from '@models/core';
+import { CreateGradeDto, GradeModel, UpdateGradeDto,  } from '@models/core';
 import {ServerResponse } from '@models/http-response';
 import {CoreService, MessageService } from '@services/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CareersHttpService {
-  API_URL = `${environment.API_URL}/careers`;
+export class TeacherChargeHttpService {
+  API_URL = `${environment.API_URL}/grades`;
+  FILE_URL = `${environment.API_URL}/exports`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  getAllCareerNames(): Observable<CareerModel[]> {
-    const url = this.API_URL;
-
-    return this.httpClient.get<ServerResponse>(url).pipe(
-      map((response) => {
-        return response.data;
-      })
-    );
-  }
-
-  create(payload: CreateCareerDto): Observable<CareerModel> {
+  create(payload: CreateGradeDto): Observable<GradeModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -54,7 +45,7 @@ export class CareersHttpService {
     );
   }
 
-  findOne(id: string): Observable<CareerModel> {
+  findOne(id: string): Observable<GradeModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -64,7 +55,7 @@ export class CareersHttpService {
     );
   }
 
-  update(id: string, payload: UpdateCareerDto): Observable<CareerModel> {
+  update(id: string, payload: UpdateGradeDto): Observable<GradeModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -77,18 +68,8 @@ export class CareersHttpService {
     );
   }
 
-  reactivate(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/reactivate`;
 
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
-  }
-
-  remove(id: string): Observable<CareerModel> {
+  remove(id: string): Observable<GradeModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -101,7 +82,7 @@ export class CareersHttpService {
     );
   }
 
-  removeAll(payload: CareerModel[]): Observable<CareerModel[]> {
+  removeAll(payload: GradeModel[]): Observable<GradeModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, payload).pipe(
@@ -112,24 +93,11 @@ export class CareersHttpService {
     );
   }
 
-  hide(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}/hide`;
+  export(){
+    const url = `${this.FILE_URL}/notas`;
 
-    return this.httpClient.patch<ServerResponse>(url, null).pipe(
-      map((response) => {
-        this.messageService.success(response);
-        return response.data;
-      })
-    );
+    return this.httpClient.get(url);
   }
-  
-  findTeachersByCareer(id: string): Observable<TeacherModel[]> {
-    const url = `${this.API_URL}/${id}/teachers`;
 
-    return this.httpClient.get<ServerResponse>(url).pipe(
-      map((response) => {
-        return response.data;
-      })
-    );
-  }
+
 }

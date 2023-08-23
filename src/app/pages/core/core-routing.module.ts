@@ -43,13 +43,17 @@ const routes: Routes = [
     path: 'teachers',
     loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule)
   },
-  {//--------------------------------------------------------------------------------------------------------
+  {
     path: 'teacher-distributives',
     loadChildren: () => import('./teacher-distributive/teacher-distributive.module').then(m => m.TeacherDistributiveModule)
-  },//--------------------------------------------------------------------------------------------------------
+  },
   {
     path: 'subject-requirements',
     component: SubjectRequirementComponent
+  },
+  {
+    path: 'subject-grade',
+    loadChildren: () => import('./subject-grade/subject-grade.module').then(m => m.SubjectGradeModule)
   }
 ];
 
