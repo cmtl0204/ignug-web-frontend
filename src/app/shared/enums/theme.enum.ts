@@ -1,4 +1,4 @@
-export enum BreadcrumbEnum {
+export enum ThemeEnum {
   ARYA_BLUE = 'arya-blue',
   ARYA_GREEN = 'arya-green',
   ARYA_ORANGE = 'arya-orange',
