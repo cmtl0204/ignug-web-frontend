@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, InstitutionModel, PaginatorModel, SelectInstitutionDto} from '@models/core';
+import {ColumnModel, EnrollmentModel, InstitutionModel, PaginatorModel, SelectInstitutionDto} from '@models/core';
 import {BreadcrumbService, CoreService, EnrollmentsHttpService, InstitutionsHttpService, MessageService, RoutesService} from '@services/core';
 import {BreadcrumbEnum} from "@shared/enums";
 
@@ -19,7 +19,7 @@ export class SubjectGradeListComponent implements OnInit {
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectInstitutionDto = {};
-  protected selectedItems: InstitutionModel[] = [];
+  protected selectedItems: EnrollmentModel[] = [];
   protected items: InstitutionModel[] = [];
 
   constructor(

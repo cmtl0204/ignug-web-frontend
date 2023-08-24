@@ -3,7 +3,13 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateInstitutionDto, UpdateInstitutionDto, InstitutionModel} from '@models/core';
+import {
+  CreateInstitutionDto,
+  UpdateInstitutionDto,
+  InstitutionModel,
+  CreateEnrollmentDto,
+  EnrollmentModel
+} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
 
@@ -16,7 +22,7 @@ export class EnrollmentsHttpService {
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: CreateInstitutionDto): Observable<InstitutionModel> {
+  create(payload: CreateEnrollmentDto): Observable<InstitutionModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -89,7 +95,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  removeAll(institutions: InstitutionModel[]): Observable<InstitutionModel[]> {
+  removeAll(institutions: EnrollmentModel[]): Observable<InstitutionModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, institutions).pipe(

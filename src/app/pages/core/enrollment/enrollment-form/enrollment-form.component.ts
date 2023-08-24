@@ -48,7 +48,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private studentService: StudentsService,
+    private studentsService: StudentsService,
     protected curriculumService: CurriculumsService,
     protected schoolPeriodService: SchoolPeriodsService,
     private enrollmentsHttpService: EnrollmentsHttpService,
@@ -103,7 +103,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
       folio: [null],
       observation: [null],
       //fk
-      student: [this.studentService.student, [Validators.required]],
+      student: [this.studentsService.student, [Validators.required]],
       academicPeriod: [null],
       curriculum: [this.curriculumService.curriculum, [Validators.required]],
       parallel: [null],

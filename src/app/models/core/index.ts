@@ -22,3 +22,5 @@ export * from './subject-requirement.model';
 export * from './teacher-distributive.model';
 export * from './enrollment.model';
 export * from './grade-model';
+export * from './partial.model';
+export * from './enrollment-detail.model';
