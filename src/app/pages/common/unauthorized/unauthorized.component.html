@@ -1,17 +1,20 @@
-<div class="container text-center">
-    <div class="grid">
-      <div class="col-6">
-        <div  class="text-center"style="margin: 0px 0px 0px 200px">
-          <img src="assets/images/components/core/common/error-401.png"  alt="No Autorizado" width="500px" height="500px">
-        </div>
+<div class="grid">
+  <div class="xl:col-12 lg:col-12 md:col-12 sm:col-12">
+    <div class="text-center">
+      <div>
+        <h1 class="text-danger" style="color:#FF3232 ; font-size: 70px;">¡No Autorizado!</h1>
+        <small class="text-secondary" style="font-size: 20px">¡Por favor inicie sesión!</small>
       </div>
-      <div class="col-6">
-        <div class="text-center" style="margin: 170px 150px 0px 0px">
-          <h1 class="text-danger" style="color:#d9342b ; font-size: 70px;">401 ¡No Autorizado!</h1>
-          <br>
-          <small class="text-secondary" style="font-size: 20px">¡Credenciales no válidas para la autentiación!</small>
-        </div>
-      </div>  
-    </div> 
+      <img src="assets/images/components/common/401.png" alt="401">
+    </div>
+  </div>
 </div>
-  
+<div class="grid">
+  <div class="col-12 text-center">
+    <button pButton pRipple
+            label="Regresar al Login"
+            class="p-button-lg"
+            icon="pi pi-arrow-left"
+            [routerLink]="['/login']"></button>
+  </div>
+</div>

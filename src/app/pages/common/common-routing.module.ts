@@ -10,19 +10,19 @@ import {ExitGuard, RoleGuard} from '@shared/guards';
 
 const routes: Routes = [
   {
-    path: 'forbidden', component: ForbiddenComponent
+    path: '403', component: ForbiddenComponent
   },
   {
-    path: 'not-found', component: NotFoundComponent,
+    path: '404', component: NotFoundComponent,
   },
   {
-    path: 'service-unavailable', component: ServiceUnavailableComponent
+    path: '503', component: ServiceUnavailableComponent
   },
   {
-    path: 'unauthorized', component: UnauthorizedComponent
+    path: '401', component: UnauthorizedComponent
   },
   {
-    path: 'internal-server-error', component: InternalServerErrorComponent
+    path: '500', component: InternalServerErrorComponent
   }
 ];
 

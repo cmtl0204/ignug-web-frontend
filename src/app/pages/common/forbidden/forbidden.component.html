@@ -1,22 +1,20 @@
-<div class="container text-center">
-  <div class="grid">
-    <div class="col-6">
-      <div  class="text-center"style="margin: 0px 0px 0px 250px">
-        <img src="assets/images/components/core/common/error-403.png"  alt="Acceso denegado" width="500px" height="500px">
+<div class="grid">
+  <div class="xl:col-12 lg:col-12 md:col-12 sm:col-12">
+    <div class="text-center">
+      <div>
+        <h1 class="text-danger" style="color:#FF3232 ; font-size: 70px;">¡Acceso Denegado!</h1>
+        <small class="text-secondary" style="font-size: 20px">¡No tiene los permisos necesarios!</small>
       </div>
+      <img src="assets/images/components/common/403.png" alt="403">
     </div>
-    <div class="col-6">
-      <div class="text-center" style="margin: 170px 150px 0px 0px">
-        <h1 class="text-danger" style="color:#0e8174 ; font-size: 70px;">403 ¡Acceso denegado!</h1>
-        <br>
-        <small class="text-secondary" style="font-size: 20px">¡No tiene autorización para acceder!</small>
-      </div>
-    </div>  
   </div>
-  <div class="grid">
-    <div class="col-12">
-      <button pButton pRipple label="Regresar al Login" icon="pi pi-arrow-left" class="p-button-lg"
-              [routerLink]="['/auth/login']"></button>
-    </div>
-  </div>  
+</div>
+<div class="grid">
+  <div class="col-12 text-center">
+    <button pButton pRipple
+            label="Regresar al Login"
+            class="p-button-lg"
+            icon="pi pi-arrow-left"
+            [routerLink]="['/login']"></button>
+  </div>
 </div>

@@ -23,18 +23,6 @@ const routes: Routes = [
     ]
   },
   {
-    path: 'login',
-    redirectTo: '/auth/authentication/login'
-  },
-  {
-    path: 'password-reset',
-    redirectTo: '/auth/authentication/password-reset'
-  },
-  {
-    path: 'profile',
-    redirectTo: '/administration/users/profile'
-  },
-  {
     path: 'auth',
     title: 'Auth',
     component: BlankComponent,
@@ -47,8 +35,20 @@ const routes: Routes = [
     loadChildren: () => import('./pages/common/common.module').then(m => m.CommonModule),
   },
   {
+    path: 'login',
+    redirectTo: '/auth/authentication/login'
+  },
+  {
+    path: 'password-reset',
+    redirectTo: '/auth/authentication/password-reset'
+  },
+  {
+    path: 'profile',
+    redirectTo: '/administration/users/profile'
+  },
+  {
     path: '**',
-    redirectTo: '/common/not-found'
+    redirectTo: '/common/404'
   },
 ];
 

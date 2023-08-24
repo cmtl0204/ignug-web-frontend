@@ -1,17 +1,20 @@
-<div class="container text-center">
-    <div class="grid">
-      <div class="col-6">
-        <div  class="text-center"style="margin: 0px 0px 0px 200px">
-          <img src="assets/images/components/core/common/error-404.avif"  alt="Página No Encontrada" width="500px" height="500px">
-        </div>
+<div class="grid">
+  <div class="xl:col-12 lg:col-12 md:col-12 sm:col-12">
+    <div class="text-center">
+      <div>
+        <h1 class="text-danger" style="color:#FF82AA ; font-size: 70px;">¡Recurso no encontrado!</h1>
+        <small class="text-secondary" style="font-size: 20px">¡Vuelva a intentar!</small>
       </div>
-      <div class="col-6">
-        <div class="text-center" style="margin: 170px 150px 0px 0px">
-          <h1 class="text-danger" style="color:#183462 ; font-size: 70px;">404 ¡Página No Encontrada!</h1>
-          <br>
-          <small class="text-secondary" style="font-size: 20px">¡La página solicitada no existe!</small>
-        </div>
-      </div>  
-    </div> 
+      <img src="assets/images/components/common/404.png" alt="404">
+    </div>
   </div>
-  
+</div>
+<div class="grid">
+  <div class="col-12 text-center">
+    <button pButton pRipple
+            label="Regresar al Login"
+            class="p-button-lg"
+            icon="pi pi-arrow-left"
+            [routerLink]="['/login']"></button>
+  </div>
+</div>
