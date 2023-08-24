@@ -1,0 +1,381 @@
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
+
+<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
+    <ng-template pTemplate="header">
+        <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+        <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
+        <h2 class="panel-header">{{panelHeader}}</h2>
+        <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
+    </ng-template>
+
+    <p-divider></p-divider>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <p-tabView>
+            <p-tabPanel header="Datos de la solicitud">
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="number" label="Numero de matricula:" [required]="numberEnrollmentDetailField"></label>
+                        <input pInputText type="number" id="number" formControlName="number" />
+                        <small appErrorMessage [errors]="numberEnrollmentDetailField.errors" [touched]="numberEnrollmentDetailField.touched"
+                            [dirty]="numberEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="date" label="Fecha:" [required]="dateEnrollmentDetailField"></label>
+                        <p-calendar id="date" formControlName="date" dateFormat="yy-mm-dd" [showButtonBar]="true"
+                            [showIcon]="true">
+                        </p-calendar>
+                        <small appErrorMessage [errors]="dateEnrollmentDetailField.errors" [touched]="dateEnrollmentDetailField.touched"
+                            [dirty]="dateEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="finalAttendance" label="Última asistencia:"
+                            [required]="finalAttendanceEnrollmentDetailField"></label>
+                        <input pInputText type="number" id="finalAttendance" formControlName="finalAttendance" />
+                        <small appErrorMessage [errors]="finalAttendanceEnrollmentDetailField.errors"
+                            [touched]="finalAttendanceEnrollmentDetailField.touched" [dirty]="finalAttendanceEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="finalGrade" label="Nota final:"
+                            [required]="finalGradeEnrollmentDetailField"></label>
+                        <input pInputText type="number" id="finalGrade" formControlName="finalGrade" />
+                        <small appErrorMessage [errors]="finalGradeEnrollmentDetailField.errors" [touched]="finalGradeEnrollmentDetailField.touched"
+                            [dirty]="finalGradeEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="observation" label="Nombre de Usuario:"
+                            [required]="observationEnrollmentDetailField"></label>
+                        <input pInputText type="text" id="observation" formControlName="observation" />
+                        <small appErrorMessage [errors]="observationEnrollmentDetailField.errors" [touched]="observationEnrollmentDetailField.touched"
+                            [dirty]="observationEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="academicState" label="Estado académico:"
+                            [required]="academicStateEnrollmentDetailField"></label>
+                        <p-dropdown id="academicState" formControlName="academicState" dataKey="id"
+                            [options]="academicStates" optionLabel="name" [filter]="true" filterBy="name"
+                            placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="academicStateEnrollmentDetailField.value">
+                                    <div>{{academicStateEnrollmentDetailField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="academicStateEnrollmentDetailField.errors"
+                            [touched]="academicStateEnrollmentDetailField.touched" [dirty]="academicStateEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="enrollment" label="Solicitud:" [required]="enrollmentEnrollmentDetailField"></label>
+                        <input pInputText type="text" id="enrollment" formControlName="enrollment" />
+                        <small appErrorMessage [errors]="enrollmentEnrollmentDetailField.errors" [touched]="enrollmentEnrollmentDetailField.touched"
+                            [dirty]="enrollmentEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="parallel" label="Paralelo:" [required]="parallelEnrollmentDetailField"></label>
+                        <p-dropdown id="parallel" formControlName="parallel" dataKey="id" [options]="parallels"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="parallelEnrollmentDetailField.value">
+                                    <div>{{parallelEnrollmentDetailField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="parallelEnrollmentDetailField.errors" [touched]="parallelEnrollmentDetailField.touched"
+                            [dirty]="parallelEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="state" label="Estado:" [required]="stateEnrollmentDetailField"></label>
+                        <p-dropdown id="state" formControlName="state" dataKey="id" [options]="states"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="stateEnrollmentDetailField.value">
+                                    <div>{{stateEnrollmentDetailField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="stateEnrollmentDetailField.errors" [touched]="stateEnrollmentDetailField.touched"
+                            [dirty]="stateEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="subject" label="Materia:" [required]="subjectEnrollmentDetailField"></label>
+                        <p-dropdown id="subject" formControlName="subject" dataKey="id" [options]="subjects"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="subjectEnrollmentDetailField.value">
+                                    <div>{{subjectEnrollmentDetailField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="subjectEnrollmentDetailField.errors" [touched]="subjectEnrollmentDetailField.touched"
+                            [dirty]="subjectEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="type" label="Tipo:" [required]="typeEnrollmentDetailField"></label>
+                        <p-dropdown id="type" formControlName="type" dataKey="id" [options]="types" optionLabel="name"
+                            [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="typeEnrollmentDetailField.value">
+                                    <div>{{typeEnrollmentDetailField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="typeEnrollmentDetailField.errors" [touched]="typeEnrollmentDetailField.touched"
+                            [dirty]="typeEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="workday" label="Dia laboral:" [required]="workdayEnrollmentDetailField"></label>
+                        <p-dropdown id="workday" formControlName="workday" dataKey="id" [options]="workdays"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="workdayEnrollmentDetailField.value">
+                                    <div>{{workdayEnrollmentDetailField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="workdayEnrollmentDetailField.errors" [touched]="workdayEnrollmentDetailField.touched"
+                            [dirty]="workdayEnrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                </div>
+            </p-tabPanel>
+            <p-tabPanel header="Solicitud de matricula">
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="date" label="Fecha:" [required]="dateEnrollmentField"></label>
+                        <p-calendar id="date" formControlName="date" dateFormat="yy-mm-dd" [showButtonBar]="true"
+                            [showIcon]="true">
+                        </p-calendar>
+                        <small appErrorMessage
+                        [errors]="dateEnrollmentField.errors"
+                        [touched]="dateEnrollmentField.touched"
+                        [dirty]="dateEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="aplicationsAt" label="Se aplica a:"
+                            [required]="aplicationsAtEnrollmentField"></label>
+                        <input pInputText type="text" id="aplicationsAt" formControlName="aplicationsAt" />
+                        <small appErrorMessage [errors]="aplicationsAtEnrollmentField.errors"
+                            [touched]="aplicationsAtEnrollmentField.touched" [dirty]="aplicationsAtEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="folio" label="Fol:" [required]="folioEnrollmentField"></label>
+                        <input pInputText type="text" id="folio" formControlName="folio" />
+                        <small appErrorMessage [errors]="folioEnrollmentField.errors" [touched]="folioEnrollmentField.touched"
+                            [dirty]="folioEnrollmentField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="observation" label="Observaciones:"
+                            [required]="observationEnrollmentField"></label>
+                        <input pInputText type="text" id="observation" formControlName="observation" />
+                        <small appErrorMessage [errors]="observationEnrollmentField.errors"
+                            [touched]="observationEnrollmentField.touched" [dirty]="observationEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="student" label="Estudiante:" [required]="studentEnrollmentField"></label>
+                        <p-dropdown id="student" formControlName="student" dataKey="id" [options]="students"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="studentEnrollmentField.value">
+                                    <div>{{studentEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="studentEnrollmentField.errors" [touched]="studentEnrollmentField.touched"
+                            [dirty]="studentEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="academicPeriod" label="Periodo academico:" [required]="academicPeriodEnrollmentField"></label>
+                        <p-dropdown id="academicPeriod" formControlName="academicPeriod" dataKey="id" [options]="academicPeriods"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="academicPeriodEnrollmentField.value">
+                                    <div>{{academicPeriodEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="academicPeriodEnrollmentField.errors" [touched]="academicPeriodEnrollmentField.touched"
+                            [dirty]="academicPeriodEnrollmentField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="curriculum" label="Curriculum:" [required]="curriculumEnrollmentField"></label>
+                        <p-dropdown id="curriculum" formControlName="curriculum" dataKey="id" [options]="curriculums"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="curriculumEnrollmentField.value">
+                                    <div>{{curriculumEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="curriculumEnrollmentField.errors" [touched]="curriculumEnrollmentField.touched"
+                            [dirty]="curriculumEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="parallel" label="Paralelo:" [required]="parallelEnrollmentField"></label>
+                        <p-dropdown id="parallel" formControlName="parallel" dataKey="id" [options]="parallels"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="parallelEnrollmentField.value">
+                                    <div>{{parallelEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="parallelEnrollmentField.errors" [touched]="parallelEnrollmentField.touched"
+                            [dirty]="parallelEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+                        <label appLabel for="schoolPeriod" label="Periodo lectivo:" [required]="schoolPeriodEnrollmentField"></label>
+                        <p-dropdown id="schoolPeriod" formControlName="schoolPeriod" dataKey="id" [options]="schoolPeriods"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="schoolPeriodEnrollmentField.value">
+                                    <div>{{schoolPeriodEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="schoolPeriodEnrollmentField.errors" [touched]="schoolPeriodEnrollmentField.touched"
+                            [dirty]="schoolPeriodEnrollmentField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                        <label appLabel for="state" label="Estado:" [required]="stateEnrollmentField"></label>
+                        <p-dropdown id="state" formControlName="state" dataKey="id" [options]="states"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="stateEnrollmentField.value">
+                                    <div>{{stateEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="stateEnrollmentField.errors" [touched]="stateEnrollmentField.touched"
+                            [dirty]="stateEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                        <label appLabel for="type" label="Tipo:" [required]="typeEnrollmentField"></label>
+                        <p-dropdown id="type" formControlName="type" dataKey="id" [options]="types"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="typeEnrollmentField.value">
+                                    <div>{{typeEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="typeEnrollmentField.errors" [touched]="typeEnrollmentField.touched"
+                            [dirty]="typeEnrollmentField.dirty">
+                        </small>
+                    </div>
+                </div>
+                <div class="formgrid grid">
+                    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                        <label appLabel for="workday" label="Tipo:" [required]="workdayEnrollmentField"></label>
+                        <p-dropdown id="workday" formControlName="workday" dataKey="id" [options]="workdays"
+                            optionLabel="name" [filter]="true" filterBy="name" placeholder="Select">
+                            <ng-template pTemplate="selectedItem">
+                                <div *ngIf="workdayEnrollmentField.value">
+                                    <div>{{workdayEnrollmentField.value.name}}</div>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="item" let-item>
+                                {{item.name}}
+                            </ng-template>
+                        </p-dropdown>
+                        <small appErrorMessage [errors]="workdayEnrollmentField.errors" [touched]="workdayEnrollmentField.touched"
+                            [dirty]="workdayEnrollmentField.dirty">
+                        </small>
+                    </div>
+                    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                        <label appLabel for="enrollmentDetail" label="Nombre de Usuario:"
+                            [required]="enrollmentDetailField"></label>
+                        <input pInputText type="text" id="enrollmentDetail" formControlName="enrollmentDetail" />
+                        <small appErrorMessage [errors]="enrollmentDetailField.errors" [touched]="enrollmentDetailField.touched"
+                            [dirty]="enrollmentDetailField.dirty">
+                        </small>
+                    </div>
+                </div>
+            </p-tabPanel>
+        </p-tabView>
+
+        <!-- Buttons Actions-->
+        <hr><br>
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <button pButton pRipple type="button" label="Cancelar" class="p-button-info p-button-outlined"
+                    [icon]="PrimeIcons.ARROW_LEFT" [loading]="coreService.isLoading" (click)="back()"></button>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <button pButton pRipple type="submit" label="Guardar" [icon]="PrimeIcons.SAVE"
+                    [loading]="coreService.isLoading"></button>
+            </div>
+        </div>
+    </form>

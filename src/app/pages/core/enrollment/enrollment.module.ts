@@ -19,17 +19,19 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ToolbarModule} from "primeng/toolbar";
+import { TabViewModule } from 'primeng/tabview';
 
 // Components
 import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
-import {InstitutionFormComponent} from './institution-form/institution-form.component';
 import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollment-subject-list.component";
+import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
+import { CalendarModule } from 'primeng/calendar';
 
 @NgModule({
   declarations: [
     EnrollmentListComponent,
-    InstitutionFormComponent,
-    EnrollmentSubjectListComponent
+    EnrollmentSubjectListComponent,
+    EnrollmentFormComponent
   ],
   imports: [
     NgCommonModule,
@@ -49,7 +51,11 @@ import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollme
     SharedModule,
     PanelModule,
     DividerModule,
-    InputSwitchModule
+    InputSwitchModule,
+    TableModule,
+    TabViewModule,
+    CalendarModule,
+
   ]
 })
 export class EnrollmentModule {

@@ -1,7 +1,7 @@
 import {CatalogueModel, LocationModel} from '@models/core';
 
 export interface AddressModel {
-    id?: number;
+    id?: string;
     sector?: CatalogueModel;
     location?: Location;
     mainStreet?: string;

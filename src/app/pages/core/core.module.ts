@@ -22,10 +22,8 @@ import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
-
-
     DashboardComponent,
-          SubjectRequirementComponent
+          SubjectRequirementComponent,
   ],
   imports: [
     NgCommonModule,

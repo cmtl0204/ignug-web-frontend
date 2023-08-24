@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {environment } from '@env/environment';
 import {Observable } from 'rxjs';
 import {map } from 'rxjs/operators';
-import {CreateCareerDto, UpdateCareerDto, CareerModel } from '@models/core';
+import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel } from '@models/core';
 import {ServerResponse } from '@models/http-response';
 import {CoreService, MessageService } from '@services/core';
 
@@ -14,6 +14,16 @@ export class CareersHttpService {
   API_URL = `${environment.API_URL}/careers`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
+  }
+
+  getAllCareerNames(): Observable<CareerModel[]> {
+    const url = this.API_URL;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
   }
 
   create(payload: CreateCareerDto): Observable<CareerModel> {
@@ -108,6 +118,16 @@ export class CareersHttpService {
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+  
+  findTeachersByCareer(id: string): Observable<TeacherModel[]> {
+    const url = `${this.API_URL}/${id}/teachers`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
         return response.data;
       })
     );

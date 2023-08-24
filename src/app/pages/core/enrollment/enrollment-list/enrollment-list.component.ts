@@ -2,12 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, InstitutionModel, SelectInstitutionDto, PaginatorModel} from '@models/core';
+import {ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel} from '@models/core';
 import {
   BreadcrumbService,
   CoreService,
   EnrollmentsHttpService,
-  InstitutionsHttpService,
   MessageService,
   RoutesService
 } from '@services/core';
@@ -25,9 +24,9 @@ export class EnrollmentListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectInstitutionDto = {};
-  protected selectedItems: InstitutionModel[] = [];
-  protected items: InstitutionModel[] = [];
+  protected selectedItem: SelectEnrollmentDto = {};
+  protected selectedItems: EnrollmentModel[] = [];
+  protected items: EnrollmentModel[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -64,12 +63,11 @@ export class EnrollmentListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'address', header: 'Identificación'},
-      {field: 'name', header: 'Apellidos y Nombres'},
-      {field: 'cellphone', header: 'Tipo Matrícula'},
-      {field: 'code', header: 'Nivel'},
-      {field: 'email', header: 'Jornada'},
-      {field: 'logo', header: 'Estado'},
+      {field: 'number', header: 'Numero de matricula'},
+      {field: 'date', header: 'Fecha'},
+      {field: 'finalAttendance', header: 'Última asistencia'},
+      {field: 'finalGrade', header: 'Nota final'},
+      {field: 'state', header: 'Estado'},
     ];
   }
 

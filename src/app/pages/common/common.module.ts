@@ -5,14 +5,18 @@ import {RippleModule} from "primeng/ripple";
 import {MessageModule} from "primeng/message";
 import {NotFoundComponent} from './not-found/not-found.component';
 import {CommonRoutingModule} from './common-routing.module';
-import {AccessDeniedComponent} from './access-denied/access-denied.component';
-import {UnderMaintenanceComponent} from './under-maintenance/under-maintenance.component';
+import {ForbiddenComponent} from './forbidden/forbidden.component';
+import {ServiceUnavailableComponent} from './service-unavailable/service-unavailable.component';
+import {UnauthorizedComponent} from './unauthorized/unauthorized.component';
+import {InternalServerErrorComponent} from './internal-server-error/internal-server-error.component';
 
 @NgModule({
   declarations: [
     NotFoundComponent,
-    AccessDeniedComponent,
-    UnderMaintenanceComponent
+    ForbiddenComponent,
+    ServiceUnavailableComponent,
+    UnauthorizedComponent,
+    InternalServerErrorComponent
   ],
   imports: [
     NgCommonModule,
