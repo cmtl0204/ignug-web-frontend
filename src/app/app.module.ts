@@ -1,10 +1,9 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpInterceptorProviders} from './interceptors';
 import {HttpClientModule} from '@angular/common/http';
-
 import {
   FooterComponent,
   TopbarComponent,
@@ -31,6 +30,11 @@ import {OverlayPanelModule} from "primeng/overlaypanel";
 import {RippleModule} from "primeng/ripple";
 import {AvatarModule} from "primeng/avatar";
 import {FileUploadModule} from "primeng/fileupload";
+
+import localEs from '@angular/common/locales/es';
+import {registerLocaleData} from '@angular/common';
+
+registerLocaleData(localEs, 'es');
 
 @NgModule({
   declarations: [
@@ -69,6 +73,7 @@ import {FileUploadModule} from "primeng/fileupload";
     //   provide: LocationStrategy,
     //   useClass: HashLocationStrategy
     // },
+    {provide: LOCALE_ID, useValue: 'es'},
     HttpInterceptorProviders,
     MessageService,
   ],

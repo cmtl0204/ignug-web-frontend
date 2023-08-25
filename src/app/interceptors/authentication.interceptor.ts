@@ -5,19 +5,33 @@ import {catchError} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {AuthService} from '@services/auth';
 import {RoutesService} from "@services/core/routes.service";
+import {CoreService} from "@services/core";
 
 @Injectable()
 export class AuthenticationInterceptor implements HttpInterceptor {
 
-  constructor(private authService: AuthService, private router: Router,private routesService:RoutesService) {
+  constructor(private authService: AuthService, private router: Router, private coreService: CoreService) {
   }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(catchError(error => {
-      // Cuando la aplicación o una ruta está en mantenimiento
-      if (error.status === 503) {
+
+      // Cuando el usuario no está autenticado
+      if (error.status === 401) {
         this.authService.removeLogin();
-        this.router.navigate(['/common/under-maintenance']);
+        this.router.navigate(['/login']);
+      }
+
+      // Cuando el usuario no tiene permisos para acceder al recurso solicitado y se encuentra logueado
+      if (error.status === 403 && this.authService.token) {
+        this.authService.removeLogin();
+        this.router.navigate(['/login']);
+      }
+
+      // Cuando el usuario no tiene permisos para acceder al recurso solicitado y no está logueado
+      if (error.status === 403 && !this.authService.token) {
+        this.authService.removeLogin();
+        this.router.navigate(['/login']);
       }
 
       // Cuando el usuario está suspendido
@@ -25,20 +39,13 @@ export class AuthenticationInterceptor implements HttpInterceptor {
         this.authService.removeLogin();
         this.router.navigate(['/login']);
       }
-      if (error.status === 401){
-        this.authService.removeLogin();
-        this.router.navigate(['/login']);
-      }
-      // Cuando el usuario no tiene permisos para acceder al recurso solicitado y se encuentra logueado
-      if ((error.status === 401 || error.status === 403 || error.status === 423) && this.authService.token) {
-        this.authService.removeLogin();
-        this.router.navigate(['/login']);
-      }
 
-      // Cuando el usuario no tiene permisos para acceder al recurso solicitado y no está logueado
-      if ((error.status === 401 || error.status === 403 || error.status === 423)&& !this.authService.token) {
+      // Cuando la aplicación o una ruta está en mantenimiento
+      if (error.status === 503) {
         this.authService.removeLogin();
-        this.router.navigate(['/login']);
+        console.log(error.error);
+        this.coreService.serviceUnavailable = error.error.data;
+        this.router.navigate(['/common/503']);
       }
 
       return throwError(error);

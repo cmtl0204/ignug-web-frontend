@@ -41,7 +41,7 @@ export class RoleGuard implements CanActivate, CanActivateChild {
         }
       }
     }
-    this.router.navigate(['/common/access-denied']);
+    this.router.navigate(['/common/403']);
     return false;
   }
 

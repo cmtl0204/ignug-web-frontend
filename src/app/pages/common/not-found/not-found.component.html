@@ -12,9 +12,9 @@
 <div class="grid">
   <div class="col-12 text-center">
     <button pButton pRipple
-            label="Regresar al Login"
+            label="Regresar"
             class="p-button-lg"
             icon="pi pi-arrow-left"
-            [routerLink]="['/login']"></button>
+            (click)="goBack()"></button>
   </div>
 </div>

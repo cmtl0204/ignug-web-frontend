@@ -1,4 +1,5 @@
-<h1>{{institutionsService.institution.name}}</h1>
+<h1 *ngIf="institutionsService.institution">{{institutionsService.institution.name}}</h1>
+<h1 *ngIf="!institutionsService.institution" class="p-error">No ha seleccionado un instituto</h1>
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"

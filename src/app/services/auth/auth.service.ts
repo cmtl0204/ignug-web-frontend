@@ -23,11 +23,11 @@ export class AuthService {
   }
 
   get isLoggedIn(): boolean {
-    return Boolean(localStorage.getItem('isLoggedIn'));
+    return Boolean(sessionStorage.getItem('isLoggedIn'));
   }
 
   set isLoggedIn(value: boolean) {
-    localStorage.setItem('isLoggedIn', String(value));
+    sessionStorage.setItem('isLoggedIn', String(value));
   }
 
   get token(): string | null {
@@ -39,65 +39,65 @@ export class AuthService {
   }
 
   get auth(): UserModel {
-    return JSON.parse(String(localStorage.getItem('auth')));
+    return JSON.parse(String(sessionStorage.getItem('auth')));
   }
 
   set avatar(value: string) {
     const auth = this.auth;
     auth.avatar = value;
-    localStorage.setItem('auth', JSON.stringify(auth));
+    sessionStorage.setItem('auth', JSON.stringify(auth));
   }
 
   set auth(user: UserModel | undefined | null) {
-    localStorage.setItem('auth', JSON.stringify(user));
+    sessionStorage.setItem('auth', JSON.stringify(user));
   }
 
   get permissions(): PermissionModel[] {
-    return JSON.parse(String(localStorage.getItem('permissions')));
+    return JSON.parse(String(sessionStorage.getItem('permissions')));
   }
 
   set permissions(permissions: PermissionModel[] | undefined | null) {
-    localStorage.setItem('permissions', JSON.stringify(permissions));
+    sessionStorage.setItem('permissions', JSON.stringify(permissions));
   }
 
   get institution(): InstitutionModel {
-    return JSON.parse(String(localStorage.getItem('institution')));
+    return JSON.parse(String(sessionStorage.getItem('institution')));
   }
 
   set institution(institution: InstitutionModel | undefined | null) {
-    localStorage.setItem('institution', JSON.stringify(institution));
+    sessionStorage.setItem('institution', JSON.stringify(institution));
   }
 
   get institutions(): InstitutionModel[] {
-    return JSON.parse(String(localStorage.getItem('institutions')));
+    return JSON.parse(String(sessionStorage.getItem('institutions')));
   }
 
   set institutions(institutions: InstitutionModel[] | undefined | null) {
-    localStorage.setItem('institutions', JSON.stringify(institutions));
+    sessionStorage.setItem('institutions', JSON.stringify(institutions));
   }
 
   get role(): RoleModel {
-    return JSON.parse(String(localStorage.getItem('role')));
+    return JSON.parse(String(sessionStorage.getItem('role')));
   }
 
   set role(role: RoleModel | undefined | null) {
-    localStorage.setItem('role', JSON.stringify(role));
+    sessionStorage.setItem('role', JSON.stringify(role));
   }
 
   get roles(): RoleModel[] {
-    return JSON.parse(String(localStorage.getItem('roles')));
+    return JSON.parse(String(sessionStorage.getItem('roles')));
   }
 
   set roles(roles: RoleModel[] | undefined | null) {
-    localStorage.setItem('roles', JSON.stringify(roles));
+    sessionStorage.setItem('roles', JSON.stringify(roles));
   }
 
   get keepSession(): boolean | null {
-    return JSON.parse(String(localStorage.getItem('keepSession')));
+    return JSON.parse(String(sessionStorage.getItem('keepSession')));
   }
 
   set keepSession(value: boolean | undefined | null) {
-    localStorage.setItem('keepSession', JSON.stringify(value));
+    sessionStorage.setItem('keepSession', JSON.stringify(value));
   }
 
   get system(): string | null {
@@ -109,7 +109,7 @@ export class AuthService {
   }
 
   removeLogin() {
-    localStorage.clear();
+    sessionStorage.clear();
     sessionStorage.clear();
   }
 
