@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
-import {PaginatorModel} from "@models/core";
+import {PaginatorModel, SelectCareerDto} from "@models/core";
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +39,13 @@ export class CoreService {
 
   get paginator(): PaginatorModel {
     return {page: 0, limit: 10, totalItems: 0, firstItem: 1, lastPage: 1, lastItem: 1};
+  }
+
+  get serviceUnavailable() {
+    return JSON.parse(String(sessionStorage.getItem('serviceUnavailable')));
+  }
+
+  set serviceUnavailable(value: any) {
+    sessionStorage.setItem('serviceUnavailable', JSON.stringify(value));
   }
 }

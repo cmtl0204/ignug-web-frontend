@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {CoreService} from "@services/core";
+import {core} from "@angular/compiler";
 
 @Component({
   selector: 'app-service-unavailable',
@@ -7,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ServiceUnavailableComponent implements OnInit {
 
-  constructor() { }
+  constructor(protected coreService:CoreService) { }
 
   ngOnInit(): void {
   }
 
+  protected readonly core = core;
 }
