@@ -1,6 +1,6 @@
 import { CatalogueModel, CareerModel, TeacherModel, SchoolPeriodModel, SubjectModel} from '@models/core';
 
-export interface TeacherDistributiveModel {
+export interface TeacherDistributionModel {
   id: string;
   created_at: Date;
   updated_at: Date;
@@ -16,8 +16,8 @@ export interface TeacherDistributiveModel {
   hours: number;
 }
 
-export interface CreateTeacherDistributiveDto extends Omit<TeacherDistributiveModel, 'id'> {}
+export interface CreateTeacherDistributionDto extends Omit<TeacherDistributionModel, 'id'> {}
 
-export interface UpdateTeacherDistributiveDto extends Partial<Omit<TeacherDistributiveModel, 'id'>> {}
+export interface UpdateTeacherDistributionDto extends Partial<Omit<TeacherDistributionModel, 'id'>> {}
 
-export interface SelectTeacherDistributiveDto extends Partial<TeacherDistributiveModel> {}
+export interface SelectTeacherDistributionDto extends Partial<TeacherDistributionModel> {}

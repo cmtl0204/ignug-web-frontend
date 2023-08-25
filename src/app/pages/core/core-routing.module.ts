@@ -44,8 +44,8 @@ const routes: Routes = [
     loadChildren: () => import('./teacher/teacher.module').then(m => m.TeacherModule)
   },
   {
-    path: 'teacher-distributives',
-    loadChildren: () => import('./teacher-distributive/teacher-distributive.module').then(m => m.TeacherDistributiveModule)
+    path: 'teacher-distributions',
+    loadChildren: () => import('./teacher-distributive/teacher-distribution.module').then(m => m.TeacherDistributionModule)
   },
   {
     path: 'subject-requirements',
@@ -54,6 +54,10 @@ const routes: Routes = [
   {
     path: 'subject-grade',
     loadChildren: () => import('./subject-grade/subject-grade.module').then(m => m.SubjectGradeModule)
+  },
+  {
+    path: 'consolidated-notes',
+    loadChildren: () => import('./consolidated-notes/consolidated-notes.module').then(m => m.ConsolidatedNotesModule)
   }
 ];
 

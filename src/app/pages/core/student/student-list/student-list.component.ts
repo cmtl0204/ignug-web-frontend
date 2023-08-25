@@ -60,7 +60,6 @@ export class StudentListComponent implements OnInit {
       {field: 'user', header: 'Nombres'},
       {field: 'lastname', header: 'Apellidos'},
       {field: 'email', header: 'Correo'},
-      {field: 'address', header: 'Dirección'},
       {field: 'phone', header: 'Teléfono'},
     ];
   }

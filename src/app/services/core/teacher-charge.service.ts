@@ -12,7 +12,7 @@ import {CoreService, MessageService } from '@services/core';
 })
 export class TeacherChargeHttpService {
   API_URL = `${environment.API_URL}/grades`;
-  FILE_URL = `${environment.API_URL}/exports`;
+  FILE_URL = `${environment.API_URL}/ `;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }

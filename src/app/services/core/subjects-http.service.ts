@@ -63,6 +63,16 @@ export class SubjectsHttpService {
     );
   }
 
+  findByCareer(careerId: string): Observable<SubjectModel[]> {
+    const url = `${this.API_URL}/careers/${careerId}`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
+
   findByEnrollment(enrollmentId: string): Observable<SubjectModel[]> {
     const url = `${this.API_URL}/enrollments/${enrollmentId}`;
 
@@ -143,4 +153,15 @@ export class SubjectsHttpService {
       })
     );
   }
+  
+  getAllSubjects(): Observable<SubjectModel[]> {
+    const url = this.API_URL;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
+
 }

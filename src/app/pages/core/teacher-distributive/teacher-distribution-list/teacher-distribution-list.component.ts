@@ -5,8 +5,8 @@ import {MenuItem, PrimeIcons, SelectItem} from 'primeng/api';
 import {
   ColumnModel,
   PaginatorModel,
-  TeacherDistributiveModel,
-  SelectTeacherDistributiveDto,
+  TeacherDistributionModel,
+  SelectTeacherDistributionDto,
   CareerModel,
 } from '@models/core';
 import {
@@ -14,25 +14,25 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CareersHttpService, TeacherDistributivesHttpService, TeacherDistributivesService, SchoolPeriodsService
+  CareersHttpService, TeacherDistributionsHttpService, TeacherDistributionsService, SchoolPeriodsService
 } from '@services/core';
 import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
-  selector: 'app-teacher-distributive-list',
-  templateUrl: './teacher-distributive-list.component.html',
-  styleUrls: ['./teacher-distributive-list.component.scss']
+  selector: 'app-teacher-distribution-list',
+  templateUrl: './teacher-distribution-list.component.html',
+  styleUrls: ['./teacher-distribution-list.component.scss']
 })
-export class TeacherDistributiveListComponent implements OnInit {
+export class TeacherDistributionListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectTeacherDistributiveDto = {};
-  protected selectedItems: TeacherDistributiveModel[] = [];
-  protected items: TeacherDistributiveModel[] = [];
+  protected selectedItem: SelectTeacherDistributionDto = {};
+  protected selectedItems: TeacherDistributionModel[] = [];
+  protected items: TeacherDistributionModel[] = [];
   protected careerOptions: SelectItem[] = [];
   protected selectedCareer: any;
   protected isCareerSelected: boolean = false;
@@ -43,14 +43,14 @@ export class TeacherDistributiveListComponent implements OnInit {
     public messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private teacherDistributivesHttpService: TeacherDistributivesHttpService,
-    private teacherDistributivesService: TeacherDistributivesService,
+    private teacherDistributionsHttpService: TeacherDistributionsHttpService,
+    private teacherDistributionsService: TeacherDistributionsService,
     private eventsService: EventsService,
     protected schoolPeriodsService: SchoolPeriodsService,
     private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.TEACHER_DISTRIBUTIVES},
+      {label: BreadcrumbEnum.TEACHER_DISTRIBUTIONS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -83,7 +83,7 @@ export class TeacherDistributiveListComponent implements OnInit {
 
   /** Load Data **/
   findAll(page: number = 0) {
-    this.teacherDistributivesHttpService.findAll(page, this.search.value)
+    this.teacherDistributionsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;
@@ -131,7 +131,7 @@ export class TeacherDistributiveListComponent implements OnInit {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.teacherDistributivesHttpService.remove(id).subscribe(() => {
+          this.teacherDistributionsHttpService.remove(id).subscribe(() => {
             this.items = this.items.filter(item => item.id !== id);
             this.paginator.totalItems--;
           });
@@ -142,7 +142,7 @@ export class TeacherDistributiveListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.teacherDistributivesHttpService.removeAll(this.selectedItems).subscribe(() => {
+        this.teacherDistributionsHttpService.removeAll(this.selectedItems).subscribe(() => {
           this.selectedItems.forEach(itemDeleted => {
             this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
@@ -153,13 +153,13 @@ export class TeacherDistributiveListComponent implements OnInit {
     });
   }
 
-  
+
 
   /** Select & Paginate **/
-  selectItem(item: TeacherDistributiveModel) {
+  selectItem(item: TeacherDistributionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-    this.teacherDistributivesService.teacherDistributive = item;
+    this.teacherDistributionsService.teacherDistribution = item;
     this.buildActionButtons();
   }
 
@@ -169,18 +169,18 @@ export class TeacherDistributiveListComponent implements OnInit {
 
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.teacherDistributives, 'new']);
+    this.router.navigate([this.routesService.teacherDistributions, 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.teacherDistributives, id]);
+    this.router.navigate([this.routesService.teacherDistributions, id]);
   }
 
   redirectEventList() {
     this.eventsService.model = {
       entity: this.selectedItem,
       label: 'Distribución de asignaturas del docente',
-      routerLink: this.routesService.teacherDistributives,
+      routerLink: this.routesService.teacherDistributions,
       routerLabel: 'Distribución de asignaturas del docente',
     };
 

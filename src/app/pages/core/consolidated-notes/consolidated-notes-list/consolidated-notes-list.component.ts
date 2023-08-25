@@ -17,8 +17,6 @@ import {
   TeacherChargeHttpService,
 } from '@services/core';
 import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
-import { SelectEnrollmentDetailDto } from '../../../../models/core/enrollment-Detail.modet';
-
 
 @Component({
   selector: 'app-consolidated-notes-list',
@@ -32,8 +30,6 @@ export class ConsolidatedNotesListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectEnrollmentDetailDto = {};
-  protected selectedItems: EnrollmentDetailModel[] = [];
   protected items: GradeModel[] = [];
   protected gradePartial1:any;
   protected gradePartial2:any;
@@ -93,42 +89,7 @@ export class ConsolidatedNotesListComponent implements OnInit {
     ];
   }
 
-  buildActionButtons(): void {
-    this.actionButtons = [];
-
-
-    this.actionButtons.push(
-      {
-        id: ActionButtonsEnum.DELETE,
-        label: 'Eliminar',
-        icon: PrimeIcons.TRASH,
-        command: () => {
-          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
-        },
-      });
-  }
-
-  /** Actions **/
-  remove(id: string) {
-    this.messageService.questionDelete()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.teacherChargeService.remove(id).subscribe(() => {
-            this.items = this.items.filter(item => item.id !== id);
-            this.paginator.totalItems--;
-          });
-        }
-      });
-  }
-
-
-  /** Select & Paginate **/
-  selectItem(item: GradeModel) {
-    this.isActionButtons = true;
-    this.selectedItem = item;
-   // this.teacherDistributivesService.teacherDistributive = item;
-    this.buildActionButtons();
-  }
+ 
 
   paginate(event: any) {
     this.findAll(event.page);

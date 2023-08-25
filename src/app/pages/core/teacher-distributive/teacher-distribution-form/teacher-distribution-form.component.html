@@ -6,24 +6,32 @@
   </ng-template>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- schoolPeriod, career -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="schoolPeriod" label="Periodo Escolar:" [required]="schoolPeriodField"></label>
-        <p-dropdown id="schoolPeriod" dataKey="id" formControlName="schoolPeriod" [options]="schoolPeriods"
-          optionLabel="name" placeholder="Seleccione..."></p-dropdown>
-        <small appErrorMessage [errors]="schoolPeriodField.errors" [touched]="schoolPeriodField.touched"
-          [dirty]="schoolPeriodField.dirty"></small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="career" label="Carrera:" [required]="careerField"></label>
-        <p-dropdown id="career" dataKey="id" formControlName="career" [options]="careers" optionLabel="name"
-          placeholder="Seleccione..."></p-dropdown>
-        <small appErrorMessage [errors]="careerField.errors" [touched]="careerField.touched"
-          [dirty]="careerField.dirty"></small>
-      </div>
+  <!-- schoolPeriod, career -->
+  <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="schoolPeriod" label="Periodo Escolar:" [required]="schoolPeriodField"></label>
+      <p-dropdown id="schoolPeriod" dataKey="id" formControlName="schoolPeriod" [options]="schoolPeriods"
+        optionLabel="name" placeholder="Seleccione...">
+        <ng-template let-option pTemplate="item">
+          <div>{{ option.name }}</div>
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="schoolPeriodField.errors" [touched]="schoolPeriodField.touched"
+        [dirty]="schoolPeriodField.dirty"></small>
     </div>
+
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="career" label="Carrera:" [required]="careerField"></label>
+      <p-dropdown id="career" dataKey="id" formControlName="career" [options]="careers" optionLabel="name"
+        placeholder="Seleccione...">
+        <ng-template let-option pTemplate="item">
+          <div>{{ option.name }}</div>
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="careerField.errors" [touched]="careerField.touched"
+        [dirty]="careerField.dirty"></small>
+    </div>
+  </div>
 
     <p-divider></p-divider>
 
@@ -48,7 +56,6 @@
 
     </div>
 
-    <!-- workday, hours -->
     <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
       <label appLabel for="teacher" label="Docente:" [required]="teacherField"></label>
       <p-dropdown id="teacher" dataKey="id" formControlName="teacher" [options]="teachers" optionLabel="name"
@@ -68,6 +75,7 @@
         [dirty]="teacherField.dirty"></small>
     </div>
 
+    <!-- workday, hours -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="workday" label="Jornada de trabajo:" [required]="workdayField"></label>

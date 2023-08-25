@@ -2,13 +2,14 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel} from '@models/core';
+import {ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel} from '@models/core';
 import {
   BreadcrumbService,
   CoreService,
   EnrollmentsHttpService,
   MessageService,
-  RoutesService
+  RoutesService,
+  SubjectsHttpService
 } from '@services/core';
 import {BreadcrumbEnum} from "@shared/enums";
 
@@ -27,6 +28,8 @@ export class EnrollmentListComponent implements OnInit {
   protected selectedItem: SelectEnrollmentDto = {};
   protected selectedItems: EnrollmentModel[] = [];
   protected items: EnrollmentModel[] = [];
+  protected subjects: SubjectModel[] = [];
+  protected selectedSubjects: SubjectModel[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -35,6 +38,7 @@ export class EnrollmentListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
+    private subjectsHttpService: SubjectsHttpService
   ) {
     this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENTS}]);
 
@@ -49,6 +53,7 @@ export class EnrollmentListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
+    this.findByCarrer();
   }
 
   /** Load Data **/
@@ -57,6 +62,13 @@ export class EnrollmentListComponent implements OnInit {
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data
+      });
+  }
+
+  findByCarrer() {
+    this.subjectsHttpService.findByCareer(this.search.value)
+      .subscribe((response) => {
+        this.subjects = response
       });
   }
 
