@@ -114,4 +114,15 @@ export class InstitutionsHttpService {
       })
     );
   }
+
+  enable(id: string): Observable<InstitutionModel> {
+    const url = `${this.API_URL}/${id}/enable`;
+
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
 }
