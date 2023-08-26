@@ -1,53 +1,60 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton pRipple type="button"
-            label="Crear"
-            class="p-button-success mr-2"
-            [icon]="PrimeIcons.PLUS"
-            (click)="redirectCreateForm()">
+    <button pButton pRipple type="button" label="Crear" class="p-button-success mr-2" [icon]="PrimeIcons.PLUS"
+      (click)="redirectCreateForm()">
     </button>
 
-    <button pButton pRipple type="button"
-            label="Refrescar"
-            class="p-button-info mr-2"
-            [icon]="PrimeIcons.REFRESH"
-            [loading]="coreService.isLoading"
-            (click)="findAll()">
+    <button pButton pRipple type="button" label="Refrescar" class="p-button-info mr-2" [icon]="PrimeIcons.REFRESH"
+      [loading]="coreService.isLoading" (click)="findAll()">
     </button>
 
-    <button pButton pRipple type="button"
-            label="Eliminar Seleccionados"
-            class="p-button-danger"
-            [disabled]="selectedItems.length===0"
-            [icon]="PrimeIcons.TRASH"
-            [loading]="coreService.isLoading"
-            (click)="removeAll()">
+    <button pButton pRipple type="button" label="Eliminar Seleccionados" class="p-button-danger"
+      [disabled]="selectedItems.length===0" [icon]="PrimeIcons.TRASH" [loading]="coreService.isLoading"
+      (click)="removeAll()">
     </button>
   </div>
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
       <input type="text" pInputText [formControl]="search" placeholder="Buscar...">
-      <button pButton pRipple type="button"
-              [icon]="PrimeIcons.SEARCH"
-              [loading]="coreService.isLoading"
-              (click)="findAll()"></button>
+      <button pButton pRipple type="button" [icon]="PrimeIcons.SEARCH" [loading]="coreService.isLoading"
+        (click)="findAll()"></button>
     </div>
   </div>
 </p-toolbar>
 
-<p-paginator
-  [rows]="paginator.limit"
-  [totalRecords]="paginator.totalItems"
-  (onPageChange)="paginate($event)">
+<p-paginator [rows]="paginator.limit" [totalRecords]="paginator.totalItems" (onPageChange)="paginate($event)">
 </p-paginator>
 
-<p-table
-  dataKey="id"
-  styleClass="p-datatable-striped"
-  [value]="items"
-  [columns]="columns"
-  [loading]="coreService.isLoading"
-  [(selection)]="selectedItems">
+<p-accordion [activeIndex]="0">
+  <p-accordionTab header="Primer Nivel">
+    <p>
+
+    </p>
+  </p-accordionTab>
+  <p-accordionTab header="Segundo nivel">
+    <p>
+
+    </p>
+  </p-accordionTab>
+  <p-accordionTab header="Tercer nivel">
+    <p>
+
+    </p>
+  </p-accordionTab>
+  <p-accordionTab header="Cuarto nivel">
+    <p>
+
+    </p>
+  </p-accordionTab>
+  <p-accordionTab header="Quinto nivel">
+    <p>
+
+    </p>
+  </p-accordionTab>
+</p-accordion>
+
+<p-table dataKey="id" styleClass="p-datatable-striped" [value]="items" [columns]="columns"
+  [loading]="coreService.isLoading" [(selection)]="selectedItems">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th style="width: 3rem">

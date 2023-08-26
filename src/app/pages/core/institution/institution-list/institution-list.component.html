@@ -14,15 +14,6 @@
             [loading]="coreService.isLoading"
             (click)="findAll()">
     </button>
-
-    <button pButton pRipple type="button"
-            label="Eliminar Seleccionados"
-            class="p-button-danger"
-            [disabled]="selectedItems.length===0"
-            [icon]="PrimeIcons.TRASH"
-            [loading]="coreService.isLoading"
-            (click)="removeAll()">
-    </button>
   </div>
   <div class="p-toolbar-group-right">
     <div class="p-inputgroup">
@@ -71,7 +62,8 @@
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'state'">
-            <p-tag severity="info" [value]="rowData[col.field].code" class="mr-1"></p-tag>
+            <p-tag *ngIf="rowData[col.field].code==='enabled'" severity="info" [value]="rowData[col.field].code | state" class="mr-1"></p-tag>
+            <p-tag *ngIf="rowData[col.field].code==='disabled'" severity="info" [value]="rowData[col.field].code | state" class="mr-1"></p-tag>
           </div>
         </div>
 

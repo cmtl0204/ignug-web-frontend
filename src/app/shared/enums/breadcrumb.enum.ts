@@ -8,10 +8,11 @@ export enum BreadcrumbEnum {
   SUBJECTS = 'Asignaturas',
   ENROLLMENT_SUBJECTS = 'Asignaturas',
   TEACHERS = 'Docentes',
-  TEACHER_DistributionS = 'Distribución docente',
+  TEACHER_DISTRIBUTIONS = 'Distribución docente',
   FORM = 'Formulario',
   PROFILE = 'Mi Perfil',
   HOME = 'Home',
   ENROLLMENTS = 'Matrículas',
   USERS = 'Usuarios',
+  TEACHER_CHARGE = 'Consolidado de notas'
 }

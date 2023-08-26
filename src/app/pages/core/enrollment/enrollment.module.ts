@@ -26,6 +26,7 @@ import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.compone
 import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollment-subject-list.component";
 import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
 import { CalendarModule } from 'primeng/calendar';
+import { AccordionModule } from 'primeng/accordion';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,7 @@ import { CalendarModule } from 'primeng/calendar';
     TableModule,
     TabViewModule,
     CalendarModule,
-
+    AccordionModule
   ]
 })
 export class EnrollmentModule {

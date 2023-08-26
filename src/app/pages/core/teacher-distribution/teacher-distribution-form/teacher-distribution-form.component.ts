@@ -11,8 +11,12 @@ import {
   MessageService,
   RoutesService,
   TeacherDistributionsHttpService,
+  TeacherDistributionsService,
+  SchoolPeriodsHttpService,
   SchoolPeriodsService,
+  SubjectsHttpService,
   SubjectsService,
+  TeachersHttpService,
   TeachersService,
   CareersHttpService,
   CareersService,
@@ -43,19 +47,23 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     protected coreService: CoreService,
-    private formBuilder: FormBuilder,
+    private formBuilder: FormBuilder, 
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
     private teacherDistributionsHttpService: TeacherDistributionsHttpService,
+    private teacherDistributionsService: TeacherDistributionsService,
+    private schoolPeriodsHttpService: SchoolPeriodsHttpService,
     private schoolPeriodsService: SchoolPeriodsService,
+    private subjectsHttpService: SubjectsHttpService,
     private subjectsService: SubjectsService,
+    private teachersHttpService: TeachersHttpService,
     private teachersService: TeachersService,
     private careersService: CareersService,
     private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.TEACHER_DistributionS, routerLink: [this.routesService.teacherDistributions]},
+      {label: BreadcrumbEnum.TEACHER_DISTRIBUTIONS, routerLink: [this.routesService.teacherDistributions]},
       {label: BreadcrumbEnum.FORM},
     ]);
 
@@ -78,6 +86,9 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
     this.loadParallels();
     this.loadWorkdays();
     this.loadTeachersByCareer();
+    this.loadSchoolPeriods();
+    this.loadSubjects();
+    this.loadCareers();
 
     if (this.id) {
       this.get();
@@ -147,27 +158,42 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   }
 
    loadTeachersByCareer(): void {
-    this.careersHttpService.findTeachersByCareer('0fd07cdc-17ea-4404-b55d-95fb2a2a62fd')
+    this.careersHttpService.findTeachersByCareer('0b54590b-4822-4c18-91b0-24e8ef4627de')
       .subscribe((items) => this.teachers = items);
   }
+  
+  loadSchoolPeriods(): void {
+    this.schoolPeriodsHttpService.getAllSchoolPeriods()
+      .subscribe((items) => this.schoolPeriods = items);
+  }
+
+  loadSubjects(): void {
+  this.subjectsHttpService.getAllSubjects()
+    .subscribe((items) => this.subjects = items);
+}
+
+loadCareers(): void {
+  this.careersHttpService.getAllCareers()
+    .subscribe((items) => this.careers = items);
+}
 
   /** Form Getters **/
   get hoursField(): AbstractControl {
     return this.form.controls['hours'];
   }
-
+  
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
-
+  
   get teacherField(): AbstractControl {
     return this.form.controls['teacher'];
   }
-
+  
   get schoolPeriodField(): AbstractControl {
     return this.form.controls['schoolPeriod'];
   }
-
+  
   get subjectField(): AbstractControl {
     return this.form.controls['subject'];
   }
@@ -175,10 +201,10 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   get careerField(): AbstractControl {
     return this.form.controls['career'];
   }
-
+  
   get workdayField(): AbstractControl {
     return this.form.controls['workday'];
   }
-
+  
   protected readonly SkeletonEnum = SkeletonEnum;
   }

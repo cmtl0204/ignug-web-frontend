@@ -50,7 +50,7 @@ export class TeacherDistributionListComponent implements OnInit {
     private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.TEACHER_DistributionS},
+      {label: BreadcrumbEnum.TEACHER_DISTRIBUTIONS},
     ]);
 
     this.paginator = this.coreService.paginator;
@@ -79,7 +79,7 @@ export class TeacherDistributionListComponent implements OnInit {
       }
     });
   }
-
+  
 
   /** Load Data **/
   findAll(page: number = 0) {

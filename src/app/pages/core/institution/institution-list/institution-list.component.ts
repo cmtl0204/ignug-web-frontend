@@ -53,7 +53,6 @@ export class InstitutionListComponent implements OnInit {
     this.findAll();
   }
 
-  /** Load Data **/
   findAll(page: number = 0) {
     this.institutionsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
@@ -65,10 +64,11 @@ export class InstitutionListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'code', header: 'Código'},
+      {field: 'acronym', header: 'Siglas'},
       {field: 'name', header: 'Nombre'},
       {field: 'email', header: 'Email'},
       {field: 'cellphone', header: 'Teléfono'},
+      {field: 'state', header: 'Estado'},
     ];
   }
 
@@ -82,10 +82,17 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        label: 'Eliminar',
-        icon: PrimeIcons.TRASH,
+        label: 'Habilitar',
+        icon: PrimeIcons.EYE,
         command: () => {
-          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+        },
+      },
+      {
+        label: 'Inhabilitar',
+        icon: PrimeIcons.EYE_SLASH,
+        command: () => {
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
@@ -99,19 +106,13 @@ export class InstitutionListComponent implements OnInit {
   }
 
   /** Actions **/
-  remove(id: string) {
-    this.messageService.questionDelete()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.institutionsHttpService.remove(id).subscribe(() => {
-            this.items = this.items.filter(item => item.id !== id);
-            this.paginator.totalItems--;
-          });
-        }
-      });
+  enable(id: string) {
+    this.institutionsHttpService.enable(id).subscribe(() => {
+
+    });
   }
 
-  removeAll() {
+  disable() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
         this.institutionsHttpService.removeAll(this.selectedItems).subscribe(() => {
