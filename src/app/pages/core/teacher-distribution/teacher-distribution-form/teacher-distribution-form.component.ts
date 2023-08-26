@@ -3,14 +3,14 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
 import {OnExitInterface} from '@shared/interfaces';
-import {CatalogueModel, CareerModel, TeacherDistributiveModel,TeacherModel, SchoolPeriodModel, SubjectModel} from '@models/core';
+import {CatalogueModel, CareerModel, TeacherDistributionModel,TeacherModel, SchoolPeriodModel, SubjectModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
   MessageService,
   RoutesService,
-  TeacherDistributivesHttpService,
+  TeacherDistributionsHttpService,
   SchoolPeriodsService,
   SubjectsService,
   TeachersService,
@@ -20,11 +20,11 @@ import {
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-teacher-distributive-form',
-  templateUrl: './teacher-distributive-form.component.html',
-  styleUrls: ['./teacher-distributive-form.component.scss']
+  selector: 'app-teacher-distribution-form',
+  templateUrl: './teacher-distribution-form.component.html',
+  styleUrls: ['./teacher-distribution-form.component.scss']
 })
-export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface {
+export class TeacherDistributionFormComponent implements OnInit, OnExitInterface {
   protected PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -47,7 +47,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private teacherDistributivesHttpService: TeacherDistributivesHttpService,
+    private teacherDistributionsHttpService: TeacherDistributionsHttpService,
     private schoolPeriodsService: SchoolPeriodsService,
     private subjectsService: SubjectsService,
     private teachersService: TeachersService,
@@ -55,7 +55,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
     private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.TEACHER_DISTRIBUTIVES, routerLink: [this.routesService.teacherDistributives]},
+      {label: BreadcrumbEnum.TEACHER_DistributionS, routerLink: [this.routesService.teacherDistributions]},
       {label: BreadcrumbEnum.FORM},
     ]);
 
@@ -110,20 +110,20 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
   }
 
   back(): void {
-    this.router.navigate([this.routesService.teacherDistributives]);
+    this.router.navigate([this.routesService.teacherDistributions]);
   }
 
 
   /** Actions **/
-  create(item: TeacherDistributiveModel): void {
-    this.teacherDistributivesHttpService.create(item).subscribe(() => {
+  create(item: TeacherDistributionModel): void {
+    this.teacherDistributionsHttpService.create(item).subscribe(() => {
       this.form.reset();
       this.back();
     });
   }
 
-  update(item: TeacherDistributiveModel): void {
-    this.teacherDistributivesHttpService.update(this.id!, item).subscribe(() => {
+  update(item: TeacherDistributionModel): void {
+    this.teacherDistributionsHttpService.update(this.id!, item).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -131,7 +131,7 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
 
   /** Load Data **/
   get(): void {
-    this.teacherDistributivesHttpService.findOne(this.id!).subscribe((item) => {
+    this.teacherDistributionsHttpService.findOne(this.id!).subscribe((item) => {
       this.form.patchValue(item);
     });
   }
@@ -150,24 +150,24 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
     this.careersHttpService.findTeachersByCareer('0fd07cdc-17ea-4404-b55d-95fb2a2a62fd')
       .subscribe((items) => this.teachers = items);
   }
-  
+
   /** Form Getters **/
   get hoursField(): AbstractControl {
     return this.form.controls['hours'];
   }
-  
+
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
-  
+
   get teacherField(): AbstractControl {
     return this.form.controls['teacher'];
   }
-  
+
   get schoolPeriodField(): AbstractControl {
     return this.form.controls['schoolPeriod'];
   }
-  
+
   get subjectField(): AbstractControl {
     return this.form.controls['subject'];
   }
@@ -175,10 +175,10 @@ export class TeacherDistributiveFormComponent implements OnInit, OnExitInterface
   get careerField(): AbstractControl {
     return this.form.controls['career'];
   }
-  
+
   get workdayField(): AbstractControl {
     return this.form.controls['workday'];
   }
-  
+
   protected readonly SkeletonEnum = SkeletonEnum;
   }

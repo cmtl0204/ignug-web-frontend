@@ -126,7 +126,7 @@ export class ConsolidatedNotesListComponent implements OnInit {
   selectItem(item: GradeModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-   // this.teacherDistributivesService.teacherDistributive = item;
+   // this.teacherDistributionsService.teacherDistribution = item;
     this.buildActionButtons();
   }
 

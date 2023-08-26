@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {ReactiveFormsModule} from "@angular/forms";
 import {CommonModule as NgCommonModule} from '@angular/common';
-import {TeacherDistributiveRoutingModule} from './teacher-distributive-routing.module';
+import {TeacherDistributionRoutingModule} from './teacher-distribution-routing.module';
 import {SharedModule} from "@shared/shared.module";
 
 // PrimeNg Modules
@@ -20,19 +20,19 @@ import {PanelMenuModule} from "primeng/panelmenu";
 import {InputNumberModule} from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
 // Components
-import {TeacherDistributiveListComponent} from "./teacher-distributive-list/teacher-distributive-list.component";
-import {TeacherDistributiveFormComponent} from "./teacher-distributive-form/teacher-distributive-form.component";
+import {TeacherDistributionListComponent} from "./teacher-distribution-list/teacher-distribution-list.component";
+import {TeacherDistributionFormComponent} from "./teacher-distribution-form/teacher-distribution-form.component";
 import {PanelModule} from "primeng/panel";
 import {DividerModule} from "primeng/divider";
 
 @NgModule({
   declarations: [
-    TeacherDistributiveListComponent,
-    TeacherDistributiveFormComponent,
+    TeacherDistributionListComponent,
+    TeacherDistributionFormComponent,
   ],
   imports: [
     NgCommonModule,
-    TeacherDistributiveRoutingModule,
+    TeacherDistributionRoutingModule,
     ReactiveFormsModule,
     SharedModule,
     ButtonModule,
@@ -53,5 +53,5 @@ import {DividerModule} from "primeng/divider";
     DividerModule,
   ]
 })
-export class TeacherDistributiveModule {
+export class TeacherDistributionModule {
 }

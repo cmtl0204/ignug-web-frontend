@@ -3,24 +3,24 @@ import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {environment } from '@env/environment';
 import {Observable } from 'rxjs';
 import {map } from 'rxjs/operators';
-import {CreateTeacherDistributiveDto, TeacherDistributiveModel, UpdateTeacherDistributiveDto } from '@models/core';
+import {CreateTeacherDistributionDto, TeacherDistributionModel, UpdateTeacherDistributionDto } from '@models/core';
 import {ServerResponse } from '@models/http-response';
 import {CoreService, MessageService } from '@services/core';
 
 @Injectable({
   providedIn: 'root'
 })
-export class TeacherDistributivesHttpService {
-  API_URL = `${environment.API_URL}/teacher-distributives`;
+export class TeacherDistributionsHttpService {
+  API_URL = `${environment.API_URL}/teacher-distributions`;
 
   constructor(
-    private coreService: CoreService, 
-    private httpClient: HttpClient, 
+    private coreService: CoreService,
+    private httpClient: HttpClient,
     private messageService: MessageService
     ) {
   }
 
-  create(payload: CreateTeacherDistributiveDto): Observable<TeacherDistributiveModel> {
+  create(payload: CreateTeacherDistributionDto): Observable<TeacherDistributionModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -48,7 +48,7 @@ export class TeacherDistributivesHttpService {
     );
   }
 
-  findOne(id: string): Observable<TeacherDistributiveModel> {
+  findOne(id: string): Observable<TeacherDistributionModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -58,7 +58,7 @@ export class TeacherDistributivesHttpService {
     );
   }
 
-  update(id: string, payload: UpdateTeacherDistributiveDto): Observable<TeacherDistributiveModel> {
+  update(id: string, payload: UpdateTeacherDistributionDto): Observable<TeacherDistributionModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -72,7 +72,7 @@ export class TeacherDistributivesHttpService {
   }
 
 
-  remove(id: string): Observable<TeacherDistributiveModel> {
+  remove(id: string): Observable<TeacherDistributionModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -85,7 +85,7 @@ export class TeacherDistributivesHttpService {
     );
   }
 
-  removeAll(payload: TeacherDistributiveModel[]): Observable<TeacherDistributiveModel[]> {
+  removeAll(payload: TeacherDistributionModel[]): Observable<TeacherDistributionModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, payload).pipe(
@@ -96,9 +96,9 @@ export class TeacherDistributivesHttpService {
     );
   }
 
-  createMany(payload: CreateTeacherDistributiveDto[]): Observable<TeacherDistributiveModel[]> {
+  createMany(payload: CreateTeacherDistributionDto[]): Observable<TeacherDistributionModel[]> {
     const url = `${this.API_URL}/create-many`;
-  
+
     this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map(response => {
@@ -109,5 +109,5 @@ export class TeacherDistributivesHttpService {
     );
   }
 
- 
+
 }
