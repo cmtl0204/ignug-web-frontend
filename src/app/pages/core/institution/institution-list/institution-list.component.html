@@ -64,6 +64,7 @@
           <div *ngSwitchCase="'state'">
             <p-tag *ngIf="rowData[col.field].code==='enabled'" severity="info" [value]="rowData[col.field].code | state" class="mr-1"></p-tag>
             <p-tag *ngIf="rowData[col.field].code==='disabled'" severity="info" [value]="rowData[col.field].code | state" class="mr-1"></p-tag>
+            <p-tag *ngIf="rowData['id']===institutionsService.institution.id" severity="success" value="SELECCIONADO" class="mr-1"></p-tag>
           </div>
         </div>
 

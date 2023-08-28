@@ -39,10 +39,28 @@ export enum CatalogueCoreTypeEnum {
   PARALLEL = 'PARALLEL',
   ENROLLMENTS_WORKDAY = 'ENROLLMENTS_WORKDAY',
 }
+export enum CatalogueStateEnum {
+  ENABLED = 'enabled',
+  DISABLED = 'disabled',
+}
 
-export enum SchoolPeriodsStateEnum {
+export enum CatalogueCoreSchoolPeriodStateEnum {
   OPEN = 'open',
   CLOSE = 'close',
+}
+
+export enum CatalogueCoreSubjectRequirementTypeEnum {
+  PREREQUISITE = 'prerequisite',
+  CO_REQUISITE = 'co_requisite',
+}
+
+export enum CatalogueCareersModalityEnum {
+  ON_SITE = 'on-site',
+  SEMI_ON_SITE = 'semi-on-site',
+  DISTANCE = 'distance',
+  DUAL = 'dual',
+  ONLINE = 'online',
+  HYBRID = 'hybrid',
 }
 
 export enum UsersIdentificationTypeStateEnum {

@@ -122,7 +122,7 @@ export class CareersHttpService {
       })
     );
   }
-  
+
   findTeachersByCareer(id: string): Observable<TeacherModel[]> {
     const url = `${this.API_URL}/${id}/teachers`;
 
@@ -142,5 +142,5 @@ export class CareersHttpService {
       })
     );
   }
-  
+
 }

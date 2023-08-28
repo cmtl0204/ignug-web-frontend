@@ -45,7 +45,7 @@ const routes: Routes = [
   },
   {
     path: 'teacher-distributions',
-    loadChildren: () => import('./teacher-distributive/teacher-distribution.module').then(m => m.TeacherDistributionModule)
+    loadChildren: () => import('./teacher-distribution/teacher-distribution.module').then(m => m.TeacherDistributionModule)
   },
   {
     path: 'subject-requirements',

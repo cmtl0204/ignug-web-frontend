@@ -17,4 +17,12 @@ export class InstitutionsService {
   set institution(value: SelectInstitutionDto) {
     sessionStorage.setItem('institution', JSON.stringify(value));
   }
+
+  get institutions(): SelectInstitutionDto[] {
+    return JSON.parse(String(sessionStorage.getItem('institutions'))) as SelectInstitutionDto[];
+  }
+
+  set institutions(value: SelectInstitutionDto[]) {
+    sessionStorage.setItem('institutions', JSON.stringify(value));
+  }
 }

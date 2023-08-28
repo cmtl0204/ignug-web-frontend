@@ -11,16 +11,16 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
-import {BreadcrumbEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, CatalogueStateEnum} from "@shared/enums";
 
 @Component({
-  selector: 'app-enrollment-list',
+  selector: 'app-institution-list',
   templateUrl: './institution-list.component.html',
   styleUrls: ['./institution-list.component.scss'],
 })
 export class InstitutionListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected actionButtons: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
@@ -36,12 +36,14 @@ export class InstitutionListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private institutionsHttpService: InstitutionsHttpService,
-    private institutionsService: InstitutionsService,
+    protected institutionsService: InstitutionsService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS},
     ]);
+
     this.paginator = this.coreService.paginator;
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findAll();
@@ -51,14 +53,6 @@ export class InstitutionListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
-  }
-
-  findAll(page: number = 0) {
-    this.institutionsHttpService.findAll(page, this.search.value)
-      .subscribe((response) => {
-        this.paginator = response.pagination!;
-        this.items = response.data
-      });
   }
 
   /** Build Data **/
@@ -72,9 +66,10 @@ export class InstitutionListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
-    return [
+  buildActionButtons(item: InstitutionModel) {
+    this.actionButtons = [
       {
+        id: 'update',
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -82,6 +77,15 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
+        id: 'select',
+        label: 'Cambiar',
+        icon: PrimeIcons.SYNC,
+        command: () => {
+          if (this.selectedItem?.id) this.change(this.selectedItem);
+        },
+      },
+      {
+        id: 'enable',
         label: 'Habilitar',
         icon: PrimeIcons.EYE,
         command: () => {
@@ -89,6 +93,7 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
+        id: 'disable',
         label: 'Inhabilitar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
@@ -96,6 +101,7 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
+        id: 'careers',
         label: 'Carreras',
         icon: PrimeIcons.BOOK,
         command: () => {
@@ -103,11 +109,27 @@ export class InstitutionListComponent implements OnInit {
         },
       }
     ];
+
+    if (item.state.code === CatalogueStateEnum.ENABLED) {
+      this.actionButtons = this.actionButtons.filter(item => item.id !== 'enable');
+    }
+
+    if (item.state.code === CatalogueStateEnum.DISABLED) {
+      this.actionButtons = this.actionButtons.filter(item => item.id !== 'disable');
+    }
   }
 
   /** Actions **/
-  enable(id: string) {
-    this.institutionsHttpService.enable(id).subscribe(() => {
+  findAll(page: number = 0) {
+    this.institutionsHttpService.findAll(page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.items = response.data
+      });
+  }
+
+  enable(institution: InstitutionModel) {
+    this.institutionsHttpService.enable(institution.id).subscribe(() => {
 
     });
   }
@@ -126,11 +148,16 @@ export class InstitutionListComponent implements OnInit {
     });
   }
 
+  change(item: SelectInstitutionDto) {
+    this.institutionsService.institution = item;
+  }
+
   /** Select & Paginate **/
   selectItem(item: InstitutionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
     this.institutionsService.institution = item;
+    this.buildActionButtons(item);
   }
 
   paginate(event: any) {

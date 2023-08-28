@@ -6,14 +6,14 @@ import {
   ColumnModel,
   PaginatorModel,
   CareerModel,
-  SelectCareerDto
+  SelectCareerDto, InstitutionModel, SelectInstitutionDto
 } from '@models/core';
 import {
   BreadcrumbService,
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CareersHttpService, CareersService, InstitutionsService
+  CareersHttpService, CareersService, InstitutionsService, InstitutionsHttpService
 } from '@services/core';
 import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
@@ -33,6 +33,7 @@ export class CareerListComponent implements OnInit {
   protected selectedItem: SelectCareerDto = {};
   protected selectedItems: CareerModel[] = [];
   protected items: CareerModel[] = [];
+  protected selectedInstitution: FormControl = new FormControl();
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -44,6 +45,7 @@ export class CareerListComponent implements OnInit {
     private careersService: CareersService,
     private eventsService: EventsService,
     protected institutionsService: InstitutionsService,
+    protected institutionsHttpService: InstitutionsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
@@ -52,20 +54,27 @@ export class CareerListComponent implements OnInit {
 
     this.paginator = this.coreService.paginator;
 
+    this.selectedInstitution.patchValue(this.institutionsService.institution);
+
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findAll();
+        this.findByInstitution();
       }
     });
+
+
+    this.selectedInstitution.valueChanges.subscribe(value => {
+      this.institutionsService.institution = value;
+    })
   }
 
   ngOnInit() {
-    this.findAll();
+    this.findByInstitution();
   }
 
   /** Load Data **/
-  findAll(page: number = 0) {
-    this.careersHttpService.findAll(page, this.search.value)
+  findByInstitution(page: number = 0) {
+    this.institutionsHttpService.findCareersByInstitution(this.institutionsService.institution.id!, page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;
@@ -136,21 +145,21 @@ export class CareerListComponent implements OnInit {
         },
       });
 
-      if (this.selectedItem.isVisible) {
-        const index = this.actionButtons.findIndex(actionButton => {
-          return actionButton.id === ActionButtonsEnum.REACTIVATE;
-        });
-  
-        this.actionButtons.splice(index, 1);
-      }
-  
-      if (!this.selectedItem.isVisible) {
-        const index = this.actionButtons.findIndex(actionButton => {
-          return actionButton.id === ActionButtonsEnum.HIDE;
-        });
-  
-        this.actionButtons.splice(index, 1);
-      }
+    if (this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.REACTIVATE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
+
+    if (!this.selectedItem.isVisible) {
+      const index = this.actionButtons.findIndex(actionButton => {
+        return actionButton.id === ActionButtonsEnum.HIDE;
+      });
+
+      this.actionButtons.splice(index, 1);
+    }
   }
 
   /** Actions **/
@@ -203,7 +212,7 @@ export class CareerListComponent implements OnInit {
   }
 
   paginate(event: any) {
-    this.findAll(event.page);
+    this.findByInstitution(event.page);
   }
 
   /** Redirects **/

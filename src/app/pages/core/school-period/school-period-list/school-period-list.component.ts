@@ -15,7 +15,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum, SchoolPeriodsStateEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum, CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-school-period-list',
@@ -165,7 +165,7 @@ export class SchoolPeriodListComponent implements OnInit {
       });
 
     /** Action Buttons Validations **/
-    if (this.selectedItem.state?.code === SchoolPeriodsStateEnum.CLOSE) {
+    if (this.selectedItem.state?.code === CatalogueCoreSchoolPeriodStateEnum.CLOSE) {
       // this.actionButtons = this.actionButtons.filter(actionButton => {
       //   return actionButton.id !== ActionButtonsEnum.SHOW_EVENTS && actionButton.id !== ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
       // });
@@ -183,7 +183,7 @@ export class SchoolPeriodListComponent implements OnInit {
       this.actionButtons.splice(index, 1);
     }
 
-    if (this.selectedItem.state?.code === SchoolPeriodsStateEnum.OPEN) {
+    if (this.selectedItem.state?.code === CatalogueCoreSchoolPeriodStateEnum.OPEN) {
       // this.actionButtons = this.actionButtons.filter(actionButton => {
       //   return actionButton.id !== ActionButtonsEnum.OPEN_SCHOOL_PERIOD;
       // });
