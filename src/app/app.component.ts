@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {PrimeNGConfig} from 'primeng/api';
-import {BreadcrumbService, CoreService} from "@services/core";
+import {BreadcrumbService, CataloguesHttpService, CoreService} from "@services/core";
 import {BreadcrumbEnum, CoreMessageEnum} from "@shared/enums";
 import {DOCUMENT} from "@angular/common";
 
@@ -12,12 +12,15 @@ import {DOCUMENT} from "@angular/common";
 export class AppComponent {
   protected readonly CoreMessageEnum = CoreMessageEnum;
 
-  constructor(@Inject(DOCUMENT) private document: Document, private primengConfig: PrimeNGConfig, public coreService: CoreService, private breadcrumbService: BreadcrumbService) {
+  constructor(@Inject(DOCUMENT) private document: Document, private primengConfig: PrimeNGConfig,
+              public coreService: CoreService, private breadcrumbService: BreadcrumbService,
+              private cataloguesHttpService: CataloguesHttpService) {
     this.breadcrumbService.setItems([{label: BreadcrumbEnum.HOME}]);
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
+    this.findCatalogue();
   }
 
   switchTheme(theme: string) {
@@ -26,5 +29,14 @@ export class AppComponent {
     if (theme)
       themeLink.href = `./assets/themes/${theme}/theme.css`;
     console.log(themeLink.href);
+  }
+
+  findCatalogue() {
+    let catalogues = localStorage.getItem('catalogues');
+    console.log(catalogues);
+    if (catalogues === undefined || !catalogues) {
+      console.log('entro');
+      this.cataloguesHttpService.loadCache().subscribe();
+    }
   }
 }

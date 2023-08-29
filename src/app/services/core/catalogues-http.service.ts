@@ -92,4 +92,23 @@ export class CataloguesHttpService {
       })
     );
   }
+
+  findCache(): CatalogueModel[] {
+    return JSON.parse(String(sessionStorage.getItem('catalogues')));
+  }
+
+  loadCache(): Observable<boolean> {
+    const url = `${this.API_URL}/cache/load`;
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map(response => {
+        console.log(response.data);
+        sessionStorage.setItem('catalogues', response.data);
+        return true;
+      })
+    );
+  }
+
+  findByType(type: CatalogueCoreTypeEnum): CatalogueModel[] {
+    return this.findCache().filter(catalogue => catalogue.type === type);
+  }
 }

@@ -98,14 +98,14 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   getProfile(): void {
     this.authHttpService.getProfile().subscribe((user) => {
         this.form.patchValue(user);
-      if (this.birthdateField.value)
-        this.birthdateField.setValue(new Date(this.birthdateField.value));
+        if (this.birthdateField.value)
+          this.birthdateField.setValue(new Date(this.birthdateField.value));
       }
     );
   }
 
   loadBloodTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((bloodTypes) => this.bloodTypes = bloodTypes);
+    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
   }
 
   loadEthnicOrigins(): void {
