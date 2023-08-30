@@ -191,4 +191,8 @@ export class TeacherDistributionListComponent implements OnInit {
     this.isCareerSelected = true;
   }
 
+  export(){
+    this.teacherDistributionsHttpService.downloadFile('excel');
+  }
+
 }

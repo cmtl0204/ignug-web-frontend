@@ -12,6 +12,7 @@ import {CoreService, MessageService } from '@services/core';
 })
 export class TeacherDistributionsHttpService {
   API_URL = `${environment.API_URL}/teacher-distributions`;
+  FILE_URL = `${environment.API_URL}/exports`;
 
   constructor(
     private coreService: CoreService,
@@ -109,5 +110,21 @@ export class TeacherDistributionsHttpService {
     );
   }
 
+  
+//exportar excel
+
+downloadFile(file: any) {
+  const url = `${this.FILE_URL}/teacher-distributions`;
+  this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+    .subscribe(response => {
+      // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+      const filePath = URL.createObjectURL(new Blob([response]));
+      const downloadLink = document.createElement('a');
+      downloadLink.href = filePath;
+      downloadLink.setAttribute('download', 'teacher-distributions.xlsx');
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+    });
+}
 
 }

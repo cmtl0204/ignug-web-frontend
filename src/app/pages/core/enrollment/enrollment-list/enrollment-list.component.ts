@@ -1,17 +1,19 @@
-import {Component, OnInit} from '@angular/core';
-import {FormControl} from "@angular/forms";
-import {Router} from '@angular/router';
-import {MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel} from '@models/core';
+import { Component, OnInit } from '@angular/core';
+import { FormControl } from "@angular/forms";
+import { Router } from '@angular/router';
+import { MenuItem, PrimeIcons } from "primeng/api";
+import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel } from '@models/core';
 import {
   BreadcrumbService,
+  CataloguesHttpService,
   CoreService,
+  CurriculumsHttpService,
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
   SubjectsHttpService
 } from '@services/core';
-import {BreadcrumbEnum} from "@shared/enums";
+import { BreadcrumbEnum, CatalogueCoreTypeEnum } from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -30,6 +32,10 @@ export class EnrollmentListComponent implements OnInit {
   protected items: EnrollmentModel[] = [];
   protected subjects: SubjectModel[] = [];
   protected selectedSubjects: SubjectModel[] = [];
+  protected levels: any[] = [];
+  protected parallels: CatalogueModel[] = [];
+  protected workdays: CatalogueModel[] = [];
+
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -38,9 +44,11 @@ export class EnrollmentListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
-    private subjectsHttpService: SubjectsHttpService
+    private curriculumsHttpService: CurriculumsHttpService,
+    private cataloguesHttpService: CataloguesHttpService
+
   ) {
-    this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENTS}]);
+    this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
 
     this.paginator = this.coreService.paginator;
 
@@ -53,7 +61,7 @@ export class EnrollmentListComponent implements OnInit {
 
   ngOnInit() {
     this.findAll();
-    this.findByCarrer();
+    this.findSubjectsByCurriculum();
   }
 
   /** Load Data **/
@@ -65,22 +73,47 @@ export class EnrollmentListComponent implements OnInit {
       });
   }
 
-  findByCarrer() {
-    this.subjectsHttpService.findByCareer(this.search.value)
+  findSubjectsByCurriculum() {
+    this.curriculumsHttpService.findSubjectsByCurriculum('19aa2462-bc8f-4a65-b685-d583b8f86e61')
       .subscribe((response) => {
-        this.subjects = response
+        this.subjects = response;
+
+        const levelsMap = new Map<string, SubjectModel[]>();
+        this.subjects.forEach(subject => {
+          const level = subject.academicPeriod.name;
+          if (!levelsMap.has(level)) {
+            levelsMap.set(level, []);
+          }
+
+          const levelSubjects = levelsMap.get(level);
+          if (levelSubjects !== undefined) {
+            levelSubjects.push(subject);
+          }
+        });
+
+        console.log(levelsMap);
+        this.levels = Array.from(levelsMap).sort();
+        console.log(this.levels);
       });
   }
 
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'number', header: 'Numero de matricula'},
-      {field: 'date', header: 'Fecha'},
-      {field: 'finalAttendance', header: 'Última asistencia'},
-      {field: 'finalGrade', header: 'Nota final'},
-      {field: 'state', header: 'Estado'},
+      { field: 'number', header: 'Numero de matricula' },
+      { field: 'date', header: 'Fecha' },
+      { field: 'finalAttendance', header: 'Última asistencia' },
+      { field: 'finalGrade', header: 'Nota final' },
+      { field: 'state', header: 'Estado' },
     ];
+  }
+
+  loadParallels(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.PARALLEL).subscribe((items) => this.parallels = items);
+  }
+
+  loadWorkdays(): void {
+    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.WORKDAY).subscribe((items) => this.workdays = items);
   }
 
   get buildActionButtons(): MenuItem[] {

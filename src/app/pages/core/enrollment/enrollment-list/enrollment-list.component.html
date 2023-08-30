@@ -25,40 +25,63 @@
 <p-paginator [rows]="paginator.limit" [totalRecords]="paginator.totalItems" (onPageChange)="paginate($event)">
 </p-paginator>
 
-<p-accordion [activeIndex]="0">
-  <p-accordionTab header="Primer Nivel">
-    <p>
-
-    </p>
-  </p-accordionTab>
-  <p-accordionTab header="Segundo nivel">
-    <p>
-
-    </p>
-  </p-accordionTab>
-  <p-accordionTab header="Tercer nivel">
-    <p>
-
-    </p>
-  </p-accordionTab>
-  <p-accordionTab header="Cuarto nivel">
-    <p>
-
-    </p>
-  </p-accordionTab>
-  <p-accordionTab header="Quinto nivel">
-    <p>
-
-    </p>
-  </p-accordionTab>
-</p-accordion>
-
+<p-tabView>
+  <p-tabPanel header="Materias">
+    <p-accordion [activeIndex]="0">
+      <p-accordionTab *ngFor="let level of levels" [header]="level[0]">
+        <p-table [value]="level[1]" [tableStyle]="{ 'min-width': '50rem' }">
+          <ng-template pTemplate="header">
+            <tr>
+              <th>
+                Materias
+              </th>
+              <th>
+                Seleccionar
+              </th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body">
+            <tr>
+              <td *ngFor="let level of level[1]">
+                {{level.name}}
+              </td>
+              <td>
+                <p-tableCheckbox></p-tableCheckbox>
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+      </p-accordionTab>
+    </p-accordion>
+  </p-tabPanel>
+  <p-tabPanel header="Jornada y paralelos">
+    <div class="formgrid grid">
+      <div class=" xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="parallel" label="Paralelo:"></label>
+        <p-dropdown id="parallel" formControlName="parallel" dataKey="id" [options]="parallels" optionLabel="name"
+          [filter]="true" filterBy="name" placeholder="Select">
+          <ng-template pTemplate="item" let-item>
+            {{item.name}}
+          </ng-template>
+        </p-dropdown>
+      </div>
+      <div class=" xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="workday" label="Jornada:"></label>
+        <p-dropdown id="workday" formControlName="workday" dataKey="id" [options]="workdays" optionLabel="name"
+          [filter]="true" filterBy="name" placeholder="Select">
+          <ng-template pTemplate="item" let-item>
+            {{item.name}}
+          </ng-template>
+        </p-dropdown>
+      </div>
+    </div>
+  </p-tabPanel>
+</p-tabView>
 <p-table dataKey="id" styleClass="p-datatable-striped" [value]="items" [columns]="columns"
   [loading]="coreService.isLoading" [(selection)]="selectedItems">
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th style="width: 3rem">
-        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
       </th>
       <th *ngFor="let col of columns" [pSortableColumn]="col.field">
         {{col.header}}

@@ -29,6 +29,14 @@
     </button>
 
     <button pButton pRipple type="button"
+    label="Exportar Distributivo Docente"
+    class="p-button-success"
+    [icon]="PrimeIcons.PLUS"
+    [loading]="coreService.isLoading"
+    (click)="export()">
+</button>
+
+    <button pButton pRipple type="button"
             label="Eliminar Seleccionados"
             class="p-button-danger"
             [disabled]="selectedItems.length===0"
@@ -54,25 +62,7 @@
   (onPageChange)="paginate($event)">
 </p-paginator>
 
- <!--    cargar excel 
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label class="custom-file-input">
-          <i class="pi pi-upload"></i> Subir excel
-          <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" style="display:none;">
-        </label>
-      </div>
-
-      <!-- descargar excel -->
-      <!--<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button (click)="generateExcelFile()" class="download-button">
-          <i class="pi pi-download"></i> Descargar Excel
-        </button>
-      </div>
-      
-    </div> 
-
-    <p-divider></p-divider>  -->
+    <p-divider></p-divider>  
 
 <p-table
   dataKey="id"
