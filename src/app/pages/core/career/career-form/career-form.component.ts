@@ -11,7 +11,7 @@ import {
   MessageService,
   RoutesService,
   CareersHttpService,
-  InstitutionsHttpService, InstitutionsService
+  InstitutionsService
 } from '@services/core';
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 

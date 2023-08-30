@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BlankComponent, MainComponent} from '@layout';
-import {NotFoundGuard,RoleGuard, TokenGuard} from '@shared/guards';
+import {RoleGuard, TokenGuard} from '@shared/guards';
 
 const routes: Routes = [
   {
@@ -32,7 +32,6 @@ const routes: Routes = [
     path: 'common',
     title: 'Common',
     component: BlankComponent,
-    canActivate: [NotFoundGuard],
     loadChildren: () => import('./pages/common/common.module').then(m => m.CommonModule),
   },
   {

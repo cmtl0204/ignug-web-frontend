@@ -109,25 +109,23 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   }
 
   loadEthnicOrigins(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((ethnicOrigins) => this.ethnicOrigins = ethnicOrigins);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
   }
 
   loadGenders(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((genders) => this.genders = genders);
+    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
   }
 
   loadIdentificationTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE).subscribe((identificationTypes) =>
-      this.identificationTypes = identificationTypes
-    );
+    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE);
   }
 
   loadMaritalStatus(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.MARITAL_STATUS).subscribe((maritalStatus) => this.maritalStatus = maritalStatus);
+    this.maritalStatus = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.MARITAL_STATUS);
   }
 
   loadSexes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((sexes) => this.sexes = sexes);
+    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
   }
 
   updateProfile(user: UpdateUserDto): void {

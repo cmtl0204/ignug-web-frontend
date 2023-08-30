@@ -43,7 +43,6 @@ export class AuthenticationInterceptor implements HttpInterceptor {
       // Cuando la aplicación o una ruta está en mantenimiento
       if (error.status === 503) {
         this.authService.removeLogin();
-        console.log(error.error);
         this.coreService.serviceUnavailable = error.error.data;
         this.router.navigate(['/common/503']);
       }

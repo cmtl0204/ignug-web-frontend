@@ -93,22 +93,18 @@ export class CataloguesHttpService {
     );
   }
 
-  findCache(): CatalogueModel[] {
-    return JSON.parse(String(sessionStorage.getItem('catalogues')));
-  }
-
-  loadCache(): Observable<boolean> {
-    const url = `${this.API_URL}/cache/load`;
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+  findCache(): Observable<boolean> {
+    const url = `${this.API_URL}/cache/get`;
+    return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        console.log(response.data);
-        sessionStorage.setItem('catalogues', response.data);
+        localStorage.setItem('catalogues', JSON.stringify(response.data));
         return true;
       })
     );
   }
 
   findByType(type: CatalogueCoreTypeEnum): CatalogueModel[] {
-    return this.findCache().filter(catalogue => catalogue.type === type);
+    const catalogues: CatalogueModel[] = JSON.parse(String(localStorage.getItem('catalogues')));
+    return catalogues.filter(catalogue => catalogue.type === type);
   }
 }

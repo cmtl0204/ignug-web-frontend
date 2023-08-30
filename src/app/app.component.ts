@@ -28,15 +28,13 @@ export class AppComponent {
 
     if (theme)
       themeLink.href = `./assets/themes/${theme}/theme.css`;
-    console.log(themeLink.href);
   }
 
   findCatalogue() {
     let catalogues = localStorage.getItem('catalogues');
-    console.log(catalogues);
+
     if (catalogues === undefined || !catalogues) {
-      console.log('entro');
-      this.cataloguesHttpService.loadCache().subscribe();
+      this.cataloguesHttpService.findCache().subscribe();
     }
   }
 }
