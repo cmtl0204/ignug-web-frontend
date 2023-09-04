@@ -132,8 +132,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.CAREERS_STATE)
-      .subscribe((items) => this.states = items);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.CAREERS_STATE);
   }
 
 

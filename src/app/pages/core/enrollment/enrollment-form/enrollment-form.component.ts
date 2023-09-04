@@ -1,19 +1,38 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, AbstractControl, Validators, FormGroup } from '@angular/forms';
-import { CatalogueModel, CurriculumModel, EnrollmentModel, SchoolPeriodModel, StudentModel, SubjectModel } from '@models/core';
-import { OnExitInterface } from '@shared/interfaces';
-import { PrimeIcons } from 'primeng/api';
-import { EnrollmentModule } from '../enrollment.module';
-import { ActivatedRoute, Router } from '@angular/router';
-import { BreadcrumbService, CataloguesHttpService, CoreService, CurriculumsService, EnrollmentsHttpService, MessageService, RoutesService, SchoolPeriodsService, StudentsHttpService, StudentsService, SubjectsService } from '@services/core';
-import { BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum } from '@shared/enums';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
+import {
+  CatalogueModel,
+  CurriculumModel,
+  EnrollmentModel,
+  SchoolPeriodModel,
+  StudentModel,
+  SubjectModel
+} from '@models/core';
+import {OnExitInterface} from '@shared/interfaces';
+import {PrimeIcons} from 'primeng/api';
+import {EnrollmentModule} from '../enrollment.module';
+import {ActivatedRoute, Router} from '@angular/router';
+import {
+  BreadcrumbService,
+  CataloguesHttpService,
+  CoreService,
+  CurriculumsService,
+  EnrollmentsHttpService,
+  MessageService,
+  RoutesService,
+  SchoolPeriodsService,
+  StudentsHttpService,
+  StudentsService,
+  SubjectsService
+} from '@services/core';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-enrollment-form',
   templateUrl: './enrollment-form.component.html',
   styleUrls: ['./enrollment-form.component.scss']
 })
-export class EnrollmentFormComponent implements OnInit, OnExitInterface{
+export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -53,11 +72,10 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
     protected schoolPeriodService: SchoolPeriodsService,
     private enrollmentsHttpService: EnrollmentsHttpService,
     private subjectService: SubjectsService,
-
   ) {
     this.breadcrumbService.setItems([
-      { label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments] },
-      { label: BreadcrumbEnum.FORM },
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -78,7 +96,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
   ngOnInit(): void {
   }
 
-  get enrollmentDetailForm(): FormGroup{
+  get enrollmentDetailForm(): FormGroup {
     return this.formBuilder.group({
       number: [null],
       date: [null, [Validators.required]],
@@ -95,7 +113,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
     })
   }
 
-  get enrollmentForm(): FormGroup{
+  get enrollmentForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
       date: [null],
@@ -124,7 +142,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 
@@ -156,29 +174,29 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
   /** Load Enrollment Details Data **/
 
   loadAcademicStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ACADEMIC_STATE).subscribe((items) => this.academicStates = items);
+    this.academicStates = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_STATE);
   }
 
   loadParallels(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.PARALLEL).subscribe((items) => this.parallels = items);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.STATE).subscribe((items) => this.states = items);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
   }
 
   loadTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.TYPE).subscribe((items) => this.types = items);
+    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.TYPE);
   }
 
   loadWorkdays(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.WORKDAY).subscribe((items) => this.workdays = items);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
   }
 
   /** Load Enrollment Data **/
 
   loadAcademicPeriods(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ACADEMIC_PERIOD).subscribe((items) => this.academicPeriods = items);
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
   /** Form Getters **/
@@ -232,7 +250,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface{
     return this.enrollmentDetailForm.controls['workday'];
   }
 
-   /** Enrollment Form **/
+  /** Enrollment Form **/
   get dateEnrollmentField(): AbstractControl {
     return this.enrollmentForm.controls['date'];
   }

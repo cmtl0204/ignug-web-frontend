@@ -2,15 +2,25 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-  <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>  
+    <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>
   </ng-template>
 
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- logo & state & isVisible -->
     <div class="formgrid grid">
-      <!-- state & isVisiible -->
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="logo" label="Logo:" [required]="logoField"></label>
+        <input pInputText type="text" id="logo" formControlName="logo"/>
+        <small appErrorMessage
+               [errors]="logoField.errors"
+               [touched]="logoField.touched"
+               [dirty]="logoField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label appLabel for="state" label="Estado:" [required]="stateField"></label>
         <p-dropdown id="state"
                     dataKey="id"
@@ -26,10 +36,10 @@
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label appLabel for="isVisible" label="Visible:"
                [required]="isVisibleField"></label>
-        <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
+        <p><p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch></p>
         <small appErrorMessage
                [errors]="isVisibleField.errors"
                [touched]="isVisibleField.touched"
@@ -38,31 +48,28 @@
       </div>
     </div>
 
-    <!-- code & codeSniese -->
+    <!-- code & codeSniese & acronym & slogan -->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12">
         <label appLabel for="code" label="Código:" [required]="codeField"></label>
-        <input pInputText type="text" id="code" formControlName="code" />
+        <input pInputText type="text" id="code" formControlName="code"/>
         <small appErrorMessage [errors]="codeField.errors" [touched]="codeField.touched" [dirty]="codeField.dirty">
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12">
         <label appLabel for="codeSniese" label="Código SNIESE:" [required]="codeSnieseField"></label>
-        <input pInputText type="text" id="codeSniese" formControlName="codeSniese" />
+        <input pInputText type="text" id="codeSniese" formControlName="codeSniese"/>
         <small appErrorMessage
                [errors]="codeSnieseField.errors"
                [touched]="codeSnieseField.touched"
                [dirty]="codeSnieseField.dirty">
         </small>
       </div>
-    </div>
 
-    <!-- acronym & phone -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12">
         <label appLabel for="acronym" label="Siglas:" [required]="acronymField"></label>
-        <input pInputText type="text" id="acronym" formControlName="acronym" />
+        <input pInputText type="text" id="acronym" formControlName="acronym"/>
         <small appErrorMessage
                [errors]="acronymField.errors"
                [touched]="acronymField.touched"
@@ -71,64 +78,32 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="cellphone" label="Número Celular:" [required]="cellphoneField"></label>
-        <input pInputText type="text" id="cellphone" formControlName="cellphone" />
+        <label appLabel for="slogan" label="Slogan:" [required]="sloganField"></label>
+        <input pInputText type="text" id="slogan" formControlName="slogan"/>
+        <small appErrorMessage
+               [errors]="sloganField.errors"
+               [touched]="sloganField.touched"
+               [dirty]="sloganField.dirty">
+        </small>
+      </div>
+    </div>
+
+    <!-- cellphone & phone & email & web -->
+    <div class="formgrid grid">
+
+      <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
+        <label appLabel for="cellphone" label="Teléfono Celular:" [required]="cellphoneField"></label>
+        <input pInputText type="text" id="cellphone" formControlName="cellphone" placeholder="0987654321"/>
         <small appErrorMessage
                [errors]="cellphoneField.errors"
                [touched]="cellphoneField.touched"
                [dirty]="cellphoneField.dirty">
         </small>
       </div>
-    </div>
 
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
-        <input pInputText type="text" id="denomination" formControlName="denomination" />
-        <small appErrorMessage
-               [errors]="denominationField.errors"
-               [touched]="denominationField.touched"
-               [dirty]="denominationField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="email" label="Email:" [required]="emailField"></label>
-        <input pInputText type="email" id="email" formControlName="email" />
-        <small appErrorMessage
-               [errors]="emailField.errors"
-               [touched]="emailField.touched"
-               [dirty]="emailField.dirty">
-        </small>
-      </div>
-    </div>
-
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
-        <input pInputText type="text" id="name" formControlName="name" />
-        <small appErrorMessage
-               [errors]="nameField.errors"
-               [touched]="nameField.touched"
-               [dirty]="nameField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
-        <input pInputText type="text" id="shortName" formControlName="shortName" />
-        <small appErrorMessage
-               [errors]="shortNameField.errors"
-               [touched]="shortNameField.touched"
-               [dirty]="shortNameField.dirty">
-        </small>
-      </div>
-    </div>
-
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="phone" label="Teléfono:" [required]="phoneField"></label>
-        <input pInputText type="text" id="phone" formControlName="phone" />
+      <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
+        <label appLabel for="phone" label="Teléfono Fijo:" [required]="phoneField"></label>
+        <input pInputText type="text" id="phone" formControlName="phone" placeholder="023456789"/>
         <small appErrorMessage
                [errors]="phoneField.errors"
                [touched]="phoneField.touched"
@@ -136,9 +111,20 @@
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="slogan" label="Slogan:" [required]="sloganField"></label>
-        <input pInputText type="text" id="slogan" formControlName="slogan" />
+      <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
+        <label appLabel for="email" label="Correo Electrónico:" [required]="emailField"></label>
+        <input pInputText type="email" id="email" formControlName="email" placeholder="micorreo@gmail.com"/>
+        <small appErrorMessage
+               [errors]="emailField.errors"
+               [touched]="emailField.touched"
+               [dirty]="emailField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
+        <label appLabel for="web" label="Página Web:" [required]="webField"></label>
+        <app-help-field (click)="opWebField.toggle($event)"></app-help-field>
+        <input pInputText type="text" id="web" formControlName="web"/>
         <small appErrorMessage
                [errors]="sloganField.errors"
                [touched]="sloganField.touched"
@@ -147,24 +133,36 @@
       </div>
     </div>
 
+    <!-- denomination & name & shortName -->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="web" label="Web:" [required]="webField"></label>
-        <input pInputText type="text" id="web" formControlName="web" />
+      <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+        <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
+        <app-help-field (mouseenter)="opDenominationField.toggle($event)" (mouseleave)="opDenominationField.hide()"></app-help-field>
+        <input pInputText type="text" id="denomination" formControlName="denomination"/>
         <small appErrorMessage
-               [errors]="sloganField.errors"
-               [touched]="sloganField.touched"
-               [dirty]="sloganField.dirty">
+               [errors]="denominationField.errors"
+               [touched]="denominationField.touched"
+               [dirty]="denominationField.dirty">
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="logo" label="Logo:" [required]="logoField"></label>
-        <input pInputText type="text" id="logo" formControlName="logo" />
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
+        <input pInputText type="text" id="name" formControlName="name"/>
         <small appErrorMessage
-               [errors]="logoField.errors"
-               [touched]="logoField.touched"
-               [dirty]="logoField.dirty">
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
+        <input pInputText type="text" id="shortName" formControlName="shortName"/>
+        <small appErrorMessage
+               [errors]="shortNameField.errors"
+               [touched]="shortNameField.touched"
+               [dirty]="shortNameField.dirty">
         </small>
       </div>
     </div>
@@ -188,3 +186,19 @@
     </div>
   </form>
 </p-panel>
+
+<p-overlayPanel #opWebField>
+  <p>Ej. https://midominio.com</p>
+</p-overlayPanel>
+
+<p-overlayPanel #opDenominationField>
+  <ng-template pTemplate="content">
+    <h3>Ejemplos:</h3>
+    <p-divider></p-divider>
+    <ul>
+      <li>Universidad</li>
+      <li>Escuela Politécnica</li>
+      <li>Instituto Superior Tecnológico</li>
+    </ul>
+  </ng-template>
+</p-overlayPanel>

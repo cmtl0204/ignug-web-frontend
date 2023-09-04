@@ -14,12 +14,11 @@ export class MessageService {
 
   error(error: ServerResponse) {
     if (error.statusCode === 422) {
-      let i;
       // const fields = Object.values(error.message).toString().split('.,');
       const fields = error.message;
 
       let html = '<ul>';
-      for (i = 0; i < fields.length; i++) {
+      for (let i = 0; i < fields.length; i++) {
         html += `<li class="pi pi-times"> ${fields[i]}.</li>`;
       }
       html += '</ul>';
@@ -62,10 +61,16 @@ export class MessageService {
     });
   }
 
-  get errorsFields() {
+  errorsFields(errors: string[] = []) {
+    let html = '<ul>';
+    for (let i = 0; i < errors.length; i++) {
+      html += `<li>- ${errors[i]}</li>`;
+    }
+    html += '</ul>';
+
     return Swal.fire({
       title: 'Revise los campos',
-      html: 'Revise que los campos estén llenos de forma correcta',
+      html,
       icon: 'error'
     });
   }

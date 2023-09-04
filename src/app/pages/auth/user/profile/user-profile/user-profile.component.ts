@@ -91,7 +91,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
       this.updateProfile(this.form.value);
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 

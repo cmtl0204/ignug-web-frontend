@@ -54,6 +54,21 @@ export class CareersHttpService {
     );
   }
 
+  findCurriculumsByCareer(careerId:string,page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = `${this.API_URL}/${careerId}/curriculums`;
+
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
   findOne(id: string): Observable<CareerModel> {
     const url = `${this.API_URL}/${id}`;
 

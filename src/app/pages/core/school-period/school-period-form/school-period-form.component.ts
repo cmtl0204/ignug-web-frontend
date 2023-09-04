@@ -162,8 +162,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE)
-      .subscribe((items) => this.states = items);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE);
   }
 
   /** Form Getters **/

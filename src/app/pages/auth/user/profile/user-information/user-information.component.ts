@@ -57,7 +57,7 @@ export class UserInformationComponent implements OnInit, OnExitInterface {
       this.updateUserInformation(this.form.value);
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 

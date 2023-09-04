@@ -113,7 +113,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 

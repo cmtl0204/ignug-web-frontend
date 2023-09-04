@@ -23,6 +23,8 @@ import {SharedModule} from "@shared/shared.module";
 import {PanelModule} from "primeng/panel";
 import {DividerModule} from "primeng/divider";
 import {InputSwitchModule} from "primeng/inputswitch";
+import {InputMaskModule} from "primeng/inputmask";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 @NgModule({
   declarations: [
@@ -47,7 +49,9 @@ import {InputSwitchModule} from "primeng/inputswitch";
     SharedModule,
     PanelModule,
     DividerModule,
-    InputSwitchModule
+    InputSwitchModule,
+    InputMaskModule,
+    OverlayPanelModule
   ]
 })
 export class InstitutionModule {

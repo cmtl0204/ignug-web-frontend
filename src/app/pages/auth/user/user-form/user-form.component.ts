@@ -115,7 +115,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 
@@ -142,9 +142,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   loadIdentificationTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE).subscribe((identificationTypes) =>
-      this.identificationTypes = identificationTypes
-    );
+    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE);
   }
 
   handleChangePassword(event: any) {

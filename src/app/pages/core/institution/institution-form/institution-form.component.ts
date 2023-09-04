@@ -13,6 +13,7 @@ import {
   InstitutionsHttpService
 } from "@services/core";
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
+import {Expressions} from "@shared/regular-expresions/expresions";
 
 @Component({
   selector: 'app-institution-form',
@@ -20,9 +21,11 @@ import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums
   styleUrls: ['./institution-form.component.scss']
 })
 export class InstitutionFormComponent implements OnInit, OnExitInterface {
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
+  protected formErrors: string[] = [];
   protected panelHeader: string = 'Crear';
 
   // Foreign Keys
@@ -45,8 +48,8 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
-      this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
+      this.id = this.activatedRoute.snapshot.params['id'];
+      this.panelHeader = 'Editar';
     }
 
     this.form = this.newForm;
@@ -57,6 +60,10 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
+  }
+
+  back(): void {
+    this.router.navigate([this.routesService.institutions]);
   }
 
   ngOnInit(): void {
@@ -74,7 +81,7 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
       code: [null, [Validators.required]],
       codeSniese: [null, []],
       denomination: [null, [Validators.required]],
-      email: [null,[Validators.required, Validators.email]],
+      email: [null, [Validators.required, Validators.email]],
       isVisible: [true, [Validators.required]],
       logo: [null, [Validators.required]],
       name: [null, [Validators.required]],
@@ -82,12 +89,12 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
       shortName: [null, [Validators.required]],
       slogan: [null, [Validators.required]],
       state: [null, [Validators.required]],
-      web: [null, [Validators.required]],
+      web: ['https://', [Validators.pattern(Expressions.url)]],
     });
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -95,12 +102,8 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields(this.formErrors);
     }
-  }
-
-  back(): void {
-    this.router.navigate([this.routesService.institutions]);
   }
 
   /** Actions **/
@@ -126,7 +129,30 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.INSTITUTIONS_STATE).subscribe((items) => this.states = items);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.INSTITUTIONS_STATE);
+  }
+
+  /** Validations **/
+  validateForm() {
+    this.formErrors = [];
+
+    if (this.acronymField.errors) this.formErrors.push('Siglas');
+    if (this.cellphoneField.errors) this.formErrors.push('Teléfono Celular');
+    if (this.codeField.errors) this.formErrors.push('Código');
+    if (this.codeSnieseField.errors) this.formErrors.push('Código SNIESE');
+    if (this.denominationField.errors) this.formErrors.push('Denominación');
+    if (this.emailField.errors) this.formErrors.push('Correo Electrónico');
+    if (this.isVisibleField.errors) this.formErrors.push('Es Visible');
+    if (this.logoField.errors) this.formErrors.push('Logo');
+    if (this.nameField.errors) this.formErrors.push('Nombre');
+    if (this.phoneField.errors) this.formErrors.push('Teléfono Fijo');
+    if (this.shortNameField.errors) this.formErrors.push('Nombre Corto');
+    if (this.sloganField.errors) this.formErrors.push('Slogan');
+    if (this.stateField.errors) this.formErrors.push('Estado');
+    if (this.webField.errors) this.formErrors.push('Página Web');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
   }
 
   /** Form Getters **/
@@ -185,6 +211,4 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   get webField(): AbstractControl {
     return this.form.controls['web'];
   }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
 }

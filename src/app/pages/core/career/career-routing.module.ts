@@ -10,6 +10,10 @@ const routes: Routes = [
     component: CareerListComponent
   },
   {
+    path: 'institutions/:institutionId',
+    component: CareerListComponent
+  },
+  {
     path: ':id',
     component: CareerFormComponent,
     canDeactivate: [ExitGuard]

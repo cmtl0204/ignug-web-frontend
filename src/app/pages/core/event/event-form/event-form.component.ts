@@ -131,7 +131,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SCHOOL_TYPE).subscribe((items) => this.states = items);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOOL_TYPE);
   }
 
   /** Form Getters **/

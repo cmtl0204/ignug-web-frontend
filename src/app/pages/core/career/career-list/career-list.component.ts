@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {
   ColumnModel,
@@ -34,18 +34,20 @@ export class CareerListComponent implements OnInit {
   protected selectedItems: CareerModel[] = [];
   protected items: CareerModel[] = [];
   protected selectedInstitution: FormControl = new FormControl();
+  protected institutions: SelectInstitutionDto[] = [];
 
   constructor(
-    private breadcrumbService: BreadcrumbService,
-    public coreService: CoreService,
-    public messageService: MessageService,
-    private router: Router,
-    private routesService: RoutesService,
-    private careersHttpService: CareersHttpService,
-    private careersService: CareersService,
-    private eventsService: EventsService,
-    protected institutionsService: InstitutionsService,
-    protected institutionsHttpService: InstitutionsHttpService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly breadcrumbService: BreadcrumbService,
+    public readonly coreService: CoreService,
+    public readonly messageService: MessageService,
+    private readonly router: Router,
+    private readonly routesService: RoutesService,
+    private readonly careersHttpService: CareersHttpService,
+    private readonly careersService: CareersService,
+    private readonly eventsService: EventsService,
+    protected readonly institutionsService: InstitutionsService,
+    protected readonly institutionsHttpService: InstitutionsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
@@ -54,7 +56,14 @@ export class CareerListComponent implements OnInit {
 
     this.paginator = this.coreService.paginator;
 
-    this.selectedInstitution.patchValue(this.institutionsService.institution);
+    this.institutions = this.institutionsService.institutions;
+
+    if (this.activatedRoute.snapshot.params['institutionId']) {
+      const institution = this.institutions.find(institution => institution.id === activatedRoute.snapshot.params['institutionId']);
+      this.selectedInstitution.patchValue(institution);
+    } else {
+      this.selectedInstitution.patchValue(this.institutionsService.institution);
+    }
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
@@ -63,9 +72,6 @@ export class CareerListComponent implements OnInit {
     });
 
 
-    this.selectedInstitution.valueChanges.subscribe(value => {
-      this.institutionsService.institution = value;
-    })
   }
 
   ngOnInit() {
@@ -107,16 +113,6 @@ export class CareerListComponent implements OnInit {
 
     this.actionButtons.push(
       {
-        id: ActionButtonsEnum.DELETE,
-        label: 'Eliminar',
-        icon: PrimeIcons.TRASH,
-        command: () => {
-          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
-        },
-      });
-
-    this.actionButtons.push(
-      {
         id: ActionButtonsEnum.HIDE,
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
@@ -138,7 +134,7 @@ export class CareerListComponent implements OnInit {
 
     this.actionButtons.push(
       {
-        label: 'Malla curricular',
+        label: 'Mallas Curriculares',
         icon: PrimeIcons.LIST,
         command: () => {
           this.router.navigate([this.routesService.curriculums]);
@@ -163,32 +159,6 @@ export class CareerListComponent implements OnInit {
   }
 
   /** Actions **/
-  remove(id: string) {
-    this.messageService.questionDelete()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.careersHttpService.remove(id).subscribe(() => {
-            this.items = this.items.filter(item => item.id !== id);
-            this.paginator.totalItems--;
-          });
-        }
-      });
-  }
-
-  removeAll() {
-    this.messageService.questionDelete().then((result) => {
-      if (result.isConfirmed) {
-        this.careersHttpService.removeAll(this.selectedItems).subscribe(() => {
-          this.selectedItems.forEach(itemDeleted => {
-            this.items = this.items.filter(item => item.id !== itemDeleted.id);
-            this.paginator.totalItems--;
-          });
-          this.selectedItems = [];
-        });
-      }
-    });
-  }
-
   hide(id: string) {
     this.careersHttpService.hide(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);

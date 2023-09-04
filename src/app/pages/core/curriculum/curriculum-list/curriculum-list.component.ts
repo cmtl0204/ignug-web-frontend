@@ -13,7 +13,7 @@ import {
   CoreService, EventsService,
   MessageService,
   RoutesService,
-  CurriculumsHttpService, CareersService
+  CurriculumsHttpService, CareersService, CareersHttpService
 } from '@services/core';
 import {CurriculumsService} from "@services/core/curriculums.service";
 import {BreadcrumbEnum} from "@shared/enums";
@@ -43,8 +43,7 @@ export class CurriculumListComponent implements OnInit {
     private routesService: RoutesService,
     private curriculumsHttpService: CurriculumsHttpService,
     private curriculumsService: CurriculumsService,
-    private careersService: CareersService,
-    private eventsService: EventsService,
+    private careersHttpService: CareersHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
@@ -56,18 +55,18 @@ export class CurriculumListComponent implements OnInit {
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findAll();
+        this.findByCareer();
       }
     });
   }
 
   ngOnInit() {
-    this.findAll();
+    this.findByCareer();
   }
 
   /** Load Data **/
-  findAll(page: number = 0) {
-    this.curriculumsHttpService.findAll(page, this.search.value)
+  findByCareer(page: number = 0) {
+    this.careersHttpService.findCurriculumsByCareer('',page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data
@@ -95,13 +94,6 @@ export class CurriculumListComponent implements OnInit {
         },
       },
       {
-        label: 'Eliminar',
-        icon: PrimeIcons.TRASH,
-        command: () => {
-          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
-        },
-      },
-      {
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
@@ -126,31 +118,6 @@ export class CurriculumListComponent implements OnInit {
   }
 
   /** Actions **/
-  remove(id: string) {
-    this.messageService.questionDelete()
-      .then((result) => {
-        if (result.isConfirmed) {
-          this.curriculumsHttpService.remove(id).subscribe(() => {
-            this.items = this.items.filter(item => item.id !== id);
-            this.paginator.totalItems--;
-          });
-        }
-      });
-  }
-
-  removeAll() {
-    this.messageService.questionDelete().then((result) => {
-      if (result.isConfirmed) {
-        this.curriculumsHttpService.removeAll(this.selectedItems).subscribe(() => {
-          this.selectedItems.forEach(itemDeleted => {
-            this.items = this.items.filter(item => item.id !== itemDeleted.id);
-            this.paginator.totalItems--;
-          });
-          this.selectedItems = [];
-        });
-      }
-    });
-  }
 
   hide(id: string) {
     this.curriculumsHttpService.hide(id).subscribe(item => {
@@ -174,7 +141,7 @@ export class CurriculumListComponent implements OnInit {
   }
 
   paginate(event: any) {
-    this.findAll(event.page);
+    this.findByCareer(event.page);
   }
 
   /** Redirects **/

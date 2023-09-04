@@ -94,7 +94,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 
@@ -125,7 +125,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.CURRICULUMS_STATE).subscribe((items) => this.states = items);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.CURRICULUMS_STATE);
   }
 
   /** Form Getters **/

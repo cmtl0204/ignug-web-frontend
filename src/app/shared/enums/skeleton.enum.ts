@@ -1,9 +1,9 @@
 export enum SkeletonEnum {
   RECTANGLE = 'RECTANGLE',
-  ROUNDED = 'ROUNDED Curricualares',
+  ROUNDED = 'ROUNDED',
   SQUARE = 'SQUARE',
   CIRCLE = 'CIRCLE',
-  CARD = 'CARD Lectivos',
+  CARD = 'CARD',
   LIST = 'LIST',
   TABLE = 'TABLE',
 }

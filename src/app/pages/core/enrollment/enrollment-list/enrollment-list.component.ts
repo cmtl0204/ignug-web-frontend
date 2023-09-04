@@ -109,11 +109,11 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   loadParallels(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.PARALLEL).subscribe((items) => this.parallels = items);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
   }
 
   loadWorkdays(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.WORKDAY).subscribe((items) => this.workdays = items);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
   }
 
   get buildActionButtons(): MenuItem[] {

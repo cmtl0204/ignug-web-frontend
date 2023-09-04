@@ -12,16 +12,7 @@
             class="p-button-info mr-2"
             [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
-            (click)="findAll()">
-    </button>
-
-    <button pButton pRipple type="button"
-            label="Eliminar Seleccionados"
-            class="p-button-danger"
-            [disabled]="selectedItems.length===0"
-            [icon]="PrimeIcons.TRASH"
-            [loading]="coreService.isLoading"
-            (click)="removeAll()">
+            (click)="findByCareer()">
     </button>
   </div>
   <div class="p-toolbar-group-right">
@@ -30,7 +21,7 @@
       <button pButton pRipple type="button"
               [icon]="PrimeIcons.SEARCH"
               [loading]="coreService.isLoading"
-              (click)="findAll()"></button>
+              (click)="findByCareer()"></button>
     </div>
   </div>
 </p-toolbar>
@@ -79,7 +70,7 @@
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          
+
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
       </td>

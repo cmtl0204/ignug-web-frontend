@@ -1,6 +1,6 @@
 export enum BreadcrumbEnum {
   CAREERS = 'Carreras',
-  CURRICULUMS = 'Mallas Curricualares',
+  CURRICULUMS = 'Mallas Curriculares',
   EVENTS = 'Eventos',
   INSTITUTIONS = 'Instituciones',
   SCHOOL_PERIODS = 'Periodos Lectivos',

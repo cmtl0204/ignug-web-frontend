@@ -11,7 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, CatalogueStateEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-institution-list',
@@ -46,13 +46,13 @@ export class InstitutionListComponent implements OnInit {
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findAll();
+        this.findInstitutionsByAuthenticatedUser();
       }
     });
   }
 
   ngOnInit() {
-    this.findAll();
+    this.findInstitutionsByAuthenticatedUser();
   }
 
   /** Build Data **/
@@ -70,7 +70,7 @@ export class InstitutionListComponent implements OnInit {
     this.actionButtons = [
       {
         id: 'update',
-        label: 'Actualizar',
+        label: 'Editar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
@@ -105,7 +105,7 @@ export class InstitutionListComponent implements OnInit {
         label: 'Carreras',
         icon: PrimeIcons.BOOK,
         command: () => {
-          this.router.navigate([this.routesService.careers]);
+          this.router.navigate([this.routesService.careers,item.id]);
         },
       }
     ];
@@ -120,9 +120,10 @@ export class InstitutionListComponent implements OnInit {
   }
 
   /** Actions **/
-  findAll(page: number = 0) {
-    this.institutionsHttpService.findAll(page, this.search.value)
+  findInstitutionsByAuthenticatedUser(page: number = 0) {
+    this.institutionsHttpService.findInstitutionsByAuthenticatedUser(page, this.search.value)
       .subscribe((response) => {
+        console.log(response);
         this.paginator = response.pagination!;
         this.items = response.data
       });
@@ -150,18 +151,18 @@ export class InstitutionListComponent implements OnInit {
 
   change(item: SelectInstitutionDto) {
     this.institutionsService.institution = item;
+    this.messageService.successCustom('Ha cambiado de Institución', 'La Institución seleccionada se configura para todo el sistema');
   }
 
   /** Select & Paginate **/
   selectItem(item: InstitutionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-    this.institutionsService.institution = item;
     this.buildActionButtons(item);
   }
 
   paginate(event: any) {
-    this.findAll(event.page);
+    this.findInstitutionsByAuthenticatedUser(event.page);
   }
 
   /** Redirects **/

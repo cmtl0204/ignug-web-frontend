@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateCurriculumDto, UpdateCurriculumDto, CurriculumModel} from '@models/core';
+import {CreateCurriculumDto, UpdateCurriculumDto, CurriculumModel, SubjectModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService,MessageService} from "@services/core";
 
@@ -18,7 +18,7 @@ export class CurriculumsHttpService {
 
   create(payload: CreateCurriculumDto): Observable<CurriculumModel> {
     const url = `${this.API_URL}`;
-    
+
     this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
@@ -46,6 +46,16 @@ export class CurriculumsHttpService {
 
   findOne(id: string): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => {
+        return response.data;
+      })
+    );
+  }
+
+  findSubjectsByCurriculum(id: string): Observable<SubjectModel[]> {
+    const url = `${this.API_URL}/${id}/subjects`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
@@ -97,7 +107,7 @@ export class CurriculumsHttpService {
     this.coreService.isProcessing = true;
     return this.httpClient.patch<ServerResponse>(url, curriculums).pipe(
       map((response) => {
-        this.coreService.isProcessing = false;    
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })

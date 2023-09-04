@@ -3,7 +3,14 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
 import {OnExitInterface} from '@shared/interfaces';
-import {CatalogueModel, CareerModel, TeacherDistributionModel,TeacherModel, SchoolPeriodModel, SubjectModel} from '@models/core';
+import {
+  CatalogueModel,
+  CareerModel,
+  TeacherDistributionModel,
+  TeacherModel,
+  SchoolPeriodModel,
+  SubjectModel
+} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -47,7 +54,7 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     protected coreService: CoreService,
-    private formBuilder: FormBuilder, 
+    private formBuilder: FormBuilder,
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
@@ -148,52 +155,50 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   }
 
   loadParallels(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.PARALLEL)
-      .subscribe((items) => this.parallels = items);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
   }
 
   loadWorkdays(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY)
-      .subscribe((items) => this.workdays = items);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
-   loadTeachersByCareer(): void {
+  loadTeachersByCareer(): void {
     this.careersHttpService.findTeachersByCareer('0b54590b-4822-4c18-91b0-24e8ef4627de')
       .subscribe((items) => this.teachers = items);
   }
-  
+
   loadSchoolPeriods(): void {
     this.schoolPeriodsHttpService.getAllSchoolPeriods()
       .subscribe((items) => this.schoolPeriods = items);
   }
 
   loadSubjects(): void {
-  this.subjectsHttpService.getAllSubjects()
-    .subscribe((items) => this.subjects = items);
-}
+    this.subjectsHttpService.getAllSubjects()
+      .subscribe((items) => this.subjects = items);
+  }
 
-loadCareers(): void {
-  this.careersHttpService.getAllCareers()
-    .subscribe((items) => this.careers = items);
-}
+  loadCareers(): void {
+    this.careersHttpService.getAllCareers()
+      .subscribe((items) => this.careers = items);
+  }
 
   /** Form Getters **/
   get hoursField(): AbstractControl {
     return this.form.controls['hours'];
   }
-  
+
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
-  
+
   get teacherField(): AbstractControl {
     return this.form.controls['teacher'];
   }
-  
+
   get schoolPeriodField(): AbstractControl {
     return this.form.controls['schoolPeriod'];
   }
-  
+
   get subjectField(): AbstractControl {
     return this.form.controls['subject'];
   }
@@ -201,10 +206,10 @@ loadCareers(): void {
   get careerField(): AbstractControl {
     return this.form.controls['career'];
   }
-  
+
   get workdayField(): AbstractControl {
     return this.form.controls['workday'];
   }
-  
+
   protected readonly SkeletonEnum = SkeletonEnum;
-  }
+}

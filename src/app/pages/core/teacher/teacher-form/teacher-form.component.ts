@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { PrimeIcons } from "primeng/api";
-import { OnExitInterface } from "@shared/interfaces";
-import { CatalogueModel, TeacherModel } from "@models/core";
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PrimeIcons} from "primeng/api";
+import {OnExitInterface} from "@shared/interfaces";
+import {CatalogueModel, TeacherModel} from "@models/core";
 import {UserModel} from '@models/auth';
 import {
   BreadcrumbService,
@@ -146,7 +146,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 
@@ -175,21 +175,21 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       this.form.patchValue(teacher);
     });
   }
-  
+
   loadBloodTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
+    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
   }
 
   loadEthnicOrigins(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((items) => this.ethnicOrigins = items);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
   }
 
   loadGenders(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((items) => this.genders = items);
+    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
   }
 
   loadSexes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((items) => this.sexes = items);
+    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
   }
 
   /** Form Getters **/

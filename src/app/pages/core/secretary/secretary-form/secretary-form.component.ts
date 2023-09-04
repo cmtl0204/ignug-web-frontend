@@ -60,7 +60,7 @@ export class SecretaryFormComponent implements OnInit, OnExitInterface {
       }*/
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 

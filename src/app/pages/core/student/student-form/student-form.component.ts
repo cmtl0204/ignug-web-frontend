@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
-import { ActivatedRoute, Router } from "@angular/router";
-import { PrimeIcons, MenuItem } from "primeng/api";
-import { OnExitInterface } from "@shared/interfaces";
-import { CatalogueModel, StudentModel } from "@models/core";
+import {Component, OnInit} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {ActivatedRoute, Router} from "@angular/router";
+import {PrimeIcons, MenuItem} from "primeng/api";
+import {OnExitInterface} from "@shared/interfaces";
+import {CatalogueModel, StudentModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -12,7 +12,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import { BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum } from '@shared/enums';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-student-form',
@@ -48,8 +48,8 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     private studentsHttpService: StudentsHttpService
   ) {
     this.breadcrumbService.setItems([
-      { label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.students] },
-      { label: BreadcrumbEnum.FORM },
+      {label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.students]},
+      {label: BreadcrumbEnum.FORM},
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -78,7 +78,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     this.loadGenders();
     this.loadSexes();
     this.loadIsExecutedPractices();
-    this.loadisExecutedCommunities();
+    this.loadIsExecutedCommunities();
     this.loadIsDisabilities();
     this.loadIsLostGratuities();
     this.loadIsSubjectRepeats();
@@ -144,7 +144,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields.then();
+      this.messageService.errorsFields();
     }
   }
 
@@ -175,34 +175,39 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   }
 
   loadBloodTypes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.BLOOD_TYPE).subscribe((items) => this.bloodTypes = items);
+    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
   }
 
   loadEthnicOrigins(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.ETHNIC_ORIGIN).subscribe((items) => this.ethnicOrigins = items);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
   }
 
   loadGenders(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.GENDER).subscribe((items) => this.genders = items);
+    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
   }
 
   loadSexes(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.SEX).subscribe((items) => this.sexes = items);
+    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
   }
+
   loadIsExecutedPractices(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isExecutedPractices = items);
+    this.isExecutedPractices = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
   }
-  loadisExecutedCommunities(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isExecutedCommunities = items);
+
+  loadIsExecutedCommunities(): void {
+    this.isExecutedCommunities = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
   }
+
   loadIsDisabilities(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isDisabilities = items);
+    this.isDisabilities = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
   }
+
   loadIsLostGratuities(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isLostGratuities = items);
+    this.isLostGratuities = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
   }
+
   loadIsSubjectRepeats(): void {
-    this.cataloguesHttpService.catalogue(CatalogueCoreTypeEnum.YES_NO_NA).subscribe((items) => this.isSubjectRepeats = items);
+    this.isSubjectRepeats = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
   }
 
   /** Form Getters **/
