@@ -11,7 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-institution-list',
@@ -20,7 +20,7 @@ import {BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
 })
 export class InstitutionListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = [];
+  protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
@@ -62,14 +62,14 @@ export class InstitutionListComponent implements OnInit {
       {field: 'name', header: 'Nombre'},
       {field: 'email', header: 'Email'},
       {field: 'cellphone', header: 'Teléfono'},
-      {field: 'state', header: 'Estado'},
+      {field: 'isVisible', header: 'Estado'},
     ];
   }
 
-  buildActionButtons(item: InstitutionModel) {
-    this.actionButtons = [
+  get buildActionButtons() {
+    return [
       {
-        id: 'update',
+        id: ActionButtonsEnum.UPDATE,
         label: 'Editar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -77,45 +77,45 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        id: 'select',
-        label: 'Cambiar',
+        id: ActionButtonsEnum.SELECT,
+        label: 'Seleccionar',
         icon: PrimeIcons.SYNC,
         command: () => {
           if (this.selectedItem?.id) this.change(this.selectedItem);
         },
       },
       {
-        id: 'enable',
+        id: ActionButtonsEnum.REACTIVATE,
         label: 'Habilitar',
         icon: PrimeIcons.EYE,
         command: () => {
-          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
       },
       {
-        id: 'disable',
+        id: ActionButtonsEnum.HIDE,
         label: 'Inhabilitar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
-          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
       },
-      {
-        id: 'careers',
-        label: 'Carreras',
-        icon: PrimeIcons.BOOK,
-        command: () => {
-          this.router.navigate([this.routesService.careers,item.id]);
-        },
-      }
     ];
+  }
 
-    if (item.state.code === CatalogueStateEnum.ENABLED) {
-      this.actionButtons = this.actionButtons.filter(item => item.id !== 'enable');
+  validateActionButtons(item: InstitutionModel) {
+    this.actionButtons = this.buildActionButtons;
+
+    if (item.isVisible) {
+      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.REACTIVATE), 1);
     }
 
-    if (item.state.code === CatalogueStateEnum.DISABLED) {
-      this.actionButtons = this.actionButtons.filter(item => item.id !== 'disable');
+    if (!item.isVisible) {
+      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.HIDE), 1);
+    }
+
+    if (item.id === this.institutionsService.institution.id) {
+      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.SELECT), 1);
     }
   }
 
@@ -129,23 +129,17 @@ export class InstitutionListComponent implements OnInit {
       });
   }
 
-  enable(institution: InstitutionModel) {
-    this.institutionsHttpService.enable(institution.id).subscribe(() => {
-
+  reactivate(id: string) {
+    this.institutionsHttpService.reactivate(id).subscribe(() => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = true;
     });
   }
 
-  disable() {
-    this.messageService.questionDelete().then((result) => {
-      if (result.isConfirmed) {
-        this.institutionsHttpService.removeAll(this.selectedItems).subscribe(() => {
-          this.selectedItems.forEach(itemDeleted => {
-            this.items = this.items.filter(item => item.id !== itemDeleted.id);
-            this.paginator.totalItems--;
-          });
-          this.selectedItems = [];
-        });
-      }
+  hide(id: string) {
+    this.institutionsHttpService.hide(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
     });
   }
 
@@ -158,7 +152,7 @@ export class InstitutionListComponent implements OnInit {
   selectItem(item: InstitutionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-    this.buildActionButtons(item);
+    this.validateActionButtons(item);
   }
 
   paginate(event: any) {
@@ -172,6 +166,10 @@ export class InstitutionListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.institutions, id]);
+  }
+
+  redirectCareers() {
+    this.router.navigate([this.routesService.careers]);
   }
 }
 

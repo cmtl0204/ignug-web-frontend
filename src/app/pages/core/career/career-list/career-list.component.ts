@@ -15,7 +15,7 @@ import {
   RoutesService,
   CareersHttpService, CareersService, InstitutionsService, InstitutionsHttpService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-career-list',
@@ -25,7 +25,7 @@ import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class CareerListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = [];
+  protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
   protected paginator: PaginatorModel;
@@ -44,8 +44,7 @@ export class CareerListComponent implements OnInit {
     private readonly router: Router,
     private readonly routesService: RoutesService,
     private readonly careersHttpService: CareersHttpService,
-    private readonly careersService: CareersService,
-    private readonly eventsService: EventsService,
+    protected readonly careersService: CareersService,
     protected readonly institutionsService: InstitutionsService,
     protected readonly institutionsHttpService: InstitutionsHttpService,
   ) {
@@ -98,20 +97,24 @@ export class CareerListComponent implements OnInit {
     ];
   }
 
-  buildActionButtons(): void {
-    this.actionButtons = [];
-
-    this.actionButtons.push(
+  get buildActionButtons() {
+    return [
       {
         id: ActionButtonsEnum.UPDATE,
-        label: 'Actualizar',
+        label: 'Editar',
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
-      });
-
-    this.actionButtons.push(
+      },
+      {
+        id: ActionButtonsEnum.SELECT,
+        label: 'Seleccionar',
+        icon: PrimeIcons.SYNC,
+        command: () => {
+          if (this.selectedItem?.id) this.change(this.selectedItem);
+        },
+      },
       {
         id: ActionButtonsEnum.HIDE,
         label: 'Ocultar',
@@ -119,9 +122,7 @@ export class CareerListComponent implements OnInit {
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
-      });
-
-    this.actionButtons.push(
+      },
       {
         id: ActionButtonsEnum.REACTIVATE,
         label: 'Mostrar',
@@ -130,35 +131,32 @@ export class CareerListComponent implements OnInit {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
 
-      });
+      }
+    ];
+  }
 
-    this.actionButtons.push(
-      {
-        label: 'Mallas Curriculares',
-        icon: PrimeIcons.LIST,
-        command: () => {
-          this.router.navigate([this.routesService.curriculums]);
-        },
-      });
+  validateActionButtons(item: CareerModel): void {
+    this.actionButtons = this.buildActionButtons;
 
-    if (this.selectedItem.isVisible) {
-      const index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.REACTIVATE;
-      });
-
-      this.actionButtons.splice(index, 1);
+    if (item.isVisible) {
+      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.REACTIVATE), 1);
     }
 
-    if (!this.selectedItem.isVisible) {
-      const index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.HIDE;
-      });
+    if (!item.isVisible) {
+      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.HIDE), 1);
+    }
 
-      this.actionButtons.splice(index, 1);
+    if (item.id === this.careersService.career.id) {
+      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.SELECT), 1);
     }
   }
 
   /** Actions **/
+  change(item: SelectCareerDto) {
+    this.careersService.career = item;
+    this.messageService.successCustom('Ha cambiado de Carrera', 'La Carrera seleccionada se configura para todo el sistema');
+  }
+
   hide(id: string) {
     this.careersHttpService.hide(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
@@ -177,8 +175,7 @@ export class CareerListComponent implements OnInit {
   selectItem(item: CareerModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
-    this.careersService.career = item;
-    this.buildActionButtons();
+    this.validateActionButtons(item);
   }
 
   paginate(event: any) {
@@ -194,16 +191,7 @@ export class CareerListComponent implements OnInit {
     this.router.navigate([this.routesService.careers, id]);
   }
 
-  redirectEventList() {
-    this.eventsService.model = {
-      entity: this.selectedItem,
-      label: 'Carrera',
-      routerLink: this.routesService.careers,
-      routerLabel: 'Carreras',
-    };
-
-    this.router.navigate([this.routesService.events]);
+  redirectCurriculums() {
+    this.router.navigate([this.routesService.curriculums]);
   }
-
-
 }

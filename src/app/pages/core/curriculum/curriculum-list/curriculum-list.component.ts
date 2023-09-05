@@ -6,7 +6,7 @@ import {
   ColumnModel,
   PaginatorModel,
   CurriculumModel,
-  SelectCurriculumDto
+  SelectCurriculumDto, SelectInstitutionDto, SelectCareerDto
 } from '@models/core';
 import {
   BreadcrumbService,
@@ -34,6 +34,8 @@ export class CurriculumListComponent implements OnInit {
   protected selectedItem: SelectCurriculumDto = {};
   protected selectedItems: CurriculumModel[] = [];
   protected items: CurriculumModel[] = [];
+  protected selectedCareer: FormControl = new FormControl();
+  protected careers: SelectCareerDto[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,

@@ -8,6 +8,40 @@
   <p-divider></p-divider>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- denomination & name & shortName -->
+    <div class="formgrid grid">
+      <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+        <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
+        <app-help-field (mouseenter)="opDenominationField.toggle($event)" (mouseleave)="opDenominationField.hide()"></app-help-field>
+        <input pInputText type="text" id="denomination" formControlName="denomination"/>
+        <small appErrorMessage
+               [errors]="denominationField.errors"
+               [touched]="denominationField.touched"
+               [dirty]="denominationField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
+        <input pInputText type="text" id="name" formControlName="name"/>
+        <small appErrorMessage
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
+        <input pInputText type="text" id="shortName" formControlName="shortName"/>
+        <small appErrorMessage
+               [errors]="shortNameField.errors"
+               [touched]="shortNameField.touched"
+               [dirty]="shortNameField.dirty">
+        </small>
+      </div>
+    </div>
+
     <!-- logo & state & isVisible -->
     <div class="formgrid grid">
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
@@ -123,46 +157,12 @@
 
       <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
         <label appLabel for="web" label="Página Web:" [required]="webField"></label>
-        <app-help-field (click)="opWebField.toggle($event)"></app-help-field>
+        <app-help-field (mouseenter)="opWebField.toggle($event)" (mouseleave)="opWebField.hide()"></app-help-field>
         <input pInputText type="text" id="web" formControlName="web"/>
         <small appErrorMessage
                [errors]="sloganField.errors"
                [touched]="sloganField.touched"
                [dirty]="sloganField.dirty">
-        </small>
-      </div>
-    </div>
-
-    <!-- denomination & name & shortName -->
-    <div class="formgrid grid">
-      <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
-        <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
-        <app-help-field (mouseenter)="opDenominationField.toggle($event)" (mouseleave)="opDenominationField.hide()"></app-help-field>
-        <input pInputText type="text" id="denomination" formControlName="denomination"/>
-        <small appErrorMessage
-               [errors]="denominationField.errors"
-               [touched]="denominationField.touched"
-               [dirty]="denominationField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
-        <input pInputText type="text" id="name" formControlName="name"/>
-        <small appErrorMessage
-               [errors]="nameField.errors"
-               [touched]="nameField.touched"
-               [dirty]="nameField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
-        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
-        <input pInputText type="text" id="shortName" formControlName="shortName"/>
-        <small appErrorMessage
-               [errors]="shortNameField.errors"
-               [touched]="shortNameField.touched"
-               [dirty]="shortNameField.dirty">
         </small>
       </div>
     </div>
@@ -188,7 +188,13 @@
 </p-panel>
 
 <p-overlayPanel #opWebField>
-  <p>Ej. https://midominio.com</p>
+  <ng-template pTemplate="content">
+    <h3>Ejemplos:</h3>
+    <p-divider></p-divider>
+    <ul>
+      <li>https://midominio.com</li>
+    </ul>
+  </ng-template>
 </p-overlayPanel>
 
 <p-overlayPanel #opDenominationField>

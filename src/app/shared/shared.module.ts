@@ -23,7 +23,7 @@ import {CardModule} from "primeng/card";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
-import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe, StatePipe} from '@shared/pipes';
+import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe, SelecetedPipe, StatePipe} from '@shared/pipes';
 import {UserStatePipe} from "@shared/pipes/auth/userState.pipe";
 import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pipe";
 import {LocationComponent} from './components/location/location.component';
@@ -42,6 +42,7 @@ import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {HelpFieldComponent} from './components/help-field/help-field.component';
 import { ErrorsFieldComponent } from './components/errors-field/errors-field.component';
 import {PanelModule} from "primeng/panel";
+import {IsVisiblePipe} from "@shared/pipes/core/is-visible.pipe";
 
 @NgModule({
   declarations: [
@@ -67,6 +68,8 @@ import {PanelModule} from "primeng/panel";
     StatePipe,
     HelpFieldComponent,
     ErrorsFieldComponent,
+    IsVisiblePipe,
+    SelecetedPipe,
   ],
   exports: [
     SkeletonComponent,
@@ -91,6 +94,8 @@ import {PanelModule} from "primeng/panel";
     StatePipe,
     HelpFieldComponent,
     ErrorsFieldComponent,
+    IsVisiblePipe,
+    SelecetedPipe,
   ],
   imports: [
     CommonModule,

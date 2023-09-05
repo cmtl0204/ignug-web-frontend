@@ -85,7 +85,7 @@ export class InstitutionsHttpService {
   reactivate(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -122,7 +122,7 @@ export class InstitutionsHttpService {
   hide(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;

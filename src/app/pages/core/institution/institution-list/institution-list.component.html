@@ -2,17 +2,25 @@
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"
             label="Crear"
-            class="p-button-success mr-2"
+            class="p-button-success ml-2"
             [icon]="PrimeIcons.PLUS"
             (click)="redirectCreateForm()">
     </button>
 
     <button pButton pRipple type="button"
             label="Refrescar"
-            class="p-button-info mr-2"
+            class="p-button-info ml-2"
             [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
             (click)="findInstitutionsByAuthenticatedUser()">
+    </button>
+
+    <button pButton pRipple type="button"
+            label="Carreras"
+            class="p-button-secondary ml-2"
+            [icon]="PrimeIcons.EXTERNAL_LINK"
+            [loading]="coreService.isLoading"
+            (click)="redirectCareers()">
     </button>
   </div>
   <div class="p-toolbar-group-right">
@@ -61,18 +69,19 @@
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'state'">
-            <p-tag *ngIf="rowData[col.field].code==='enabled'" severity="info" [value]="rowData[col.field].code | state" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData[col.field].code==='disabled'" severity="info" [value]="rowData[col.field].code | state" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData['id']===institutionsService.institution.id" severity="success" value="SELECCIONADO" class="mr-1"></p-tag>
+          <div *ngSwitchCase="''">
+
           </div>
         </div>
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'isVisible'">
-            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="No Visible" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>
+            <p-tag [severity]="rowData[col.field]?'success':'danger'" [value]="rowData[col.field]|isVisible"></p-tag>
+            <p-tag *ngIf="rowData['id']===institutionsService.institution.id"
+                   severity="info"
+                   [value]="rowData['id']===institutionsService.institution.id|selected"
+                   class="ml-1"></p-tag>
           </div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
