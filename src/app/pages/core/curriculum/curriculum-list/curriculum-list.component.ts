@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
+import { Table } from 'primeng/table';
 import {
   ColumnModel,
   PaginatorModel,
@@ -29,7 +30,6 @@ export class CurriculumListComponent implements OnInit {
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
-  protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectCurriculumDto = {};
   protected selectedItems: CurriculumModel[] = [];
@@ -46,6 +46,7 @@ export class CurriculumListComponent implements OnInit {
     private curriculumsHttpService: CurriculumsHttpService,
     private curriculumsService: CurriculumsService,
     private careersHttpService: CareersHttpService,
+    private careersService: CareersService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: routesService.institutions},
@@ -53,12 +54,18 @@ export class CurriculumListComponent implements OnInit {
       {label: BreadcrumbEnum.CURRICULUMS},
     ]);
 
-    this.paginator = this.coreService.paginator;
+    this.careers = careersService.careers;
+
+    this.selectedCareer.patchValue(this.careersService.career);
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findByCareer();
       }
+    });
+
+    this.selectedCareer.valueChanges.subscribe(selectCareer => {
+      this.findByCareer();
     });
   }
 
@@ -67,11 +74,10 @@ export class CurriculumListComponent implements OnInit {
   }
 
   /** Load Data **/
-  findByCareer(page: number = 0) {
-    this.careersHttpService.findCurriculumsByCareer('',page, this.search.value)
+  findByCareer() {
+    this.careersHttpService.findCurriculumsByCareer(this.selectedCareer.value.id)
       .subscribe((response) => {
-        this.paginator = response.pagination!;
-        this.items = response.data
+        this.items = response;
       });
   }
 
@@ -142,8 +148,8 @@ export class CurriculumListComponent implements OnInit {
     this.curriculumsService.curriculum = item;
   }
 
-  paginate(event: any) {
-    this.findByCareer(event.page);
+  clear(table: Table) {
+    table.clear();
   }
 
   /** Redirects **/
@@ -153,5 +159,9 @@ export class CurriculumListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.curriculums, id]);
+  }
+
+  redirectSubjects() {
+    this.router.navigate([this.routesService.subjects]);
   }
 }

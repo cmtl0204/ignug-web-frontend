@@ -57,20 +57,13 @@ export class CareerListComponent implements OnInit {
 
     this.institutions = this.institutionsService.institutions;
 
-    if (this.activatedRoute.snapshot.params['institutionId']) {
-      const institution = this.institutions.find(institution => institution.id === activatedRoute.snapshot.params['institutionId']);
-      this.selectedInstitution.patchValue(institution);
-    } else {
-      this.selectedInstitution.patchValue(this.institutionsService.institution);
-    }
+    this.selectedInstitution.patchValue(this.institutionsService.institution);
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
         this.findByInstitution();
       }
     });
-
-
   }
 
   ngOnInit() {
@@ -193,5 +186,9 @@ export class CareerListComponent implements OnInit {
 
   redirectCurriculums() {
     this.router.navigate([this.routesService.curriculums]);
+  }
+
+  redirectSubjects() {
+    this.router.navigate([this.routesService.subjects]);
   }
 }

@@ -25,11 +25,11 @@
                     [label]="authService.role.name"
                     (click)="redirectProfile()"></button>
             <br>
-            <button *ngIf="authService.institution" pButton pRipple type="button"
+            <button *ngIf="institutionsService.institution" pButton pRipple type="button"
                     class="p-button-text"
                     [icon]="PrimeIcons.BUILDING"
                     pTooltip="Institución"
-                    [label]="authService.institution.shortName"
+                    [label]="institutionsService.institution.shortName!"
                     (click)="redirectProfile()"></button>
             <p-divider></p-divider>
             <button pButton pRipple type="button"
