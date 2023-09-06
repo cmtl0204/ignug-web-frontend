@@ -19,6 +19,7 @@ import {PasswordResetComponent} from "./password-reset/password-reset.component"
 import {RoleSelectComponent} from "./role-select/role-select.component";
 import {DropdownModule} from "primeng/dropdown";
 import {InstitutionSelectComponent} from "./institution-select/institution-select.component";
+import {MessageModule} from "primeng/message";
 
 
 @NgModule({
@@ -38,6 +39,7 @@ import {InstitutionSelectComponent} from "./institution-select/institution-selec
     RippleModule,
     DropdownModule,
     NgOptimizedImage,
+    MessageModule,
   ]
 })
 export class AuthenticationModule {

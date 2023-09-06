@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PrimeIcons} from "primeng/api";
-import {RolesEnum} from "@shared/enums";
-import {RoleModel} from "@models/auth";
 import {AuthService} from '@services/auth';
-import {CoreService, MessageService, RoutesService} from '@services/core';
-import {InstitutionModel} from "@models/core";
+import {CareersService, CoreService, InstitutionsService, MessageService, RoutesService} from '@services/core';
+import {CareerModel, InstitutionModel, SelectCareerDto, SelectInstitutionDto} from "@models/core";
 
 @Component({
   selector: 'app-institution-select',
@@ -15,23 +13,38 @@ import {InstitutionModel} from "@models/core";
 export class InstitutionSelectComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected form: FormGroup;
-  protected institutions: InstitutionModel[] = [];
+  protected institutions: SelectInstitutionDto[] = [];
+  protected careers: SelectCareerDto[] = [];
 
   constructor(
     protected coreService: CoreService,
     private formBuilder: FormBuilder,
+    private institutionsService: InstitutionsService,
+    private careersService: CareersService,
     public messageService: MessageService,
     protected authService: AuthService,
     protected routesService: RoutesService) {
     this.form = this.newForm();
+
+    this.institutionField.valueChanges.subscribe(institution => {
+      this.careers = this.careersService.careers.filter(career => career.institution?.id === institution.id);
+
+      if (this.careers.length === 0) this.careerField.clearValidators();
+      else this.careerField.setValidators(Validators.required);
+
+      this.careerField.updateValueAndValidity();
+    });
   }
 
   ngOnInit(): void {
-    this.institutions = this.authService.institutions;
+    this.institutions = this.institutionsService.institutions;
   }
 
   newForm(): FormGroup {
-    return this.formBuilder.group({institution: [null, [Validators.required]]});
+    return this.formBuilder.group({
+      institution: [null, [Validators.required]],
+      career: [null, [Validators.required]]
+    });
   }
 
   onSubmit() {
@@ -43,11 +56,20 @@ export class InstitutionSelectComponent implements OnInit {
   }
 
   selectInstitution() {
-    this.authService.institution = this.institutionField.value;
+    this.institutionsService.institution = this.institutionField.value;
+
+    const career = this.careersService.careers.find(career => career.institution?.id === this.institutionsService.institution.id)
+
+    if (career) this.careersService.career = career;
+
     this.authService.selectDashboard();
   }
 
   get institutionField() {
     return this.form.controls['institution'];
+  }
+
+  get careerField() {
+    return this.form.controls['career'];
   }
 }

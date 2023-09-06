@@ -7,7 +7,7 @@ import {environment} from '@env/environment';
 import {LoginModel, PasswordChangeModel, PasswordResetModel, RoleModel, UpdateUserDto, UserModel} from '@models/auth';
 import {LoginResponse, ServerResponse} from '@models/http-response';
 import {AuthService} from '@services/auth';
-import {CoreService, MessageService} from '@services/core';
+import {CareersService, CoreService, InstitutionsService, MessageService} from '@services/core';
 // import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
 import {RoutesService} from "@services/core/routes.service";
 import {RolePipe} from "@shared/pipes";
@@ -24,6 +24,8 @@ export class AuthHttpService {
   constructor(private httpClient: HttpClient,
               private authService: AuthService,
               private coreService: CoreService,
+              private institutionsService: InstitutionsService,
+              private careersService: CareersService,
               private router: Router,
               private routesService: RoutesService,
               private messageService: MessageService) {
@@ -67,7 +69,8 @@ export class AuthHttpService {
           this.authService.token = response.data.accessToken;
           this.authService.auth = response.data.user;
           this.authService.roles = response.data.user.roles;
-          this.authService.institutions = response.data.user.institutions;
+          this.institutionsService.institutions = response.data.user.institutions;
+          this.careersService.careers = response.data.user.careers;
           return response;
         })
       );

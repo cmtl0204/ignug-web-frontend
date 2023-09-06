@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {PermissionModel, RoleModel, UserModel} from '@models/auth';
 import {environment} from "@env/environment";
-import {InstitutionModel} from "@models/core";
+import {CareerModel, InstitutionModel} from "@models/core";
 import {RolesEnum} from "@shared/enums";
 import {MessageService, RoutesService} from "@services/core";
 
@@ -58,22 +58,6 @@ export class AuthService {
 
   set permissions(permissions: PermissionModel[] | undefined | null) {
     sessionStorage.setItem('permissions', JSON.stringify(permissions));
-  }
-
-  get institution(): InstitutionModel {
-    return JSON.parse(String(sessionStorage.getItem('institution')));
-  }
-
-  set institution(institution: InstitutionModel | undefined | null) {
-    sessionStorage.setItem('institution', JSON.stringify(institution));
-  }
-
-  get institutions(): InstitutionModel[] {
-    return JSON.parse(String(sessionStorage.getItem('institutions')));
-  }
-
-  set institutions(institutions: InstitutionModel[] | undefined | null) {
-    sessionStorage.setItem('institutions', JSON.stringify(institutions));
   }
 
   get role(): RoleModel {

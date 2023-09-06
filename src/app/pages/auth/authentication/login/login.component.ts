@@ -3,7 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {PrimeIcons} from "primeng/api";
 import {RolesEnum} from "@shared/enums";
 import {AuthHttpService, AuthService} from '@services/auth';
-import {CoreService, MessageService, RoutesService} from '@services/core';
+import {CareersService, CoreService, InstitutionsService, MessageService, RoutesService} from '@services/core';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +18,8 @@ export class LoginComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private authHttpService: AuthHttpService,
               protected coreService: CoreService,
+              private institutionsService: InstitutionsService,
+              private careersService: CareersService,
               public messageService: MessageService,
               protected authService: AuthService,
               private routesService: RoutesService) {
@@ -58,7 +60,7 @@ export class LoginComponent implements OnInit {
           if (this.authService.roles.length === 1) {
             this.authService.role = this.authService.roles[0];
 
-            if (this.authService.institutions.length === 0 && this.authService.role.code !== RolesEnum.ADMIN) {
+            if (this.institutionsService.institutions.length === 0 && this.authService.role.code !== RolesEnum.ADMIN) {
               this.messageService.errorCustom('Sin Institución', 'No cuenta con al menos una Institución asignada');
               this.authService.removeLogin();
               return;
@@ -69,12 +71,7 @@ export class LoginComponent implements OnInit {
               return;
             }
 
-            if (this.authService.institutions.length === 1) {
-              this.authService.institution = this.authService.institutions[0];
-              this.authService.selectDashboard();
-            } else {
-              this.routesService.institutionSelect();
-            }
+            this.routesService.institutionSelect();
           } else {
             this.routesService.roleSelect();
           }

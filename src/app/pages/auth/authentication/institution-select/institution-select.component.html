@@ -8,8 +8,8 @@
       </div>
 
       <div class="field">
-        <label for="role" appLabel label="Seleccione una Institución:" [required]="institutionField"></label>
-        <p-dropdown id="role"
+        <label for="institution" appLabel label="Seleccione una Institución:" [required]="institutionField"></label>
+        <p-dropdown id="institution"
                     formControlName="institution"
                     dataKey="id"
                     [options]="institutions"
@@ -22,6 +22,27 @@
                [errors]="institutionField.errors"
                [touched]="institutionField.touched"
                [dirty]="institutionField.dirty">
+        </small>
+      </div>
+
+      <div *ngIf="careers.length===0 && institutionField.touched" class="field">
+        <p-message text="No tiene carreras asignadas para esta institución" severity="error"></p-message>
+      </div>
+      <div *ngIf="careers.length" class="field">
+        <label for="career" appLabel label="Seleccione una Carrera:" [required]="careerField"></label>
+        <p-dropdown id="career"
+                    formControlName="career"
+                    dataKey="id"
+                    [options]="careers"
+                    optionLabel="name"
+                    [filter]="true"
+                    filterBy="name"
+                    placeholder="Seleccione...">
+        </p-dropdown>
+        <small appErrorMessage
+               [errors]="careerField.errors"
+               [touched]="careerField.touched"
+               [dirty]="careerField.dirty">
         </small>
       </div>
 

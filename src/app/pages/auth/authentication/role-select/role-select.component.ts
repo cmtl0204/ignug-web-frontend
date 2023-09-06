@@ -4,7 +4,7 @@ import {PrimeIcons} from "primeng/api";
 import {RolesEnum} from "@shared/enums";
 import {RoleModel} from "@models/auth";
 import {AuthService} from '@services/auth';
-import {CoreService, MessageService, RoutesService} from '@services/core';
+import {CareersService, CoreService, InstitutionsService, MessageService, RoutesService} from '@services/core';
 
 @Component({
   selector: 'app-role-select',
@@ -18,6 +18,8 @@ export class RoleSelectComponent implements OnInit {
 
   constructor(
     protected coreService: CoreService,
+    private institutionsService: InstitutionsService,
+    private careersService: CareersService,
     private formBuilder: FormBuilder,
     public messageService: MessageService,
     protected authService: AuthService,
@@ -49,8 +51,8 @@ export class RoleSelectComponent implements OnInit {
       return;
     }
 
-    if (this.authService.institutions.length === 1) {
-      this.authService.institution = this.authService.institutions[0];
+    if (this.institutionsService.institutions.length === 1) {
+      this.institutionsService.institution = this.institutionsService.institutions[0];
       this.authService.selectDashboard();
     } else {
       this.routesService.institutionSelect();
