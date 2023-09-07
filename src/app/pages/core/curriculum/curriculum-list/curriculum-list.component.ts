@@ -2,16 +2,11 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import { Table } from 'primeng/table';
-import {
-  ColumnModel,
-  PaginatorModel,
-  CurriculumModel,
-  SelectCurriculumDto, SelectInstitutionDto, SelectCareerDto
-} from '@models/core';
+import {Table} from 'primeng/table';
+import {ColumnModel, CurriculumModel, SelectCurriculumDto, SelectCareerDto} from '@models/core';
 import {
   BreadcrumbService,
-  CoreService, EventsService,
+  CoreService,
   MessageService,
   RoutesService,
   CurriculumsHttpService, CareersService, CareersHttpService
@@ -86,9 +81,9 @@ export class CurriculumListComponent implements OnInit {
     return [
       {field: 'code', header: 'Código'},
       {field: 'name', header: 'Nombre'},
-      {field: 'periodicAcademicNumber', header: 'Número de periodo académico'},
-      {field: 'weeksNumber', header: 'Número de semanas'},
-      {field: 'state', header: 'Estado'}
+      {field: 'periodicAcademicNumber', header: '# Periodos académicos'},
+      {field: 'weeksNumber', header: '# Semanas'},
+      {field: 'isVisible', header: 'Estado'}
     ];
   }
 

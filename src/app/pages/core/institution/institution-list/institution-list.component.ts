@@ -11,7 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-institution-list',
@@ -148,15 +148,10 @@ export class InstitutionListComponent implements OnInit {
     this.messageService.successCustom('Ha cambiado de Institución', 'La Institución seleccionada se configura para todo el sistema');
   }
 
-  /** Select & Paginate **/
   selectItem(item: InstitutionModel) {
     this.isActionButtons = true;
     this.selectedItem = item;
     this.validateActionButtons(item);
-  }
-
-  paginate(event: any) {
-    this.findInstitutionsByAuthenticatedUser(event.page);
   }
 
   /** Redirects **/

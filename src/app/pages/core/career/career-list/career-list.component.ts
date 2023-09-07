@@ -1,21 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {
-  ColumnModel,
-  PaginatorModel,
-  CareerModel,
-  SelectCareerDto, InstitutionModel, SelectInstitutionDto
-} from '@models/core';
+import {ColumnModel, CareerModel, SelectCareerDto, SelectInstitutionDto} from '@models/core';
 import {
   BreadcrumbService,
-  CoreService, EventsService,
+  CoreService,
   MessageService,
   RoutesService,
-  CareersHttpService, CareersService, InstitutionsService, InstitutionsHttpService
+  CareersHttpService,
+  CareersService,
+  InstitutionsService,
+  InstitutionsHttpService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum, CatalogueStateEnum} from "@shared/enums";
+import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-career-list',
@@ -28,8 +26,6 @@ export class CareerListComponent implements OnInit {
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
-  protected paginator: PaginatorModel;
-  protected search: FormControl = new FormControl('');
   protected selectedItem: SelectCareerDto = {};
   protected selectedItems: CareerModel[] = [];
   protected items: CareerModel[] = [];
@@ -37,7 +33,6 @@ export class CareerListComponent implements OnInit {
   protected institutions: SelectInstitutionDto[] = [];
 
   constructor(
-    private readonly activatedRoute: ActivatedRoute,
     private readonly breadcrumbService: BreadcrumbService,
     public readonly coreService: CoreService,
     public readonly messageService: MessageService,
@@ -53,29 +48,24 @@ export class CareerListComponent implements OnInit {
       {label: BreadcrumbEnum.CAREERS},
     ]);
 
-    this.paginator = this.coreService.paginator;
-
     this.institutions = this.institutionsService.institutions;
 
     this.selectedInstitution.patchValue(this.institutionsService.institution);
 
-    this.search.valueChanges.subscribe(value => {
-      if (value.length === 0) {
-        this.findByInstitution();
-      }
+    this.selectedInstitution.valueChanges.subscribe((_) => {
+      this.findCareersByInstitution();
     });
   }
 
   ngOnInit() {
-    this.findByInstitution();
+    this.findCareersByInstitution();
   }
 
   /** Load Data **/
-  findByInstitution(page: number = 0) {
-    this.institutionsHttpService.findCareersByInstitution(this.institutionsService.institution.id!, page, this.search.value)
-      .subscribe((response) => {
-        this.paginator = response.pagination!;
-        this.items = response.data;
+  findCareersByInstitution() {
+    this.institutionsHttpService.findCareersByInstitution(this.selectedInstitution.value.id)
+      .subscribe((institutions) => {
+        this.items = institutions;
       });
   }
 
@@ -86,7 +76,7 @@ export class CareerListComponent implements OnInit {
       {field: 'name', header: 'Nombre'},
       {field: 'shortName', header: 'Nombre Corto'},
       {field: 'degree', header: 'Título'},
-      {field: 'isVisible', header: 'Es Visible'}
+      {field: 'isVisible', header: 'Estado'}
     ];
   }
 
@@ -169,10 +159,6 @@ export class CareerListComponent implements OnInit {
     this.isActionButtons = true;
     this.selectedItem = item;
     this.validateActionButtons(item);
-  }
-
-  paginate(event: any) {
-    this.findByInstitution(event.page);
   }
 
   /** Redirects **/

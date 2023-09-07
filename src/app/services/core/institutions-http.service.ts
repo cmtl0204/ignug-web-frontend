@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateInstitutionDto, UpdateInstitutionDto, InstitutionModel} from '@models/core';
+import {CreateInstitutionDto, UpdateInstitutionDto, InstitutionModel, CareerModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
 
@@ -72,10 +72,10 @@ export class InstitutionsHttpService {
   update(id: string, payload: UpdateInstitutionDto): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.isProcessing=true;
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.isProcessing=false;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -96,10 +96,10 @@ export class InstitutionsHttpService {
   remove(id: string): Observable<InstitutionModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.isProcessing=true;
+    this.coreService.isProcessing = true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.coreService.isProcessing=false;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -109,10 +109,10 @@ export class InstitutionsHttpService {
   removeAll(institutions: InstitutionModel[]): Observable<InstitutionModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
-    this.coreService.isProcessing=true;
+    this.coreService.isProcessing = true;
     return this.httpClient.patch<ServerResponse>(url, institutions).pipe(
       map((response) => {
-        this.coreService.isProcessing=false;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -141,17 +141,12 @@ export class InstitutionsHttpService {
     );
   }
 
-  findCareersByInstitution(institutionId:string, page: number = 0, search: string = ''): Observable<ServerResponse> {
+  findCareersByInstitution(institutionId: string): Observable<CareerModel[]> {
     const url = `${this.API_URL}/${institutionId}/careers`;
 
-    const headers = new HttpHeaders().append('pagination', 'true');
-    const params = new HttpParams()
-      .append('page', page)
-      .append('search', search);
-
-    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+    return this.httpClient.get<ServerResponse>(url).pipe(
       map((response) => {
-        return response;
+        return response.data;
       })
     );
   }
