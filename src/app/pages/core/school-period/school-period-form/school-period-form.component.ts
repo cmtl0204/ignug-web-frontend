@@ -26,7 +26,6 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
-  protected panelHeader: string = 'Crear';
   protected startedAt: Date = new Date();
   protected ordinaryStartedAt: Date = new Date();
   protected extraOrdinaryStartedAt: Date = new Date();
@@ -54,7 +53,6 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.newForm;

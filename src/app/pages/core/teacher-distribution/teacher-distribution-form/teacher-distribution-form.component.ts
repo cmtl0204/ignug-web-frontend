@@ -39,7 +39,6 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   protected PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-  protected panelHeader = 'Crear';
 
   // Foreign Keys
   protected schoolPeriods: SchoolPeriodModel[] = [];
@@ -59,12 +58,10 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
     private router: Router,
     private routesService: RoutesService,
     private teacherDistributionsHttpService: TeacherDistributionsHttpService,
-    private teacherDistributionsService: TeacherDistributionsService,
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
     private schoolPeriodsService: SchoolPeriodsService,
     private subjectsHttpService: SubjectsHttpService,
     private subjectsService: SubjectsService,
-    private teachersHttpService: TeachersHttpService,
     private teachersService: TeachersService,
     private careersService: CareersService,
     private careersHttpService: CareersHttpService,
@@ -76,7 +73,6 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.newForm;

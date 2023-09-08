@@ -8,5 +8,6 @@ export enum ActionButtonsEnum {
   OPEN_SCHOOL_PERIOD = 'open_school_period',
   CLOSE_SCHOOL_PERIOD = 'close_school_period',
   FILE_LIST = 'file_list',
+  SUBJECT_REQUIREMENTS = 'subject_requirements',
 }
 

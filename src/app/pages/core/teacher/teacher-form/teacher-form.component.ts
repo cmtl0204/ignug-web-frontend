@@ -24,7 +24,6 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-  protected panelHeader: string = 'Crear';
 
   // Foreign Keys Information Teacher
   protected states: CatalogueModel[] = [];
@@ -59,7 +58,6 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.teacherForm;

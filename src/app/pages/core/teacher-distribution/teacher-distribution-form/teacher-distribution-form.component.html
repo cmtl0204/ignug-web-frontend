@@ -2,7 +2,7 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>
+    <app-header-form [id]="id" ></app-header-form>
   </ng-template>
 
   <form [formGroup]="form" (ngSubmit)="onSubmit()">

@@ -20,14 +20,11 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
-  protected panelHeader: string = 'Crear';
   protected isChangePassword: FormControl = new FormControl(false);
   protected roles: RoleModel[] = [];
   protected identificationTypes: CatalogueModel[] = [];
 
   constructor(
-    private authHttpService: AuthHttpService,
-    private authService: AuthService,
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
@@ -44,9 +41,8 @@ export class UserFormComponent implements OnInit, OnExitInterface {
       {label: BreadcrumbEnum.FORM},
     ]);
 
-    if (activatedRoute.snapshot.params['id'] !== 'new') {
-      this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
+    if (this.activatedRoute.snapshot.params['id'] !== 'new') {
+      this.id = this.activatedRoute.snapshot.params['id'];
     }
 
     this.form = this.newForm;

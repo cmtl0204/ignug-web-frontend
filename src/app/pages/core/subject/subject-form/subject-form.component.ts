@@ -32,7 +32,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
-  protected panelHeader: string = 'Crear';
 
   // Foreign Keys
   protected curriculum: CurriculumModel[] = [];
@@ -62,7 +61,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.newForm;
@@ -144,21 +142,15 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   loadAcademicPeriods(): void {
-    this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.ACADEMIC_PERIOD)
-      .subscribe((items) => (this.academicPeriods = items));
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
   loadStates(): void {
-    this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.SUBJECTS_STATE)
-      .subscribe((items) => (this.states = items));
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SUBJECTS_STATE);
   }
 
   loadTypes(): void {
-    this.cataloguesHttpService
-      .catalogue(CatalogueCoreTypeEnum.REGISTRATION_TYPE)
-      .subscribe((items) => (this.types = items));
+    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SUBJECTS_TYPE);
   }
 
 

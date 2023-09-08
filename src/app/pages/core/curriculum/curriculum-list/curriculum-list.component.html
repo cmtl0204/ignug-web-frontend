@@ -32,6 +32,16 @@
       filterBy="name"
       optionLabel="name"
       placeholder="Seleccione una carrera...">
+      <ng-template pTemplate="selectedItem">
+        <div class="flex align-items-center gap-2" *ngIf="selectedCareer.value">
+          <div>{{ selectedCareer.value.name }} - {{ selectedCareer.value.institution.shortName }} </div>
+        </div>
+      </ng-template>
+      <ng-template let-item pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ item.name }} - {{ item.institution.shortName }}</div>
+        </div>
+      </ng-template>
     </p-dropdown>
   </div>
 </p-toolbar>
@@ -50,6 +60,9 @@
   [(selection)]="selectedItems">
   <ng-template pTemplate="caption">
     <div class="flex">
+      <h1>
+        Mallas Curriculares
+      </h1>
       <div class="p-input-icon-right ml-auto">
         <i [class]="PrimeIcons.SEARCH"></i>
         <input #search pInputText type="text"
@@ -103,6 +116,9 @@
         {{messageService.paginatorNoRecordsFound}}
       </td>
     </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    {{messageService.paginatorTotalRegisters(items.length)}}
   </ng-template>
 </p-table>
 

@@ -3,7 +3,7 @@ import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/form
 import {PrimeIcons} from "primeng/api";
 import {RolesEnum} from "@shared/enums";
 import {AuthHttpService, AuthService} from '@services/auth';
-import {CareersService, CoreService, InstitutionsService, MessageService, RoutesService} from '@services/core';
+import {CoreService, InstitutionsService, MessageService, RoutesService} from '@services/core';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
               private authHttpService: AuthHttpService,
               protected coreService: CoreService,
               private institutionsService: InstitutionsService,
-              private careersService: CareersService,
               public messageService: MessageService,
               protected authService: AuthService,
               private routesService: RoutesService) {

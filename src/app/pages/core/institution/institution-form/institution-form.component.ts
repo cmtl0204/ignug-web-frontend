@@ -13,7 +13,7 @@ import {
   InstitutionsHttpService
 } from "@services/core";
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
-import {Expressions} from "@shared/regular-expresions/expresions";
+import {Expressions} from "@shared/regular-expresions";
 
 @Component({
   selector: 'app-institution-form',
@@ -26,7 +26,6 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
-  protected panelHeader: string = 'Crear';
 
   // Foreign Keys
   protected states: CatalogueModel[] = [];
@@ -49,7 +48,6 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = this.activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Editar';
     }
 
     this.form = this.newForm;
@@ -77,17 +75,17 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       acronym: [null, [Validators.required]],
-      cellphone: [null, [Validators.required]],
+      cellphone: [null, [Validators.required,Validators.minLength(10),Validators.maxLength(10)]],
       code: [null, [Validators.required]],
       codeSniese: [null, []],
       denomination: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.email]],
       isVisible: [true, [Validators.required]],
-      logo: [null, [Validators.required]],
+      logo: [null],
       name: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
+      phone: [null, [Validators.required,Validators.minLength(9),Validators.maxLength(9)]],
       shortName: [null, [Validators.required]],
-      slogan: [null, [Validators.required]],
+      slogan: [null],
       state: [null, [Validators.required]],
       web: ['https://', [Validators.pattern(Expressions.url)]],
     });

@@ -101,7 +101,7 @@ export class MessageService {
   }
 
   get requiredFields(): string {
-    return `Todos los campos <b class="p-error">(*)</b> son obligatorios.`;
+    return `Todos los campos con <b class="p-error">*</b> son obligatorios.`;
   }
 
   get fieldRequired(): string {
@@ -176,8 +176,8 @@ export class MessageService {
     return `La fecha ${errors['dateMin']['actualDate']} no puede ser menor a ${errors['dateMin']['requiredDate']}.`;
   }
 
-  paginatorTotalRegisters(paginator: PaginatorModel): string {
-    return 'En total hay ' + (paginator?.totalItems ? paginator.totalItems : 0) + ' registros.';
+  paginatorTotalRegisters(totalItems: number): string {
+    return 'En total hay ' + (totalItems) + ' registros.';
   }
 
   get paginatorNoRecordsFound(): string {

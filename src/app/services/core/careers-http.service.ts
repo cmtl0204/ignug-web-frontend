@@ -153,4 +153,13 @@ export class CareersHttpService {
     );
   }
 
+  findCareersByAuthenticatedUser(): Observable<CareerModel[]> {
+    const url = `${this.API_URL}/users/authenticated`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
 }

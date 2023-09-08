@@ -36,7 +36,6 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-  protected panelHeader: string = 'Crear';
 
   // Foreign Keys Enrollment Details
   protected academicStates: CatalogueModel[] = [];
@@ -80,7 +79,6 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.enrollmentDetailForm;

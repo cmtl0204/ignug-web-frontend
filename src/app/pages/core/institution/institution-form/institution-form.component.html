@@ -2,7 +2,7 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-    <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>
+    <app-header-form [id]="id" ></app-header-form>
   </ng-template>
 
   <p-divider></p-divider>
@@ -126,7 +126,7 @@
     <div class="formgrid grid">
 
       <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
-        <label appLabel for="cellphone" label="Teléfono Celular:" [required]="cellphoneField"></label>
+        <label appLabel for="cellphone" label="Teléfono celular:" [required]="cellphoneField"></label>
         <input pInputText type="text" id="cellphone" formControlName="cellphone" placeholder="0987654321"/>
         <small appErrorMessage
                [errors]="cellphoneField.errors"
@@ -136,7 +136,8 @@
       </div>
 
       <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
-        <label appLabel for="phone" label="Teléfono Fijo:" [required]="phoneField"></label>
+        <label appLabel for="phone" label="Teléfono fijo:" [required]="phoneField"></label>
+        <app-help-field (mouseenter)="opPhoneField.toggle($event)" (mouseleave)="opPhoneField.hide()"></app-help-field>
         <input pInputText type="text" id="phone" formControlName="phone" placeholder="023456789"/>
         <small appErrorMessage
                [errors]="phoneField.errors"
@@ -146,7 +147,7 @@
       </div>
 
       <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
-        <label appLabel for="email" label="Correo Electrónico:" [required]="emailField"></label>
+        <label appLabel for="email" label="Correo electrónico:" [required]="emailField"></label>
         <input pInputText type="email" id="email" formControlName="email" placeholder="micorreo@gmail.com"/>
         <small appErrorMessage
                [errors]="emailField.errors"
@@ -156,7 +157,7 @@
       </div>
 
       <div class="field xl:col-3 lg:col-3 md:col-4 sm:col-12">
-        <label appLabel for="web" label="Página Web:" [required]="webField"></label>
+        <label appLabel for="web" label="Página web:" [required]="webField"></label>
         <app-help-field (mouseenter)="opWebField.toggle($event)" (mouseleave)="opWebField.hide()"></app-help-field>
         <input pInputText type="text" id="web" formControlName="web"/>
         <small appErrorMessage
@@ -206,5 +207,11 @@
       <li>Escuela Politécnica</li>
       <li>Instituto Superior Tecnológico</li>
     </ul>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #opPhoneField>
+  <ng-template pTemplate="content">
+    <p>Incluir código provincial</p>
   </ng-template>
 </p-overlayPanel>

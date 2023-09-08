@@ -1,6 +1,9 @@
-<div class="grid">
+<div class="grid ml-2">
   <i *ngIf="!id" [ngClass]="PrimeIcons.PLUS" class="mr-2"></i>
+  <h2 *ngIf="!id" class="panel-header">Crear</h2>
+
   <i *ngIf="id" [ngClass]="PrimeIcons.PENCIL" class="mr-2"></i>
-  <h2 class="panel-header">{{panelHeader}}</h2>
-  <small class="ml-3" [innerHTML]="this.messageService.requiredFields"></small>
+  <h2 *ngIf="id" class="panel-header">Editar</h2>
+
+  <small class="ml-3 mt-2" [innerHTML]="this.messageService.requiredFields"></small>
 </div>

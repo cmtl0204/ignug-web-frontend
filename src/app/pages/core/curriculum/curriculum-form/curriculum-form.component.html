@@ -2,7 +2,7 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <ng-template pTemplate="header">
-  <app-header-form [id]="id" [panelHeader]="panelHeader"></app-header-form>  
+    <app-header-form [id]="id"></app-header-form>
   </ng-template>
 
   <p-divider></p-divider>
@@ -16,26 +16,26 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="code" label="Código:" [required]="codeField"></label>
         <input pInputText
-              type="text"
-              id="code"
-              formControlName="code" />
+               type="text"
+               id="code"
+               formControlName="code"/>
         <small appErrorMessage
-              [errors]="codeField.errors"
-              [touched]="codeField.touched"
-              [dirty]="codeField.dirty">
+               [errors]="codeField.errors"
+               [touched]="codeField.touched"
+               [dirty]="codeField.dirty">
         </small>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
         <p-inputSwitch id="isVisible"
-              formControlName="isVisible"
-              [trueValue]="true">
+                       formControlName="isVisible"
+                       [trueValue]="true">
         </p-inputSwitch>
         <small appErrorMessage
-              [errors]="isVisibleField.errors"
-              [touched]="isVisibleField.touched"
-              [dirty]="isVisibleField.dirty">
+               [errors]="isVisibleField.errors"
+               [touched]="isVisibleField.touched"
+               [dirty]="isVisibleField.dirty">
         </small>
       </div>
     </div>
@@ -45,25 +45,25 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
         <input pInputText
-              type="text"
-              id="name"
-              formControlName="name" />
+               type="text"
+               id="name"
+               formControlName="name"/>
         <small appErrorMessage
-              [errors]="nameField.errors"
-              [touched]="nameField.touched"
-              [dirty]="nameField.dirty">
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="description" label="Descripción:" [required]="descriptionField"></label>
         <input pInputText
-              type="text"
-              id="description"
-              formControlName="description" />
+               type="text"
+               id="description"
+               formControlName="description"/>
         <small appErrorMessage
-              [errors]="descriptionField.errors"
-              [touched]="descriptionField.touched"
-              [dirty]="descriptionField.dirty">
+               [errors]="descriptionField.errors"
+               [touched]="descriptionField.touched"
+               [dirty]="descriptionField.dirty">
         </small>
       </div>
     </div>
@@ -72,24 +72,25 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="resolutionNumber" label="Número Resolución:" [required]="resolutionNumberField"></label>
         <input pInputText
-              type="text"
-              id="resolutionNumber"
-              formControlName="resolutionNumber"/>
+               type="text"
+               id="resolutionNumber"
+               formControlName="resolutionNumber"/>
         <small appErrorMessage
-              [errors]="resolutionNumberField.errors"
-              [touched]="resolutionNumberField.touched"
-              [dirty]="resolutionNumberField.dirty">
+               [errors]="resolutionNumberField.errors"
+               [touched]="resolutionNumberField.touched"
+               [dirty]="resolutionNumberField.dirty">
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="periodicAcademicNumber" label="Número de periodo académico:" [required]="periodicAcademicNumberField"></label>
+        <label appLabel for="periodicAcademicNumber" label="Número de periodo académico:"
+               [required]="periodicAcademicNumberField"></label>
         <input pInputText
-              type="number"
-              id="periodicAcademicNumber"
-              formControlName="periodicAcademicNumber" />
+               type="number"
+               id="periodicAcademicNumber"
+               formControlName="periodicAcademicNumber"/>
         <small appErrorMessage
-              [errors]="periodicAcademicNumberField.errors"
-              [touched]="periodicAcademicNumberField.touched" [dirty]="periodicAcademicNumberField.dirty">
+               [errors]="periodicAcademicNumberField.errors"
+               [touched]="periodicAcademicNumberField.touched" [dirty]="periodicAcademicNumberField.dirty">
         </small>
       </div>
     </div>
@@ -98,29 +99,29 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="weeksNumber" label="Número de semanas:" [required]="weeksNumberField"></label>
         <input pInputText
-              type="number"
-              id="weeksNumber"
-              formControlName="weeksNumber" />
+               type="number"
+               id="weeksNumber"
+               formControlName="weeksNumber"/>
         <small appErrorMessage
-              [errors]="weeksNumberField.errors"
-              [touched]="weeksNumberField.touched"
-              [dirty]="weeksNumberField.dirty">
+               [errors]="weeksNumberField.errors"
+               [touched]="weeksNumberField.touched"
+               [dirty]="weeksNumberField.dirty">
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="state" label="Estado:" [required]="stateField"></label>
         <p-dropdown
-              id="state"
-              dataKey="id"
-              formControlName="state"
-              [options]="states"
-              optionLabel="name"
-              placeholder="Seleccione">
+          id="state"
+          dataKey="id"
+          formControlName="state"
+          [options]="states"
+          optionLabel="name"
+          placeholder="Seleccione">
         </p-dropdown>
         <small appErrorMessage
-              [errors]="stateField.errors"
-              [touched]="stateField.touched"
-              [dirty]="stateField.dirty">
+               [errors]="stateField.errors"
+               [touched]="stateField.touched"
+               [dirty]="stateField.dirty">
         </small>
       </div>
     </div>
@@ -129,12 +130,12 @@
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <button pButton pRipple type="button" label="Cancelar" class="p-button-info p-button-outlined"
-          [icon]="PrimeIcons.ARROW_LEFT" [loading]="coreService.isLoading" (click)="back()"></button>
+                [icon]="PrimeIcons.ARROW_LEFT" [loading]="coreService.isLoading" (click)="back()"></button>
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <button pButton pRipple type="submit" label="Guardar" [icon]="PrimeIcons.SAVE"
-          [loading]="coreService.isLoading"></button>
+                [loading]="coreService.isLoading"></button>
       </div>
     </div>
   </form>

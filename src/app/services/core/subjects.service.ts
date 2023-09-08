@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { SelectSubjectDto } from '@models/core';
+import {SelectSubjectDto, SubjectModel} from '@models/core';
 
 
 @Injectable({
@@ -11,11 +11,11 @@ export class SubjectsService {
 
   }
 
-  get subject(): SelectSubjectDto {
-    return JSON.parse(String(sessionStorage.getItem('subject'))) as SelectSubjectDto;
+  get subject(): SubjectModel {
+    return JSON.parse(String(sessionStorage.getItem('subject')));
   }
 
-  set Subject(value: SelectSubjectDto) {
+  set subject(value: SubjectModel) {
     sessionStorage.setItem('subject', JSON.stringify(value));
   }
 }

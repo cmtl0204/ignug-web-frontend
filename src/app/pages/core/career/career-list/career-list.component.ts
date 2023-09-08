@@ -28,7 +28,7 @@ export class CareerListComponent implements OnInit {
   protected isActionButtons: boolean = false;
   protected selectedItem: SelectCareerDto = {};
   protected selectedItems: CareerModel[] = [];
-  protected items: CareerModel[] = [];
+  protected items: SelectCareerDto[] = [];
   protected selectedInstitution: FormControl = new FormControl();
   protected institutions: SelectInstitutionDto[] = [];
 
@@ -63,10 +63,17 @@ export class CareerListComponent implements OnInit {
 
   /** Load Data **/
   findCareersByInstitution() {
-    this.institutionsHttpService.findCareersByInstitution(this.selectedInstitution.value.id)
-      .subscribe((institutions) => {
-        this.items = institutions;
-      });
+    this.items = this.careersService.careers.filter(career => career.institution?.id === this.selectedInstitution.value.id);
+    if (this.items.length === 0) {
+      this.messageService.successCustom('No hay registros', 'No tiene carreras asignadas para esta institución');
+    }
+  }
+
+  refresh() {
+    this.careersHttpService.findCareersByAuthenticatedUser().subscribe(careers => {
+      this.careersService.careers = careers;
+      this.findCareersByInstitution();
+    })
   }
 
   /** Build Data **/
@@ -154,7 +161,6 @@ export class CareerListComponent implements OnInit {
     });
   }
 
-  /** Select & Paginate **/
   selectItem(item: CareerModel) {
     this.isActionButtons = true;
     this.selectedItem = item;

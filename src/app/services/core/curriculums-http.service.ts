@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {CreateCurriculumDto, UpdateCurriculumDto, CurriculumModel, SubjectModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
-import {CoreService,MessageService} from "@services/core";
+import {CoreService, MessageService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +13,7 @@ import {CoreService,MessageService} from "@services/core";
 export class CurriculumsHttpService {
   API_URL = `${environment.API_URL}/curriculums`;
 
-  constructor(private coreService:CoreService, private httpClient: HttpClient, private messageService: MessageService) {
+  constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
   create(payload: CreateCurriculumDto): Observable<CurriculumModel> {

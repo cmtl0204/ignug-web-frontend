@@ -12,7 +12,7 @@
             class="p-button-info ml-2"
             [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
-            (click)="findCareersByInstitution()">
+            (click)="refresh()">
     </button>
 
     <button pButton pRipple type="button"
@@ -119,6 +119,9 @@
         {{messageService.paginatorNoRecordsFound}}
       </td>
     </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    {{messageService.paginatorTotalRegisters(items.length)}}
   </ng-template>
 </p-table>
 

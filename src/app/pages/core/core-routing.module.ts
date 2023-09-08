@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SubjectRequirementComponent} from "./subject-requirement/subject-requirement.component";
+import {SubjectRequirementComponent} from "./subject/subject-requirement/subject-requirement.component";
 
 const routes: Routes = [
   {
@@ -46,10 +46,6 @@ const routes: Routes = [
   {
     path: 'teacher-distributions',
     loadChildren: () => import('./teacher-distribution/teacher-distribution.module').then(m => m.TeacherDistributionModule)
-  },
-  {
-    path: 'subject-requirements',
-    component: SubjectRequirementComponent
   },
   {
     path: 'subject-grade',

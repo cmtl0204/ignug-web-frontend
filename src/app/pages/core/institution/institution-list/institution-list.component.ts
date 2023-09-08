@@ -23,7 +23,6 @@ export class InstitutionListComponent implements OnInit {
   protected actionButtons: MenuItem[] = this.buildActionButtons;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isActionButtons: boolean = false;
-  protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectInstitutionDto = {};
   protected selectedItems: InstitutionModel[] = [];
@@ -41,8 +40,6 @@ export class InstitutionListComponent implements OnInit {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS},
     ]);
-
-    this.paginator = this.coreService.paginator;
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
@@ -120,15 +117,18 @@ export class InstitutionListComponent implements OnInit {
   }
 
   /** Actions **/
-  findInstitutionsByAuthenticatedUser(page: number = 0) {
-    this.institutionsHttpService.findInstitutionsByAuthenticatedUser(page, this.search.value)
+  findInstitutionsByAuthenticatedUser() {
+    this.institutionsHttpService.findInstitutionsByAuthenticatedUser()
       .subscribe((response) => {
-        console.log(response);
-        this.paginator = response.pagination!;
-        this.items = response.data
+        this.items = response;
       });
   }
 
+  refresh() {
+    this.institutionsHttpService.findInstitutionsByAuthenticatedUser().subscribe(institutions => {
+      this.institutionsService.institutions = institutions;
+    })
+  }
   reactivate(id: string) {
     this.institutionsHttpService.reactivate(id).subscribe(() => {
       const index = this.items.findIndex(item => item.id === id);

@@ -10,7 +10,7 @@ export class CurriculumsService {
 
   }
 
-  get curriculum(): SelectCurriculumDto | {} {
+  get curriculum(): SelectCurriculumDto {
     return JSON.parse(String(sessionStorage.getItem('curriculum'))) as SelectCurriculumDto;
   }
 

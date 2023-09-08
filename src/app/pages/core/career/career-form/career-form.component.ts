@@ -24,7 +24,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   PrimeIcons = PrimeIcons;
   id: string | null = null;
   form: FormGroup;
-  panelHeader = 'Crear';
 
   // Foreign Keys
   institutions: InstitutionModel[] = [];
@@ -52,7 +51,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
-      this.panelHeader = 'Actualizar';
     }
 
     this.form = this.newForm;
