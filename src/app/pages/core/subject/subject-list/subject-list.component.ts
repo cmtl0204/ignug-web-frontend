@@ -2,12 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {
-  ColumnModel,
-  PaginatorModel,
-  SubjectModel,
-  SelectSubjectDto, SelectCareerDto
-} from '@models/core';
+import {ColumnModel, SubjectModel, SelectSubjectDto, SelectCareerDto} from '@models/core';
 import {
   BreadcrumbService, CareersService,
   CoreService, CurriculumsHttpService, CurriculumsService, EventsService,
@@ -85,7 +80,8 @@ export class SubjectListComponent implements OnInit {
 
   /** Load Data **/
   findSubjectsByCurriculum() {
-    this.curriculumsHttpService.findSubjectsByCurriculum(this.selectedCurriculum.value.id)
+    this.curriculumsService.curriculum = this.selectedCurriculum.value;
+    this.curriculumsHttpService.findSubjectsAllByCurriculum(this.selectedCurriculum.value.id)
       .subscribe((subjects) => {
         this.items = subjects;
       });
@@ -96,7 +92,7 @@ export class SubjectListComponent implements OnInit {
     return [
       {field: 'code', header: 'Código'},
       {field: 'name', header: 'Nombre'},
-      {field: 'hours', header: 'Horas D / P / A'},
+      {field: 'hours', header: 'Horas Doc. / Prac. / Aut.'},
       {field: 'academicPeriod', header: 'Periodo académico'},
       {field: 'type', header: 'Tipo'},
       {field: 'isVisible', header: 'Estado'}

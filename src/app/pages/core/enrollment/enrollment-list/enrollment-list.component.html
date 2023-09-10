@@ -1,14 +1,14 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton pRipple type="button" label="Crear" class="p-button-success mr-2" [icon]="PrimeIcons.PLUS"
+    <button pButton pRipple type="button" label="Crear" class="p-button-success" [icon]="PrimeIcons.PLUS"
       (click)="redirectCreateForm()">
     </button>
 
-    <button pButton pRipple type="button" label="Refrescar" class="p-button-info mr-2" [icon]="PrimeIcons.REFRESH"
+    <button pButton pRipple type="button" label="Refrescar" class="p-button-info ml-2" [icon]="PrimeIcons.REFRESH"
       [loading]="coreService.isLoading" (click)="findAll()">
     </button>
 
-    <button pButton pRipple type="button" label="Eliminar Seleccionados" class="p-button-danger"
+    <button pButton pRipple type="button" label="Eliminar Seleccionados" class="p-button-danger ml-2"
       [disabled]="selectedItems.length===0" [icon]="PrimeIcons.TRASH" [loading]="coreService.isLoading"
       (click)="removeAll()">
     </button>

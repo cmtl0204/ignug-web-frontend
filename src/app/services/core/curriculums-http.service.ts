@@ -64,6 +64,16 @@ export class CurriculumsHttpService {
     );
   }
 
+  findSubjectsAllByCurriculum(id: string): Observable<SubjectModel[]> {
+    const url = `${this.API_URL}/${id}/subjects/all`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map(response => {
+        return response.data;
+      })
+    );
+  }
+
   update(id: string, payload: UpdateCurriculumDto): Observable<CurriculumModel> {
     const url = `${this.API_URL}/${id}`;
 

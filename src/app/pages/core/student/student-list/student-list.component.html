@@ -2,7 +2,7 @@
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"
             label="Refrescar"
-            class="p-button-info mr-2"
+            class="p-button-info"
             [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
             (click)="findAll()">
@@ -10,7 +10,7 @@
 
     <button pButton pRipple type="button"
             label="Eliminar Seleccionados"
-            class="p-button-danger"
+            class="p-button-danger ml-2"
             [disabled]="selectedItems.length===0"
             [icon]="PrimeIcons.TRASH"
             [loading]="coreService.isLoading"

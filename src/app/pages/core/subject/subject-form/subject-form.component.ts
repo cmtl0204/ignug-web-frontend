@@ -8,17 +8,21 @@ import {
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
 import {OnExitInterface} from '@shared/interfaces';
-import {CatalogueModel, CurriculumModel, SubjectModel} from '@models/core';
+import {CatalogueModel, CurriculumModel, SelectSubjectDto, SubjectModel, SubjectRequirementModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
-  CoreService,
-  FilesHttpService,
+  CoreService, CurriculumsHttpService,
   MessageService,
   RoutesService,
-  SubjectsHttpService,
+  SubjectsHttpService, SubjectsService,
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {
+  BreadcrumbEnum,
+  CatalogueCoreSubjectRequirementTypeEnum,
+  CatalogueCoreTypeEnum,
+  SkeletonEnum
+} from '@shared/enums';
 import {CurriculumsService} from '@services/core';
 
 
@@ -32,6 +36,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
+  protected subjectsPrerequisites: SelectSubjectDto[] = [];
+  protected subjectsCorequisites: SelectSubjectDto[] = [];
 
   // Foreign Keys
   protected curriculum: CurriculumModel[] = [];
@@ -50,6 +56,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     private routesService: RoutesService,
     private subjectsHttpService: SubjectsHttpService,
     protected curriculumService: CurriculumsService,
+    protected subjectsService: SubjectsService,
+    protected curriculumsHttpService: CurriculumsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
@@ -79,7 +87,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     this.loadAcademicPeriods();
     this.loadStates();
     this.loadTypes();
-
     if (this.id) {
       this.get();
     }
@@ -93,12 +100,14 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       isVisible: [true, [Validators.required]],
       name: [null, [Validators.required]],
       practicalHour: [null, [Validators.required]],
-      scale: [null, [Validators.required, Validators.maxLength(1)]],
+      scale: [0, [Validators.required, Validators.maxLength(1)]],
       teacherHour: [null, [Validators.required]],
       academicPeriod: [null, [Validators.required]],
       state: [null, [Validators.required]],
       type: [null, [Validators.required]],
       curriculum: [this.curriculumService.curriculum, [Validators.required]],
+      prerequisites: [[]],
+      corequisites: [[]],
     });
   }
 
@@ -121,14 +130,43 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   /** Actions **/
   create(item: SubjectModel): void {
-    this.subjectsHttpService.create(item).subscribe(() => {
-      this.form.reset();
-      this.back();
-    });
+    // this.subjectsHttpService.create(item).subscribe(() => {
+    //   this.form.reset();
+    //   this.back();
+    // });
   }
 
   update(item: SubjectModel): void {
-    this.subjectsHttpService.update(this.id!, item).subscribe(() => {
+    let {prerequisites, corequisites, ...payload} = this.form.value;
+
+    const prerequisites2 = this.prerequisitesField.value as SubjectRequirementModel[];
+    const corequisites2 = this.corequisitesField.value as SubjectRequirementModel[];
+
+    prerequisites = prerequisites2.map(prerequisite => {
+      return {
+        subject: this.subjectsService.subject,
+        requirement: prerequisite,
+        isEnabled: true,
+        type: CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE,
+      };
+    });
+
+    corequisites = corequisites2.map(prerequisite => {
+      return {
+        subject: this.subjectsService.subject,
+        requirement: prerequisite,
+        isEnabled: true,
+        type: CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE,
+      };
+    });
+
+    const subjectRequirements: SubjectRequirementModel[] = prerequisites.concat(corequisites);
+
+    const subject: SubjectModel = {
+      ...payload, subjectRequirements
+    };
+
+    this.subjectsHttpService.update(this.id!, subject).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -137,8 +175,73 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   /** Load Data **/
   get(): void {
     this.subjectsHttpService.findOne(this.id!).subscribe((item) => {
-      this.form.patchValue(item);
+      const prerequisites = item.subjectRequirements
+        .filter(subjectRequirement => subjectRequirement.type === CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE)
+        .map(subjectRequirement => subjectRequirement.requirement);
+
+      const corequisites = item.subjectRequirements
+        .filter(subjectRequirement => subjectRequirement.type === CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE)
+        .map(subjectRequirement => subjectRequirement.requirement);
+
+      this.form.patchValue({...item, prerequisites, corequisites});
+
+      console.log(this.stateField.value);
+      console.log(this.states);
+      this.findSubjectsByCurriculum();
     });
+  }
+
+  findSubjectsByCurriculum() {
+    this.curriculumsHttpService.findSubjectsByCurriculum(this.curriculumService.curriculum.id!)
+      .subscribe((subjects) => {
+        if (this.academicPeriodField.value.code !== this.subjectsService.subject.academicPeriod.code) {
+          this.prerequisitesField.setValue([]);
+          this.corequisitesField.setValue([]);
+        }
+
+        this.subjectsPrerequisites = [];
+        this.subjectsCorequisites = [];
+
+        const subjects1 = subjects.filter(subject => parseInt(subject.academicPeriod.code) < parseInt(this.academicPeriodField.value.code));
+        const subjects2 = subjects.filter(subject => parseInt(subject.academicPeriod.code) === parseInt(this.academicPeriodField.value.code));
+
+        subjects1.sort(function (a, b) {
+          if (a.academicPeriod.code > b.academicPeriod.code) {
+            return 1;
+          }
+          if (a.academicPeriod.code < b.academicPeriod.code) {
+            return -1;
+          }
+          return 0;
+        });
+
+        subjects1.forEach(subject => {
+          const level = subject.academicPeriod.name;
+          const index = this.subjectsPrerequisites.findIndex(item => item.name === level);
+
+          if (index === -1) {
+            this.subjectsPrerequisites.push({name: level, items: [subject]});
+          }
+
+          if (index > -1) {
+            this.subjectsPrerequisites[index].items!.push(subject);
+          }
+        });
+
+        subjects2.forEach(subject => {
+          const level = subject.academicPeriod.name;
+          const index = this.subjectsCorequisites.findIndex(item => item.name === level);
+
+          if (index === -1) {
+            this.subjectsCorequisites.push({name: level, items: []});
+
+          }
+
+          if (index > -1) {
+            this.subjectsCorequisites[index].items!.push(subject);
+          }
+        });
+      });
   }
 
   loadAcademicPeriods(): void {
@@ -152,7 +255,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   loadTypes(): void {
     this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SUBJECTS_TYPE);
   }
-
 
   /** Form Getters **/
   get autonomousHourField(): AbstractControl {
@@ -201,5 +303,13 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   get curriculumField(): AbstractControl {
     return this.form.controls['curriculum'];
+  }
+
+  get prerequisitesField(): AbstractControl {
+    return this.form.controls['prerequisites'];
+  }
+
+  get corequisitesField(): AbstractControl {
+    return this.form.controls['corequisites'];
   }
 }

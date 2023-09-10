@@ -2,7 +2,7 @@
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"
             label="Crear"
-            class="p-button-success mr-2"
+            class="p-button-success"
             [icon]="PrimeIcons.PLUS"
             [disabled]="!selectedCurriculum.value"
             (click)="redirectCreateForm()">
@@ -10,7 +10,7 @@
 
     <button pButton pRipple type="button"
             label="Refrescar"
-            class="p-button-info mr-2"
+            class="p-button-info ml-2"
             [icon]="PrimeIcons.REFRESH"
             [loading]="coreService.isLoading"
             (click)="findSubjectsByCurriculum()">

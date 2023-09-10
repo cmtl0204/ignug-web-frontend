@@ -22,6 +22,8 @@ export interface SubjectModel {
   scale: number;
   teacherHour: number;
   isVisible: boolean;
+
+  items:SubjectModel[];
 }
 
 export interface CreateSubjectDto extends Omit<SubjectModel, 'id'> {

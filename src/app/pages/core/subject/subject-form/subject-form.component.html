@@ -50,11 +50,13 @@
           label="Visible:"
           [required]="isVisibleField"
         ></label>
-        <p><p-inputSwitch
-          id="isVisible"
-          formControlName="isVisible"
-          [trueValue]="true"
-        ></p-inputSwitch></p>
+        <p>
+          <p-inputSwitch
+            id="isVisible"
+            formControlName="isVisible"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
         <small
           appErrorMessage
           [errors]="isVisibleField.errors"
@@ -65,9 +67,9 @@
       </div>
     </div>
 
-    <!-- type & academicPeriod -->
+    <!-- type & academicPeriod & code & name-->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label
           appLabel
           for="academicPeriod"
@@ -79,6 +81,7 @@
           dataKey="id"
           formControlName="academicPeriod"
           [options]="academicPeriods"
+          (onChange)="findSubjectsByCurriculum()"
           optionLabel="name"
           placeholder="Seleccione"
         >
@@ -92,7 +95,7 @@
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label appLabel for="type" label="Tipo:" [required]="typeField"></label>
         <p-dropdown
           id="type"
@@ -111,11 +114,8 @@
         >
         </small>
       </div>
-    </div>
 
-    <!-- code & name -->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-2 lg:col-2 md:col-6 sm:col-12">
         <label
           appLabel
           for="code"
@@ -137,7 +137,8 @@
         >
         </small>
       </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+
+      <div class="field xl:col-4 lg:col-4 md:col-6 sm:col-12">
         <label
           appLabel
           for="name"
@@ -155,9 +156,9 @@
       </div>
     </div>
 
-    <!-- credits & scale -->
+    <!-- credits & scale & teacherHour & practicalHour & autonomousHour-->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label
           appLabel
           for="credits"
@@ -180,34 +181,31 @@
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label
-          appLabel
-          for="scale"
-          label="Escala:"
-          [required]="scaleField"
-        ></label>
-        <input
-          pInputText
-          pKeyFilter="int"
-          type="text"
-          id="scale"
-          formControlName="scale"
-          maxlength="1"
-        />
-        <small
-          appErrorMessage
-          [errors]="scaleField.errors"
-          [touched]="scaleField.touched"
-          [dirty]="scaleField.dirty"
-        >
-        </small>
-      </div>
-    </div>
+<!--      <div class="field xl:col-1 lg:col-6 md:col-6 sm:col-12">-->
+<!--        <label-->
+<!--          appLabel-->
+<!--          for="scale"-->
+<!--          label="Escala:"-->
+<!--          [required]="scaleField"-->
+<!--        ></label>-->
+<!--        <input-->
+<!--          pInputText-->
+<!--          pKeyFilter="int"-->
+<!--          type="text"-->
+<!--          id="scale"-->
+<!--          formControlName="scale"-->
+<!--          maxlength="1"-->
+<!--        />-->
+<!--        <small-->
+<!--          appErrorMessage-->
+<!--          [errors]="scaleField.errors"-->
+<!--          [touched]="scaleField.touched"-->
+<!--          [dirty]="scaleField.dirty"-->
+<!--        >-->
+<!--        </small>-->
+<!--      </div>-->
 
-    <!-- teacherHour & practicalHour & autonomousHour  -->
-    <div class="formgrid grid">
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+      <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label
           appLabel
           for="teacherHour"
@@ -230,7 +228,8 @@
         >
         </small>
       </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+
+      <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label
           appLabel
           for="practicalHour"
@@ -253,7 +252,8 @@
         >
         </small>
       </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+
+      <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label
           appLabel
           for="autonomousHour"
@@ -278,6 +278,62 @@
       </div>
     </div>
 
+    <div class="field">
+      <label appLabel for="prerequisites" label="Prerequisitos:" [required]="prerequisitesField"></label>
+      <p-multiSelect id="prerequisites"
+                     formControlName="prerequisites"
+                     dataKey="id"
+                     [group]="true"
+                     [options]="subjectsPrerequisites"
+                     display="chip"
+                     optionLabel="name"
+                     placeholder="Seleccione...">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="prerequisitesField.value">
+            <div>{{prerequisitesField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="group" let-group>
+          <i [class]="PrimeIcons.BOOK" style="font-size: 1rem"></i> {{group.name}}
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-multiSelect>
+      <small appErrorMessage
+             [errors]="prerequisitesField.errors"
+             [touched]="prerequisitesField.touched"
+             [dirty]="prerequisitesField.dirty">
+      </small>
+    </div>
+    <div class="field">
+      <label appLabel for="corequisites" label="Corequisitos:" [required]="corequisitesField"></label>
+      <p-multiSelect id="corequisites"
+                     formControlName="corequisites"
+                     dataKey="id"
+                     [group]="true"
+                     [options]="subjectsCorequisites"
+                     display="chip"
+                     optionLabel="name"
+                     placeholder="Seleccione...">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="corequisitesField.value">
+            <div>{{corequisitesField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="group" let-group>
+          <i [class]="PrimeIcons.BOOK" style="font-size: 1rem"></i> {{group.name}}
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-multiSelect>
+      <small appErrorMessage
+             [errors]="corequisitesField.errors"
+             [touched]="corequisitesField.touched"
+             [dirty]="corequisitesField.dirty">
+      </small>
+    </div>
     <!-- Actions Buttons-->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
