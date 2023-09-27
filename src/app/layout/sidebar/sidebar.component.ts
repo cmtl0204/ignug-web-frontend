@@ -3,6 +3,7 @@ import {Router} from "@angular/router";
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {AuthHttpService, AuthService, MenusHttpService} from "@services/auth";
 import {MenuModel} from "@models/auth";
+import {MessageService} from "@services/core";
 
 @Component({
   selector: 'app-sidebar',
@@ -16,10 +17,11 @@ export class SidebarComponent implements OnInit {
   protected closed: boolean = true;
   protected closedLock: boolean | null = null;
 
-  constructor(private menusHttpService: MenusHttpService,
-              private authHttpService: AuthHttpService,
-              public authService: AuthService,
-              private router: Router) {
+  constructor(private readonly menusHttpService: MenusHttpService,
+              private readonly authHttpService: AuthHttpService,
+              public readonly authService: AuthService,
+              public readonly messageService: MessageService,
+              private readonly router: Router) {
 
   }
 
@@ -65,6 +67,10 @@ export class SidebarComponent implements OnInit {
 
   signOut() {
     this.authHttpService.signOut();
+  }
+
+  version() {
+    this.messageService.successCustom('Acerca de','Versión 1.2.3');
   }
 
   redirectProfile() {
