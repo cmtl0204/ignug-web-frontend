@@ -7,15 +7,18 @@ import {
 } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
-import {OnExitInterface} from '@shared/interfaces';
+
 import {CatalogueModel, CurriculumModel, SelectSubjectDto, SubjectModel, SubjectRequirementModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
-  CoreService, CurriculumsHttpService,
+  CoreService,
+  CurriculumsHttpService,
+  CurriculumsService,
   MessageService,
   RoutesService,
-  SubjectsHttpService, SubjectsService,
+  SubjectsHttpService,
+  SubjectsService,
 } from '@services/core';
 import {
   BreadcrumbEnum,
@@ -23,8 +26,7 @@ import {
   CatalogueCoreTypeEnum,
   SkeletonEnum
 } from '@shared/enums';
-import {CurriculumsService} from '@services/core';
-
+import {OnExitInterface} from '@shared/interfaces';
 
 @Component({
   selector: 'app-subject-form',
@@ -46,18 +48,18 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   protected types: CatalogueModel[] = [];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService,
-    private cataloguesHttpService: CataloguesHttpService,
-    protected coreService: CoreService,
-    private formBuilder: FormBuilder,
-    protected messageService: MessageService,
-    private router: Router,
-    private routesService: RoutesService,
-    private subjectsHttpService: SubjectsHttpService,
-    protected curriculumService: CurriculumsService,
-    protected subjectsService: SubjectsService,
-    protected curriculumsHttpService: CurriculumsHttpService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly cataloguesHttpService: CataloguesHttpService,
+    private readonly formBuilder: FormBuilder,
+    private readonly router: Router,
+    private readonly routesService: RoutesService,
+    private readonly subjectsHttpService: SubjectsHttpService,
+    protected readonly coreService: CoreService,
+    protected readonly curriculumService: CurriculumsService,
+    protected readonly curriculumsHttpService: CurriculumsHttpService,
+    protected readonly messageService: MessageService,
+    protected readonly subjectsService: SubjectsService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
@@ -87,6 +89,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     this.loadAcademicPeriods();
     this.loadStates();
     this.loadTypes();
+
     if (this.id) {
       this.get();
     }
@@ -94,20 +97,20 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
+      academicPeriod: [null, [Validators.required]],
       autonomousHour: [null, [Validators.required]],
       code: [null, [Validators.required]],
+      corequisites: [[]],
       credits: [null, [Validators.required]],
+      curriculum: [this.curriculumService.curriculum, [Validators.required]],
       isVisible: [true, [Validators.required]],
       name: [null, [Validators.required]],
       practicalHour: [null, [Validators.required]],
-      scale: [0, [Validators.required, Validators.maxLength(1)]],
-      teacherHour: [null, [Validators.required]],
-      academicPeriod: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      type: [null, [Validators.required]],
-      curriculum: [this.curriculumService.curriculum, [Validators.required]],
       prerequisites: [[]],
-      corequisites: [[]],
+      scale: [0, [Validators.required, Validators.maxLength(1)]],
+      state: [null, [Validators.required]],
+      teacherHour: [null, [Validators.required]],
+      type: [null, [Validators.required]],
     });
   }
 
@@ -162,9 +165,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
     const subjectRequirements: SubjectRequirementModel[] = prerequisites.concat(corequisites);
 
-    const subject: SubjectModel = {
-      ...payload, subjectRequirements
-    };
+    const subject: SubjectModel = {...payload, subjectRequirements};
 
     this.subjectsHttpService.update(this.id!, subject).subscribe(() => {
       this.form.reset();
