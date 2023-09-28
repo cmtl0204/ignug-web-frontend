@@ -14,7 +14,7 @@ export class InstitutionSelectComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected form: FormGroup;
   protected institutions: SelectInstitutionDto[] = [];
-  protected careers: SelectCareerDto[] = [];
+  protected careers: CareerModel[] = [];
 
   constructor(
     protected coreService: CoreService,

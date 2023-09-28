@@ -25,9 +25,9 @@ import {BreadcrumbEnum} from "@shared/enums";
 })
 export class EventListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectEventDto = {};
@@ -85,7 +85,7 @@ export class EventListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
+  get buildButtonActions(): MenuItem[] {
     return [
       {
         label: 'Actualizar',
@@ -161,7 +161,7 @@ export class EventListComponent implements OnInit {
 
   /** Select & Paginate **/
   selectItem(item: EventModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
   }
 

@@ -12,7 +12,7 @@ import {
   CurriculumsHttpService, CareersService, CareersHttpService
 } from '@services/core';
 import {CurriculumsService} from "@services/core/curriculums.service";
-import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
+import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-curriculum-list',
@@ -22,9 +22,9 @@ import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class CurriculumListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectCurriculumDto = {};
   protected selectedItems: CurriculumModel[] = [];
@@ -87,10 +87,10 @@ export class CurriculumListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons() {
+  get buildButtonActions() {
     return [
       {
-        id: ActionButtonsEnum.UPDATE,
+        id: IdButtonActionEnum.UPDATE,
         label: 'Editar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -98,7 +98,7 @@ export class CurriculumListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.HIDE,
+        id: IdButtonActionEnum.HIDE,
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
@@ -106,7 +106,7 @@ export class CurriculumListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.REACTIVATE,
+        id: IdButtonActionEnum.REACTIVATE,
         label: 'Mostrar',
         icon: PrimeIcons.EYE,
         command: () => {
@@ -117,15 +117,15 @@ export class CurriculumListComponent implements OnInit {
     ];
   }
 
-  validateActionButtons(item: CurriculumModel): void {
-    this.actionButtons = this.buildActionButtons;
+  validateButtonActions(item: CurriculumModel): void {
+    this.buttonActions = this.buildButtonActions;
 
     if (item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.REACTIVATE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REACTIVATE), 1);
     }
 
     if (!item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.HIDE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.HIDE), 1);
     }
   }
 
@@ -147,10 +147,10 @@ export class CurriculumListComponent implements OnInit {
 
   /** Select & Paginate **/
   selectItem(item: CurriculumModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
     this.curriculumsService.curriculum = item;
-    this.validateActionButtons(item);
+    this.validateButtonActions(item);
   }
 
   clear(table: Table) {

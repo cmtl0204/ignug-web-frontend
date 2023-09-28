@@ -43,6 +43,9 @@ import {HelpFieldComponent} from './components/help-field/help-field.component';
 import { ErrorsFieldComponent } from './components/errors-field/errors-field.component';
 import {PanelModule} from "primeng/panel";
 import {IsVisiblePipe} from "@shared/pipes/core/is-visible.pipe";
+import { VisibleComponent } from './components/visible/visible.component';
+import {DialogModule} from "primeng/dialog";
+import { ButtonActionComponent } from './components/button-action/button-action.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +73,8 @@ import {IsVisiblePipe} from "@shared/pipes/core/is-visible.pipe";
     ErrorsFieldComponent,
     IsVisiblePipe,
     SelecetedPipe,
+    VisibleComponent,
+    ButtonActionComponent,
   ],
   exports: [
     SkeletonComponent,
@@ -96,6 +101,8 @@ import {IsVisiblePipe} from "@shared/pipes/core/is-visible.pipe";
     ErrorsFieldComponent,
     IsVisiblePipe,
     SelecetedPipe,
+    VisibleComponent,
+    ButtonActionComponent
   ],
   imports: [
     CommonModule,
@@ -122,6 +129,7 @@ import {IsVisiblePipe} from "@shared/pipes/core/is-visible.pipe";
     ConfirmPopupModule,
     ConfirmDialogModule,
     PanelModule,
+    DialogModule,
   ],
   providers: [ConfirmationService]
 })

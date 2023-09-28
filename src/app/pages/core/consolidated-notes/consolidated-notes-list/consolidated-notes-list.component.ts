@@ -16,7 +16,7 @@ import {
   RoutesService,
   TeacherChargeHttpService,
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
+import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-consolidated-notes-list',
@@ -25,9 +25,9 @@ import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class ConsolidatedNotesListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = [];
+  protected buttonActions: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected items: GradeModel[] = [];
@@ -89,7 +89,7 @@ export class ConsolidatedNotesListComponent implements OnInit {
     ];
   }
 
- 
+
 
   paginate(event: any) {
     this.findAll(event.page);

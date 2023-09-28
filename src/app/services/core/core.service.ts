@@ -21,7 +21,7 @@ export class CoreService {
     if (this._isLoading != value) {
       setTimeout(() => {
         this._isLoading = value;
-      }, 1);
+      }, 10);
     }
   }
 

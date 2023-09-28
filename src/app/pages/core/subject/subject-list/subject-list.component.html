@@ -1,19 +1,20 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"
-            label="Crear"
-            class="p-button-success"
-            [icon]="PrimeIcons.PLUS"
+            (click)="redirectCreateForm()"
             [disabled]="!selectedCurriculum.value"
-            (click)="redirectCreateForm()">
+            [icon]="IconButtonActionEnum.CREATE"
+            [label]="LabelButtonActionEnum.CREATE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CREATE]">
     </button>
 
     <button pButton pRipple type="button"
-            label="Refrescar"
-            class="p-button-info ml-2"
-            [icon]="PrimeIcons.REFRESH"
+            (click)="findSubjectsByCurriculum()"
+            [icon]="IconButtonActionEnum.SYNC"
+            [label]="LabelButtonActionEnum.SYNC"
             [loading]="coreService.isLoading"
-            (click)="findSubjectsByCurriculum()">
+            [ngClass]="[ClassButtonActionEnum.SYNC,'ml-2']">
     </button>
   </div>
   <div class="p-toolbar-group-right">
@@ -26,21 +27,19 @@
       optionLabel="name"
       placeholder="Seleccione una carrera...">
       <ng-template pTemplate="selectedItem">
-        <div class="flex align-items-center gap-2" *ngIf="selectedCareer.value">
+        <div *ngIf="selectedCareer.value">
           <div>{{ selectedCareer.value.name }} - {{ selectedCareer.value.institution.shortName }} </div>
         </div>
       </ng-template>
       <ng-template let-item pTemplate="item">
-        <div class="flex align-items-center gap-2">
-          <div>{{ item.name }} - {{ item.institution.shortName }}</div>
-        </div>
+        <div>{{ item.name }} - {{ item.institution.shortName }}</div>
       </ng-template>
     </p-dropdown>
 
     <p-dropdown
       dataKey="id"
       class="ml-3"
-      [options]="selectedCareer.value?.curriculums"
+      [options]="curriculums"
       [formControl]="selectedCurriculum"
       (onChange)="findSubjectsByCurriculum()"
       pTooltip="Mallas Curriculares"
@@ -48,14 +47,12 @@
       optionLabel="name"
       placeholder="Seleccione una malla curricular...">
       <ng-template pTemplate="selectedItem">
-        <div class="flex align-items-center gap-2" *ngIf="selectedCurriculum.value">
+        <div *ngIf="selectedCurriculum.value">
           <div>{{ selectedCurriculum.value.name }}</div>
         </div>
       </ng-template>
       <ng-template let-item pTemplate="item">
-        <div class="flex align-items-center gap-2">
-          <div>{{ item.name }}</div>
-        </div>
+        <div>{{ item.name }}</div>
       </ng-template>
     </p-dropdown>
   </div>
@@ -78,7 +75,7 @@
       <h1>
         Asignaturas
       </h1>
-      <div class="p-input-icon-right ml-auto">
+      <div class="p-input-icon-left ml-auto">
         <i [class]="PrimeIcons.SEARCH"></i>
         <input #search pInputText type="text"
                placeholder="Buscar..."
@@ -96,7 +93,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        Acciones
+        {{LabelButtonActionEnum.ACTIONS}}
       </th>
     </tr>
   </ng-template>
@@ -120,9 +117,10 @@
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
           <div *ngSwitchCase="'isVisible'">
-            <p-tag [severity]="rowData[col.field]?'success':'danger'" [value]="rowData[col.field]|isVisible"></p-tag>
+            <app-visible [isVisible]="rowData[col.field]"
+                         (click)="rowData[col.field]?hide(rowData.id):reactivate(rowData.id)"
+            ></app-visible>
           </div>
-
           <div *ngSwitchCase="'hours'">
             {{rowData['teacherHour']}} / {{rowData['practicalHour']}} / {{rowData['autonomousHour']}}
           </div>
@@ -145,13 +143,11 @@
   </ng-template>
 </p-table>
 
-<p-sidebar [(visible)]="isActionButtons" position="right">
-  <p-panelMenu [model]="actionButtons" [style]="{'width':'300px'}" (click)="isActionButtons=false"></p-panelMenu>
-</p-sidebar>
+<app-button-action [buttonActions]="buttonActions"
+                   [isVisible]="isButtonActions"
+                   (isHide)="isButtonActions=!$event"></app-button-action>
 
-<p-dialog *ngIf="isFileList" [(visible)]="isFileList"
-          [modal]="true"
-          [style]="{width: '100%'}"
-          header="Gestión de Archivos">
-  <app-file-list [modelId]="selectedItem.id!"></app-file-list>
-</p-dialog>
+<app-file-list *ngIf="isFileList"
+               [isVisible]="isFileList"
+               (isHide)="isFileList=false"
+               [modelId]="selectedItem.id!"></app-file-list>

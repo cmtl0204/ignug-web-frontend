@@ -15,7 +15,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum, CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
+import {IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-school-period-list',
@@ -24,9 +24,9 @@ import {ActionButtonsEnum, BreadcrumbEnum, CatalogueCoreSchoolPeriodStateEnum} f
 })
 export class SchoolPeriodListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = [];
+  protected buttonActions: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected isFileList: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
@@ -80,12 +80,12 @@ export class SchoolPeriodListComponent implements OnInit {
     ];
   }
 
-  buildActionButtons(): void {
-    this.actionButtons = [];
+  buildButtonActions(): void {
+    this.buttonActions = [];
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.UPDATE,
+        id: IdButtonActionEnum.UPDATE,
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -93,9 +93,9 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.DELETE,
+        id: IdButtonActionEnum.DELETE,
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
@@ -103,9 +103,9 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.HIDE,
+        id: IdButtonActionEnum.HIDE,
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
@@ -113,9 +113,9 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.REACTIVATE,
+        id: IdButtonActionEnum.REACTIVATE,
         label: 'Mostrar',
         icon: PrimeIcons.EYE,
         command: () => {
@@ -124,9 +124,9 @@ export class SchoolPeriodListComponent implements OnInit {
 
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.SHOW_EVENTS,
+        id: IdButtonActionEnum.SHOW_EVENTS,
         label: 'Eventos',
         icon: PrimeIcons.BARS,
         command: () => {
@@ -134,9 +134,9 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.OPEN_SCHOOL_PERIOD,
+        id: IdButtonActionEnum.OPEN_SCHOOL_PERIOD,
         label: 'Abrir Periodo Lectivo',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
@@ -144,9 +144,9 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.CLOSE_SCHOOL_PERIOD,
+        id: IdButtonActionEnum.CLOSE_SCHOOL_PERIOD,
         label: 'Cerrar Periodo Lectivo',
         icon: PrimeIcons.UNLOCK,
         command: () => {
@@ -154,9 +154,9 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.FILE_LIST,
+        id: IdButtonActionEnum.FILE_LIST,
         label: 'Archivos',
         icon: PrimeIcons.FILE,
         command: () => {
@@ -164,51 +164,51 @@ export class SchoolPeriodListComponent implements OnInit {
         },
       });
 
-    /** Action Buttons Validations **/
+    /** Button Actions Validations **/
     if (this.selectedItem.state?.code === CatalogueCoreSchoolPeriodStateEnum.CLOSE) {
-      // this.actionButtons = this.actionButtons.filter(actionButton => {
-      //   return actionButton.id !== ActionButtonsEnum.SHOW_EVENTS && actionButton.id !== ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
+      // this.buttonActions = this.buttonActions.filter(actionButton => {
+      //   return actionButton.id !== IdButtonActionEnum.SHOW_EVENTS && actionButton.id !== IdButtonActionEnum.CLOSE_SCHOOL_PERIOD;
       // });
 
-      let index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.SHOW_EVENTS;
+      let index = this.buttonActions.findIndex(actionButton => {
+        return actionButton.id === IdButtonActionEnum.SHOW_EVENTS;
       });
 
-      this.actionButtons.splice(index, 1);
+      this.buttonActions.splice(index, 1);
 
-      index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.CLOSE_SCHOOL_PERIOD;
+      index = this.buttonActions.findIndex(actionButton => {
+        return actionButton.id === IdButtonActionEnum.CLOSE_SCHOOL_PERIOD;
       });
 
-      this.actionButtons.splice(index, 1);
+      this.buttonActions.splice(index, 1);
     }
 
     if (this.selectedItem.state?.code === CatalogueCoreSchoolPeriodStateEnum.OPEN) {
-      // this.actionButtons = this.actionButtons.filter(actionButton => {
-      //   return actionButton.id !== ActionButtonsEnum.OPEN_SCHOOL_PERIOD;
+      // this.buttonActions = this.buttonActions.filter(actionButton => {
+      //   return actionButton.id !== IdButtonActionEnum.OPEN_SCHOOL_PERIOD;
       // });
 
-      const index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.OPEN_SCHOOL_PERIOD;
+      const index = this.buttonActions.findIndex(actionButton => {
+        return actionButton.id === IdButtonActionEnum.OPEN_SCHOOL_PERIOD;
       });
 
-      this.actionButtons.splice(index, 1);
+      this.buttonActions.splice(index, 1);
     }
 
     if (this.selectedItem.isVisible) {
-      const index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.REACTIVATE;
+      const index = this.buttonActions.findIndex(actionButton => {
+        return actionButton.id === IdButtonActionEnum.REACTIVATE;
       });
 
-      this.actionButtons.splice(index, 1);
+      this.buttonActions.splice(index, 1);
     }
 
     if (!this.selectedItem.isVisible) {
-      const index = this.actionButtons.findIndex(actionButton => {
-        return actionButton.id === ActionButtonsEnum.HIDE;
+      const index = this.buttonActions.findIndex(actionButton => {
+        return actionButton.id === IdButtonActionEnum.HIDE;
       });
 
-      this.actionButtons.splice(index, 1);
+      this.buttonActions.splice(index, 1);
     }
   }
 
@@ -267,9 +267,9 @@ export class SchoolPeriodListComponent implements OnInit {
 
   /** Select & Paginate **/
   selectItem(item: SchoolPeriodModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
-    this.buildActionButtons();
+    this.buildButtonActions();
   }
 
   paginate(event: any) {

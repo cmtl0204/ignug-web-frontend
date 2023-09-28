@@ -16,10 +16,11 @@ export class FileListComponent implements OnInit {
   @Input() maxFileSize = 10240000 * 20;
   @Input() fileLimit = 20;
   @Input() modelId: string = '';
-  @Output() flagUploadFiles: EventEmitter<boolean> = new EventEmitter<boolean>(false);
-  protected actionButtons: MenuItem[] = [];
+  @Output() isHide: EventEmitter<boolean> = new EventEmitter<boolean>(false);
+  @Input() isVisible: boolean = false;
+  protected buttonActions: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectEventDto = {};
@@ -58,7 +59,6 @@ export class FileListComponent implements OnInit {
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'originalName', header: 'Nombre'},
-      {field: 'description', header: 'Descripción'},
       {field: 'extension', header: 'Extensión'},
       {field: 'size', header: 'Tamaño'},
     ];
@@ -66,18 +66,18 @@ export class FileListComponent implements OnInit {
 
   selectItem(item: EventModel) {
     this.selectedItem = item;
-    this.buildActionButtons();
-    this.isActionButtons = true;
+    this.buildButtonActions();
+    this.isButtonActions = true;
   }
 
   paginate(event: any) {
     this.findByModel(event.page);
   }
 
-  buildActionButtons(): void {
-    this.actionButtons = [];
+  buildButtonActions(): void {
+    this.buttonActions = [];
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
         icon: PrimeIcons.DOWNLOAD,
         command: () => {

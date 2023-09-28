@@ -16,9 +16,9 @@ import {BreadcrumbEnum} from "@shared/enums";
 })
 export class UserListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedUser: SelectUserDto = {};
@@ -67,7 +67,7 @@ export class UserListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
+  get buildButtonActions(): MenuItem[] {
     return [
       {
         label: 'Actualizar',
@@ -139,7 +139,7 @@ export class UserListComponent implements OnInit {
   }
 
   selectUser(user: UserModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedUser = user;
   }
 

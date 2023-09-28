@@ -1,4 +1,4 @@
-import { CatalogueModel, InstitutionModel } from '@models/core';
+import {CatalogueModel, CurriculumModel, InstitutionModel} from '@models/core';
 
 export interface CareerModel {
   id: string;
@@ -11,6 +11,7 @@ export interface CareerModel {
   modality: CatalogueModel;
   state: CatalogueModel;
   type: CatalogueModel;
+  curriculums: CurriculumModel[];
 
   acronym: string;
   code: string;

@@ -13,7 +13,7 @@ import {
   InstitutionsService,
   InstitutionsHttpService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
+import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-career-list',
@@ -23,10 +23,10 @@ import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class CareerListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
-  protected selectedItem: SelectCareerDto = {};
+  protected isButtonActions: boolean = false;
+  protected selectedItem!: CareerModel;
   protected selectedItems: CareerModel[] = [];
   protected items: SelectCareerDto[] = [];
   protected selectedInstitution: FormControl = new FormControl();
@@ -87,10 +87,10 @@ export class CareerListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons() {
+  get buildButtonActions() {
     return [
       {
-        id: ActionButtonsEnum.UPDATE,
+        id: IdButtonActionEnum.UPDATE,
         label: 'Editar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -98,7 +98,7 @@ export class CareerListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.SELECT,
+        id: IdButtonActionEnum.SELECT,
         label: 'Seleccionar',
         icon: PrimeIcons.SYNC,
         command: () => {
@@ -106,7 +106,7 @@ export class CareerListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.HIDE,
+        id: IdButtonActionEnum.HIDE,
         label: 'Ocultar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
@@ -114,7 +114,7 @@ export class CareerListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.REACTIVATE,
+        id: IdButtonActionEnum.REACTIVATE,
         label: 'Mostrar',
         icon: PrimeIcons.EYE,
         command: () => {
@@ -125,24 +125,24 @@ export class CareerListComponent implements OnInit {
     ];
   }
 
-  validateActionButtons(item: CareerModel): void {
-    this.actionButtons = this.buildActionButtons;
+  validateButtonActions(item: CareerModel): void {
+    this.buttonActions = this.buildButtonActions;
 
     if (item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.REACTIVATE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REACTIVATE), 1);
     }
 
     if (!item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.HIDE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.HIDE), 1);
     }
 
     if (item.id === this.careersService.career.id) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.SELECT), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.SELECT), 1);
     }
   }
 
   /** Actions **/
-  change(item: SelectCareerDto) {
+  change(item: CareerModel) {
     this.careersService.career = item;
     this.messageService.successCustom('Ha cambiado de Carrera', 'La Carrera seleccionada se configura para todo el sistema');
   }
@@ -162,9 +162,9 @@ export class CareerListComponent implements OnInit {
   }
 
   selectItem(item: CareerModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
-    this.validateActionButtons(item);
+    this.validateButtonActions(item);
   }
 
   /** Redirects **/

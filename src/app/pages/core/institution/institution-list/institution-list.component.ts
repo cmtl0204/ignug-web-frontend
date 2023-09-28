@@ -11,7 +11,7 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
+import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-institution-list',
@@ -20,9 +20,9 @@ import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class InstitutionListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectInstitutionDto = {};
   protected selectedItems: InstitutionModel[] = [];
@@ -63,10 +63,10 @@ export class InstitutionListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons() {
+  get buildButtonActions() {
     return [
       {
-        id: ActionButtonsEnum.UPDATE,
+        id: IdButtonActionEnum.UPDATE,
         label: 'Editar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -74,7 +74,7 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.SELECT,
+        id: IdButtonActionEnum.SELECT,
         label: 'Seleccionar',
         icon: PrimeIcons.SYNC,
         command: () => {
@@ -82,7 +82,7 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.REACTIVATE,
+        id: IdButtonActionEnum.REACTIVATE,
         label: 'Habilitar',
         icon: PrimeIcons.EYE,
         command: () => {
@@ -90,7 +90,7 @@ export class InstitutionListComponent implements OnInit {
         },
       },
       {
-        id: ActionButtonsEnum.HIDE,
+        id: IdButtonActionEnum.HIDE,
         label: 'Inhabilitar',
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
@@ -100,19 +100,19 @@ export class InstitutionListComponent implements OnInit {
     ];
   }
 
-  validateActionButtons(item: InstitutionModel) {
-    this.actionButtons = this.buildActionButtons;
+  validateButtonActions(item: InstitutionModel) {
+    this.buttonActions = this.buildButtonActions;
 
     if (item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.REACTIVATE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REACTIVATE), 1);
     }
 
     if (!item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.HIDE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.HIDE), 1);
     }
 
     if (item.id === this.institutionsService.institution.id) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.SELECT), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.SELECT), 1);
     }
   }
 
@@ -149,9 +149,9 @@ export class InstitutionListComponent implements OnInit {
   }
 
   selectItem(item: InstitutionModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
-    this.validateActionButtons(item);
+    this.validateButtonActions(item);
   }
 
   /** Redirects **/

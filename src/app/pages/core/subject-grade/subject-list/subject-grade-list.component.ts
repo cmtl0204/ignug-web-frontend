@@ -13,9 +13,9 @@ import {BreadcrumbEnum} from "@shared/enums";
 })
 export class SubjectGradeListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectInstitutionDto = {};
@@ -70,7 +70,7 @@ export class SubjectGradeListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons(): MenuItem[] {
+  get buildButtonActions(): MenuItem[] {
     return [
       {
         label: 'Actualizar',
@@ -125,7 +125,7 @@ export class SubjectGradeListComponent implements OnInit {
 
   /** Select & Paginate **/
   selectItem(item: InstitutionModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
   }
 

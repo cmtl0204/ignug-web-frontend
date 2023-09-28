@@ -1,16 +1,28 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
+
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {ColumnModel, SubjectModel, SelectSubjectDto, SelectCareerDto} from '@models/core';
+
+import {ColumnModel, SubjectModel, CurriculumModel, CareerModel} from '@models/core';
 import {
-  BreadcrumbService, CareersService,
-  CoreService, CurriculumsHttpService, CurriculumsService, EventsService,
+  BreadcrumbService,
+  CareersService,
+  CoreService,
+  CurriculumsHttpService,
+  CurriculumsService,
   MessageService,
   RoutesService,
-  SubjectsHttpService, SubjectsService,
+  SubjectsHttpService,
+  SubjectsService,
 } from '@services/core';
-import {BreadcrumbEnum, ActionButtonsEnum} from "@shared/enums";
+import {
+  BreadcrumbEnum,
+  IdButtonActionEnum,
+  LabelButtonActionEnum,
+  IconButtonActionEnum,
+  ClassButtonActionEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-subject-list',
@@ -19,30 +31,47 @@ import {BreadcrumbEnum, ActionButtonsEnum} from "@shared/enums";
 
 })
 export class SubjectListComponent implements OnInit {
+  // Reference Prime Icons
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = [];
+
+  // Button Actions Enum
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+
+  protected buttonActions: MenuItem[] = [];
+
+  // Columns of table
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+
+  // Flag actions buttons is enabled
+  protected isButtonActions: boolean = false;
+
+  // Flag upload files is enabled
   protected isFileList: boolean = false;
-  protected selectedItem: SelectSubjectDto = {};
+
+  // Administrator Data
+  protected selectedItem!: SubjectModel;
   protected selectedItems: SubjectModel[] = [];
   protected items: SubjectModel[] = [];
+
+  // Foreign Keys
   protected selectedCareer: FormControl = new FormControl();
   protected selectedCurriculum: FormControl = new FormControl();
-  protected careers: SelectCareerDto[] = [];
+  protected careers: CareerModel[] = [];
+  protected curriculums: CurriculumModel[] = [];
 
   constructor(
-    private breadcrumbService: BreadcrumbService,
-    private careersService: CareersService,
-    public coreService: CoreService,
-    public messageService: MessageService,
-    private router: Router,
-    private routesService: RoutesService,
-    private SubjectsHttpService: SubjectsHttpService,
-    private eventsService: EventsService,
-    protected curriculumsHttpService: CurriculumsHttpService,
-    protected curriculumsService: CurriculumsService,
-    protected subjectsService: SubjectsService,
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly careersService: CareersService,
+    private readonly router: Router,
+    private readonly routesService: RoutesService,
+    private readonly subjectsHttpService: SubjectsHttpService,
+    protected readonly curriculumsHttpService: CurriculumsHttpService,
+    protected readonly curriculumsService: CurriculumsService,
+    protected readonly subjectsService: SubjectsService,
+    protected readonly coreService: CoreService,
+    protected readonly messageService: MessageService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
@@ -55,20 +84,23 @@ export class SubjectListComponent implements OnInit {
 
     this.selectedCareer.patchValue(this.careersService.career);
 
-    if (this.selectedCareer.value?.curriculums.length > 0) {
-      this.selectedCurriculum.patchValue(this.selectedCareer.value?.curriculums[0]);
-      this.curriculumsService.curriculum = this.selectedCareer.value.curriculums[0];
+    this.curriculums = this.careersService.career.curriculums;
+
+    if (this.curriculums.length > 0) {
+      this.selectedCurriculum.patchValue(this.curriculums[0]);
+      this.curriculumsService.curriculum = this.curriculums[0];
       this.findSubjectsByCurriculum();
     }
 
     this.selectedCareer.valueChanges.subscribe(selectedCareer => {
       this.items = [];
+      this.curriculumsService.curriculum = {};
+
       if (selectedCareer.curriculums.length > 0) {
         this.selectedCurriculum.patchValue(selectedCareer.curriculums[0]);
         this.curriculumsService.curriculum = selectedCareer.curriculums[0];
+        this.curriculums = selectedCareer.curriculums;
         this.findSubjectsByCurriculum();
-      } else {
-        this.curriculumsService.curriculum = {};
       }
     });
   }
@@ -80,14 +112,13 @@ export class SubjectListComponent implements OnInit {
 
   /** Load Data **/
   findSubjectsByCurriculum() {
-    this.curriculumsService.curriculum = this.selectedCurriculum.value;
     this.curriculumsHttpService.findSubjectsAllByCurriculum(this.selectedCurriculum.value.id)
-      .subscribe((subjects) => {
+      .subscribe(subjects => {
         this.items = subjects;
       });
   }
 
-  /** Build Data **/
+  /** Build Columns & Button Actions **/
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'code', header: 'Código'},
@@ -99,27 +130,27 @@ export class SubjectListComponent implements OnInit {
     ];
   }
 
-  get buildActionButtons() {
+  get buildButtonActions() {
     return [
       {
-        id: ActionButtonsEnum.UPDATE,
-        label: 'Editar',
+        id: IdButtonActionEnum.UPDATE,
+        label: LabelButtonActionEnum.UPDATE,
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
-        id: ActionButtonsEnum.HIDE,
-        label: 'Ocultar',
+        id: IdButtonActionEnum.HIDE,
+        label: LabelButtonActionEnum.HIDE,
         icon: PrimeIcons.EYE_SLASH,
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
       },
       {
-        id: ActionButtonsEnum.REACTIVATE,
-        label: 'Mostrar',
+        id: IdButtonActionEnum.REACTIVATE,
+        label: LabelButtonActionEnum.REACTIVATE,
         icon: PrimeIcons.EYE,
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
@@ -127,50 +158,50 @@ export class SubjectListComponent implements OnInit {
 
       },
       {
-        id: ActionButtonsEnum.SUBJECT_REQUIREMENTS,
-        label: 'Pre y Co Requisitos',
-        icon: PrimeIcons.BOOK,
+        id: IdButtonActionEnum.FILE_LIST,
+        label: LabelButtonActionEnum.FILE_LIST,
+        icon: PrimeIcons.FILE,
         command: () => {
-          this.redirectSubjectRequirement();
+          if (this.selectedItem?.id) this.isFileList=true;
         },
 
       }
     ];
   }
 
-  validateActionButtons(item: SubjectModel): void {
-    this.actionButtons = this.buildActionButtons;
+  validateButtonActions(item: SubjectModel): void {
+    this.buttonActions = this.buildButtonActions;
 
     if (item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.REACTIVATE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REACTIVATE), 1);
     }
 
     if (!item.isVisible) {
-      this.actionButtons.splice(this.actionButtons.findIndex(actionButton => actionButton.id === ActionButtonsEnum.HIDE), 1);
+      this.buttonActions.splice(this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.HIDE), 1);
     }
   }
 
   /** Actions **/
   hide(id: string) {
-    this.SubjectsHttpService.hide(id).subscribe(item => {
+    this.subjectsHttpService.hide(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = false;
     });
   }
 
   reactivate(id: string) {
-    this.SubjectsHttpService.reactivate(id).subscribe(item => {
+    this.subjectsHttpService.reactivate(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
     });
   }
 
-  /** Select & Paginate **/
+  /** Select **/
   selectItem(item: SubjectModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
     this.subjectsService.subject = item;
-    this.validateActionButtons(item);
+    this.validateButtonActions(item);
   }
 
   /** Redirects **/
@@ -180,28 +211,5 @@ export class SubjectListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.subjects, id]);
-  }
-
-  redirectSubjectRequirement() {
-    this.router.navigate([this.routesService.subjects, this.selectedItem.id, 'subject-requirements']);
-  }
-
-  redirectCareers() {
-    this.router.navigate([this.routesService.careers]);
-  }
-
-  redirectCurriculums() {
-    this.router.navigate([this.routesService.curriculums]);
-  }
-
-  redirectEventList() {
-    this.eventsService.model = {
-      entity: this.selectedItem,
-      label: 'Asignatura',
-      routerLink: this.routesService.subjects,
-      routerLabel: 'Asignaturas',
-    };
-
-    this.router.navigate([this.routesService.events]);
   }
 }

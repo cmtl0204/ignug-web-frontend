@@ -22,9 +22,9 @@ import { BreadcrumbEnum, CatalogueCoreTypeEnum } from "@shared/enums";
 })
 export class EnrollmentListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = this.buildActionButtons;
+  protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectEnrollmentDto = {};
@@ -116,7 +116,7 @@ export class EnrollmentListComponent implements OnInit {
     this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
   }
 
-  get buildActionButtons(): MenuItem[] {
+  get buildButtonActions(): MenuItem[] {
     return [
       {
         label: 'Descargar',
@@ -199,7 +199,7 @@ export class EnrollmentListComponent implements OnInit {
 
   /** Select & Paginate **/
   selectItem(item: InstitutionModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
   }
 

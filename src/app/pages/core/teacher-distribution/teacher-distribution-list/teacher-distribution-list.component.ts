@@ -16,7 +16,7 @@ import {
   RoutesService,
   CareersHttpService, TeacherDistributionsHttpService, TeacherDistributionsService, SchoolPeriodsService
 } from '@services/core';
-import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
+import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-teacher-distribution-list',
@@ -25,9 +25,9 @@ import {ActionButtonsEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class TeacherDistributionListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
-  protected actionButtons: MenuItem[] = [];
+  protected buttonActions: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
-  protected isActionButtons: boolean = false;
+  protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem: SelectTeacherDistributionDto = {};
@@ -79,7 +79,7 @@ export class TeacherDistributionListComponent implements OnInit {
       }
     });
   }
-  
+
 
   /** Load Data **/
   findAll(page: number = 0) {
@@ -102,12 +102,12 @@ export class TeacherDistributionListComponent implements OnInit {
     ];
   }
 
-  buildActionButtons(): void {
-    this.actionButtons = [];
+  buildButtonActions(): void {
+    this.buttonActions = [];
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.UPDATE,
+        id: IdButtonActionEnum.UPDATE,
         label: 'Actualizar',
         icon: PrimeIcons.PENCIL,
         command: () => {
@@ -115,9 +115,9 @@ export class TeacherDistributionListComponent implements OnInit {
         },
       });
 
-    this.actionButtons.push(
+    this.buttonActions.push(
       {
-        id: ActionButtonsEnum.DELETE,
+        id: IdButtonActionEnum.DELETE,
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
@@ -157,10 +157,10 @@ export class TeacherDistributionListComponent implements OnInit {
 
   /** Select & Paginate **/
   selectItem(item: TeacherDistributionModel) {
-    this.isActionButtons = true;
+    this.isButtonActions = true;
     this.selectedItem = item;
     this.teacherDistributionsService.teacherDistribution = item;
-    this.buildActionButtons();
+    this.buildButtonActions();
   }
 
   paginate(event: any) {
