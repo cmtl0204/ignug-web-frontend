@@ -6,7 +6,7 @@ import {Component, Input} from '@angular/core';
   styleUrls: ['./progress-bar.component.scss']
 })
 export class ProgressBarComponent {
-  @Input() message: string = 'Loading...';
+  @Input() message: string = 'Procesando...';
 
   constructor() {
   }

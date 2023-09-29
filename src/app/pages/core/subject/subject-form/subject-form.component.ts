@@ -23,7 +23,7 @@ import {
 import {
   BreadcrumbEnum,
   CatalogueCoreSubjectRequirementTypeEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum,
   SkeletonEnum
 } from '@shared/enums';
 import {OnExitInterface} from '@shared/interfaces';
@@ -116,10 +116,36 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   onSubmit(): void {
     if (this.form.valid) {
+      let {prerequisites, corequisites, ...payload} = this.form.value;
+
+      const prerequisitesClon = this.prerequisitesField.value as SubjectRequirementModel[];
+      const corequisitesClon = this.corequisitesField.value as SubjectRequirementModel[];
+
+      prerequisites = prerequisitesClon.map(prerequisite => {
+        return {
+          subject: this.subjectsService.subject,
+          requirement: prerequisite,
+          isEnabled: true,
+          type: CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE,
+        };
+      });
+
+      corequisites = corequisitesClon.map(prerequisite => {
+        return {
+          subject: this.subjectsService.subject,
+          requirement: prerequisite,
+          isEnabled: true,
+          type: CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE,
+        };
+      });
+
+      const subjectRequirements: SubjectRequirementModel[] = prerequisites.concat(corequisites);
+
+      const subject: SelectSubjectDto = {...payload, subjectRequirements};
       if (this.id) {
-        this.update(this.form.value);
+        this.update(subject);
       } else {
-        this.create(this.form.value);
+        this.create(subject);
       }
     } else {
       this.form.markAllAsTouched();
@@ -132,41 +158,14 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   /** Actions **/
-  create(item: SubjectModel): void {
-    // this.subjectsHttpService.create(item).subscribe(() => {
-    //   this.form.reset();
-    //   this.back();
-    // });
+  create(subject:SelectSubjectDto): void {
+    this.subjectsHttpService.create(subject).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
   }
 
-  update(item: SubjectModel): void {
-    let {prerequisites, corequisites, ...payload} = this.form.value;
-
-    const prerequisites2 = this.prerequisitesField.value as SubjectRequirementModel[];
-    const corequisites2 = this.corequisitesField.value as SubjectRequirementModel[];
-
-    prerequisites = prerequisites2.map(prerequisite => {
-      return {
-        subject: this.subjectsService.subject,
-        requirement: prerequisite,
-        isEnabled: true,
-        type: CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE,
-      };
-    });
-
-    corequisites = corequisites2.map(prerequisite => {
-      return {
-        subject: this.subjectsService.subject,
-        requirement: prerequisite,
-        isEnabled: true,
-        type: CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE,
-      };
-    });
-
-    const subjectRequirements: SubjectRequirementModel[] = prerequisites.concat(corequisites);
-
-    const subject: SubjectModel = {...payload, subjectRequirements};
-
+  update(subject:SelectSubjectDto): void {
     this.subjectsHttpService.update(this.id!, subject).subscribe(() => {
       this.form.reset();
       this.back();
@@ -313,4 +312,8 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get corequisitesField(): AbstractControl {
     return this.form.controls['corequisites'];
   }
+
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
 }

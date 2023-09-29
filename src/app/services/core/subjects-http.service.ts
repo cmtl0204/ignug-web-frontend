@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateSubjectDto, SubjectModel, UpdateSubjectDto} from "@models/core";
+import {CreateSubjectDto, SelectSubjectDto, SubjectModel, UpdateSubjectDto} from "@models/core";
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 
@@ -16,7 +16,7 @@ export class SubjectsHttpService {
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: SubjectModel): Observable<SubjectModel> {
+  create(payload: SelectSubjectDto): Observable<SubjectModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -83,7 +83,7 @@ export class SubjectsHttpService {
     );
   }
 
-  update(id: string, payload: SubjectModel): Observable<SubjectModel> {
+  update(id: string, payload: SelectSubjectDto): Observable<SubjectModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing = true;
@@ -153,7 +153,7 @@ export class SubjectsHttpService {
       })
     );
   }
-  
+
   getAllSubjects(): Observable<SubjectModel[]> {
     const url = this.API_URL;
 

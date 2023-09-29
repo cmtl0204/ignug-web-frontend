@@ -3,18 +3,35 @@
   [type]="SkeletonEnum.CARD"
 ></app-skeleton>
 
-<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
-  <div class="grid">
-    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <app-header-form [id]="id"></app-header-form>
-    </div>
-    <div class="xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <h3 pTooltip="Malla Curricular">{{ curriculumField.value?.name }}</h3>
-    </div>
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
+    <app-header-form [id]="id"></app-header-form>
   </div>
-</p-panel>
+  <div class="p-toolbar-group-right">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancelar"
+      class="p-button-info p-button-outlined"
+      [icon]="PrimeIcons.ARROW_LEFT"
+      [loading]="coreService.isLoading"
+      (click)="back()"
+    ></button>
+    <p-divider layout="vertical"></p-divider>
+    <button
+      class="ml-3"
+      pButton
+      pRipple
+      type="submit"
+      label="Guardar"
+      [icon]="PrimeIcons.SAVE"
+      [loading]="coreService.isLoading"
+    ></button>
+  </div>
+</p-toolbar>
 
-<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
+<p-panel *ngIf="!coreService.isLoading" class="p-fluid" [header]="curriculumField.value?.name">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- state & isVisible -->
     <div class="formgrid grid">
@@ -165,13 +182,7 @@
           label="Créditos:"
           [required]="creditsField"
         ></label>
-        <input
-          pInputText
-          type="text"
-          id="credits"
-          formControlName="credits"
-          pKeyFilter="int"
-        />
+        <p-inputNumber id="credits" formControlName="credits" [max]="1000" [showButtons]="true"></p-inputNumber>
         <small
           appErrorMessage
           [errors]="creditsField.errors"
@@ -181,29 +192,29 @@
         </small>
       </div>
 
-<!--      <div class="field xl:col-1 lg:col-6 md:col-6 sm:col-12">-->
-<!--        <label-->
-<!--          appLabel-->
-<!--          for="scale"-->
-<!--          label="Escala:"-->
-<!--          [required]="scaleField"-->
-<!--        ></label>-->
-<!--        <input-->
-<!--          pInputText-->
-<!--          pKeyFilter="int"-->
-<!--          type="text"-->
-<!--          id="scale"-->
-<!--          formControlName="scale"-->
-<!--          maxlength="1"-->
-<!--        />-->
-<!--        <small-->
-<!--          appErrorMessage-->
-<!--          [errors]="scaleField.errors"-->
-<!--          [touched]="scaleField.touched"-->
-<!--          [dirty]="scaleField.dirty"-->
-<!--        >-->
-<!--        </small>-->
-<!--      </div>-->
+      <!--      <div class="field xl:col-1 lg:col-6 md:col-6 sm:col-12">-->
+      <!--        <label-->
+      <!--          appLabel-->
+      <!--          for="scale"-->
+      <!--          label="Escala:"-->
+      <!--          [required]="scaleField"-->
+      <!--        ></label>-->
+      <!--        <input-->
+      <!--          pInputText-->
+      <!--          pKeyFilter="int"-->
+      <!--          type="text"-->
+      <!--          id="scale"-->
+      <!--          formControlName="scale"-->
+      <!--          maxlength="1"-->
+      <!--        />-->
+      <!--        <small-->
+      <!--          appErrorMessage-->
+      <!--          [errors]="scaleField.errors"-->
+      <!--          [touched]="scaleField.touched"-->
+      <!--          [dirty]="scaleField.dirty"-->
+      <!--        >-->
+      <!--        </small>-->
+      <!--      </div>-->
 
       <div class="field xl:col-3 lg:col-3 md:col-6 sm:col-12">
         <label
@@ -212,14 +223,7 @@
           label="Horas docente:"
           [required]="teacherHourField"
         ></label>
-        <input
-          pInputText
-          pKeyFilter="int"
-          type="text"
-          id="teacherHour"
-          formControlName="teacherHour"
-          maxlength="3"
-        />
+        <p-inputNumber id="teacherHour" formControlName="teacherHour" [max]="1000" [showButtons]="true"></p-inputNumber>
         <small
           appErrorMessage
           [errors]="teacherHourField.errors"
@@ -236,14 +240,8 @@
           label="Horas prácticas:"
           [required]="practicalHourField"
         ></label>
-        <input
-          pInputText
-          pKeyFilter="int"
-          type="text"
-          id="practicalHour"
-          formControlName="practicalHour"
-          maxlength="3"
-        />
+        <p-inputNumber id="practicalHour" formControlName="practicalHour" [max]="1000"
+                       [showButtons]="true"></p-inputNumber>
         <small
           appErrorMessage
           [errors]="practicalHourField.errors"
@@ -260,14 +258,8 @@
           label="Horas autónomas"
           [required]="autonomousHourField"
         ></label>
-        <input
-          pInputText
-          pKeyFilter="int"
-          type="text"
-          id="autonomousHour"
-          formControlName="autonomousHour"
-          maxlength="3"
-        />
+        <p-inputNumber id="autonomousHour" formControlName="autonomousHour" [max]="1000"
+                       [showButtons]="true"></p-inputNumber>
         <small
           appErrorMessage
           [errors]="autonomousHourField.errors"
@@ -306,6 +298,7 @@
              [dirty]="prerequisitesField.dirty">
       </small>
     </div>
+
     <div class="field">
       <label appLabel for="corequisites" label="Corequisitos:" [required]="corequisitesField"></label>
       <p-multiSelect id="corequisites"
@@ -336,29 +329,7 @@
     </div>
     <!-- Actions Buttons-->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button
-          pButton
-          pRipple
-          type="button"
-          label="Cancelar"
-          class="p-button-info p-button-outlined"
-          [icon]="PrimeIcons.ARROW_LEFT"
-          [loading]="coreService.isLoading"
-          (click)="back()"
-        ></button>
-      </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button
-          pButton
-          pRipple
-          type="submit"
-          label="Guardar"
-          [icon]="PrimeIcons.SAVE"
-          [loading]="coreService.isLoading"
-        ></button>
-      </div>
     </div>
   </form>
 </p-panel>

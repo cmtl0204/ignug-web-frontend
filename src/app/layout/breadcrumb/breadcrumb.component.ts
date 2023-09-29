@@ -1,9 +1,8 @@
 import {Component, ViewEncapsulation} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {MegaMenuItem, MenuItem, PrimeIcons} from 'primeng/api';
+import {MenuItem, PrimeIcons} from 'primeng/api';
 import {BreadcrumbService, CoreService, InstitutionsService, RoutesService} from '@services/core';
 import {AuthHttpService, AuthService} from "@services/auth";
-import {Router} from "@angular/router";
 import {environment} from "@env/environment.prod";
 
 @Component({
