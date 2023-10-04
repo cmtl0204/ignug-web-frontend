@@ -27,6 +27,9 @@ export enum LabelButtonActionEnum {
   FILE_LIST = 'Lista de Archivos',
   SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos',
   SYNC = 'Sincronizar',
+  CAREERS = 'Carreras',
+  CURRICULUMS = 'Mallas Curriculares',
+  SUBJECTS = 'Asignaturas',
 }
 
 export enum IconButtonActionEnum {
@@ -47,6 +50,8 @@ export enum IconButtonActionEnum {
 export enum ClassButtonActionEnum {
   CREATE = 'p-button-success',
   SYNC = 'p-button-info',
+  REDIRECT_SECONDARY = 'p-button-secondary',
+  REDIRECT_HELP = 'p-button-help',
   UPDATE = 'Editar',
   DELETE = 'Eliminar',
   HIDE = 'Ocultar',

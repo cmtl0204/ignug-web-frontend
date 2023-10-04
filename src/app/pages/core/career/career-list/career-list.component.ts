@@ -13,7 +13,13 @@ import {
   InstitutionsService,
   InstitutionsHttpService
 } from '@services/core';
-import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
+import {
+    IdButtonActionEnum,
+    BreadcrumbEnum,
+    IconButtonActionEnum,
+    ClassButtonActionEnum,
+    LabelButtonActionEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-career-list',
@@ -23,6 +29,10 @@ import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class CareerListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly BreadcrumbEnum = BreadcrumbEnum;
   protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;

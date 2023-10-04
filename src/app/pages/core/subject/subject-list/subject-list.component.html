@@ -145,9 +145,11 @@
 
 <app-button-action [buttonActions]="buttonActions"
                    [isVisible]="isButtonActions"
-                   (isHide)="isButtonActions=!$event"></app-button-action>
+                   (isHide)="isButtonActions=!$event">
+</app-button-action>
 
 <app-file-list *ngIf="isFileList"
                [isVisible]="isFileList"
                (isHide)="isFileList=false"
-               [modelId]="selectedItem.id!"></app-file-list>
+               [modelId]="selectedItem.id!">
+</app-file-list>

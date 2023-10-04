@@ -15,7 +15,12 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from '@services/core';
-import {IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
+import {
+  IdButtonActionEnum,
+  BreadcrumbEnum,
+  CatalogueCoreSchoolPeriodStateEnum,
+  IconButtonActionEnum, LabelButtonActionEnum, ClassButtonActionEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-school-period-list',
@@ -295,4 +300,8 @@ export class SchoolPeriodListComponent implements OnInit {
 
     this.router.navigate([this.routesService.events]);
   }
+
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
 }

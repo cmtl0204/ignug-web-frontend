@@ -12,7 +12,13 @@ import {
   CurriculumsHttpService, CareersService, CareersHttpService
 } from '@services/core';
 import {CurriculumsService} from "@services/core/curriculums.service";
-import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
+import {
+  IdButtonActionEnum,
+  BreadcrumbEnum,
+  IconButtonActionEnum,
+  LabelButtonActionEnum,
+  ClassButtonActionEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-curriculum-list',
@@ -169,4 +175,8 @@ export class CurriculumListComponent implements OnInit {
   redirectSubjects() {
     this.router.navigate([this.routesService.subjects]);
   }
+
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
 }

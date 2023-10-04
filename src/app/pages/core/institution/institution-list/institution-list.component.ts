@@ -11,7 +11,13 @@ import {
   MessageService,
   RoutesService
 } from '@services/core';
-import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
+import {
+  IdButtonActionEnum,
+  BreadcrumbEnum,
+  IconButtonActionEnum,
+  LabelButtonActionEnum,
+  ClassButtonActionEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-institution-list',
@@ -20,6 +26,10 @@ import {IdButtonActionEnum, BreadcrumbEnum} from "@shared/enums";
 })
 export class InstitutionListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly BreadcrumbEnum = BreadcrumbEnum;
   protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;

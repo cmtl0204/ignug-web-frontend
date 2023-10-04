@@ -1,34 +1,35 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"
-            label="Crear"
-            class="p-button-success ml-2"
-            [icon]="PrimeIcons.PLUS"
-            (click)="redirectCreateForm()">
-    </button>
-
-    <button pButton pRipple type="button"
-            label="Refrescar"
-            class="p-button-info ml-2"
-            [icon]="PrimeIcons.REFRESH"
+            (click)="redirectCreateForm()"
+            [icon]="IconButtonActionEnum.CREATE"
+            [label]="LabelButtonActionEnum.CREATE"
             [loading]="coreService.isLoading"
-            (click)="refresh()">
+            [ngClass]="[ClassButtonActionEnum.CREATE]">
     </button>
 
     <button pButton pRipple type="button"
-            label="Mallas Curriculares"
-            class="p-button-secondary ml-2"
+            (click)="refresh()"
+            [icon]="IconButtonActionEnum.SYNC"
+            [label]="LabelButtonActionEnum.SYNC"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.SYNC,'ml-2']">
+    </button>
+
+    <button pButton pRipple type="button"
+            (click)="redirectCurriculums()"
             [icon]="PrimeIcons.EXTERNAL_LINK"
+            [label]="LabelButtonActionEnum.CURRICULUMS"
             [loading]="coreService.isLoading"
-            (click)="redirectCurriculums()">
+            [ngClass]="[ClassButtonActionEnum.REDIRECT_HELP,'ml-2']">
     </button>
 
     <button pButton pRipple type="button"
-            label="Asignaturas"
-            class="p-button-secondary ml-2"
+            (click)="redirectSubjects()"
             [icon]="PrimeIcons.EXTERNAL_LINK"
+            [label]="LabelButtonActionEnum.SUBJECTS"
             [loading]="coreService.isLoading"
-            (click)="redirectSubjects()">
+            [ngClass]="[ClassButtonActionEnum.REDIRECT_HELP,'ml-2']">
     </button>
   </div>
   <div class="p-toolbar-group-right">
@@ -59,7 +60,7 @@
   <ng-template pTemplate="caption">
     <div class="flex">
       <h1>
-        Carreras
+        {{BreadcrumbEnum.CAREERS}}
       </h1>
       <div class="p-input-icon-right ml-auto">
         <i [class]="PrimeIcons.SEARCH"></i>
@@ -125,6 +126,7 @@
   </ng-template>
 </p-table>
 
-<p-sidebar [(visible)]="isButtonActions" position="right">
-  <p-panelMenu [model]="buttonActions" [style]="{'width':'300px'}" (click)="isButtonActions=false"></p-panelMenu>
-</p-sidebar>
+<app-button-action [buttonActions]="buttonActions"
+                   [isVisible]="isButtonActions"
+                   (isHide)="isButtonActions=!$event">
+</app-button-action>

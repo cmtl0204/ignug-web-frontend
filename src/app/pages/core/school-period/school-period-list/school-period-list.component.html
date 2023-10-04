@@ -1,27 +1,19 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton pRipple type="button"
-            label="Crear"
-            class="p-button-success"
-            [icon]="PrimeIcons.PLUS"
-            (click)="redirectCreateForm()">
+            (click)="redirectCreateForm()"
+            [icon]="IconButtonActionEnum.CREATE"
+            [label]="LabelButtonActionEnum.CREATE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CREATE]">
     </button>
 
     <button pButton pRipple type="button"
-            label="Refrescar"
-            class="p-button-info ml-2"
-            [icon]="PrimeIcons.REFRESH"
+            (click)="findAll()"
+            [icon]="IconButtonActionEnum.SYNC"
+            [label]="LabelButtonActionEnum.SYNC"
             [loading]="coreService.isLoading"
-            (click)="findAll()">
-    </button>
-
-    <button pButton pRipple type="button"
-            label="Eliminar Seleccionados"
-            class="p-button-danger ml-2"
-            [disabled]="selectedItems.length===0"
-            [icon]="PrimeIcons.TRASH"
-            [loading]="coreService.isLoading"
-            (click)="removeAll()">
+            [ngClass]="[ClassButtonActionEnum.SYNC,'ml-2']">
     </button>
   </div>
   <div class="p-toolbar-group-right">
