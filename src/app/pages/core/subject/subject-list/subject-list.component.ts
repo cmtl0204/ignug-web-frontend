@@ -64,14 +64,15 @@ export class SubjectListComponent implements OnInit {
   constructor(
     private readonly breadcrumbService: BreadcrumbService,
     private readonly careersService: CareersService,
+    private readonly curriculumsHttpService: CurriculumsHttpService,
+    private readonly curriculumsService: CurriculumsService,
     private readonly router: Router,
     private readonly routesService: RoutesService,
     private readonly subjectsHttpService: SubjectsHttpService,
-    protected readonly curriculumsHttpService: CurriculumsHttpService,
-    protected readonly curriculumsService: CurriculumsService,
-    protected readonly subjectsService: SubjectsService,
+    private readonly subjectsService: SubjectsService,
     protected readonly coreService: CoreService,
     protected readonly messageService: MessageService,
+
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
@@ -135,7 +136,7 @@ export class SubjectListComponent implements OnInit {
       {
         id: IdButtonActionEnum.UPDATE,
         label: LabelButtonActionEnum.UPDATE,
-        icon: PrimeIcons.PENCIL,
+        icon: IconButtonActionEnum.UPDATE,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
@@ -143,7 +144,7 @@ export class SubjectListComponent implements OnInit {
       {
         id: IdButtonActionEnum.HIDE,
         label: LabelButtonActionEnum.HIDE,
-        icon: PrimeIcons.EYE_SLASH,
+        icon: IconButtonActionEnum.HIDE,
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
@@ -151,7 +152,7 @@ export class SubjectListComponent implements OnInit {
       {
         id: IdButtonActionEnum.REACTIVATE,
         label: LabelButtonActionEnum.REACTIVATE,
-        icon: PrimeIcons.EYE,
+        icon: IconButtonActionEnum.REACTIVATE,
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
@@ -160,7 +161,7 @@ export class SubjectListComponent implements OnInit {
       {
         id: IdButtonActionEnum.FILE_LIST,
         label: LabelButtonActionEnum.FILE_LIST,
-        icon: PrimeIcons.FILE,
+        icon: IconButtonActionEnum.FILE_LIST,
         command: () => {
           if (this.selectedItem?.id) this.isFileList=true;
         },

@@ -32,15 +32,15 @@ export enum LabelButtonActionEnum {
 export enum IconButtonActionEnum {
   CREATE = 'pi pi-plus',
   SYNC = 'pi pi-sync',
-  UPDATE = 'Editar',
+  UPDATE = 'pi pi-pencil',
   DELETE = 'Eliminar',
-  HIDE = 'Ocultar',
+  HIDE = 'pi pi-eye-slash',
   SELECT = 'Seleccionar',
-  REACTIVATE = 'Mostrar',
+  REACTIVATE = 'pi pi-eye',
   SHOW_EVENTS = 'Mostar Eventos',
   OPEN_SCHOOL_PERIOD = 'Abrir Periodo Lectivo',
   CLOSE_SCHOOL_PERIOD = 'Cerrar Periodo Lectivo',
-  FILE_LIST = 'Lista de Archivos',
+  FILE_LIST = 'pi pi-file',
   SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos',
 }
 

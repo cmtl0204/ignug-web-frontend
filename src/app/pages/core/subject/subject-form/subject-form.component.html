@@ -23,10 +23,11 @@
       class="ml-3"
       pButton
       pRipple
-      type="submit"
+      type="button"
       label="Guardar"
       [icon]="PrimeIcons.SAVE"
       [loading]="coreService.isLoading"
+      (click)="onSubmit()"
     ></button>
   </div>
 </p-toolbar>
@@ -270,6 +271,7 @@
       </div>
     </div>
 
+    <!-- prerequisites & corequisites-->
     <div class="field">
       <label appLabel for="prerequisites" label="Prerequisitos:" [required]="prerequisitesField"></label>
       <p-multiSelect id="prerequisites"
@@ -326,10 +328,6 @@
              [touched]="corequisitesField.touched"
              [dirty]="corequisitesField.dirty">
       </small>
-    </div>
-    <!-- Actions Buttons-->
-    <div class="formgrid grid">
-
     </div>
   </form>
 </p-panel>

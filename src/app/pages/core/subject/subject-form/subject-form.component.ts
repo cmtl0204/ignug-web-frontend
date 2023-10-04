@@ -34,18 +34,30 @@ import {OnExitInterface} from '@shared/interfaces';
   styleUrls: ['./subject-form.component.scss'],
 })
 export class SubjectFormComponent implements OnInit, OnExitInterface {
+  // Reference Prime Icons
   protected readonly PrimeIcons = PrimeIcons;
+
+  // Button Actions Enum
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+
   protected readonly SkeletonEnum = SkeletonEnum;
+
   protected id: string | null = null;
+
+  // Form
   protected form: FormGroup;
-  protected subjectsPrerequisites: SelectSubjectDto[] = [];
-  protected subjectsCorequisites: SelectSubjectDto[] = [];
 
   // Foreign Keys
+  protected academicPeriods: CatalogueModel[] = [];
   protected curriculum: CurriculumModel[] = [];
   protected states: CatalogueModel[] = [];
-  protected academicPeriods: CatalogueModel[] = [];
   protected types: CatalogueModel[] = [];
+
+  // Form Array
+  protected subjectsPrerequisites: SelectSubjectDto[] = [];
+  protected subjectsCorequisites: SelectSubjectDto[] = [];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -154,7 +166,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.subjects]);
+    this.router.navigate([this.routesService.subjects]);// review puede cambiar
   }
 
   /** Actions **/
@@ -185,8 +197,6 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
       this.form.patchValue({...item, prerequisites, corequisites});
 
-      console.log(this.stateField.value);
-      console.log(this.states);
       this.findSubjectsByCurriculum();
     });
   }
@@ -312,8 +322,4 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get corequisitesField(): AbstractControl {
     return this.form.controls['corequisites'];
   }
-
-  protected readonly IconButtonActionEnum = IconButtonActionEnum;
-  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
-  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
 }
