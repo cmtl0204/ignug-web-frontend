@@ -16,6 +16,8 @@ export enum IdButtonActionEnum {
 export enum LabelButtonActionEnum {
   ACTIONS = 'Acciones',
   CREATE = 'Crear',
+  CANCEL = 'Cancelar',
+  SAVE = 'Guardar',
   UPDATE = 'Editar',
   DELETE = 'Eliminar',
   HIDE = 'Ocultar',
@@ -36,6 +38,8 @@ export enum IconButtonActionEnum {
   CREATE = 'pi pi-plus',
   SYNC = 'pi pi-sync',
   UPDATE = 'pi pi-pencil',
+  CANCEL = 'pi pi-arrow-left',
+  SAVE = 'pi pi-save',
   DELETE = 'Eliminar',
   HIDE = 'pi pi-eye-slash',
   SELECT = 'Seleccionar',
@@ -49,6 +53,8 @@ export enum IconButtonActionEnum {
 
 export enum ClassButtonActionEnum {
   CREATE = 'p-button-success',
+  CANCEL = 'p-button-warning  p-button-text',
+  SAVE = 'p-button-text',
   SYNC = 'p-button-info',
   REDIRECT_SECONDARY = 'p-button-secondary',
   REDIRECT_HELP = 'p-button-help',

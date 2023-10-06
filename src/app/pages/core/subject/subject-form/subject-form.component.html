@@ -8,27 +8,19 @@
     <app-header-form [id]="id"></app-header-form>
   </div>
   <div class="p-toolbar-group-right">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Cancelar"
-      class="p-button-info p-button-outlined"
-      [icon]="PrimeIcons.ARROW_LEFT"
-      [loading]="coreService.isLoading"
-      (click)="back()"
-    ></button>
+    <button pButton pRipple type="button"
+            (click)="back()"
+            [icon]="IconButtonActionEnum.CANCEL"
+            [label]="LabelButtonActionEnum.CANCEL"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CANCEL]"></button>
     <p-divider layout="vertical"></p-divider>
-    <button
-      class="ml-3"
-      pButton
-      pRipple
-      type="button"
-      label="Guardar"
-      [icon]="PrimeIcons.SAVE"
-      [loading]="coreService.isLoading"
-      (click)="onSubmit()"
-    ></button>
+    <button pButton pRipple type="button"
+            (click)="onSubmit()"
+            [icon]="IconButtonActionEnum.SAVE"
+            [label]="LabelButtonActionEnum.SAVE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.SAVE]"></button>
   </div>
 </p-toolbar>
 
@@ -151,8 +143,7 @@
           appErrorMessage
           [errors]="codeField.errors"
           [touched]="codeField.touched"
-          [dirty]="codeField.dirty"
-        >
+          [dirty]="codeField.dirty">
         </small>
       </div>
 
@@ -168,8 +159,7 @@
           appErrorMessage
           [errors]="nameField.errors"
           [touched]="nameField.touched"
-          [dirty]="nameField.dirty"
-        >
+          [dirty]="nameField.dirty">
         </small>
       </div>
     </div>
@@ -188,8 +178,7 @@
           appErrorMessage
           [errors]="creditsField.errors"
           [touched]="creditsField.touched"
-          [dirty]="creditsField.dirty"
-        >
+          [dirty]="creditsField.dirty">
         </small>
       </div>
 
@@ -271,7 +260,7 @@
       </div>
     </div>
 
-    <!-- prerequisites & corequisites-->
+    <!-- prerequisites-->
     <div class="field">
       <label appLabel for="prerequisites" label="Prerequisitos:" [required]="prerequisitesField"></label>
       <p-multiSelect id="prerequisites"
@@ -301,6 +290,7 @@
       </small>
     </div>
 
+    <!-- corequisites-->
     <div class="field">
       <label appLabel for="corequisites" label="Corequisitos:" [required]="corequisitesField"></label>
       <p-multiSelect id="corequisites"

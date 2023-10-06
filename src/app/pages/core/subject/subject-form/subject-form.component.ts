@@ -48,6 +48,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   // Form
   protected form: FormGroup;
+  protected formErrors: string[] = [];
 
   // Foreign Keys
   protected academicPeriods: CatalogueModel[] = [];
@@ -126,8 +127,30 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+  validateForm() {
+    this.formErrors = [];
+
+    if (this.autonomousHourField.errors) this.formErrors.push('Horas Autónomas');
+    if (this.codeField.errors) this.formErrors.push('Código');
+    if (this.isVisibleField.errors) this.formErrors.push('Visible');
+    if (this.creditsField.errors) this.formErrors.push('Créditos');
+    if (this.nameField.errors) this.formErrors.push('Nombre');
+    if (this.practicalHourField.errors) this.formErrors.push('Horas Prácticas');
+    if (this.scaleField.errors) this.formErrors.push('Escala');
+    if (this.teacherHourField.errors) this.formErrors.push('Horas Docentes');
+    if (this.academicPeriodField.errors) this.formErrors.push('Periodo Académico');
+    if (this.stateField.errors) this.formErrors.push('Estado');
+    if (this.typeField.errors) this.formErrors.push('Tipo');
+    if (this.curriculumField.errors) this.formErrors.push('Malla Curricular');
+    if (this.prerequisitesField.errors) this.formErrors.push('Prequisitos');
+    if (this.corequisitesField.errors) this.formErrors.push('Corequisitos');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
+  }
+
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       let {prerequisites, corequisites, ...payload} = this.form.value;
 
       const prerequisitesClon = this.prerequisitesField.value as SubjectRequirementModel[];
@@ -161,7 +184,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields();
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
