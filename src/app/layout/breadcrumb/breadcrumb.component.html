@@ -17,7 +17,8 @@
 
 <p-overlayPanel #op>
   <div class="text-center">
-    <p-avatar [image]="HOST_URL+authService.auth.avatar" styleClass="mr-2" size="xlarge"
+    <p-avatar *ngIf="authService.auth"
+              [image]="HOST_URL+authService.auth.avatar" styleClass="mr-2" size="xlarge"
               shape="circle"></p-avatar>
   </div>
   <div class="field">

@@ -28,38 +28,40 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- state & isVisible -->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
         <label
           appLabel
-          for="state"
-          label="Estado:"
-          [required]="stateField"
+          for="isEnabled"
+          label="Activo:"
+          [required]="isVisibleField"
         ></label>
-        <p-dropdown
-          id="state"
-          dataKey="id"
-          formControlName="state"
-          [options]="states"
-          optionLabel="name"
-          placeholder="Seleccione"
-        >
-        </p-dropdown>
+        <app-help-field (mouseenter)="opIsEnabledField.toggle($event)"
+                        (mouseleave)="opIsEnabledField.hide()"></app-help-field>
+        <p>
+          <p-inputSwitch
+            id="isEnabled"
+            formControlName="isEnabled"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
         <small
           appErrorMessage
-          [errors]="stateField.errors"
-          [touched]="stateField.touched"
-          [dirty]="stateField.dirty"
+          [errors]="isVisibleField.errors"
+          [touched]="isVisibleField.touched"
+          [dirty]="isVisibleField.dirty"
         >
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
         <label
           appLabel
           for="isVisible"
           label="Visible:"
           [required]="isVisibleField"
         ></label>
+        <app-help-field (mouseenter)="opIsVisibleField.toggle($event)"
+                        (mouseleave)="opIsVisibleField.hide()"></app-help-field>
         <p>
           <p-inputSwitch
             id="isVisible"
@@ -321,3 +323,15 @@
     </div>
   </form>
 </p-panel>
+
+<p-overlayPanel #opIsEnabledField>
+  <ng-template pTemplate="content">
+    Se toma en cuenta para realizar procesos
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #opIsVisibleField>
+  <ng-template pTemplate="content">
+    Es visible para el resto del sistema
+  </ng-template>
+</p-overlayPanel>

@@ -32,6 +32,7 @@ import {SubjectListComponent} from './subject-list/subject-list.component';
 import {SubjectFormComponent} from './subject-form/subject-form.component';
 import {SubjectRequirementComponent} from "./subject-requirement/subject-requirement.component";
 import {PickListModule} from "primeng/picklist";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 
 @NgModule({
@@ -40,34 +41,35 @@ import {PickListModule} from "primeng/picklist";
     SubjectFormComponent,
     SubjectRequirementComponent,
   ],
-  imports: [
-    NgCommonModule,
-    ReactiveFormsModule,
-    SubjectRoutingModule,
-    ButtonModule,
-    CalendarModule,
-    CheckboxModule,
-    DialogModule,
-    DividerModule,
-    FileUploadModule,
-    InputSwitchModule,
-    InputTextModule,
-    KeyFilterModule,
-    MessageModule,
-    MultiSelectModule,
-    PaginatorModule,
-    PanelMenuModule,
-    PanelModule,
-    PasswordModule,
-    RippleModule,
-    SharedModule,
-    SidebarModule,
-    SplitButtonModule,
-    TableModule,
-    TagModule,
-    ToolbarModule,
-    PickListModule,
-  ]
+    imports: [
+        NgCommonModule,
+        ReactiveFormsModule,
+        SubjectRoutingModule,
+        ButtonModule,
+        CalendarModule,
+        CheckboxModule,
+        DialogModule,
+        DividerModule,
+        FileUploadModule,
+        InputSwitchModule,
+        InputTextModule,
+        KeyFilterModule,
+        MessageModule,
+        MultiSelectModule,
+        PaginatorModule,
+        PanelMenuModule,
+        PanelModule,
+        PasswordModule,
+        RippleModule,
+        SharedModule,
+        SidebarModule,
+        SplitButtonModule,
+        TableModule,
+        TagModule,
+        ToolbarModule,
+        PickListModule,
+        OverlayPanelModule,
+    ]
 })
 export class SubjectModule {
 }

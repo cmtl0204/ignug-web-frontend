@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Router} from "@angular/router";
-import {MenuItem, PrimeIcons} from 'primeng/api';
+import {PrimeIcons} from 'primeng/api';
 import {AuthHttpService, AuthService, MenusHttpService} from "@services/auth";
 import {MenuModel} from "@models/auth";
 import {MessageService} from "@services/core";
@@ -16,6 +16,7 @@ export class SidebarComponent implements OnInit {
   protected showedMenu: boolean = false;
   protected closed: boolean = true;
   protected closedLock: boolean | null = null;
+  protected isVisibleAbout: boolean = false;
 
   constructor(private readonly menusHttpService: MenusHttpService,
               private readonly authHttpService: AuthHttpService,
@@ -69,11 +70,7 @@ export class SidebarComponent implements OnInit {
     this.authHttpService.signOut();
   }
 
-  version() {
-    this.messageService.successCustom('Acerca de','Versión 1.2.3');
-  }
-
-  redirectProfile() {
-    this.router.navigateByUrl('/profile');
+  about() {
+    this.isVisibleAbout = true;
   }
 }

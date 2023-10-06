@@ -53,16 +53,23 @@
     </li>
     <li id="101" [ngClass]="{'showMenu':showedMenu}">
       <div class="icon-link">
-        <a href="javascript:void(0);" (click)="version()">
+        <a href="javascript:void(0);" (click)="about()">
           <i [class]="PrimeIcons.ANDROID"></i>
           <small class="link_name">V 1.2.3</small>
         </a>
       </div>
       <ul class="sub-menu">
         <li>
-          <a class="link_name" href="javascript:void(0);" (click)="version()">V 1.2.3</a>
+          <a class="link_name" href="javascript:void(0);" (click)="about()">V 1.2.3</a>
         </li>
       </ul>
     </li>
   </ul>
 </div>
+
+<p-dialog [(visible)]="isVisibleAbout"
+          [modal]="true"
+          [style]="{width: '50%'}"
+          header="Acerca de">
+  <app-about></app-about>
+</p-dialog>

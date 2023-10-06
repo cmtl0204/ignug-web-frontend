@@ -161,9 +161,9 @@ export class AuthHttpService {
       );
   }
 
-  verifyTransactionalCode(token: string): Observable<ServerResponse> {
+  verifyTransactionalCode(token: string,username:string): Observable<ServerResponse> {
     const url = `${this.API_URL}/transactional-codes/${token}/verify`;
-    return this.httpClient.get<ServerResponse>(url)
+    return this.httpClient.patch<ServerResponse>(url,{username})
       .pipe(
         map(response => {
           this.messageService.success(response);

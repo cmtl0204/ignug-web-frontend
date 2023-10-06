@@ -53,8 +53,8 @@ export enum IconButtonActionEnum {
 
 export enum ClassButtonActionEnum {
   CREATE = 'p-button-success',
-  CANCEL = 'p-button-warning  p-button-text',
-  SAVE = 'p-button-text',
+  CANCEL = 'p-button-warning',
+  SAVE = '',
   SYNC = 'p-button-info',
   REDIRECT_SECONDARY = 'p-button-secondary',
   REDIRECT_HELP = 'p-button-help',

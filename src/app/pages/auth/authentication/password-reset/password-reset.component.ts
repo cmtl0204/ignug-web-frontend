@@ -65,7 +65,7 @@ export class PasswordResetComponent implements OnInit {
   verifyTransactionalCode() {
     if (this.usernameField.valid) {
       this.isValidTransactionalCode = false;
-      this.authHttpService.verifyTransactionalCode(this.transactionalCodeField.value).subscribe(
+      this.authHttpService.verifyTransactionalCode(this.transactionalCodeField.value, this.usernameField.value).subscribe(
         () => this.isValidTransactionalCode = true);
     } else {
       this.transactionalCodeField.markAsTouched();
