@@ -9,7 +9,7 @@
     </button>
 
     <button pButton pRipple type="button"
-            (click)="findAll()"
+            (click)="find()"
             [icon]="IconButtonActionEnum.SYNC"
             [label]="LabelButtonActionEnum.SYNC"
             [loading]="coreService.isLoading"
@@ -22,7 +22,7 @@
       <button pButton pRipple type="button"
               [icon]="PrimeIcons.SEARCH"
               [loading]="coreService.isLoading"
-              (click)="findAll()"></button>
+              (click)="find()"></button>
     </div>
   </div>
 </p-toolbar>
@@ -50,7 +50,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        Acciones
+        {{LabelButtonActionEnum.ACTIONS}}
       </th>
     </tr>
   </ng-template>
@@ -101,9 +101,10 @@
   </ng-template>
 </p-table>
 
-<p-sidebar [(visible)]="isButtonActions" position="right">
-  <p-panelMenu [model]="buttonActions" [style]="{'width':'300px'}" (click)="isButtonActions=false"></p-panelMenu>
-</p-sidebar>
+<app-button-action [buttonActions]="buttonActions"
+                   [isVisible]="isButtonActions"
+                   (isHide)="isButtonActions=!$event">
+</app-button-action>
 
 <!--<p-dialog *ngIf="isFileList" [(visible)]="isFileList"-->
 <!--          [modal]="true"-->

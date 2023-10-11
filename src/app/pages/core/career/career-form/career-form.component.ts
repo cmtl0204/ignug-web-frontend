@@ -13,7 +13,13 @@ import {
   CareersHttpService,
   InstitutionsService
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {
+    BreadcrumbEnum,
+    CatalogueCoreTypeEnum,
+    ClassButtonActionEnum, IconButtonActionEnum,
+    LabelButtonActionEnum,
+    SkeletonEnum
+} from '@shared/enums';
 
 @Component({
   selector: 'app-career-form',
@@ -74,19 +80,20 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      institution: [this.institutionsService.institution, [Validators.required]],
-      modality: [null, []],
-      isVisible: [true, [Validators.required]],
-      state: [null, [Validators.required]],
-      type: [null, []],
       acronym: [null, [Validators.required]],
       code: [null, [Validators.required]],
       codeSniese: [null, []],
       degree: [null, [Validators.required]],
+      institution: [this.institutionsService.institution, [Validators.required]],
+      isEnabled: [true, [Validators.required]],
+      isVisible: [true, [Validators.required]],
       logo: [null, []],
+      modality: [null, []],
       name: [null, [Validators.required]],
       resolutionNumber: [null, []],
       shortName: [null, [Validators.required]],
+      state: [null, [Validators.required]],
+      type: [null, []],
     });
   }
 
@@ -135,6 +142,10 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
 
 
   /** Form Getters **/
+  get isEnabledField(): AbstractControl {
+    return this.form.controls['isEnabled'];
+  }
+
   get isVisibleField(): AbstractControl {
     return this.form.controls['isVisible'];
   }
@@ -180,4 +191,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   protected readonly SkeletonEnum = SkeletonEnum;
+    protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+    protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+    protected readonly IconButtonActionEnum = IconButtonActionEnum;
 }

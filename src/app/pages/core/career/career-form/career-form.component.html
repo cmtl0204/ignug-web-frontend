@@ -1,42 +1,77 @@
 <app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
-<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
-  <ng-template pTemplate="header">
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
     <app-header-form [id]="id"></app-header-form>
-  </ng-template>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton pRipple type="button"
+            (click)="back()"
+            [icon]="IconButtonActionEnum.CANCEL"
+            [label]="LabelButtonActionEnum.CANCEL"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CANCEL]"></button>
+    <p-divider layout="vertical"></p-divider>
+    <button pButton pRipple type="button"
+            (click)="onSubmit()"
+            [icon]="IconButtonActionEnum.SAVE"
+            [label]="LabelButtonActionEnum.SAVE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.SAVE]"></button>
+  </div>
+</p-toolbar>
 
-  <p-divider></p-divider>
-
+<p-panel *ngIf="!coreService.isLoading" class="p-fluid" [header]="institutionField.value?.name">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <div class="field">
-      <label appLabel for="institution" label="Instituto:" [required]="stateField"></label>
-      <h3 id="institution">{{institutionField.value?.name}}</h3>
-    </div>
+    <!-- isEnabled & isVisible -->
     <div class="formgrid grid">
-      <!-- state & isVisible -->
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="state" label="Estado:" [required]="stateField"></label>
-        <p-dropdown id="state"
-                    dataKey="id"
-                    formControlName="state"
-                    [options]="states"
-                    optionLabel="name"
-                    placeholder="Seleccione...">
-        </p-dropdown>
-        <small appErrorMessage
-               [errors]="stateField.errors"
-               [touched]="stateField.touched"
-               [dirty]="stateField.dirty">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
+        <label
+          appLabel
+          for="isEnabled"
+          label="Activo:"
+          [required]="isEnabledField"
+        ></label>
+        <app-help-field (mouseenter)="opIsEnabledField.toggle($event)"
+                        (mouseleave)="opIsEnabledField.hide()"></app-help-field>
+        <p>
+          <p-inputSwitch
+            id="isEnabled"
+            formControlName="isEnabled"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
+        <small
+          appErrorMessage
+          [errors]="isEnabledField.errors"
+          [touched]="isEnabledField.touched"
+          [dirty]="isEnabledField.dirty"
+        >
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="isVisible" label="Visible:" [required]="isVisibleField"></label>
-        <p-inputSwitch id="isVisible" formControlName="isVisible" [trueValue]="true"></p-inputSwitch>
-        <small appErrorMessage
-               [errors]="isVisibleField.errors"
-               [touched]="isVisibleField.touched"
-               [dirty]="isVisibleField.dirty">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
+        <label
+          appLabel
+          for="isVisible"
+          label="Visible:"
+          [required]="isVisibleField"
+        ></label>
+        <app-help-field (mouseenter)="opIsVisibleField.toggle($event)"
+                        (mouseleave)="opIsVisibleField.hide()"></app-help-field>
+        <p>
+          <p-inputSwitch
+            id="isVisible"
+            formControlName="isVisible"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
+        <small
+          appErrorMessage
+          [errors]="isVisibleField.errors"
+          [touched]="isVisibleField.touched"
+          [dirty]="isVisibleField.dirty"
+        >
         </small>
       </div>
     </div>
@@ -86,6 +121,7 @@
         </small>
       </div>
     </div>
+
     <!-- degree & logo  -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
@@ -131,24 +167,17 @@
         </small>
       </div>
     </div>
-
-    <!-- Buttons Actions-->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="button"
-                label="Cancelar"
-                class="p-button-info p-button-outlined"
-                [icon]="PrimeIcons.ARROW_LEFT"
-                [loading]="coreService.isLoading"
-                (click)="back()"></button>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="submit"
-                label="Guardar"
-                [icon]="PrimeIcons.SAVE"
-                [loading]="coreService.isLoading"></button>
-      </div>
-    </div>
   </form>
 </p-panel>
+
+<p-overlayPanel #opIsEnabledField>
+  <ng-template pTemplate="content">
+    Se toma en cuenta para realizar procesos
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #opIsVisibleField>
+  <ng-template pTemplate="content">
+    Es visible para el resto del sistema
+  </ng-template>
+</p-overlayPanel>

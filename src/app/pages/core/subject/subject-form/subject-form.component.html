@@ -26,14 +26,14 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid" [header]="curriculumField.value?.name">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- state & isVisible -->
+    <!-- isEnabled & isVisible -->
     <div class="formgrid grid">
       <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
         <label
           appLabel
           for="isEnabled"
           label="Activo:"
-          [required]="isVisibleField"
+          [required]="isEnabledField"
         ></label>
         <app-help-field (mouseenter)="opIsEnabledField.toggle($event)"
                         (mouseleave)="opIsEnabledField.hide()"></app-help-field>
@@ -46,9 +46,9 @@
         </p>
         <small
           appErrorMessage
-          [errors]="isVisibleField.errors"
-          [touched]="isVisibleField.touched"
-          [dirty]="isVisibleField.dirty"
+          [errors]="isEnabledField.errors"
+          [touched]="isEnabledField.touched"
+          [dirty]="isEnabledField.dirty"
         >
         </small>
       </div>

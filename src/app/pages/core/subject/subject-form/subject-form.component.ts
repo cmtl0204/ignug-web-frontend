@@ -27,6 +27,7 @@ import {
   SkeletonEnum
 } from '@shared/enums';
 import {OnExitInterface} from '@shared/interfaces';
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-subject-form',
@@ -65,6 +66,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     private readonly breadcrumbService: BreadcrumbService,
     private readonly cataloguesHttpService: CataloguesHttpService,
     private readonly formBuilder: FormBuilder,
+    private location: Location,
     private readonly router: Router,
     private readonly routesService: RoutesService,
     private readonly subjectsHttpService: SubjectsHttpService,
@@ -190,7 +192,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.subjects]);// review puede cambiar
+    this.location.back();
   }
 
   /** Actions **/
