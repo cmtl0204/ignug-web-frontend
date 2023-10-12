@@ -1,0 +1,277 @@
+<app-skeleton
+  *ngIf="coreService.isLoading"
+  [type]="SkeletonEnum.CARD"
+></app-skeleton>
+
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
+    <app-header-form [id]="id"></app-header-form>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancelar"
+      class="p-button-info p-button-outlined"
+      [icon]="PrimeIcons.ARROW_LEFT"
+      [loading]="coreService.isLoading"
+      (click)="back()"
+    ></button>
+    <p-divider layout="vertical"></p-divider>
+    <button
+      class="ml-3"
+      pButton
+      pRipple
+      type="button"
+      label="Guardar"
+      [icon]="PrimeIcons.SAVE"
+      [loading]="coreService.isLoading"
+      (click)="onSubmit()"
+      [disabled]="true"
+    ></button>
+  </div>
+</p-toolbar>
+
+
+<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <p-accordion [activeIndex]="activeIndex">
+      <p>Index: {{activeIndex}}</p>
+      <p-accordionTab header="A.- INFORMACION DEL ESTUDIANTE">
+        <app-personal-information-form></app-personal-information-form>
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Siguiente"
+        class="p-button-info"
+        [icon]="PrimeIcons.ARROW_RIGHT"
+        (click)="next()"
+      ></button>
+      </p-accordionTab>
+      <p-accordionTab header="B.-DATOS ACADÉMICOS DEL ESTUDIANTE">
+        <app-institutional-data-form></app-institutional-data-form>
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="C.-OTROS DATOS ACADEMICO DEL ESTUDIANTE">
+        <app-additional-data-form></app-additional-data-form>
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="D.- LUGAR DEL PROCEDENCIA">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="E.- LUGAR DEL RESIDENCIA">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="F.- DATOS DEL GRUPO FAMILIAR (Todas las personas que conforman el núcleo familiar, a excepción del estudiante).">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab> 
+      <p-accordionTab header="G.- OTROS DATOS ECONÓMICOS FAMILIARES">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="H.- ANTECEDENTES DE SALUD DE LA FAMILIA">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="I.- DATOS DE LA VIVIENDA DEL ESTUDIANTE">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="J.- MIGRACIÓN FUERA DEL PAÍS">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="K.- SECCIÓN PSICOSOCIAL">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+      <p-accordionTab header="L.- CROQUIS/UBICACIÓN GEOGRÁFICA (puede adjuntar la captura de Google maps o dibujar el croquis de su domicilio).">
+        <button
+        pButton
+        pRipple
+        type="button"
+        label="Atras"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previus()"
+      ></button>
+      <button
+      pButton
+      pRipple
+      type="button"
+      label="Siguiente"
+      class="p-button-info"
+      [icon]="PrimeIcons.ARROW_RIGHT"
+      (click)="next()"
+    ></button>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</p-panel>

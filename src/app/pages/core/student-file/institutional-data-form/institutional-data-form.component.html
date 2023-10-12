@@ -1,0 +1,242 @@
+<form [formGroup]="form">
+  <div formGroupName="informationStudent">
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="graduationDate"
+          label="Carrera:"
+          [required]="graduationDateField"
+        ></label>
+        <input
+          pInputText
+          id="graduationDate"
+          formControlName="graduationDate"
+        />
+        <small
+          appErrorMessage
+          [errors]="graduationDateField.errors"
+          [touched]="graduationDateField.touched"
+          [dirty]="graduationDateField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="bloodType"
+          label="Ciclo academico:"
+          [required]="bachTypeField"
+        ></label>
+        <p-dropdown
+          id="bachType"
+          formControlName="bachType"
+          dataKey="id"
+          [options]="bachTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="bachTypeField.value">
+              <div>{{ bachTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="bachTypeField.errors"
+          [touched]="bachTypeField.touched"
+          [dirty]="bachTypeField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="isTitule"
+          label="Perdio materias:"
+          [required]="isTituleField"
+        ></label>
+        <p-dropdown
+          id="isTitule"
+          formControlName="isTitule"
+          dataKey="id"
+          [options]="isTitules"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="isTituleField.value">
+              <div>{{ isTituleField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="isTituleField.errors"
+          [touched]="isTituleField.touched"
+          [dirty]="isTituleField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="isTitule"
+          label="En su trayectoria universitaria ha realizado:"
+          [required]="isTituleField"
+        ></label>
+        <p-dropdown
+          id="isTitule"
+          formControlName="isTitule"
+          dataKey="id"
+          [options]="isTitules"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="isTituleField.value">
+              <div>{{ isTituleField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="isTituleField.errors"
+          [touched]="isTituleField.touched"
+          [dirty]="isTituleField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label
+          appLabel
+          for="doStudent"
+          label="A:más del bachillerato, tiene otro Titulo"
+          [required]="doStudentField"
+        ></label>
+        <p-dropdown
+          id="doStudent"
+          formControlName="doStudent"
+          dataKey="id"
+          [options]="doStudents"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="doStudentField.value">
+              <div>{{ doStudentField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="doStudentField.errors"
+          [touched]="doStudentField.touched"
+          [dirty]="doStudentField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label
+          appLabel
+          for="doE"
+          label="Estudia otra carrera fuera de la Amawtay Wasi:"
+          [required]="doEField"
+        ></label>
+        <p-dropdown
+          id="doE"
+          formControlName="doE"
+          dataKey="id"
+          [options]="doEs"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="doEField.value">
+              <div>{{ doEField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="doEField.errors"
+          [touched]="doEField.touched"
+          [dirty]="doEField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label appLabel for="nameE" label="Nombre de la institucion:"
+          [required]="nameEField"></label>
+        <input pInputText type="text" id="nameE" formControlName="nameE" />
+        <small appErrorMessage [errors]="nameEField.errors"
+          [touched]="nameEField.touched" [dirty]="nameEField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label
+          appLabel
+          for="doE"
+          label="Tipo de la Institución:"
+          [required]="doEField"
+        ></label>
+        <p-dropdown
+          id="doE"
+          formControlName="doE"
+          dataKey="id"
+          [options]="doEs"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="doEField.value">
+              <div>{{ doEField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="doEField.errors"
+          [touched]="doEField.touched"
+          [dirty]="doEField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+  </div>
+</form>

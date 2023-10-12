@@ -66,6 +66,10 @@ export class RoutesService {
     return this.core + '/teacher-distributions';
   }
 
+  get studentFile(): string {
+    return this.core + '/student-file'
+  }
+
   get common(): string {
     return '/common';
   }
