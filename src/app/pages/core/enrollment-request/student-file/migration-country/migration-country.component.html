@@ -1,0 +1,442 @@
+<form [formGroup]="form">
+  <div formGroupName="informationStudent">
+    <div class="formgrid grid">
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="cicilState"
+          label="La vivienda en la que habita el estudiante es:"
+          [required]="disabilityTypeField"
+        ></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="cicilState"
+          label="Tipo de vivienda:"
+          [required]="disabilityTypeField"
+        ></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="cicilState"
+          label="Principal material del techo de la vivienda:"
+          [required]="disabilityTypeField"
+        ></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="cicilState"
+          label="Principal material del piso de la vivienda"
+          [required]="disabilityTypeField"
+        ></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="cicilState"
+          label="Principal material de las paredes de la vivienda"
+          [required]="disabilityTypeField"
+        ></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="cicilState"
+          label="¿Qué tipo de Agua consume en su domicilio?"
+          [required]="disabilityTypeField"
+        ></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Posee luz en su domicilio" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Con que frecuencia presenta apagones o cortes de luz en su vivienda" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Telefono" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Posee alcantarillado" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Cuenta son dispositivos tecnológicos en su domicilio" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Cuenta con internet" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Para sus estudios recibe aportes de" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="cicilState" label="Algun miembro del grupo familiar es beneficiario de algún bono beca ó ayuda económicos" [required]="disabilityTypeField"></label>
+        <p-dropdown
+          id="cicilState"
+          formControlName="disabilityType"
+          dataKey="id"
+          [options]="disabilityTypes"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="disabilityTypeField.value">
+              <div>{{ disabilityTypeField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="disabilityTypeField.errors"
+          [touched]="disabilityTypeField.touched"
+          [dirty]="disabilityTypeField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+  </div>
+</form>

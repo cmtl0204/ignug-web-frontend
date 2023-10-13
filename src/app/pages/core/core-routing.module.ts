@@ -56,8 +56,8 @@ const routes: Routes = [
     loadChildren: () => import('./consolidated-notes/consolidated-notes.module').then(m => m.ConsolidatedNotesModule)
   },
   {
-    path: 'student-file',
-    loadChildren: () => import('./student-file/student-file.module').then(m => m.StudentFileModule)
+    path: 'enrollment-request',
+    loadChildren: () => import('./enrollment-request/enrollment-request.module').then(m => m.EnrollmentRequestModule)
   }
 ];
 

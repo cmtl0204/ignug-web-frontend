@@ -15,11 +15,11 @@ import {
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-student-file-form',
-  templateUrl: './student-file-form.component.html',
-  styleUrls: ['./student-file-form.component.scss']
+  selector: 'app-enrollment-request',
+  templateUrl: './enrollment-request.component.html',
+  styleUrls: ['./enrollment-request.component.scss']
 })
-export class StudentFileFormComponent implements OnInit, OnExitInterface {
+export class EnrollmentRequestComponent {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -108,14 +108,27 @@ export class StudentFileFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+
   activeIndex: number = 0;
 
-  next(){
-    this.activeIndex++
+  
+  next1() {
+    this.activeIndex = 0;
+  }
+  next2() {
+    this.activeIndex = 1;
   }
 
-  previus(){
-    this.activeIndex--
+  next3() {
+    this.activeIndex = 2;
+  }
+
+  next4() {
+    this.activeIndex = 3;
+  }
+
+  send() {
+    //TODO
   }
 
   protected readonly SkeletonEnum = SkeletonEnum;

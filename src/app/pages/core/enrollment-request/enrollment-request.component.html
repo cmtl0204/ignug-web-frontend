@@ -1,0 +1,55 @@
+<p>enrollment-request works!</p>
+<app-skeleton
+  *ngIf="coreService.isLoading"
+  [type]="SkeletonEnum.CARD"
+></app-skeleton>
+
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
+    Solicitud de matricula
+  </div>
+  <div class="p-toolbar-group-right">
+    <button
+      pButton
+      pRipple
+      type="button"
+      label="Cancelar"
+      class="p-button-info p-button-outlined"
+      [icon]="PrimeIcons.ARROW_LEFT"
+      [loading]="coreService.isLoading"
+    ></button>
+    <p-divider layout="vertical"></p-divider>
+    <button
+      class="ml-3"
+      pButton
+      pRipple
+      type="button"
+      label="Guardar"
+      [icon]="PrimeIcons.SAVE"
+      [loading]="coreService.isLoading"
+      [disabled]="true"
+    ></button>
+  </div>
+</p-toolbar>
+
+<p-tabView [activeIndex]="activeIndex">
+    <p-tabPanel header="Ficha de Datos" [disabled]="!(activeIndex===0)">
+      <app-student-file-form></app-student-file-form>
+      <button pButton label="Siguiente" (click)="next2()"></button>
+    </p-tabPanel>
+    <p-tabPanel header="Reporte Ficha Datos" [disabled]="!(activeIndex===1)">
+      Content 2
+      <button pButton label="Atras" (click)="next1()"></button>
+      <button pButton label="Siguiente" (click)="next3()"></button>
+    </p-tabPanel>
+    <p-tabPanel header="Solicitud de Matricula" [disabled]="!(activeIndex===2)">
+      Content 3
+      <button pButton label="Atras" (click)="next2()"></button>
+      <button pButton label="Siguiente" (click)="next4()"></button>
+    </p-tabPanel>
+    <p-tabPanel header="Solicitud de Matricula" [disabled]="!(activeIndex===3)">
+      Content 4
+      <button pButton label="Atras" (click)="next3()"></button>
+      <button pButton label="Siguiente" (click)="send()"></button>
+    </p-tabPanel>
+  </p-tabView>
