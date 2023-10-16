@@ -33,8 +33,15 @@ export class MigrationCountryComponent {
   protected id: string | null = null;
   protected form: FormGroup;
 
-  protected isDisabilities: CatalogueModel[] = [];
-  protected disabilityTypes: CatalogueModel[] = [];
+  protected houseTypes: CatalogueModel[] = [];
+  protected housingTypes: CatalogueModel[] = [];
+  protected roofTypes: CatalogueModel[] = []
+  protected floorTypes: CatalogueModel[] = [];
+  protected wallTypes: CatalogueModel[] = [];
+  protected waterTypes: CatalogueModel[] = []
+  protected yesno: CatalogueModel[] = []
+  protected isOutages: CatalogueModel[] = []
+  protected receives: CatalogueModel[] = []
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -64,70 +71,154 @@ export class MigrationCountryComponent {
 
   ngOnInit(): void {
     this.loadIsDisabilities();
-    this.loaddisabilityTypes()
+    this.loaddisabilityTypes();
+    this.loadRoffTypes();
+    this.loadRoffTypes();
+    this.loadWallTypes();
+    this.loadWaterTypes();
+    this.loadYesNo();
+    this.loadOutage();
+    this.loadReceives();
+
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      housingData: this.housingDataForm,
     });
   }
 
-  get informationStudentForm(): FormGroup {
+  get housingDataForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      isDisability: [null, [Validators.required]],
-      disabilityPercentage:[null, [Validators.required]],
-      disabilityType:[null, [Validators.required]],
-      carnet: [null, [Validators.required]],
-      contactEmergencyName: [null, [Validators.required]],
-      contactEmergencyKinship: [null, [Validators.required]],
-      contactEmergencyPhone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
+      houseType: [null, [Validators.required]],
+      housingType:[null, [Validators.required]],
+      roofType:[null, [Validators.required]],
+      floorType: [null, [Validators.required]],
+      wallType: [null, [Validators.required]],
+      waterType: [null, [Validators.required]],
+      isLigth: [null, [Validators.required]],
+      isOutage: [null, [Validators.required]],
+      isPhone:[null, [Validators.required]],
+      isSewer:[null, [Validators.required]],
+      haveTecnologic:[null, [Validators.required]],
+      haveInternet:[null, [Validators.required]],
+      receive:[null, [Validators.required]],
+      receiveBond:[null, [Validators.required]],
     });
   }
 
   loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(
+    this.houseTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.YES_NO_NA
+    );
+  }
+
+  loadYesNo(): void {
+    this.yesno = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.YES_NO_NA
     );
   }
 
   loaddisabilityTypes(): void {
-    this.disabilityTypes = this.cataloguesHttpService.findByType(
+    this.housingTypes = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
 
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
+  loadRoffTypes(): void {
+    this.roofTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
   }
 
-  get isDisabilityField(): AbstractControl {
-    return this.aditionalField.controls['isDisability'];
+  loadFloorTypes(): void {
+    this.floorTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
   }
 
-  get disabilityPercentageField(): AbstractControl {
-    return this.aditionalField.controls['disabilityPercentage'];
+  loadWallTypes(): void {
+    this.wallTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
   }
 
-  get disabilityTypeField(): AbstractControl {
-    return this.aditionalField.controls['disabilityType'];
+  loadWaterTypes(): void {
+    this.waterTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
   }
 
-  get carnetField(): AbstractControl {
-    return this.aditionalField.controls['carnet'];
+  loadOutage(): void {
+    this.isOutages = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
+  }
+
+  loadReceives(): void {
+    this.receives = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
+  }
+
+  get housingDataField(): FormGroup {
+    return this.form.controls['housingData'] as FormGroup;
+  }
+
+  get houseTypeField(): AbstractControl {
+    return this.housingDataField.controls['houseType'];
+  }
+
+  get housingTypeField(): AbstractControl {
+    return this.housingDataField.controls['housingType'];
+  }
+
+  get roofTypeField(): AbstractControl {
+    return this.housingDataField.controls['roofType'];
+  }
+
+  get floorTypeField(): AbstractControl {
+    return this.housingDataField.controls['floorType'];
   }
   
-  get contactEmergencyNameField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyName'];
+  get wallTypeField(): AbstractControl {
+    return this.housingDataField.controls['wallType'];
   }
 
-  get contactEmergencyKinshipField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyKinship'];
+  get waterTypeField(): AbstractControl {
+    return this.housingDataField.controls['waterType'];
   }
 
-  get contactEmergencyPhoneField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyPhone'];
+  get isLigthField(): AbstractControl {
+    return this.housingDataField.controls['isLigth'];
   }
 
+  get isOutageField(): AbstractControl {
+    return this.housingDataField.controls['isOutage'];
+  }
+
+  get isPhoneField(): AbstractControl {
+    return this.housingDataField.controls['isPhone'];
+  }
+  
+  get isSewerField(): AbstractControl {
+    return this.housingDataField.controls['isSewer'];
+  }
+
+  get haveTecnologicField(): AbstractControl {
+    return this.housingDataField.controls['haveTecnologic'];
+  }
+
+  get haveInternetField(): AbstractControl {
+    return this.housingDataField.controls['haveInternet'];
+  }
+
+  get receiveField(): AbstractControl {
+    return this.housingDataField.controls['receive'];
+  }
+
+  get receiveBondField(): AbstractControl {
+    return this.housingDataField.controls['receiveBond'];
+  }
 }

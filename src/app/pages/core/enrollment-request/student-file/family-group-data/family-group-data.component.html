@@ -1,26 +1,26 @@
 <form [formGroup]="form">
-  <div formGroupName="informationStudent">
+  <div formGroupName="FamilyData">
     <div class="formgrid grid">
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label
           appLabel
-          for="cicilState"
+          for="members"
           label="¿Cuántos integrantes integra su núcleo familiar?"
-          [required]="disabilityTypeField"
+          [required]="membersField"
         ></label>
         <p-dropdown
-          id="cicilState"
-          formControlName="disabilityType"
+          id="members"
+          formControlName="members"
           dataKey="id"
-          [options]="disabilityTypes"
+          [options]="members"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="disabilityTypeField.value">
-              <div>{{ disabilityTypeField.value.name }}</div>
+            <div *ngIf="membersField.value">
+              <div>{{ membersField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -29,32 +29,32 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="disabilityTypeField.errors"
-          [touched]="disabilityTypeField.touched"
-          [dirty]="disabilityTypeField.dirty"
+          [errors]="membersField.errors"
+          [touched]="membersField.touched"
+          [dirty]="membersField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label
           appLabel
-          for="cicilState"
+          for="money"
           label="Total de ingresos mensuales:"
-          [required]="disabilityTypeField"
+          [required]="moneyField"
         ></label>
         <p-dropdown
-          id="cicilState"
-          formControlName="disabilityType"
+          id="money"
+          formControlName="money"
           dataKey="id"
-          [options]="disabilityTypes"
+          [options]="money"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="disabilityTypeField.value">
-              <div>{{ disabilityTypeField.value.name }}</div>
+            <div *ngIf="moneyField.value">
+              <div>{{ moneyField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -63,9 +63,9 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="disabilityTypeField.errors"
-          [touched]="disabilityTypeField.touched"
-          [dirty]="disabilityTypeField.dirty"
+          [errors]="moneyField.errors"
+          [touched]="moneyField.touched"
+          [dirty]="moneyField.dirty"
         >
         </small>
       </div>

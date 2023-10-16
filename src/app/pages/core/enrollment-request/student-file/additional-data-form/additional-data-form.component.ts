@@ -33,8 +33,9 @@ export class AdditionalDataFormComponent {
   protected id: string | null = null;
   protected form: FormGroup;
 
-  protected isDisabilities: CatalogueModel[] = [];
-  protected disabilityTypes: CatalogueModel[] = [];
+  protected haveTecnologic: CatalogueModel[] = [];
+  protected internetTpes: CatalogueModel[] = [];
+  protected yesno: CatalogueModel[]= []
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,70 +64,59 @@ export class AdditionalDataFormComponent {
   }
 
   ngOnInit(): void {
-    this.loadIsDisabilities();
-    this.loaddisabilityTypes()
+    this.loadhHaveTecnologics();
+    this.loadInternetTypes();
+    this.loadYesNo();
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      aditionalAcademicData: this.aditionalAcademicDataForm,
     });
   }
 
-  get informationStudentForm(): FormGroup {
+  get aditionalAcademicDataForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      isDisability: [null, [Validators.required]],
-      disabilityPercentage:[null, [Validators.required]],
-      disabilityType:[null, [Validators.required]],
-      carnet: [null, [Validators.required]],
-      contactEmergencyName: [null, [Validators.required]],
-      contactEmergencyKinship: [null, [Validators.required]],
-      contactEmergencyPhone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
+      haveTecnologic: [null, [Validators.required]],
+      isInternet:[null, [Validators.required]],
+      internetType:[null],
     });
   }
 
-  loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(
+  loadhHaveTecnologics(): void {
+    this.haveTecnologic = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.YES_NO_NA
     );
   }
 
-  loaddisabilityTypes(): void {
-    this.disabilityTypes = this.cataloguesHttpService.findByType(
+  loadInternetTypes(): void {
+    this.internetTpes = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
 
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
+  loadYesNo(): void {
+    this.yesno = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.YES_NO
+    );
   }
 
-  get isDisabilityField(): AbstractControl {
-    return this.aditionalField.controls['isDisability'];
+  get aditionalAcademicDataField(): FormGroup {
+    return this.form.controls['aditionalAcademicData'] as FormGroup;
   }
 
-  get disabilityPercentageField(): AbstractControl {
-    return this.aditionalField.controls['disabilityPercentage'];
+  get haveTecnologicField(): AbstractControl {
+    return this.aditionalAcademicDataField.controls['haveTecnologic'];
   }
 
-  get disabilityTypeField(): AbstractControl {
-    return this.aditionalField.controls['disabilityType'];
+  get isInternetField(): AbstractControl {
+    return this.aditionalAcademicDataField.controls['isInternet'];
   }
 
-  get carnetField(): AbstractControl {
-    return this.aditionalField.controls['carnet'];
-  }
-  
-  get contactEmergencyNameField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyName'];
+  get internetTypeField(): AbstractControl {
+    return this.aditionalAcademicDataField.controls['internetType'];
   }
 
-  get contactEmergencyKinshipField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyKinship'];
-  }
 
-  get contactEmergencyPhoneField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyPhone'];
-  }
 }

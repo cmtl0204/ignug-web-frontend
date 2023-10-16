@@ -69,11 +69,11 @@ export class PlaceResidenceComponent {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      placeResidence: this.placeResidenceForm,
     });
   }
 
-  get informationStudentForm(): FormGroup {
+  get placeResidenceForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
       address: [null, [Validators.required]],
@@ -93,16 +93,16 @@ export class PlaceResidenceComponent {
     );
   }
 
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
+  get placeResidenceField(): FormGroup {
+    return this.form.controls['placeResidence'] as FormGroup;
   }
 
   get addressField(): AbstractControl {
-    return this.aditionalField.controls['address'];
+    return this.placeResidenceField.controls['address'];
   }
 
   get provinceField(): AbstractControl {
-    return this.aditionalField.controls['province'];
+    return this.placeResidenceField.controls['province'];
   }
 
 }

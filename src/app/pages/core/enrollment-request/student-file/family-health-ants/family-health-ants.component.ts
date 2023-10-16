@@ -33,8 +33,9 @@ export class FamilyHealthAntsComponent {
   protected id: string | null = null;
   protected form: FormGroup;
 
-  protected isDisabilities: CatalogueModel[] = [];
-  protected disabilityTypes: CatalogueModel[] = [];
+  protected yesno: CatalogueModel[] = [];
+  protected diseaseWhos: CatalogueModel[] = [];
+  protected disabilityWhos: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,70 +64,71 @@ export class FamilyHealthAntsComponent {
   }
 
   ngOnInit(): void {
-    this.loadIsDisabilities();
-    this.loaddisabilityTypes()
+    this.loadYesNO();
+    this.loadDiseaseWhos()
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      FamilyData: this.FamilyDataForm,
     });
   }
 
-  get informationStudentForm(): FormGroup {
+  get FamilyDataForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
+      disease: [null, [Validators.required]],
+      diseaseWho:[null],
+      diseaseType:[null],
       isDisability: [null, [Validators.required]],
-      disabilityPercentage:[null, [Validators.required]],
-      disabilityType:[null, [Validators.required]],
-      province: [null, [Validators.required]],
-      contactEmergencyName: [null, [Validators.required]],
-      contactEmergencyKinship: [null, [Validators.required]],
-      contactEmergencyPhone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
+      disabilityPorcentage: [null],
+      disabilityWho: [null],
     });
   }
 
-  loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO_NA
+  loadYesNO(): void {
+    this.yesno = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.YES_NO
     );
   }
 
-  loaddisabilityTypes(): void {
-    this.disabilityTypes = this.cataloguesHttpService.findByType(
+  loadDiseaseWhos(): void {
+    this.diseaseWhos = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
 
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
+  loadDisabilityWhos(): void {
+    this.disabilityWhos = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
+  }
+
+  get FamilyDataField(): FormGroup {
+    return this.form.controls['FamilyData'] as FormGroup;
+  }
+
+  get diseaseField(): AbstractControl {
+    return this.FamilyDataField.controls['disease'];
+  }
+
+  get diseaseWhoField(): AbstractControl {
+    return this.FamilyDataField.controls['diseaseWho'];
+  }
+
+  get diseaseTypeField(): AbstractControl {
+    return this.FamilyDataField.controls['diseaseType'];
   }
 
   get isDisabilityField(): AbstractControl {
-    return this.aditionalField.controls['isDisability'];
-  }
-
-  get disabilityPercentageField(): AbstractControl {
-    return this.aditionalField.controls['disabilityPercentage'];
-  }
-
-  get disabilityTypeField(): AbstractControl {
-    return this.aditionalField.controls['disabilityType'];
-  }
-
-  get provinceField(): AbstractControl {
-    return this.aditionalField.controls['province'];
+    return this.FamilyDataField.controls['isDisability'];
   }
   
-  get contactEmergencyNameField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyName'];
+  get disabilityPorcentageField(): AbstractControl {
+    return this.FamilyDataField.controls['disabilityPorcentage'];
   }
 
-  get contactEmergencyKinshipField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyKinship'];
-  }
-
-  get contactEmergencyPhoneField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyPhone'];
+  get disabilityWhoField(): AbstractControl {
+    return this.FamilyDataField.controls['disabilityWho'];
   }
 }

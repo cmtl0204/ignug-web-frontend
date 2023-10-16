@@ -1,46 +1,46 @@
 <form [formGroup]="form">
-  <div formGroupName="informationStudent">
+  <div formGroupName="institutionalData">
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
           appLabel
-          for="graduationDate"
+          for="career"
           label="Carrera:"
-          [required]="graduationDateField"
+          [required]="carrerField"
         ></label>
         <input
           pInputText
-          id="graduationDate"
-          formControlName="graduationDate"
+          id="carrerField"
+          formControlName="career"
         />
         <small
           appErrorMessage
-          [errors]="graduationDateField.errors"
-          [touched]="graduationDateField.touched"
-          [dirty]="graduationDateField.dirty"
+          [errors]="carrerField.errors"
+          [touched]="carrerField.touched"
+          [dirty]="carrerField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
           appLabel
-          for="bloodType"
+          for="academiCycle"
           label="Ciclo academico:"
-          [required]="bachTypeField"
+          [required]="academiCycleField"
         ></label>
         <p-dropdown
-          id="bachType"
-          formControlName="bachType"
+          id="academiCycle"
+          formControlName="academiCycle"
           dataKey="id"
-          [options]="bachTypes"
+          [options]="academiCycles"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="bachTypeField.value">
-              <div>{{ bachTypeField.value.name }}</div>
+            <div *ngIf="academiCycleField.value">
+              <div>{{ academiCycleField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -49,9 +49,9 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="bachTypeField.errors"
-          [touched]="bachTypeField.touched"
-          [dirty]="bachTypeField.dirty"
+          [errors]="academiCycleField.errors"
+          [touched]="academiCycleField.touched"
+          [dirty]="academiCycleField.dirty"
         >
         </small>
       </div>
@@ -60,23 +60,23 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
           appLabel
-          for="isTitule"
+          for="lostSubject"
           label="Perdio materias:"
-          [required]="isTituleField"
+          [required]="lostSubjectField"
         ></label>
         <p-dropdown
-          id="isTitule"
-          formControlName="isTitule"
+          id="lostSubject"
+          formControlName="lostSubject"
           dataKey="id"
-          [options]="isTitules"
+          [options]="yesno"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="isTituleField.value">
-              <div>{{ isTituleField.value.name }}</div>
+            <div *ngIf="lostSubjectField.value">
+              <div>{{ lostSubjectField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -85,32 +85,32 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="isTituleField.errors"
-          [touched]="isTituleField.touched"
-          [dirty]="isTituleField.dirty"
+          [errors]="lostSubjectField.errors"
+          [touched]="lostSubjectField.touched"
+          [dirty]="lostSubjectField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
           appLabel
-          for="isTitule"
+          for="academicCareer"
           label="En su trayectoria universitaria ha realizado:"
-          [required]="isTituleField"
+          [required]="academicCareerField"
         ></label>
         <p-dropdown
-          id="isTitule"
-          formControlName="isTitule"
+          id="academicCareer"
+          formControlName="academicCareer"
           dataKey="id"
-          [options]="isTitules"
+          [options]="academicCareers"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="isTituleField.value">
-              <div>{{ isTituleField.value.name }}</div>
+            <div *ngIf="academicCareerField.value">
+              <div>{{ academicCareerField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -119,9 +119,9 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="isTituleField.errors"
-          [touched]="isTituleField.touched"
-          [dirty]="isTituleField.dirty"
+          [errors]="academicCareerField.errors"
+          [touched]="academicCareerField.touched"
+          [dirty]="academicCareerField.dirty"
         >
         </small>
       </div>
@@ -130,23 +130,23 @@
       <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
         <label
           appLabel
-          for="doStudent"
+          for="anotherTitle"
           label="A:más del bachillerato, tiene otro Titulo"
-          [required]="doStudentField"
+          [required]="anotherTitleField"
         ></label>
         <p-dropdown
-          id="doStudent"
-          formControlName="doStudent"
+          id="anotherTitle"
+          formControlName="anotherTitle"
           dataKey="id"
-          [options]="doStudents"
+          [options]="anotherTitles"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="doStudentField.value">
-              <div>{{ doStudentField.value.name }}</div>
+            <div *ngIf="anotherTitleField.value">
+              <div>{{ anotherTitleField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -155,32 +155,32 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="doStudentField.errors"
-          [touched]="doStudentField.touched"
-          [dirty]="doStudentField.dirty"
+          [errors]="anotherTitleField.errors"
+          [touched]="anotherTitleField.touched"
+          [dirty]="anotherTitleField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
         <label
           appLabel
-          for="doE"
+          for="anotherCareer"
           label="Estudia otra carrera fuera de la Amawtay Wasi:"
-          [required]="doEField"
+          [required]="anotherCareerField"
         ></label>
         <p-dropdown
-          id="doE"
-          formControlName="doE"
+          id="anotherCareer"
+          formControlName="anotherCareer"
           dataKey="id"
-          [options]="doEs"
+          [options]="anotherCareers"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="doEField.value">
-              <div>{{ doEField.value.name }}</div>
+            <div *ngIf="anotherCareerField.value">
+              <div>{{ anotherCareerField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -189,40 +189,40 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="doEField.errors"
-          [touched]="doEField.touched"
-          [dirty]="doEField.dirty"
+          [errors]="anotherCareerField.errors"
+          [touched]="anotherCareerField.touched"
+          [dirty]="anotherCareerField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
-        <label appLabel for="nameE" label="Nombre de la institucion:"
-          [required]="nameEField"></label>
-        <input pInputText type="text" id="nameE" formControlName="nameE" />
-        <small appErrorMessage [errors]="nameEField.errors"
-          [touched]="nameEField.touched" [dirty]="nameEField.dirty">
+        <label appLabel for="nameInstitution" label="Nombre de la institucion:"
+          [required]="nameInstitutionField"></label>
+        <input pInputText type="text" id="nameInstitution" formControlName="nameInstitution" />
+        <small appErrorMessage [errors]="nameInstitutionField.errors"
+          [touched]="nameInstitutionField.touched" [dirty]="nameInstitutionField.dirty">
         </small>
       </div>
       <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
         <label
           appLabel
-          for="doE"
+          for="insitutionType"
           label="Tipo de la Institución:"
-          [required]="doEField"
+          [required]="insitutionTypeField"
         ></label>
         <p-dropdown
-          id="doE"
-          formControlName="doE"
+          id="insitutionType"
+          formControlName="insitutionType"
           dataKey="id"
-          [options]="doEs"
+          [options]="schoolTypes"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="doEField.value">
-              <div>{{ doEField.value.name }}</div>
+            <div *ngIf="insitutionTypeField.value">
+              <div>{{ insitutionTypeField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -231,9 +231,9 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="doEField.errors"
-          [touched]="doEField.touched"
-          [dirty]="doEField.dirty"
+          [errors]="insitutionTypeField.errors"
+          [touched]="insitutionTypeField.touched"
+          [dirty]="insitutionTypeField.dirty"
         >
         </small>
       </div>

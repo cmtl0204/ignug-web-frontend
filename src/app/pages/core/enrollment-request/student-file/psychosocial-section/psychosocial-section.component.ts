@@ -33,8 +33,14 @@ export class PsychosocialSectionComponent {
   protected id: string | null = null;
   protected form: FormGroup;
 
-  protected isDisabilities: CatalogueModel[] = [];
-  protected disabilityTypes: CatalogueModel[] = [];
+  protected yesno: CatalogueModel[] = [];
+  protected violenceTypes: CatalogueModel[] = [];
+  protected covids: CatalogueModel[]=[]
+  protected discriminationType: CatalogueModel[] = []
+  protected selfHarmTypes: CatalogueModel[] = []
+  protected urbanTypes: CatalogueModel[] =[]
+
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,71 +69,100 @@ export class PsychosocialSectionComponent {
   }
 
   ngOnInit(): void {
-    this.loadIsDisabilities();
-    this.loaddisabilityTypes()
+    this.loadYesNo();
+    this.loadViolenceTypes();
+    this.loadCovids();
+    this.loadDiscriminationType();
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      psychosocialSection: this.psychosocialSectionForm,
     });
   }
 
-  get informationStudentForm(): FormGroup {
+  get psychosocialSectionForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      isDisability: [null, [Validators.required]],
-      disabilityPercentage:[null, [Validators.required]],
-      disabilityType:[null, [Validators.required]],
-      carnet: [null, [Validators.required]],
-      contactEmergencyName: [null, [Validators.required]],
-      contactEmergencyKinship: [null, [Validators.required]],
-      contactEmergencyPhone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
+      isviolence: [null, [Validators.required]],
+      violenceType:[null, [Validators.required]],
+      covid:[null, [Validators.required]],
+      suiced: [null, [Validators.required]],
+      discrimination: [null, [Validators.required]],
+      isDiscrimination: [null, [Validators.required]],
+      selfHarm: [null, [Validators.required]],
+      selfHarmType:[null, [Validators.required]],
+      urbanType:[null, [Validators.required]],
+      additionalData:[null, [Validators.required]]
     });
   }
 
-  loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO_NA
+  loadYesNo(): void {
+    this.yesno = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.YES_NO
     );
   }
 
-  loaddisabilityTypes(): void {
-    this.disabilityTypes = this.cataloguesHttpService.findByType(
+  loadViolenceTypes(): void {
+    this.violenceTypes = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
 
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
-  }
-
-  get isDisabilityField(): AbstractControl {
-    return this.aditionalField.controls['isDisability'];
-  }
-
-  get disabilityPercentageField(): AbstractControl {
-    return this.aditionalField.controls['disabilityPercentage'];
-  }
-
-  get disabilityTypeField(): AbstractControl {
-    return this.aditionalField.controls['disabilityType'];
-  }
-
-  get carnetField(): AbstractControl {
-    return this.aditionalField.controls['carnet'];
+  loadCovids(): void {
+    this.covids = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
   }
   
-  get contactEmergencyNameField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyName'];
+  loadDiscriminationType(): void {
+    this.discriminationType = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.DISABILITY_TYPE
+    );
   }
 
-  get contactEmergencyKinshipField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyKinship'];
+  get psychosocialSectionField(): FormGroup {
+    return this.form.controls['psychosocialSection'] as FormGroup;
   }
 
-  get contactEmergencyPhoneField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyPhone'];
+  get isviolenceField(): AbstractControl {
+    return this.psychosocialSectionField.controls['isviolence'];
+  }
+
+  get violenceTypeField(): AbstractControl {
+    return this.psychosocialSectionField.controls['violenceType'];
+  }
+
+  get covidField(): AbstractControl {
+    return this.psychosocialSectionField.controls['covid'];
+  }
+
+  get suicedField(): AbstractControl {
+    return this.psychosocialSectionField.controls['suiced'];
+  }
+  
+  get discriminationField(): AbstractControl {
+    return this.psychosocialSectionField.controls['discrimination'];
+  }
+
+  get isDiscriminationField(): AbstractControl {
+    return this.psychosocialSectionField.controls['isDiscrimination'];
+  }
+
+  get selfHarmField(): AbstractControl {
+    return this.psychosocialSectionField.controls['selfHarm'];
+  }
+
+  get selfHarmTypeField(): AbstractControl {
+    return this.psychosocialSectionField.controls['selfHarmType'];
+  }
+
+  get urbanTypeField(): AbstractControl {
+    return this.psychosocialSectionField.controls['urbanType'];
+  }
+
+  get additionalDataField(): AbstractControl {
+    return this.psychosocialSectionField.controls['additionalData'];
   }
 
 }

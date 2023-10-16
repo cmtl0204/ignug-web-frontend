@@ -1,17 +1,32 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CatalogueModel } from '@models/core';
-import { BreadcrumbService, CataloguesHttpService, CoreService, RoutesService, StudentsHttpService } from '@services/core';
+import {
+  BreadcrumbService,
+  CataloguesHttpService,
+  CoreService,
+  RoutesService,
+  StudentsHttpService,
+} from '@services/core';
 import { MessageService, PrimeIcons } from 'primeng/api';
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {
+  BreadcrumbEnum,
+  CatalogueCoreTypeEnum,
+  SkeletonEnum,
+} from '@shared/enums';
 
 @Component({
   selector: 'app-personal-information-form',
   templateUrl: './personal-information-form.component.html',
-  styleUrls: ['./personal-information-form.component.scss']
+  styleUrls: ['./personal-information-form.component.scss'],
 })
-export class PersonalInformationFormComponent implements OnInit{
+export class PersonalInformationFormComponent implements OnInit {
   protected form: FormGroup;
   protected id: string | null = null;
   protected readonly PrimeIcons = PrimeIcons;
@@ -24,10 +39,13 @@ export class PersonalInformationFormComponent implements OnInit{
   protected ethnicOrigins: CatalogueModel[] = [];
   protected genders: CatalogueModel[] = [];
   protected sexes: CatalogueModel[] = [];
-  protected cicilStates: CatalogueModel[] = []
+  protected cicilStates: CatalogueModel[] = [];
   protected isDisabilities: CatalogueModel[] = [];
   protected disabilityTypes: CatalogueModel[] = [];
-
+  protected nationalityAUs: CatalogueModel[] = [];
+  protected contactEmergencyKinships: CatalogueModel[] = []
+  protected yesno: CatalogueModel[] = [];
+  protected manyChils: CatalogueModel[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
@@ -40,8 +58,11 @@ export class PersonalInformationFormComponent implements OnInit{
     private studentsHttpService: StudentsHttpService
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.STUDENT_FILE, routerLink: [this.routesService.studentFile]},
-      {label: BreadcrumbEnum.FORM},
+      {
+        label: BreadcrumbEnum.STUDENT_FILE,
+        routerLink: [this.routesService.studentFile],
+      },
+      { label: BreadcrumbEnum.FORM },
     ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
@@ -52,7 +73,6 @@ export class PersonalInformationFormComponent implements OnInit{
   }
 
   ngOnInit(): void {
-
     if (this.id) {
       this.get();
     }
@@ -62,18 +82,21 @@ export class PersonalInformationFormComponent implements OnInit{
     this.loadEthnicOrigins();
     this.loadGenders();
     this.loadSexes();
-    this.loadIdentificationTypes()
-    this.inputDisabled()
+    this.loadIdentificationTypes();
+    this.inputDisabled();
     this.loadDoStudents();
     this.loadForStudents();
     this.loadIsDisabilities();
-    this.loaddisabilityTypes()
+    this.loaddisabilityTypes();
+    this.validation();
+    this.loadNationality();
+    this.loadYesNo();
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent:this.informationStudentForm,
-      user: this.userForm
+      informationStudent: this.informationStudentForm,
+      user: this.userForm,
     });
   }
 
@@ -81,43 +104,64 @@ export class PersonalInformationFormComponent implements OnInit{
     return this.formBuilder.group({
       id: [null],
       address: [null, [Validators.required]],
+      affiliation:[null, [Validators.required]],
       countryNationality: [null, [Validators.required]],
       provinceNationality: [null, [Validators.required]],
       cantonNationality: [null, [Validators.required]],
+      childrens:[null, [Validators.required]],
       postalCode: [null, [Validators.required]],
       country: [null, [Validators.required]],
       province: [null, [Validators.required]],
-      canton: [null, [Validators.required]],
+      houseHead: [null, [Validators.required]],
+      healthInsurance:[null, [Validators.required]],
+      charge:[null],
       email: [null, [Validators.required]],
       personalEmail: [null, [Validators.required]],
       phone: [null, [Validators.required]],
       landinPhone: [null, [Validators.required]],
       carnet: [null, [Validators.required]],
-      contactEmergencyName: [null, [Validators.required]],
       contactEmergencyKinship: [null, [Validators.required]],
-      contactEmergencyPhone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
+      contactEmergencyPhone: [
+        null,
+        [Validators.required],
+      ],
       doStudent: [null, [Validators.required]],
-      nameE: [null, [Validators.required]],
-      doE:[null, [Validators.required]],
+      nameE: [null],
+      manyChil:[null],
+      doE: [null],
       isDisability: [null, [Validators.required]],
-      disabilityPercentage:[null, [Validators.required]],
-      disabilityType:[null, [Validators.required]],
+      disabilityPercentage: [null],
+      disabilityType: [null],
     });
   }
 
   get userForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
+      ancesLanguage: [null],
       birthdate: [null, [Validators.required]],
       cicilState: [null, [Validators.required]],
       identificationType: [null, [Validators.required]],
-      identification: [null, [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      identification: [
+        null,
+        [Validators.required, Validators.pattern(/^\d{10}$/)],
+      ],
       lastname: [null, [Validators.required]],
       name: [null, [Validators.required]],
+      nationality: [null, [Validators.required]],
+      nationalityAU: [null],
       bloodType: [null, [Validators.required]],
       ethnicOrigin: [null, [Validators.required]],
+      townAu: [null],
       gender: [null, [Validators.required]],
       sex: [null, [Validators.required]],
+    });
+  }
+
+  validation() {
+    this.isDisabilityField.valueChanges.subscribe((value) => {
+      if (value.code === '1') {
+      }
     });
   }
 
@@ -127,21 +171,28 @@ export class PersonalInformationFormComponent implements OnInit{
     });
   }
 
-
   loadBloodTypes(): void {
-    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
+    this.bloodTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.BLOOD_TYPE
+    );
   }
 
   loadEthnicOrigins(): void {
-    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.ETHNIC_ORIGIN
+    );
   }
 
   loadGenders(): void {
-    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
+    this.genders = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.GENDER
+    );
   }
 
   loadSexes(): void {
-    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
+    this.sexes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.SEX
+    );
   }
 
   loadIsDisabilities(): void {
@@ -155,26 +206,48 @@ export class PersonalInformationFormComponent implements OnInit{
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
-  loadIdentificationTypes(): void{
-    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE);
+  loadIdentificationTypes(): void {
+    this.identificationTypes = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.IDENTIFICATION_TYPE
+    );
   }
 
-  loadcicilStates(): void{
-    this.cicilStates = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.MARITAL_STATUS)
+  loadcicilStates(): void {
+    this.cicilStates = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.MARITAL_STATUS
+    );
   }
 
   loadDoStudents(): void {
-    this.doStudents = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_OCCUPATION);
+    this.doStudents = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.STUDENT_OCCUPATION
+    );
   }
 
   loadForStudents(): void {
-    this.forStudents = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_INCOME_FOR);
+    this.forStudents = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.STUDENT_INCOME_FOR
+    );
+  }
+
+  loadNationality() {
+    this.nationalityAUs = this.cataloguesHttpService.findByType(
+      CatalogueCoreTypeEnum.YES_NO
+    );
+  }
+
+  loadYesNo(){
+    this.yesno = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO);
   }
 
   get contactField(): FormGroup {
     return this.form.controls['informationStudent'] as FormGroup;
   }
-  
+
+  get affiliationField(): AbstractControl {
+    return this.contactField.controls['affiliation'];
+  }
+
   get isDisabilityField(): AbstractControl {
     return this.contactField.controls['isDisability'];
   }
@@ -189,6 +262,14 @@ export class PersonalInformationFormComponent implements OnInit{
 
   get countryNationalityField(): AbstractControl {
     return this.contactField.controls['countryNationality'];
+  }
+
+  get chargeField(): AbstractControl {
+    return this.contactField.controls['charge'];
+  }
+
+  get childrensField(): AbstractControl {
+    return this.contactField.controls['childrens'];
   }
 
   get provinceNationalityField(): AbstractControl {
@@ -215,8 +296,12 @@ export class PersonalInformationFormComponent implements OnInit{
     return this.contactField.controls['province'];
   }
 
-  get cantonField(): AbstractControl {
-    return this.contactField.controls['canton'];
+  get houseHeadField(): AbstractControl {
+    return this.contactField.controls['houseHead'];
+  }
+
+  get healthInsuranceField(): AbstractControl {
+    return this.contactField.controls['healthInsurance'];
   }
 
   get emailField(): AbstractControl {
@@ -234,11 +319,11 @@ export class PersonalInformationFormComponent implements OnInit{
   get landinPhoneField(): AbstractControl {
     return this.contactField.controls['landinPhone'];
   }
-    
+
   get carnetField(): AbstractControl {
     return this.contactField.controls['carnet'];
   }
-  
+
   get contactEmergencyNameField(): AbstractControl {
     return this.contactField.controls['contactEmergencyName'];
   }
@@ -259,12 +344,20 @@ export class PersonalInformationFormComponent implements OnInit{
     return this.contactField.controls['nameE'];
   }
 
+  get manyChilField(): AbstractControl {
+    return this.contactField.controls['manyChil'];
+  }
+
   get doEField(): AbstractControl {
     return this.contactField.controls['doE'];
   }
 
   get userField(): FormGroup {
     return this.form.controls['user'] as FormGroup;
+  }
+
+  get ancesLanguageField(): AbstractControl {
+    return this.userField.controls['ancesLanguage'];
   }
 
   get birthdateField(): AbstractControl {
@@ -287,6 +380,14 @@ export class PersonalInformationFormComponent implements OnInit{
     return this.userField.controls['name'];
   }
 
+  get nationalityField(): AbstractControl {
+    return this.userField.controls['nationality'];
+  }
+
+  get nationalityAUField(): AbstractControl {
+    return this.userField.controls['nationalityAU'];
+  }
+
   get identificationField(): AbstractControl {
     return this.userField.controls['identification'];
   }
@@ -299,6 +400,10 @@ export class PersonalInformationFormComponent implements OnInit{
     return this.userField.controls['ethnicOrigin'];
   }
 
+  get townAuField(): AbstractControl {
+    return this.userField.controls['townAu'];
+  }
+
   get genderField(): AbstractControl {
     return this.userField.controls['gender'];
   }
@@ -306,7 +411,6 @@ export class PersonalInformationFormComponent implements OnInit{
   get sexField(): AbstractControl {
     return this.userField.controls['sex'];
   }
-  
-  inputDisabled(){
-  }
+
+  inputDisabled() {}
 }

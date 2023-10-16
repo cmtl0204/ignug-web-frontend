@@ -27,15 +27,13 @@ export class InstitutionalDataFormComponent implements OnInit, OnExitInterface {
   protected form: FormGroup;
 
   // Foreign Keys
-  protected isTitules: CatalogueModel[] = [];
-  protected doStudents: CatalogueModel[] = [];
-  protected doEs: CatalogueModel[] = [];
-  protected forStudents: CatalogueModel[] = [];
+  protected yesno: CatalogueModel[] = [];
+  protected academicCareers: CatalogueModel[] = [];
+  protected anotherTitles: CatalogueModel[] = [];
+  protected anotherCareers: CatalogueModel[] = [];
   protected schoolTypes: CatalogueModel[] = [];
-  protected bachTypes: CatalogueModel[] = [];
-  protected fatherLevels: CatalogueModel[] = [];
-  protected motherLevels: CatalogueModel[] = [];
-  protected sexes: CatalogueModel[] = [];
+  protected academiCycles: CatalogueModel[] = [];
+
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -75,36 +73,30 @@ export class InstitutionalDataFormComponent implements OnInit, OnExitInterface {
 
     this.loadSchoolTypes();
     this.loadBachTypes();
-    this.loadIsTitule();
-    this.loadDoStudents();
-    this.loadForStudents();
-    this.loadLevels();
-    this.loadDoE();
+    this.loadYesNo();
+    this.loadAcademicCareers();
+    this.loadAnotherCareer();
+    this.loadAnotherTitle();
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      institutionalData: this.institutionalDataForm,
     });
   }
 
 
-  get informationStudentForm(): FormGroup {
+  get institutionalDataForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      forStudent: [null, [Validators.required]],
-      isTitule: [null, [Validators.required]],
-      address: [null, [Validators.required]],
-      members: [null, [Validators.required]],
-      motherLevel: [null, [Validators.required]],
-      fatherLevel: [null, [Validators.required]],
-      graduationDate: [null, [Validators.required]],
-      bachType: [null, [Validators.required]],
-      schoolType: [null, [Validators.required]],
-      financing: [null, [Validators.required]],
-      doStudent: [null, [Validators.required]],
-      nameE: [null, [Validators.required]],
-      doE:[null, [Validators.required]]
+      career:[null,[Validators.required]],
+      academiCycle:[null, [Validators.required]],
+      lostSubject: [null, [Validators.required]],
+      academicCareer: [null, [Validators.required]],
+      anotherTitle: [null, [Validators.required]],
+      anotherCareer: [null, [Validators.required]],
+      nameInstitution: [null],
+      insitutionType: [null],
     });
   }
 
@@ -152,87 +144,61 @@ export class InstitutionalDataFormComponent implements OnInit, OnExitInterface {
   }
 
   loadBachTypes(): void {
-    this.bachTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE);
+    this.academiCycles = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE);
   }
 
-  loadIsTitule(): void {
-    this.isTitules = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
+  loadYesNo(): void {
+    this.yesno = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
   }
 
-  loadDoStudents(): void {
-    this.doStudents = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_OCCUPATION);
+  loadAcademicCareers(): void {
+    this.academicCareers = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_OCCUPATION);
   }
 
-  loadForStudents(): void {
-    this.forStudents = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_INCOME_FOR);
+  loadAnotherCareer(): void {
+    this.anotherCareers = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_INCOME_FOR);
   }
 
-  loadLevels(): void {
-    this.fatherLevels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.EDUCATION_LEVEL);
-    this.motherLevels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.EDUCATION_LEVEL);
-  }
-
-  loadDoE(): void{
-    this.doEs = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE)
+  loadAnotherTitle(): void{
+    this.anotherTitles = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.INSTITUTION_PRACTICES_TYPE)
   }
 
   /** Form Getters **/
   /** Student Form **/
-  get informationStudentField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
+  get institutionalDataField(): FormGroup {
+    return this.form.controls['institutionalData'] as FormGroup;
   }
 
   /** Information Student Form **/
-  get schoolTypeField(): AbstractControl {
-    return this.informationStudentField.controls['schoolType'];
+  get carrerField(): AbstractControl {
+    return this.institutionalDataField.controls['career'];
+  }
+  
+  get academiCycleField(): AbstractControl {
+    return this.institutionalDataField.controls['academiCycle'];
   }
 
-  get addressField(): AbstractControl {
-    return this.informationStudentField.controls['address'];
+  get lostSubjectField(): AbstractControl {
+    return this.institutionalDataField.controls['lostSubject'];
   }
 
-  get isTituleField(): AbstractControl {
-    return this.informationStudentField.controls['isTitule'];
+  get academicCareerField(): AbstractControl {
+    return this.institutionalDataField.controls['academicCareer'];
   }
 
-
-  get forStudentField(): AbstractControl {
-    return this.informationStudentField.controls['forStudent'];
+  get anotherTitleField(): AbstractControl {
+    return this.institutionalDataField.controls['anotherTitle'];
   }
 
-  get motherLevelField(): AbstractControl {
-    return this.informationStudentField.controls['motherLevel'];
+  get anotherCareerField(): AbstractControl {
+    return this.institutionalDataField.controls['anotherCareer'];
   }
 
-  get fatherLevelField(): AbstractControl {
-    return this.informationStudentField.controls['fatherLevel'];
+  get nameInstitutionField(): AbstractControl {
+    return this.institutionalDataField.controls['nameInstitution'];
   }
 
-  get graduationDateField(): AbstractControl {
-    return this.informationStudentField.controls['graduationDate'];
-  }
-
-  get membersField(): AbstractControl {
-    return this.informationStudentField.controls['members'];
-  }
-
-  get bachTypeField(): AbstractControl {
-    return this.informationStudentField.controls['bachType'];
-  }
-
-  get financingField(): AbstractControl {
-    return this.informationStudentField.controls['financing'];
-  }
-
-  get doStudentField(): AbstractControl {
-    return this.informationStudentField.controls['doStudent'];
-  }
-
-  get nameEField(): AbstractControl {
-    return this.informationStudentField.controls['nameE'];
-  }
-
-  get doEField(): AbstractControl {
-    return this.informationStudentField.controls['doE'];
+  get insitutionTypeField(): AbstractControl {
+    return this.institutionalDataField.controls['insitutionType'];
   }
 }

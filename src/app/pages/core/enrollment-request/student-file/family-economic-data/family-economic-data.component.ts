@@ -33,8 +33,8 @@ export class FamilyEconomicDataComponent {
   protected id: string | null = null;
   protected form: FormGroup;
 
-  protected isDisabilities: CatalogueModel[] = [];
-  protected disabilityTypes: CatalogueModel[] = [];
+  protected yesno: CatalogueModel[] = [];
+  protected houses: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -69,64 +69,44 @@ export class FamilyEconomicDataComponent {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
+      FamilyData: this.FamilyDataForm,
     });
   }
 
-  get informationStudentForm(): FormGroup {
+  get FamilyDataForm(): FormGroup {
     return this.formBuilder.group({
       id: [null],
-      isDisability: [null, [Validators.required]],
-      disabilityPercentage:[null, [Validators.required]],
-      disabilityType:[null, [Validators.required]],
-      carnet: [null, [Validators.required]],
-      contactEmergencyName: [null, [Validators.required]],
-      contactEmergencyKinship: [null, [Validators.required]],
-      contactEmergencyPhone: [null, [Validators.required, Validators.pattern(/^09\d{8}$/)]],
+      isCar: [null, [Validators.required]],
+      anotherHouse:[null, [Validators.required]],
+      house:[null, [Validators.required]],
     });
   }
 
   loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(
+    this.yesno = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.YES_NO_NA
     );
   }
 
   loaddisabilityTypes(): void {
-    this.disabilityTypes = this.cataloguesHttpService.findByType(
+    this.houses = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
 
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
+  get FamilyDataField(): FormGroup {
+    return this.form.controls['FamilyData'] as FormGroup;
   }
 
-  get isDisabilityField(): AbstractControl {
-    return this.aditionalField.controls['isDisability'];
+  get isCarField(): AbstractControl {
+    return this.FamilyDataField.controls['isCar'];
   }
 
-  get disabilityPercentageField(): AbstractControl {
-    return this.aditionalField.controls['disabilityPercentage'];
+  get anotherHouseField(): AbstractControl {
+    return this.FamilyDataField.controls['anotherHouse'];
   }
 
-  get disabilityTypeField(): AbstractControl {
-    return this.aditionalField.controls['disabilityType'];
-  }
-
-  get carnetField(): AbstractControl {
-    return this.aditionalField.controls['carnet'];
-  }
-  
-  get contactEmergencyNameField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyName'];
-  }
-
-  get contactEmergencyKinshipField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyKinship'];
-  }
-
-  get contactEmergencyPhoneField(): AbstractControl {
-    return this.aditionalField.controls['contactEmergencyPhone'];
+  get houseField(): AbstractControl {
+    return this.FamilyDataField.controls['house'];
   }
 }

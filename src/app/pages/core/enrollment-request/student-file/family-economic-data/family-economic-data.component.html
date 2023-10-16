@@ -1,26 +1,26 @@
 <form [formGroup]="form">
-  <div formGroupName="informationStudent">
+  <div formGroupName="FamilyData">
     <div class="formgrid grid">
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label
           appLabel
-          for="cicilState"
+          for="isCar"
           label="La familia dispone de vehiculo propio"
-          [required]="disabilityTypeField"
+          [required]="isCarField"
         ></label>
         <p-dropdown
-          id="cicilState"
-          formControlName="disabilityType"
+          id="isCar"
+          formControlName="isCar"
           dataKey="id"
-          [options]="disabilityTypes"
+          [options]="yesno"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="disabilityTypeField.value">
-              <div>{{ disabilityTypeField.value.name }}</div>
+            <div *ngIf="isCarField.value">
+              <div>{{ isCarField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -29,32 +29,32 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="disabilityTypeField.errors"
-          [touched]="disabilityTypeField.touched"
-          [dirty]="disabilityTypeField.dirty"
+          [errors]="isCarField.errors"
+          [touched]="isCarField.touched"
+          [dirty]="isCarField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label
           appLabel
-          for="cicilState"
+          for="anotherHouse"
           label="La familia tiene otras propiedades:"
-          [required]="disabilityTypeField"
+          [required]="anotherHouseField"
         ></label>
         <p-dropdown
-          id="cicilState"
-          formControlName="disabilityType"
+          id="anotherHouse"
+          formControlName="anotherHouse"
           dataKey="id"
-          [options]="disabilityTypes"
+          [options]="yesno"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="disabilityTypeField.value">
-              <div>{{ disabilityTypeField.value.name }}</div>
+            <div *ngIf="anotherHouseField.value">
+              <div>{{ anotherHouseField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -63,32 +63,32 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="disabilityTypeField.errors"
-          [touched]="disabilityTypeField.touched"
-          [dirty]="disabilityTypeField.dirty"
+          [errors]="anotherHouseField.errors"
+          [touched]="anotherHouseField.touched"
+          [dirty]="anotherHouseField.dirty"
         >
         </small>
       </div>
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label
           appLabel
-          for="cicilState"
+          for="house"
           label="Propiedades a disposición:"
-          [required]="disabilityTypeField"
+          [required]="houseField"
         ></label>
         <p-dropdown
-          id="cicilState"
-          formControlName="disabilityType"
+          id="house"
+          formControlName="house"
           dataKey="id"
-          [options]="disabilityTypes"
+          [options]="houses"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Select"
         >
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="disabilityTypeField.value">
-              <div>{{ disabilityTypeField.value.name }}</div>
+            <div *ngIf="houseField.value">
+              <div>{{ houseField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -97,9 +97,9 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="disabilityTypeField.errors"
-          [touched]="disabilityTypeField.touched"
-          [dirty]="disabilityTypeField.dirty"
+          [errors]="houseField.errors"
+          [touched]="houseField.touched"
+          [dirty]="houseField.dirty"
         >
         </small>
       </div>
