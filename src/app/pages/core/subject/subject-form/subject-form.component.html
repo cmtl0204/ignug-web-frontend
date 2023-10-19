@@ -8,66 +8,60 @@
     <app-header-form [id]="id"></app-header-form>
   </div>
   <div class="p-toolbar-group-right">
-    <button
-      pButton
-      pRipple
-      type="button"
-      label="Cancelar"
-      class="p-button-info p-button-outlined"
-      [icon]="PrimeIcons.ARROW_LEFT"
-      [loading]="coreService.isLoading"
-      (click)="back()"
-    ></button>
+    <button pButton pRipple type="button"
+            (click)="back()"
+            [icon]="IconButtonActionEnum.CANCEL"
+            [label]="LabelButtonActionEnum.CANCEL"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CANCEL]"></button>
     <p-divider layout="vertical"></p-divider>
-    <button
-      class="ml-3"
-      pButton
-      pRipple
-      type="button"
-      label="Guardar"
-      [icon]="PrimeIcons.SAVE"
-      [loading]="coreService.isLoading"
-      (click)="onSubmit()"
-    ></button>
+    <button pButton pRipple type="button"
+            (click)="onSubmit()"
+            [icon]="IconButtonActionEnum.SAVE"
+            [label]="LabelButtonActionEnum.SAVE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.SAVE]"></button>
   </div>
 </p-toolbar>
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid" [header]="curriculumField.value?.name">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- state & isVisible -->
+    <!-- isEnabled & isVisible -->
     <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
         <label
           appLabel
-          for="state"
-          label="Estado:"
-          [required]="stateField"
+          for="isEnabled"
+          label="Activo:"
+          [required]="isEnabledField"
         ></label>
-        <p-dropdown
-          id="state"
-          dataKey="id"
-          formControlName="state"
-          [options]="states"
-          optionLabel="name"
-          placeholder="Seleccione"
-        >
-        </p-dropdown>
+        <app-help-field (mouseenter)="opIsEnabledField.toggle($event)"
+                        (mouseleave)="opIsEnabledField.hide()"></app-help-field>
+        <p>
+          <p-inputSwitch
+            id="isEnabled"
+            formControlName="isEnabled"
+            [trueValue]="true"
+          ></p-inputSwitch>
+        </p>
         <small
           appErrorMessage
-          [errors]="stateField.errors"
-          [touched]="stateField.touched"
-          [dirty]="stateField.dirty"
+          [errors]="isEnabledField.errors"
+          [touched]="isEnabledField.touched"
+          [dirty]="isEnabledField.dirty"
         >
         </small>
       </div>
 
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div class="field xl:col-1 lg:col-1 md:col-1 sm:col-12">
         <label
           appLabel
           for="isVisible"
           label="Visible:"
           [required]="isVisibleField"
         ></label>
+        <app-help-field (mouseenter)="opIsVisibleField.toggle($event)"
+                        (mouseleave)="opIsVisibleField.hide()"></app-help-field>
         <p>
           <p-inputSwitch
             id="isVisible"
@@ -151,8 +145,7 @@
           appErrorMessage
           [errors]="codeField.errors"
           [touched]="codeField.touched"
-          [dirty]="codeField.dirty"
-        >
+          [dirty]="codeField.dirty">
         </small>
       </div>
 
@@ -168,8 +161,7 @@
           appErrorMessage
           [errors]="nameField.errors"
           [touched]="nameField.touched"
-          [dirty]="nameField.dirty"
-        >
+          [dirty]="nameField.dirty">
         </small>
       </div>
     </div>
@@ -188,8 +180,7 @@
           appErrorMessage
           [errors]="creditsField.errors"
           [touched]="creditsField.touched"
-          [dirty]="creditsField.dirty"
-        >
+          [dirty]="creditsField.dirty">
         </small>
       </div>
 
@@ -271,7 +262,7 @@
       </div>
     </div>
 
-    <!-- prerequisites & corequisites-->
+    <!-- prerequisites-->
     <div class="field">
       <label appLabel for="prerequisites" label="Prerequisitos:" [required]="prerequisitesField"></label>
       <p-multiSelect id="prerequisites"
@@ -301,6 +292,7 @@
       </small>
     </div>
 
+    <!-- corequisites-->
     <div class="field">
       <label appLabel for="corequisites" label="Corequisitos:" [required]="corequisitesField"></label>
       <p-multiSelect id="corequisites"
@@ -331,3 +323,15 @@
     </div>
   </form>
 </p-panel>
+
+<p-overlayPanel #opIsEnabledField>
+  <ng-template pTemplate="content">
+    Se toma en cuenta para realizar procesos
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #opIsVisibleField>
+  <ng-template pTemplate="content">
+    Es visible para el resto del sistema
+  </ng-template>
+</p-overlayPanel>

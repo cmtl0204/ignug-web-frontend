@@ -29,7 +29,7 @@ export class SchoolPeriodsHttpService {
     );
   }
 
-  findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
+  find(page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = this.API_URL;
 
     const headers = new HttpHeaders().append('pagination', 'true');
@@ -39,6 +39,16 @@ export class SchoolPeriodsHttpService {
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
         return response;
+      })
+    );
+  }
+
+  findAll(): Observable<SchoolPeriodModel[]> {
+    const url = this.API_URL;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
       })
     );
   }
@@ -152,5 +162,5 @@ export class SchoolPeriodsHttpService {
       })
     );
   }
-  
+
 }

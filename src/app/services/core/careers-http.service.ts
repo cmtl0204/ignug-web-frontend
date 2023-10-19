@@ -40,7 +40,7 @@ export class CareersHttpService {
   }
 
   findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
-    const url = this.API_URL;
+    const url = `${this.API_URL}/find/all`;
 
     const headers = new HttpHeaders().append('pagination', 'true');
     const params = new HttpParams()
@@ -54,8 +54,23 @@ export class CareersHttpService {
     );
   }
 
-  findCurriculumsByCareer(careerId: string): Observable<CurriculumModel[]> {
-    const url = `${this.API_URL}/${careerId}/curriculums`;
+  find(page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = `${this.API_URL}`;
+
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+  findOne(id: string): Observable<CareerModel> {
+    const url = `${this.API_URL}/find /${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map((response) => {
@@ -64,8 +79,8 @@ export class CareersHttpService {
     );
   }
 
-  findOne(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/${id}`;
+  findCurriculumsByCareer(careerId: string): Observable<CurriculumModel[]> {
+    const url = `${this.API_URL}/${careerId}/curriculums`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map((response) => {

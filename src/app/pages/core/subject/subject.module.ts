@@ -32,6 +32,10 @@ import {SubjectListComponent} from './subject-list/subject-list.component';
 import {SubjectFormComponent} from './subject-form/subject-form.component';
 import {SubjectRequirementComponent} from "./subject-requirement/subject-requirement.component";
 import {PickListModule} from "primeng/picklist";
+import {OverlayPanelModule} from "primeng/overlaypanel";
+import {StepsModule} from "primeng/steps";
+import {TabViewModule} from "primeng/tabview";
+import {AccordionModule} from "primeng/accordion";
 
 
 @NgModule({
@@ -67,6 +71,10 @@ import {PickListModule} from "primeng/picklist";
     TagModule,
     ToolbarModule,
     PickListModule,
+    OverlayPanelModule,
+    StepsModule,
+    TabViewModule,
+    AccordionModule,
   ]
 })
 export class SubjectModule {

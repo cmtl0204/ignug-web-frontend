@@ -33,6 +33,10 @@ import {FileUploadModule} from "primeng/fileupload";
 
 import localEs from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
+import { AboutComponent } from './layout/about/about.component';
+import {InputTextModule} from "primeng/inputtext";
+import {MessagesModule} from "primeng/messages";
+import {MessageModule} from "primeng/message";
 
 registerLocaleData(localEs, 'es');
 
@@ -45,6 +49,7 @@ registerLocaleData(localEs, 'es');
     MainComponent,
     SidebarComponent,
     TopbarComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
@@ -67,6 +72,7 @@ registerLocaleData(localEs, 'es');
     RippleModule,
     AvatarModule,
     FileUploadModule,
+    InputTextModule,
   ],
   providers: [
     // {

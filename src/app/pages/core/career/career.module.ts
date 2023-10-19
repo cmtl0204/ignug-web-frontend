@@ -27,6 +27,7 @@ import {MultiSelectModule} from "primeng/multiselect";
 import {PanelModule} from "primeng/panel";
 import {SharedModule} from "@shared/shared.module";
 import {CalendarModule} from "primeng/calendar";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 @NgModule({
     declarations: [
@@ -55,7 +56,8 @@ import {CalendarModule} from "primeng/calendar";
         MultiSelectModule,
         PanelModule,
         SharedModule,
-        CalendarModule
+        CalendarModule,
+        OverlayPanelModule
     ]
 })
 export class CareerModule {

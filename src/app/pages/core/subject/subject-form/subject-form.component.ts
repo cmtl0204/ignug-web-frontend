@@ -27,6 +27,7 @@ import {
   SkeletonEnum
 } from '@shared/enums';
 import {OnExitInterface} from '@shared/interfaces';
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-subject-form',
@@ -48,6 +49,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   // Form
   protected form: FormGroup;
+  protected formErrors: string[] = [];
 
   // Foreign Keys
   protected academicPeriods: CatalogueModel[] = [];
@@ -64,6 +66,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
     private readonly breadcrumbService: BreadcrumbService,
     private readonly cataloguesHttpService: CataloguesHttpService,
     private readonly formBuilder: FormBuilder,
+    private location: Location,
     private readonly router: Router,
     private readonly routesService: RoutesService,
     private readonly subjectsHttpService: SubjectsHttpService,
@@ -110,24 +113,47 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       academicPeriod: [null, [Validators.required]],
-      autonomousHour: [null, [Validators.required]],
+      autonomousHour: [null, [Validators.required,Validators.min(0)]],
       code: [null, [Validators.required]],
       corequisites: [[]],
       credits: [null, [Validators.required]],
       curriculum: [this.curriculumService.curriculum, [Validators.required]],
+      isEnabled: [true, [Validators.required]],
       isVisible: [true, [Validators.required]],
       name: [null, [Validators.required]],
-      practicalHour: [null, [Validators.required]],
+      practicalHour: [null, [Validators.required,Validators.min(0)]],
       prerequisites: [[]],
       scale: [0, [Validators.required, Validators.maxLength(1)]],
       state: [null, [Validators.required]],
-      teacherHour: [null, [Validators.required]],
+      teacherHour: [null, [Validators.required,Validators.min(0)]],
       type: [null, [Validators.required]],
     });
   }
 
+  validateForm() {
+    this.formErrors = [];
+
+    if (this.autonomousHourField.errors) this.formErrors.push('Horas Autónomas');
+    if (this.codeField.errors) this.formErrors.push('Código');
+    if (this.isVisibleField.errors) this.formErrors.push('Visible');
+    if (this.creditsField.errors) this.formErrors.push('Créditos');
+    if (this.nameField.errors) this.formErrors.push('Nombre');
+    if (this.practicalHourField.errors) this.formErrors.push('Horas Prácticas');
+    if (this.scaleField.errors) this.formErrors.push('Escala');
+    if (this.teacherHourField.errors) this.formErrors.push('Horas Docentes');
+    if (this.academicPeriodField.errors) this.formErrors.push('Periodo Académico');
+    if (this.stateField.errors) this.formErrors.push('Estado');
+    if (this.typeField.errors) this.formErrors.push('Tipo');
+    if (this.curriculumField.errors) this.formErrors.push('Malla Curricular');
+    if (this.prerequisitesField.errors) this.formErrors.push('Prequisitos');
+    if (this.corequisitesField.errors) this.formErrors.push('Corequisitos');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
+  }
+
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       let {prerequisites, corequisites, ...payload} = this.form.value;
 
       const prerequisitesClon = this.prerequisitesField.value as SubjectRequirementModel[];
@@ -161,12 +187,12 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields();
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
   back(): void {
-    this.router.navigate([this.routesService.subjects]);// review puede cambiar
+    this.location.back();
   }
 
   /** Actions **/
@@ -273,6 +299,10 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   get codeField(): AbstractControl {
     return this.form.controls['code'];
+  }
+
+  get isEnabledField(): AbstractControl {
+    return this.form.controls['isEnabled'];
   }
 
   get isVisibleField(): AbstractControl {

@@ -18,11 +18,9 @@ export class CoreService {
   }
 
   set isLoading(value: boolean) {
-    if (this._isLoading != value) {
-      setTimeout(() => {
-        this._isLoading = value;
-      }, 10);
-    }
+    setTimeout(() => {
+      this._isLoading = value;
+    }, 200);
   }
 
   get isProcessing(): boolean {

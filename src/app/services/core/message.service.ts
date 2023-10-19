@@ -64,7 +64,7 @@ export class MessageService {
   errorsFields(errors: string[] = []) {
     let html = '<ul>';
     for (let i = 0; i < errors.length; i++) {
-      html += `<li>- ${errors[i]}</li>`;
+      html += `<li>${errors[i]}</li>`;
     }
     html += '</ul>';
 
@@ -117,7 +117,7 @@ export class MessageService {
   }
 
   get fieldNumber(): string {
-    return 'El campo solo debe contener numeros.';
+    return 'El campo solo debe contener números.';
   }
 
   fieldMinLength(errors: ValidationErrors) {
@@ -129,11 +129,12 @@ export class MessageService {
   }
 
   fieldMin(errors: ValidationErrors) {
-    return `Numero mínimo permitido es ${errors['min']['requiredMin']}.`;
+    console.log(errors['min']['min']);
+    return `Número mínimo permitido es ${errors['min']['min']}.`;
   }
 
   fieldMax(errors: ValidationErrors): string {
-    return `Numero maximo permitido es ${errors['max']['requiredMax']}.`;
+    return `Número maximo permitido es ${errors['max']['max']}.`;
   }
 
   get fieldPattern() {

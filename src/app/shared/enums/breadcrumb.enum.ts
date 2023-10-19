@@ -15,6 +15,5 @@ export enum BreadcrumbEnum {
   ENROLLMENTS = 'Matrículas',
   USERS = 'Usuarios',
   TEACHER_CHARGE = 'Consolidado de notas',
-  SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos',
-  STUDENT_FILE = 'Ficha estudiante' 
+  SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos'
 }

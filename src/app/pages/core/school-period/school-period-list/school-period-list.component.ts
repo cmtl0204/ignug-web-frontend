@@ -56,18 +56,18 @@ export class SchoolPeriodListComponent implements OnInit {
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findAll();
+        this.find();
       }
     });
   }
 
   ngOnInit() {
-    this.findAll();
+    this.find();
   }
 
   /** Load Data **/
-  findAll(page: number = 0) {
-    this.schoolPeriodsHttpService.findAll(page, this.search.value)
+  find(page: number = 0) {
+    this.schoolPeriodsHttpService.find(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;
@@ -260,13 +260,13 @@ export class SchoolPeriodListComponent implements OnInit {
 
   open(id: string) {
     this.schoolPeriodsHttpService.open(id).subscribe(item => {
-      this.findAll();
+      this.find();
     });
   }
 
   close(id: string) {
     this.schoolPeriodsHttpService.close(id).subscribe(item => {
-      this.findAll();
+      this.find();
     });
   }
 
@@ -278,7 +278,7 @@ export class SchoolPeriodListComponent implements OnInit {
   }
 
   paginate(event: any) {
-    this.findAll(event.page);
+    this.find(event.page);
   }
 
   /** Redirects **/
