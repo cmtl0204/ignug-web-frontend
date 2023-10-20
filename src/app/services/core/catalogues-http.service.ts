@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
-import {BehaviorSubject, delay, Observable} from 'rxjs';
+import {Observable} from 'rxjs';
 import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth';
 import {map} from 'rxjs/operators';
 import {ServerResponse} from '@models/http-response';
-import {CoreService, MessageService} from '@services/core';
+import {MessageService} from '@services/core';
 import {CatalogueModel, PaginatorModel} from '@models/core';
 import {CatalogueCoreTypeEnum} from "@shared/enums";
 
@@ -16,7 +16,6 @@ export class CataloguesHttpService {
   API_URL = `${environment.API_URL}/catalogues`;
 
   constructor(private httpClient: HttpClient,
-              private coreService: CoreService,
               private messageService: MessageService) {
   }
 

@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {PaginatorModel, SelectCareerDto} from "@models/core";
+import {CataloguesHttpService} from "@services/core/catalogues-http.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,11 @@ export class CoreService {
   private _isLoading: boolean = false;
   private _isProcessing: boolean = false;
 
-  constructor() {
+  constructor(private readonly cataloguesHttpService: CataloguesHttpService) {
+  }
+
+  updateSystem() {
+    location.reload();
   }
 
   get isLoading(): boolean {
@@ -45,5 +50,21 @@ export class CoreService {
 
   set serviceUnavailable(value: any) {
     sessionStorage.setItem('serviceUnavailable', JSON.stringify(value));
+  }
+
+  get version() {
+    return JSON.parse(String(localStorage.getItem('version')));
+  }
+
+  set version(value: any) {
+    localStorage.setItem('version', JSON.stringify(value));
+  }
+
+  get newVersion() {
+    return JSON.parse(String(localStorage.getItem('newVersion')));
+  }
+
+  set newVersion(value: any) {
+    localStorage.setItem('newVersion', JSON.stringify(value));
   }
 }

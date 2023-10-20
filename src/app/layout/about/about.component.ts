@@ -3,6 +3,7 @@ import {PrimeIcons} from "primeng/api";
 import {Clipboard} from '@angular/cdk/clipboard';
 import {CoreMessageEnum} from "@shared/enums";
 import {MessageService as MessageServicePn} from "primeng/api";
+import {CoreService} from "@services/core";
 
 @Component({
   selector: 'app-about',
@@ -13,8 +14,10 @@ export class AboutComponent {
 
   protected readonly PrimeIcons = PrimeIcons;
 
-  constructor(private clipboard: Clipboard,
-              private messageServicePn: MessageServicePn,
+  constructor(
+    protected readonly coreService: CoreService,
+    private readonly clipboard: Clipboard,
+    private readonly messageServicePn: MessageServicePn,
   ) {
   }
 

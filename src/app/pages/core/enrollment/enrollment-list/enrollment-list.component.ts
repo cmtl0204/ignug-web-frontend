@@ -91,9 +91,7 @@ export class EnrollmentListComponent implements OnInit {
           }
         });
 
-        console.log(levelsMap);
         this.levels = Array.from(levelsMap).sort();
-        console.log(this.levels);
       });
   }
 

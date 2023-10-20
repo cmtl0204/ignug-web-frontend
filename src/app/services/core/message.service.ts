@@ -100,6 +100,19 @@ export class MessageService {
     });
   }
 
+  questionVersion(version = '') {
+    return Swal.fire({
+      title: `Existe una nueva actualización \n V ${version}`,
+      text: 'Antes de actualizar, guarde lo que esté haciendo!',
+      icon: 'success',
+      showCancelButton: true,
+      confirmButtonColor: '#689F38',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: '<i class="pi pi-sync"> Actualizar</i>',
+      cancelButtonText: 'Cancelar'
+    });
+  }
+
   get requiredFields(): string {
     return `Todos los campos con <b class="p-error">*</b> son obligatorios.`;
   }
@@ -129,7 +142,6 @@ export class MessageService {
   }
 
   fieldMin(errors: ValidationErrors) {
-    console.log(errors['min']['min']);
     return `Número mínimo permitido es ${errors['min']['min']}.`;
   }
 

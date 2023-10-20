@@ -33,7 +33,8 @@ export class AppComponent {
   findCatalogue() {
     let catalogues = localStorage.getItem('catalogues');
 
-    if (catalogues === undefined || !catalogues) {
+    if (!catalogues || this.coreService.version !== this.coreService.newVersion) {
+      this.coreService.version = this.coreService.newVersion;
       this.cataloguesHttpService.findCache().subscribe();
     }
   }

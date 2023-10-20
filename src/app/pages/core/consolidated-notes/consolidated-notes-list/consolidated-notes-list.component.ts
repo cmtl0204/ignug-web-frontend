@@ -67,7 +67,6 @@ export class ConsolidatedNotesListComponent implements OnInit {
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;
-        console.log(this.items);
       });
   }
   partials(){
@@ -98,7 +97,7 @@ export class ConsolidatedNotesListComponent implements OnInit {
 
   export(){
     this.teacherChargeService.export().subscribe((response)=>{
-      console.log(response);
+
 
     });
   }

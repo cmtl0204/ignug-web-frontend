@@ -39,4 +39,8 @@ export class BreadcrumbComponent {
   signOut() {
     this.authHttpService.signOut();
   }
+
+  updateSystem(){
+    this.coreService.updateSystem();
+  }
 }

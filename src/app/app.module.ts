@@ -35,8 +35,6 @@ import localEs from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
 import { AboutComponent } from './layout/about/about.component';
 import {InputTextModule} from "primeng/inputtext";
-import {MessagesModule} from "primeng/messages";
-import {MessageModule} from "primeng/message";
 
 registerLocaleData(localEs, 'es');
 

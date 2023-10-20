@@ -52,7 +52,6 @@ export class SubjectGradeListComponent implements OnInit {
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data
-        console.log(this.items)
       });
   }
 

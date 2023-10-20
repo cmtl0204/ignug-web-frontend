@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {PrimeIcons} from 'primeng/api';
 import {AuthHttpService, AuthService, MenusHttpService} from "@services/auth";
 import {MenuModel} from "@models/auth";
-import {MessageService} from "@services/core";
+import {CoreService, MessageService} from "@services/core";
 
 @Component({
   selector: 'app-sidebar',
@@ -18,11 +18,13 @@ export class SidebarComponent implements OnInit {
   protected closedLock: boolean | null = null;
   protected isVisibleAbout: boolean = false;
 
-  constructor(private readonly menusHttpService: MenusHttpService,
-              private readonly authHttpService: AuthHttpService,
-              public readonly authService: AuthService,
-              public readonly messageService: MessageService,
-              private readonly router: Router) {
+  constructor(
+    protected readonly coreService: CoreService,
+    private readonly menusHttpService: MenusHttpService,
+    private readonly authHttpService: AuthHttpService,
+    public readonly authService: AuthService,
+    public readonly messageService: MessageService,
+    private readonly router: Router) {
 
   }
 

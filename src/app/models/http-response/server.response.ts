@@ -7,6 +7,7 @@ export interface ServerResponse {
   message: string;
   statusCode: number;
   title: string;
+  version?: string;
 }
 
 export interface ServerResponsePaginator extends ServerResponse {

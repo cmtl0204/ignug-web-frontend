@@ -70,7 +70,7 @@ export class CareersHttpService {
   }
 
   findOne(id: string): Observable<CareerModel> {
-    const url = `${this.API_URL}/find /${id}`;
+    const url = `${this.API_URL}/find/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map((response) => {
