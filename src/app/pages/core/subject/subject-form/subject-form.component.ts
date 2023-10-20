@@ -154,31 +154,27 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   onSubmit(): void {
     if (this.validateForm()) {
-      // let {prerequisites, corequisites, ...payload} = this.form.value;
-      //
-      // const prerequisitesClon = this.prerequisitesField.value as SubjectRequirementModel[];
-      // const corequisitesClon = this.corequisitesField.value as SubjectRequirementModel[];
-      //
-      // prerequisites = prerequisitesClon.map(prerequisite => {
-      //   return {
-      //     subject: this.subjectsService.subject,
-      //     requirement: prerequisite,
-      //     isEnabled: true,
-      //     type: CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE,
-      //   };
-      // });
-      //
-      // corequisites = corequisitesClon.map(prerequisite => {
-      //   return {
-      //     subject: this.subjectsService.subject,
-      //     requirement: prerequisite,
-      //     isEnabled: true,
-      //     type: CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE,
-      //   };
-      // });
-      //
+      const prerequisitesClon = this.subjectPrerequisitesField.value as SubjectRequirementModel[];
+      const corequisitesClon = this.subjectCorequisitesField.value as SubjectRequirementModel[];
+
+      const prerequisites = prerequisitesClon.map(prerequisite => {
+        return {
+          subject: this.subjectsService.subject,
+          requirement: prerequisite,
+          isEnabled: true,
+        };
+      });
+
+      const corequisites = corequisitesClon.map(prerequisite => {
+        return {
+          subject: this.subjectsService.subject,
+          requirement: prerequisite,
+          isEnabled: true,
+        };
+      });
+
       // const subjectRequirements: SubjectRequirementModel[] = prerequisites.concat(corequisites);
-      //
+
       const subject: SelectSubjectDto = {};
       if (this.id) {
         this.update();
@@ -213,15 +209,13 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   /** Load Data **/
   get(): void {
     this.subjectsHttpService.findOne(this.id!).subscribe((item) => {
-      const prerequisites = item.subjectRequirements
-        .filter(subjectRequirement => subjectRequirement.type === CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE)
+      const subjectPrerequisites = item.subjectPrerequisites
         .map(subjectRequirement => subjectRequirement.requirement);
 
-      const corequisites = item.subjectRequirements
-        .filter(subjectRequirement => subjectRequirement.type === CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE)
+      const subjectCorequisites = item.subjectCorequisites
         .map(subjectRequirement => subjectRequirement.requirement);
 
-      this.form.patchValue({...item, prerequisites, corequisites});
+      this.form.patchValue({...item, subjectPrerequisites, subjectCorequisites});
 
       this.findSubjectsByCurriculum();
     });
@@ -238,10 +232,24 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
         this.subjectsPrerequisites = [];
         this.subjectsCorequisites = [];
 
-        const subjects1 = subjects.filter(subject => parseInt(subject.academicPeriod.code) < parseInt(this.academicPeriodField.value.code));
-        const subjects2 = subjects.filter(subject => parseInt(subject.academicPeriod.code) === parseInt(this.academicPeriodField.value.code));
+        const subjects1 = subjects.filter(subject =>
+          parseInt(subject.academicPeriod.code) < parseInt(this.academicPeriodField.value.code) && subject.id != this.subjectsService.subject.id
+        );
+        const subjects2 = subjects.filter(subject =>
+          parseInt(subject.academicPeriod.code) === parseInt(this.academicPeriodField.value.code) && subject.id != this.subjectsService.subject.id
+        );
 
         subjects1.sort(function (a, b) {
+          if (a.academicPeriod.code > b.academicPeriod.code) {
+            return 1;
+          }
+          if (a.academicPeriod.code < b.academicPeriod.code) {
+            return -1;
+          }
+          return 0;
+        });
+
+        subjects2.sort(function (a, b) {
           if (a.academicPeriod.code > b.academicPeriod.code) {
             return 1;
           }
@@ -269,8 +277,7 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
           const index = this.subjectsCorequisites.findIndex(item => item.name === level);
 
           if (index === -1) {
-            this.subjectsCorequisites.push({name: level, items: []});
-
+            this.subjectsCorequisites.push({name: level, items: [subject]});
           }
 
           if (index > -1) {

@@ -53,8 +53,8 @@ export class SubjectRequirementComponent implements OnInit {
       .subscribe((subjects) => {
         this.sourceDataPrequisites = subjects;
         this.sourceDataCorequisites = subjects;
-        const prerequisites = this.selectedSubject.subjectRequirements.filter(subjectRequirement => subjectRequirement.type === CatalogueCoreSubjectRequirementTypeEnum.PREREQUISITE);
-        const corequisites = this.selectedSubject.subjectRequirements.filter(subjectRequirement => subjectRequirement.type === CatalogueCoreSubjectRequirementTypeEnum.CO_REQUISITE);
+        const prerequisites = this.selectedSubject.subjectPrerequisites;
+        const corequisites = this.selectedSubject.subjectCorequisites;
 
         const idsPrerequisitesAccepted = prerequisites.map(subjectRequirement => subjectRequirement.requirement.id);
         const idsCorequisitesAccepted = corequisites.map(subjectRequirement => subjectRequirement.requirement.id);

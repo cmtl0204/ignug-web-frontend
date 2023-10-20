@@ -12,7 +12,8 @@ export interface SubjectModel {
   academicPeriod: CatalogueModel;
   type: CatalogueModel;
   state: CatalogueModel;
-  subjectRequirements: SubjectRequirementModel[];
+  subjectPrerequisites: SubjectRequirementModel[];
+  subjectCorequisites: SubjectRequirementModel[];
 
   autonomousHour: number;
   code: string;

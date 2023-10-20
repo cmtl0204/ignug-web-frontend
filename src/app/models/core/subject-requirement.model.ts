@@ -11,7 +11,6 @@ export interface SubjectRequirementModel {
   requirement: SubjectModel;
 
   isEnabled: boolean;
-  type: string;
 }
 
 export interface CreateSubjectRequirementDto extends Omit<SubjectRequirementModel, 'id'> {
