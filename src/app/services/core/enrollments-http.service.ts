@@ -35,6 +35,36 @@ export class EnrollmentsHttpService {
     );
   }
 
+  find(page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = this.API_URL;
+
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+  findEnrollmentDetailsByEnrollment( id: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = `${this.API_URL}/${id}`;
+
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
   findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = this.API_URL;
 
@@ -50,7 +80,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  findOne(id: string): Observable<InstitutionModel> {
+  findOne(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -60,7 +90,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  update(id: string, payload: UpdateInstitutionDto): Observable<InstitutionModel> {
+  update(id: string, payload: UpdateInstitutionDto): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;

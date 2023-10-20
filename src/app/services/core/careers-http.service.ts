@@ -39,6 +39,24 @@ export class CareersHttpService {
     );
   }
 
+  findEnrollmentsByCareer( id: string, schoolPeriodId: string, academicPeriodId: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
+    const url = `${this.API_URL}/${id}/enrollments`;
+
+    const headers = new HttpHeaders().append('pagination', 'true');
+    const params = new HttpParams()
+      .append('page', page)
+      .append('search', search)
+      .append('schoolPeriodId', schoolPeriodId)
+      .append('academicPeriodId', academicPeriodId);
+
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
+      map((response) => {
+        return response;
+      })
+    );
+  }
+
+
   findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = `${this.API_URL}/find/all`;
 

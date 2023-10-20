@@ -6,6 +6,7 @@ import {SharedModule} from "@shared/shared.module";
 
 // PrimeNg Modules
 import {ButtonModule} from "primeng/button";
+import {DialogModule} from 'primeng/dialog';
 import {DividerModule} from "primeng/divider";
 import {InputSwitchModule} from "primeng/inputswitch";
 import {InputTextModule} from "primeng/inputtext";
@@ -20,19 +21,21 @@ import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ToolbarModule} from "primeng/toolbar";
 import { TabViewModule } from 'primeng/tabview';
+import { CalendarModule } from 'primeng/calendar';
+import { AccordionModule } from 'primeng/accordion';
 
 // Components
 import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
 import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollment-subject-list.component";
 import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
-import { CalendarModule } from 'primeng/calendar';
-import { AccordionModule } from 'primeng/accordion';
+import { DownloadComponent } from '../download/download.component';
 
 @NgModule({
   declarations: [
     EnrollmentListComponent,
     EnrollmentSubjectListComponent,
-    EnrollmentFormComponent
+    EnrollmentFormComponent,
+    DownloadComponent
   ],
   imports: [
     NgCommonModule,
@@ -56,7 +59,8 @@ import { AccordionModule } from 'primeng/accordion';
     TableModule,
     TabViewModule,
     CalendarModule,
-    AccordionModule
+    AccordionModule,
+    DialogModule
   ]
 })
 export class EnrollmentModule {

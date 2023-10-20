@@ -2,18 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel } from '@models/core';
+import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel } from '@models/core';
 import {
   BreadcrumbService,
+  CareersService,
   CataloguesHttpService,
   CoreService,
-  CurriculumsHttpService,
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
-  SubjectsHttpService
+  SchoolPeriodsHttpService
 } from '@services/core';
-import { BreadcrumbEnum, CatalogueCoreTypeEnum } from "@shared/enums";
+import { IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -22,6 +22,10 @@ import { BreadcrumbEnum, CatalogueCoreTypeEnum } from "@shared/enums";
 })
 export class EnrollmentListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly BreadcrumbEnum = BreadcrumbEnum;
   protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
@@ -30,12 +34,19 @@ export class EnrollmentListComponent implements OnInit {
   protected selectedItem: SelectEnrollmentDto = {};
   protected selectedItems: EnrollmentModel[] = [];
   protected items: EnrollmentModel[] = [];
-  protected subjects: SubjectModel[] = [];
-  protected selectedSubjects: SubjectModel[] = [];
-  protected levels: any[] = [];
-  protected parallels: CatalogueModel[] = [];
-  protected workdays: CatalogueModel[] = [];
+  protected schoolPeriods: SchoolPeriodModel[] = [];
+  protected careers: CareerModel[] = [];
+  protected academicPeriods: CatalogueModel[] = [];
+  protected selectedCareer: FormControl = new FormControl();
+  protected selectedSchoolPeriod: FormControl = new FormControl();
+  protected selectedAcademicPeriod: FormControl = new FormControl();
+  protected state: CatalogueModel[] = [];
+  protected isVisible: boolean = false;
 
+  matriculados: string[] = [];
+  enProceso: string[] = [];
+  retirados: string[] = [];
+  anulados: string[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -44,8 +55,9 @@ export class EnrollmentListComponent implements OnInit {
     private router: Router,
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
-    private curriculumsHttpService: CurriculumsHttpService,
-    private cataloguesHttpService: CataloguesHttpService
+    private cataloguesHttpService: CataloguesHttpService,
+    private schoolPeriodsHttpService: SchoolPeriodsHttpService,
+    private careersService: CareersService,
 
   ) {
     this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
@@ -54,68 +66,80 @@ export class EnrollmentListComponent implements OnInit {
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findAll();
+        this.find();
       }
     });
   }
 
   ngOnInit() {
-    this.findAll();
-    this.findSubjectsByCurriculum();
+    this.find();
+    this.findSchoolPeriods();
+    this.findAcademicPeriods();
+    this.findCareers();
+    this.cargarDatosCategorias();
   }
 
+  findSchoolPeriods() {
+    this.schoolPeriodsHttpService.findAll().subscribe(
+      schoolPeriods => {
+        this.schoolPeriods = schoolPeriods;
+      }
+    )
+  }
+
+  findCareers(){
+    this.careers = this.careersService.careers;
+  }
+  findAcademicPeriods(){
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+  }
+
+  filterEnrollmentsByState(){
+    this.state = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
+  }
+
+  cargarDatosCategorias() {
+    this.matriculados = ['Estado1', 'Estado2', 'Estado3'];
+    this.enProceso = ['Estado4', 'Estado5'];
+    this.retirados = [];
+    this.anulados = ['Estado6'];
+  }
+
+
   /** Load Data **/
-  findAll(page: number = 0) {
-    this.enrollmentsHttpService.findAll(page, this.search.value)
+  find(page: number = 0) {
+    this.enrollmentsHttpService.find(page, this.search.value)
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data
       });
   }
 
-  findSubjectsByCurriculum() {
-    this.curriculumsHttpService.findSubjectsByCurriculum('19aa2462-bc8f-4a65-b685-d583b8f86e61')
-      .subscribe((response) => {
-        this.subjects = response;
-
-        const levelsMap = new Map<string, SubjectModel[]>();
-        this.subjects.forEach(subject => {
-          const level = subject.academicPeriod.name;
-          if (!levelsMap.has(level)) {
-            levelsMap.set(level, []);
-          }
-
-          const levelSubjects = levelsMap.get(level);
-          if (levelSubjects !== undefined) {
-            levelSubjects.push(subject);
-          }
-        });
-
-        this.levels = Array.from(levelsMap).sort();
-      });
-  }
 
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      { field: 'number', header: 'Numero de matricula' },
-      { field: 'date', header: 'Fecha' },
-      { field: 'finalAttendance', header: 'Última asistencia' },
-      { field: 'finalGrade', header: 'Nota final' },
-      { field: 'state', header: 'Estado' },
+      {field: 'identification', header: 'Cédula'},
+      {field: 'student', header: 'Apellido'},
+      {field: 'name', header: 'Nombre'},
+      {field: 'type', header: 'Tipo de Matrícula'},
+      {field: 'academicPeriod', header: 'Periodo académico'},
+      {field: 'workday', header: 'Jornada'},
+      {field: 'parallel', header: 'Paralelo'},
+      {field: 'state', header: 'Estado'}
     ];
   }
 
-  loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
-  }
-
-  loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
-  }
-
-  get buildButtonActions(): MenuItem[] {
+  get buildButtonActions() {
     return [
+      {
+        id: IdButtonActionEnum.UPDATE,
+        label: 'Editar',
+        icon: PrimeIcons.PENCIL,
+        command: () => {
+          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+        },
+      },
       {
         label: 'Descargar',
         icon: PrimeIcons.DOWNLOAD,
@@ -124,31 +148,10 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
-        label: 'Asignaturas',
-        icon: PrimeIcons.BOOK,
-        command: () => {
-          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Anular',
-        icon: PrimeIcons.BAN,
-        command: () => {
-          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
-        },
-      },
-      {
         label: 'Mostrar',
         icon: PrimeIcons.LOCK_OPEN,
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Carreras',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          this.router.navigate([this.routesService.careers]);
         },
       }
     ];
@@ -195,23 +198,27 @@ export class EnrollmentListComponent implements OnInit {
     });
   }
 
+  downloadModal() {
+    this.isVisible = true;
+  }
+
   /** Select & Paginate **/
-  selectItem(item: InstitutionModel) {
+  selectItem(item: EnrollmentModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
   }
 
   paginate(event: any) {
-    this.findAll(event.page);
+    this.find(event.page);
   }
 
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.institutions, 'new']);
+    this.router.navigate([this.routesService.enrollments, 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.institutions, id]);
+    this.router.navigate([this.routesService.enrollments, id]);
   }
 }
 

@@ -1,84 +1,117 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton pRipple type="button" label="Crear" class="p-button-success" [icon]="PrimeIcons.PLUS"
-      (click)="redirectCreateForm()">
+    <button pButton 
+        pRipple 
+        type="button" 
+        label="Refrescar" 
+        class="p-button-info ml-2" 
+        [icon]="PrimeIcons.REFRESH"
+        [loading]="coreService.isLoading" 
+        (click)="find()">
     </button>
-
-    <button pButton pRipple type="button" label="Refrescar" class="p-button-info ml-2" [icon]="PrimeIcons.REFRESH"
-      [loading]="coreService.isLoading" (click)="findAll()">
+    <button pButton 
+        pRipple 
+        type="button" 
+        label="Descargas" 
+        class="p-button-info ml-2" 
+        [icon]="PrimeIcons.DOWNLOAD"
+        [loading]="coreService.isLoading" 
+        (click)="downloadModal()">
     </button>
-
-    <button pButton pRipple type="button" label="Eliminar Seleccionados" class="p-button-danger ml-2"
-      [disabled]="selectedItems.length===0" [icon]="PrimeIcons.TRASH" [loading]="coreService.isLoading"
-      (click)="removeAll()">
-    </button>
+    <p-dialog [(visible)]="isVisible"
+          [modal]="true"
+          [style]="{width: '50%'}"
+          header="Descargas">
+          <app-download></app-download>
+    </p-dialog>
   </div>
   <div class="p-toolbar-group-right">
-    <div class="p-inputgroup">
-      <input type="text" pInputText [formControl]="search" placeholder="Buscar...">
-      <button pButton pRipple type="button" [icon]="PrimeIcons.SEARCH" [loading]="coreService.isLoading"
-        (click)="findAll()"></button>
-    </div>
+    <p-dropdown [formControl]="selectedSchoolPeriod" 
+        dataKey="id" 
+        [options]="schoolPeriods" 
+        optionLabel="name" 
+        placeholder="Seleccionar"
+        pTooltip="Periodo Lectivo"
+        >
+    </p-dropdown>
+    <p-dropdown [formControl]="selectedCareer" 
+        dataKey="id" 
+        [options]="careers" 
+        optionLabel="name" 
+        placeholder="Seleccionar"
+        pTooltip="Carrera"
+        >
+    </p-dropdown>
+    <p-dropdown [formControl]="selectedAcademicPeriod" 
+        dataKey="id" 
+        [options]="academicPeriods" 
+        optionLabel="name" 
+        placeholder="Seleccionar"
+        pTooltip="Nivel Académico"
+        >
+    </p-dropdown>
   </div>
 </p-toolbar>
-
-<p-paginator [rows]="paginator.limit" [totalRecords]="paginator.totalItems" (onPageChange)="paginate($event)">
+<p-paginator [rows]="paginator.limit" 
+            [totalRecords]="paginator.totalItems" 
+            (onPageChange)="paginate($event)"
+            >
 </p-paginator>
+<p-table dataKey="id" 
+        styleClass="p-datatable-striped" 
+        [value]="items" 
+        [columns]="columns"
+        [loading]="coreService.isLoading" 
+        [(selection)]="selectedItems">
 
-<p-tabView>
-  <p-tabPanel header="Materias">
-    <p-accordion [activeIndex]="0">
-      <p-accordionTab *ngFor="let level of levels" [header]="level[0]">
-        <p-table [value]="level[1]" [tableStyle]="{ 'min-width': '50rem' }">
-          <ng-template pTemplate="header">
-            <tr>
-              <th>
-                Materias
-              </th>
-              <th>
-                Seleccionar
-              </th>
-            </tr>
-          </ng-template>
-          <ng-template pTemplate="body">
-            <tr>
-              <td *ngFor="let level of level[1]">
-                {{level.name}}
-              </td>
-              <td>
-                <p-tableCheckbox></p-tableCheckbox>
-              </td>
-            </tr>
-          </ng-template>
-        </p-table>
-      </p-accordionTab>
-    </p-accordion>
-  </p-tabPanel>
-  <p-tabPanel header="Jornada y paralelos">
-    <div class="formgrid grid">
-      <div class=" xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="parallel" label="Paralelo:"></label>
-        <p-dropdown id="parallel" formControlName="parallel" dataKey="id" [options]="parallels" optionLabel="name"
-          [filter]="true" filterBy="name" placeholder="Select">
-          <ng-template pTemplate="item" let-item>
-            {{item.name}}
-          </ng-template>
-        </p-dropdown>
-      </div>
-      <div class=" xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="workday" label="Jornada:"></label>
-        <p-dropdown id="workday" formControlName="workday" dataKey="id" [options]="workdays" optionLabel="name"
-          [filter]="true" filterBy="name" placeholder="Select">
-          <ng-template pTemplate="item" let-item>
-            {{item.name}}
-          </ng-template>
-        </p-dropdown>
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <p>Matriculados:</p>
+      <p *ngIf="matriculados && matriculados.length > 0">
+        <ul>
+          <li *ngFor="let state of matriculados">{{ state }}</li>
+        </ul>
+        <p *ngIf="matriculados && matriculados.length === 0">No se encontraron estados.</p>
+
+      <p>En Proceso:</p>
+      <p *ngIf="enProceso && enProceso.length > 0">
+        <ul>
+          <li *ngFor="let state of enProceso">{{ state }}</li>
+        </ul>
+        <p *ngIf="enProceso && enProceso.length === 0">No se encontraron estados.</p>
+
+      <p>Retirados:</p>
+      <p *ngIf="retirados && retirados.length > 0">
+        <ul>
+          <li *ngFor="let state of retirados">{{ state }}</li>
+        </ul>
+        <p *ngIf="retirados && retirados.length === 0">No se encontraron estados.</p>
+
+      <p>Anulados:</p>
+      <p *ngIf="anulados && anulados.length > 0">
+        <ul>
+          <li *ngFor="let state of anulados">{{ state }}</li>
+        </ul>
+        <p *ngIf="anulados && anulados.length === 0">No se encontraron estados.</p>
+
+      <div class="p-toolbar-group-right">
+        <div class="p-inputgroup">
+          <input type="text" 
+            pInputText 
+            [formControl]="search" 
+            placeholder="Buscar...">
+          <button pButton 
+            pRipple 
+            type="button" 
+            [icon]="PrimeIcons.SEARCH" 
+            [loading]="coreService.isLoading"
+            (click)="find()"
+            >
+          </button>
+        </div>
       </div>
     </div>
-  </p-tabPanel>
-</p-tabView>
-<p-table dataKey="id" styleClass="p-datatable-striped" [value]="items" [columns]="columns"
-  [loading]="coreService.isLoading" [(selection)]="selectedItems">
+  </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
       <th style="width: 3rem">
@@ -100,16 +133,34 @@
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'state'">
-            <p-tag severity="info" [value]="rowData[col.field].code" class="mr-1"></p-tag>
+          <div *ngSwitchCase="'student'">
+            {{rowData[col.field]?.name}}
+          </div>
+          <div *ngSwitchCase="'type'">
+            {{rowData[col.field]?.name}}
+          </div>
+          <div *ngSwitchCase="'academicPeriod'">
+            {{rowData[col.field].name}}
+          </div>
+          <div *ngSwitchCase="'parallel'">
+            {{rowData[col.field].name}}
+          </div>
+          <div *ngSwitchCase="'workday'">
+            {{rowData[col.field].name}}
           </div>
         </div>
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'isVisible'">
-            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="No Visible" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData[col.field]" severity="success" value="Visible" class="mr-1"></p-tag>
+          <div *ngSwitchCase="'state'">
+            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="Inhabilitado" class="mr-1"></p-tag>
+            <p-tag *ngIf="rowData[col.field]" severity="success" value="Habilitado" class="mr-1"></p-tag>
+          </div>
+          <div *ngSwitchCase="'identification'">
+            {{rowData['student']?.identification}}
+          </div>
+          <div *ngSwitchCase="'name'">
+            {{rowData['student']?.name}}
           </div>
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
