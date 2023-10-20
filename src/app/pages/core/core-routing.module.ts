@@ -54,7 +54,11 @@ const routes: Routes = [
   {
     path: 'consolidated-notes',
     loadChildren: () => import('./consolidated-notes/consolidated-notes.module').then(m => m.ConsolidatedNotesModule)
-  }
+  },
+  {
+    path: 'enrollment-request',
+    loadChildren: () => import('./enrollment-request/enrollment-request.module').then(m => m.EnrollmentRequestModule)
+  },
 ];
 
 @NgModule({

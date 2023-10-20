@@ -1,0 +1,108 @@
+<form [formGroup]="form">
+  <div formGroupName="FamilyData">
+    <div class="formgrid grid">
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="isCar"
+          label="La familia dispone de vehiculo propio"
+          [required]="isCarField"
+        ></label>
+        <p-dropdown
+          id="isCar"
+          formControlName="isCar"
+          dataKey="id"
+          [options]="yesno"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="isCarField.value">
+              <div>{{ isCarField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="isCarField.errors"
+          [touched]="isCarField.touched"
+          [dirty]="isCarField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="anotherHouse"
+          label="La familia tiene otras propiedades:"
+          [required]="anotherHouseField"
+        ></label>
+        <p-dropdown
+          id="anotherHouse"
+          formControlName="anotherHouse"
+          dataKey="id"
+          [options]="yesno"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="anotherHouseField.value">
+              <div>{{ anotherHouseField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="anotherHouseField.errors"
+          [touched]="anotherHouseField.touched"
+          [dirty]="anotherHouseField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="house"
+          label="Propiedades a disposición:"
+          [required]="houseField"
+        ></label>
+        <p-dropdown
+          id="house"
+          formControlName="house"
+          dataKey="id"
+          [options]="houses"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Select"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="houseField.value">
+              <div>{{ houseField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="houseField.errors"
+          [touched]="houseField.touched"
+          [dirty]="houseField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+  </div>
+</form>
