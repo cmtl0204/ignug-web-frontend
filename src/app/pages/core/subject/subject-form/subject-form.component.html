@@ -264,9 +264,9 @@
 
     <!-- prerequisites-->
     <div class="field">
-      <label appLabel for="prerequisites" label="Prerequisitos:" [required]="prerequisitesField"></label>
-      <p-multiSelect id="prerequisites"
-                     formControlName="prerequisites"
+      <label appLabel for="subjectPrerequisites" label="Prerequisitos:" [required]="subjectPrerequisitesField"></label>
+      <p-multiSelect id="subjectPrerequisites"
+                     formControlName="subjectPrerequisites"
                      dataKey="id"
                      [group]="true"
                      [options]="subjectsPrerequisites"
@@ -274,8 +274,8 @@
                      optionLabel="name"
                      placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
-          <div *ngIf="prerequisitesField.value">
-            <div>{{prerequisitesField.value.name}}</div>
+          <div *ngIf="subjectPrerequisitesField.value">
+            <div>{{subjectPrerequisitesField.value.name}}</div>
           </div>
         </ng-template>
         <ng-template pTemplate="group" let-group>
@@ -286,17 +286,17 @@
         </ng-template>
       </p-multiSelect>
       <small appErrorMessage
-             [errors]="prerequisitesField.errors"
-             [touched]="prerequisitesField.touched"
-             [dirty]="prerequisitesField.dirty">
+             [errors]="subjectPrerequisitesField.errors"
+             [touched]="subjectPrerequisitesField.touched"
+             [dirty]="subjectPrerequisitesField.dirty">
       </small>
     </div>
 
     <!-- corequisites-->
     <div class="field">
-      <label appLabel for="corequisites" label="Corequisitos:" [required]="corequisitesField"></label>
-      <p-multiSelect id="corequisites"
-                     formControlName="corequisites"
+      <label appLabel for="subjectCorequisites" label="Corequisitos:" [required]="subjectCorequisitesField"></label>
+      <p-multiSelect id="subjectCorequisites"
+                     formControlName="subjectCorequisites"
                      dataKey="id"
                      [group]="true"
                      [options]="subjectsCorequisites"
@@ -304,8 +304,8 @@
                      optionLabel="name"
                      placeholder="Seleccione...">
         <ng-template pTemplate="selectedItem">
-          <div *ngIf="corequisitesField.value">
-            <div>{{corequisitesField.value.name}}</div>
+          <div *ngIf="subjectCorequisitesField.value">
+            <div>{{subjectCorequisitesField.value.name}}</div>
           </div>
         </ng-template>
         <ng-template pTemplate="group" let-group>
@@ -316,9 +316,9 @@
         </ng-template>
       </p-multiSelect>
       <small appErrorMessage
-             [errors]="corequisitesField.errors"
-             [touched]="corequisitesField.touched"
-             [dirty]="corequisitesField.dirty">
+             [errors]="subjectCorequisitesField.errors"
+             [touched]="subjectCorequisitesField.touched"
+             [dirty]="subjectCorequisitesField.dirty">
       </small>
     </div>
   </form>
