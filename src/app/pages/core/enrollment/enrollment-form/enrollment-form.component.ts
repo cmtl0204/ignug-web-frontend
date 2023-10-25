@@ -2,30 +2,22 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
   CatalogueModel,
-  CurriculumModel,
-  EnrollmentModel,
-  SchoolPeriodModel,
-  StudentModel,
-  SubjectModel
+  EnrollmentModel
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from 'primeng/api';
-import {EnrollmentModule} from '../enrollment.module';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   BreadcrumbService,
   CataloguesHttpService,
   CoreService,
-  CurriculumsService,
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
-  SchoolPeriodsService,
+  SchoolPeriodsHttpService,
   StudentsHttpService,
-  StudentsService,
-  SubjectsService
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-enrollment-form',
@@ -33,29 +25,19 @@ import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums
   styleUrls: ['./enrollment-form.component.scss']
 })
 export class EnrollmentFormComponent implements OnInit, OnExitInterface {
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
+  protected formErrors: string[] = [];
 
-  // Foreign Keys Enrollment Details
-  protected academicStates: CatalogueModel[] = [];
-  protected enrollments: EnrollmentModule[] = [];
+  // Foreign Keys
+  protected academicPeriods: CatalogueModel[] = [];
   protected parallels: CatalogueModel[] = [];
   protected states: CatalogueModel[] = [];
-  protected subjects: SubjectModel[] = [];
-  protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
-
-  // Foreign Keys Enrollment
-  protected students: StudentModel[] = [];
-  protected academicPeriods: CatalogueModel[] = [];
-  protected curriculums: CurriculumModel[] = [];
-  //parallel
-  protected schoolPeriods: SchoolPeriodModel[] = [];
-  //state
-  //type
-  //workday
-
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -66,11 +48,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private studentsService: StudentsService,
-    protected curriculumService: CurriculumsService,
-    protected schoolPeriodService: SchoolPeriodsService,
     private enrollmentsHttpService: EnrollmentsHttpService,
-    private subjectService: SubjectsService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
@@ -81,7 +59,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       this.id = activatedRoute.snapshot.params['id'];
     }
 
-    this.form = this.enrollmentDetailForm;
+    this.form = this.newForm;
   }
 
   async onExit(): Promise<boolean> {
@@ -92,43 +70,27 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
+
+    this.loadAcademicPeriods();
+    this.loadParallels();
+    this.loadStates();
+    this.loadWorkdays();
+
+    if (this.id) {
+      this.get();
+    }
   }
 
-  get enrollmentDetailForm(): FormGroup {
+  get newForm(): FormGroup {
     return this.formBuilder.group({
-      number: [null],
-      date: [null, [Validators.required]],
-      finalAttendance: [null],
-      finalGrade: [null],
-      observation: [null],
-      //fk
-      academicState: [null],
-      parallel: [null],
-      state: [null],
-      subject: [null],
-      type: [null],
-      workday: [null]
-    })
-  }
-
-  get enrollmentForm(): FormGroup {
-    return this.formBuilder.group({
-      id: [null],
-      date: [null],
-      aplicationsAt: [null],
-      folio: [null],
-      observation: [null],
-      //fk
-      student: [this.studentsService.student, [Validators.required]],
-      academicPeriod: [null],
-      curriculum: [this.curriculumService.curriculum, [Validators.required]],
-      parallel: [null],
-      schoolPeriod: [this.schoolPeriodService.schoolPeriod, [Validators.required]],
-      state: [null],
-      type: [null],
-      workday: [null],
-      enrollmentDetails: [[this.enrollmentDetailForm]]
-    })
+      identification: [null, [Validators.required]],
+      lastname: [null, [Validators.required]],
+      username: [null, [Validators.required]],
+      academicPeriod: [null, [ Validators.required]],
+      workday: [null, [Validators.required]],
+      parallel: [null, [Validators.required]],
+      state: [null, [Validators.required]],
+    });
   }
 
   onSubmit(): void {
@@ -140,12 +102,12 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields();
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
   back(): void {
-    this.router.navigate([this.routesService.students]);
+    this.router.navigate([this.routesService.enrollments]);
   }
 
   /** Actions **/
@@ -171,136 +133,58 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
   /** Load Enrollment Details Data **/
 
-  loadAcademicStates(): void {
-    this.academicStates = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_STATE);
+  loadStates(): void {
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
   }
 
   loadParallels(): void {
     this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
   }
 
-  loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
-  }
-
-  loadTypes(): void {
-    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.TYPE);
+  loadAcademicPeriods(): void {
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
   loadWorkdays(): void {
     this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
   }
 
-  /** Load Enrollment Data **/
+  validateForm() {
+    this.formErrors = [];
+    if (this.identificationField.errors) this.formErrors.push('identification');
+    if (this.lastnameField.errors) this.formErrors.push('lastname');
+    if (this.usernameField.errors) this.formErrors.push('username');
+    if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
+    if (this.workdayField.errors) this.formErrors.push(' workday');
+    if (this.parallelField.errors) this.formErrors.push('parallel');
+    if (this.stateField.errors) this.formErrors.push('state');
 
-  loadAcademicPeriods(): void {
-    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
   }
+
 
   /** Form Getters **/
-
-  /** Enrollment detail Form **/
-  get numberEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['number'];
+  get identificationField(): AbstractControl {
+    return this.form.controls['identification'];
   }
-
-  get dateEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['date'];
+  get lastnameField(): AbstractControl {
+    return this.form.controls['lastname'];
   }
-
-  get finalAttendanceEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['finalAttendance'];
+  get usernameField(): AbstractControl {
+    return this.form.controls['username'];
   }
-
-  get finalGradeEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['finalGrade'];
+  get academicPeriodField(): AbstractControl {
+    return this.form.controls['academicPeriod'];
   }
-
-  get observationEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['observation'];
+  get workdayField(): AbstractControl {
+    return this.form.controls['workday'];
   }
-
-  get academicStateEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['academicState'];
+  get parallelField(): AbstractControl {
+    return this.form.controls['parallel'];
   }
-
-  get enrollmentEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['enrollment'];
+  get stateField(): AbstractControl {
+    return this.form.controls['state'];
   }
-
-  get parallelEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['parallel'];
-  }
-
-  get stateEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['state'];
-  }
-
-  get subjectEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['subject'];
-  }
-
-  get typeEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['type'];
-  }
-
-  get workdayEnrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['workday'];
-  }
-
-  /** Enrollment Form **/
-  get dateEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['date'];
-  }
-
-  get aplicationsAtEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['aplicationsAt'];
-  }
-
-  get folioEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['folio'];
-  }
-
-  get observationEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['observation'];
-  }
-
-  get studentEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['student'];
-  }
-
-  get academicPeriodEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['academicPeriod'];
-  }
-
-  get curriculumEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['curriculum'];
-  }
-
-  get parallelEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['parallel'];
-  }
-
-  get schoolPeriodEnrollmentField(): AbstractControl {
-    return this.enrollmentForm.controls['schoolPeriod'];
-  }
-
-  get stateEnrollmentField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['state'];
-  }
-
-  get typeEnrollmentField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['type'];
-  }
-
-  get workdayEnrollmentField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['workday'];
-  }
-
-  get enrollmentDetailField(): AbstractControl {
-    return this.enrollmentDetailForm.controls['enrollmentDetail'];
-  }
-
   protected readonly SkeletonEnum = SkeletonEnum;
-
 }

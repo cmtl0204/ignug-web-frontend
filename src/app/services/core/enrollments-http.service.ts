@@ -136,10 +136,10 @@ export class EnrollmentsHttpService {
     );
   }
 
-  hide(id: string): Observable<InstitutionModel> {
+  hide(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
