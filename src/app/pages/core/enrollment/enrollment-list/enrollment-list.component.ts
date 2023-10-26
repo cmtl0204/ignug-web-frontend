@@ -141,6 +141,27 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
+        label: 'Asignaturas',
+        icon: PrimeIcons.BOOK,
+        command: () => {
+          if (this.selectedItem?.id) this.redirectSubjects(this.selectedItem.id);
+        },
+      },
+      {
+        label: 'Anular',
+        icon: PrimeIcons.BAN,
+        command: () => {
+          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
+        },
+      },
+      {
+        label: 'Mostrar',
+        icon: PrimeIcons.LOCK_OPEN,
+        command: () => {
+          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
+        },
+      },
+      {
         label: 'Descargar',
         icon: PrimeIcons.DOWNLOAD,
         command: () => {
@@ -219,6 +240,10 @@ export class EnrollmentListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.enrollments, id]);
+  }
+
+  redirectSubjects(id: string) {
+    this.router.navigate([this.routesService.subjects, id]);
   }
 }
 
