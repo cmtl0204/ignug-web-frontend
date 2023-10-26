@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {PrimeIcons} from "primeng/api";
+import {CareerModel, SelectInstitutionDto} from "@models/core";
 import {AuthService} from '@services/auth';
 import {CareersService, CoreService, InstitutionsService, MessageService, RoutesService} from '@services/core';
-import {CareerModel, InstitutionModel, SelectCareerDto, SelectInstitutionDto} from "@models/core";
 
 @Component({
   selector: 'app-institution-select',
