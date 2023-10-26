@@ -24,6 +24,7 @@ import { TabViewModule } from 'primeng/tabview';
 import { CalendarModule } from 'primeng/calendar';
 import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
+import { BadgeModule } from 'primeng/badge';
 
 // Components
 import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
@@ -62,7 +63,8 @@ import { DownloadComponent } from '../download/download.component';
     CalendarModule,
     AccordionModule,
     DialogModule,
-    DropdownModule
+    DropdownModule,
+    BadgeModule
   ]
 })
 export class EnrollmentModule {

@@ -76,7 +76,6 @@ export class EnrollmentListComponent implements OnInit {
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
-    this.cargarDatosCategorias();
   }
 
   findSchoolPeriods() {
@@ -97,14 +96,6 @@ export class EnrollmentListComponent implements OnInit {
   filterEnrollmentsByState(){
     this.state = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
   }
-
-  cargarDatosCategorias() {
-    this.matriculados = ['Estado1', 'Estado2', 'Estado3'];
-    this.enProceso = ['Estado4', 'Estado5'];
-    this.retirados = [];
-    this.anulados = ['Estado6'];
-  }
-
 
   /** Load Data **/
   find(page: number = 0) {
@@ -155,24 +146,10 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
-        label: 'Mostrar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Descargar',
+        label: 'Descargar Certificado',
         icon: PrimeIcons.DOWNLOAD,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Mostrar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
       }
     ];

@@ -37,6 +37,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   protected academicPeriods: CatalogueModel[] = [];
   protected parallels: CatalogueModel[] = [];
   protected states: CatalogueModel[] = [];
+  protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
 
   constructor(
@@ -75,6 +76,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     this.loadParallels();
     this.loadStates();
     this.loadWorkdays();
+    this.loadTypes();
 
     if (this.id) {
       this.get();
@@ -86,10 +88,14 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       identification: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       username: [null, [Validators.required]],
+      date: [null, [Validators.required]],
       academicPeriod: [null, [ Validators.required]],
+      type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
       state: [null, [Validators.required]],
+      folio: [null, [Validators.required]],
+      observation: [null, [Validators.required]],
     });
   }
 
@@ -149,15 +155,23 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
   }
 
+  loadTypes(): void {
+    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.TYPE);
+  }
+
   validateForm() {
     this.formErrors = [];
     if (this.identificationField.errors) this.formErrors.push('identification');
     if (this.lastnameField.errors) this.formErrors.push('lastname');
     if (this.usernameField.errors) this.formErrors.push('username');
     if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
+    if (this.dateField.errors) this.formErrors.push('date');
+    if (this.typeField.errors) this.formErrors.push('type');
     if (this.workdayField.errors) this.formErrors.push(' workday');
     if (this.parallelField.errors) this.formErrors.push('parallel');
     if (this.stateField.errors) this.formErrors.push('state');
+    if (this.folioField.errors) this.formErrors.push('folio');
+    if (this.observationField.errors) this.formErrors.push('observation');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
@@ -177,6 +191,12 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get academicPeriodField(): AbstractControl {
     return this.form.controls['academicPeriod'];
   }
+  get dateField(): AbstractControl {
+    return this.form.controls['date'];
+  }
+  get typeField(): AbstractControl {
+    return this.form.controls['type'];
+  }
   get workdayField(): AbstractControl {
     return this.form.controls['workday'];
   }
@@ -185,6 +205,12 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   }
   get stateField(): AbstractControl {
     return this.form.controls['state'];
+  }
+  get folioField(): AbstractControl {
+    return this.form.controls['folio'];
+  }
+  get observationField(): AbstractControl {
+    return this.form.controls['observation'];
   }
   protected readonly SkeletonEnum = SkeletonEnum;
 }

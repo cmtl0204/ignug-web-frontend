@@ -25,28 +25,31 @@
           <app-download></app-download>
     </p-dialog>
   </div>
-  <div class="p-toolbar-group-right">
+  <div class="p-toolbar-group-right  ml-2">
     <p-dropdown [formControl]="selectedSchoolPeriod" 
         dataKey="id" 
+        class="ml-2"
         [options]="schoolPeriods" 
         optionLabel="name" 
-        placeholder="Seleccionar"
+        placeholder="Periodo Lectivo"
         pTooltip="Periodo Lectivo"
         >
     </p-dropdown>
     <p-dropdown [formControl]="selectedCareer" 
         dataKey="id" 
+        class="ml-2"
         [options]="careers" 
         optionLabel="name" 
-        placeholder="Seleccionar"
+        placeholder="Carrera"
         pTooltip="Carrera"
         >
     </p-dropdown>
     <p-dropdown [formControl]="selectedAcademicPeriod" 
         dataKey="id" 
+        class="ml-2"
         [options]="academicPeriods" 
         optionLabel="name" 
-        placeholder="Seleccionar"
+        placeholder="Nivel Académico"
         pTooltip="Nivel Académico"
         >
     </p-dropdown>
@@ -66,34 +69,12 @@
 
   <ng-template pTemplate="caption">
     <div class="flex">
-      <p>Matriculados:</p>
-      <p *ngIf="matriculados && matriculados.length > 0">
-        <ul>
-          <li *ngFor="let state of matriculados">{{ state }}</li>
-        </ul>
-        <p *ngIf="matriculados && matriculados.length === 0">No se encontraron estados.</p>
-
-      <p>En Proceso:</p>
-      <p *ngIf="enProceso && enProceso.length > 0">
-        <ul>
-          <li *ngFor="let state of enProceso">{{ state }}</li>
-        </ul>
-        <p *ngIf="enProceso && enProceso.length === 0">No se encontraron estados.</p>
-
-      <p>Retirados:</p>
-      <p *ngIf="retirados && retirados.length > 0">
-        <ul>
-          <li *ngFor="let state of retirados">{{ state }}</li>
-        </ul>
-        <p *ngIf="retirados && retirados.length === 0">No se encontraron estados.</p>
-
-      <p>Anulados:</p>
-      <p *ngIf="anulados && anulados.length > 0">
-        <ul>
-          <li *ngFor="let state of anulados">{{ state }}</li>
-        </ul>
-        <p *ngIf="anulados && anulados.length === 0">No se encontraron estados.</p>
-
+      <div class="p-toolbar-group-left">
+        <p-button label="Matriculados" badge="8" styleClass="mr-2"></p-button>
+        <p-button label="En proceso" styleClass="p-button-success mr-2" badge="8" badgeClass="p-badge-danger"></p-button>
+        <p-button label="Retirados" badge="8" styleClass="mr-2"></p-button>
+        <p-button label="Anulados" styleClass="p-button-warning mr-2" badge="8" badgeClass="p-badge-danger"></p-button>
+      </div>
       <div class="p-toolbar-group-right">
         <div class="p-inputgroup">
           <input type="text" 
