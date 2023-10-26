@@ -27,7 +27,10 @@ export class InstitutionSelectComponent implements OnInit {
     this.form = this.newForm();
 
     this.institutionField.valueChanges.subscribe(institution => {
+      console.log(this.careersService.careers);
+      console.log(institution.id);
       this.careers = this.careersService.careers.filter(career => career.institution?.id === institution.id);
+      console.log(this.careers);
 
       if (this.careers.length === 0) this.careerField.clearValidators();
       else this.careerField.setValidators(Validators.required);
