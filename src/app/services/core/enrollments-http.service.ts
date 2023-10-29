@@ -22,7 +22,7 @@ export class EnrollmentsHttpService {
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: CreateEnrollmentDto): Observable<InstitutionModel> {
+  create(payload: CreateEnrollmentDto): Observable<EnrollmentModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -140,6 +140,50 @@ export class EnrollmentsHttpService {
     const url = `${this.API_URL}/${id}/hide`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  approve(id: string): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/approve`;
+
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  reject(id: string): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/reject`;
+
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  enroll(id: string): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/enroll`;
+
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  revoke(id: string): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/revoke`;
+
+    return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;

@@ -76,6 +76,7 @@ export class EnrollmentListComponent implements OnInit {
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
+    this.cargarDatosCategorias();
   }
 
   findSchoolPeriods() {
@@ -94,8 +95,16 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   filterEnrollmentsByState(){
-    this.state = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
+    this.state = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
   }
+
+  cargarDatosCategorias() {
+    this.matriculados = ['Estado1', 'Estado2', 'Estado3'];
+    this.enProceso = ['Estado4', 'Estado5'];
+    this.retirados = [];
+    this.anulados = ['Estado6'];
+  }
+
 
   /** Load Data **/
   find(page: number = 0) {
@@ -139,10 +148,31 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
+        label: 'Aprobar',
+        icon: PrimeIcons.BOOK,
+        command: () => {
+          if (this.selectedItem?.id) this.approve(this.selectedItem.id);
+        },
+      },
+      {
+        label: 'Rechazar',
+        icon: PrimeIcons.BOOK,
+        command: () => {
+          if (this.selectedItem?.id) this.reject(this.selectedItem.id);
+        },
+      },
+      {
+        label: 'Matricular',
+        icon: PrimeIcons.BOOK,
+        command: () => {
+          if (this.selectedItem?.id) this.enroll(this.selectedItem.id);
+        },
+      },
+      {
         label: 'Anular',
         icon: PrimeIcons.BAN,
         command: () => {
-          if (this.selectedItem?.id) this.hide(this.selectedItem.id);
+          if (this.selectedItem?.id) this.revoke(this.selectedItem.id);
         },
       },
       {
@@ -151,7 +181,7 @@ export class EnrollmentListComponent implements OnInit {
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
-      }
+      },
     ];
   }
 
@@ -182,17 +212,31 @@ export class EnrollmentListComponent implements OnInit {
     });
   }
 
-  hide(id: string) {
-    this.enrollmentsHttpService.hide(id).subscribe(item => {
+  enroll(id: string) {
+    this.enrollmentsHttpService.enroll(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = false;
     });
   }
 
-  reactivate(id: string) {
-    this.enrollmentsHttpService.reactivate(id).subscribe(item => {
+  revoke(id: string) {
+    this.enrollmentsHttpService.revoke(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
       this.items[index].isVisible = true;
+    });
+  }
+
+  approve(id: string) {
+    this.enrollmentsHttpService.approve(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
+    });
+  }
+
+  reject(id: string) {
+    this.enrollmentsHttpService.reject(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
     });
   }
 

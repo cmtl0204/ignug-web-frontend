@@ -102,7 +102,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        Acciones
+        {{LabelButtonActionEnum.ACTIONS}}
       </th>
     </tr>
   </ng-template>
@@ -114,36 +114,26 @@
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'student'">
-            {{rowData[col.field]?.name}}
-          </div>
-          <div *ngSwitchCase="'type'">
+          <div *ngSwitchCase="'user'">
             {{rowData[col.field]?.name}}
           </div>
           <div *ngSwitchCase="'academicPeriod'">
             {{rowData[col.field].name}}
           </div>
-          <div *ngSwitchCase="'parallel'">
-            {{rowData[col.field].name}}
-          </div>
-          <div *ngSwitchCase="'workday'">
+          <div *ngSwitchCase="'type'">
             {{rowData[col.field].name}}
           </div>
         </div>
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'state'">
-            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="Inhabilitado" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData[col.field]" severity="success" value="Habilitado" class="mr-1"></p-tag>
-          </div>
-          <div *ngSwitchCase="'identification'">
-            {{rowData['student']?.identification}}
+          <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          <div *ngSwitchCase="'lastname'">
+            {{rowData['user']?.lastname}}
           </div>
           <div *ngSwitchCase="'name'">
-            {{rowData['student']?.name}}
+            {{rowData['user']?.name}}
           </div>
-          <div *ngSwitchDefault>{{rowData[col.field]}}</div>
         </div>
       </td>
       <td class="text-center">

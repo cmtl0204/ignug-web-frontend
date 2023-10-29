@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel, CurriculumModel} from '@models/core';
+import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel, CurriculumModel, EnrollmentModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 

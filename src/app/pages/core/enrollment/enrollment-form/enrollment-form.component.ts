@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
   CatalogueModel,
-  EnrollmentModel
+  EnrollmentModel,
+  SelectEnrollmentDto
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from 'primeng/api';
@@ -32,6 +33,10 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
+
+  protected selectedItem: SelectEnrollmentDto = {};
+  protected selectedItems: EnrollmentModel[] = [];
+  protected items: EnrollmentModel[] = [];
 
   // Foreign Keys
   protected academicPeriods: CatalogueModel[] = [];
@@ -85,9 +90,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      identification: [null, [Validators.required]],
-      lastname: [null, [Validators.required]],
-      username: [null, [Validators.required]],
+      student: this.newStudentForm,
       date: [null, [Validators.required]],
       academicPeriod: [null, [ Validators.required]],
       type: [null, [ Validators.required]],
@@ -96,6 +99,23 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       state: [null, [Validators.required]],
       folio: [null, [Validators.required]],
       observation: [null, [Validators.required]],
+    });
+  }
+
+  get newStudentForm(): FormGroup {
+    return this.formBuilder.group({
+      informationStudent: [{value:null,disabled:true}, [Validators.required]],
+      user: this.newUserForm,
+    });
+  }
+
+  get newUserForm(): FormGroup {
+    return this.formBuilder.group({
+      identification: [{value:null,disabled:true}, [Validators.required]],
+      lastname: [{value:null,disabled:true}, [Validators.required]],
+      name: [{value:null,disabled:true}, [Validators.required]],
+      email: [{value:null,disabled:true},, [Validators.required]],
+      cellPhone: [{value:null,disabled:true},, [Validators.required]],
     });
   }
 
@@ -131,16 +151,31 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+  approve(id: string) {
+    this.enrollmentsHttpService.approve(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
+    });
+  }
+
+  reject(id: string) {
+    this.enrollmentsHttpService.reject(id).subscribe(item => {
+      const index = this.items.findIndex(item => item.id === id);
+      this.items[index].isVisible = false;
+    });
+  }
+
   get(): void {
     this.enrollmentsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
+      console.log(this.academicPeriodField.value)
     });
   }
 
   /** Load Enrollment Details Data **/
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
   }
 
   loadParallels(): void {
@@ -149,21 +184,22 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
   loadAcademicPeriods(): void {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+    console.log(this.academicPeriods)
   }
 
   loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.WORKDAY);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
   loadTypes(): void {
-    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.TYPE);
+    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
   }
 
   validateForm() {
     this.formErrors = [];
     if (this.identificationField.errors) this.formErrors.push('identification');
     if (this.lastnameField.errors) this.formErrors.push('lastname');
-    if (this.usernameField.errors) this.formErrors.push('username');
+    if (this.nameField.errors) this.formErrors.push('name');
     if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
     if (this.dateField.errors) this.formErrors.push('date');
     if (this.typeField.errors) this.formErrors.push('type');
@@ -179,15 +215,6 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
 
   /** Form Getters **/
-  get identificationField(): AbstractControl {
-    return this.form.controls['identification'];
-  }
-  get lastnameField(): AbstractControl {
-    return this.form.controls['lastname'];
-  }
-  get usernameField(): AbstractControl {
-    return this.form.controls['username'];
-  }
   get academicPeriodField(): AbstractControl {
     return this.form.controls['academicPeriod'];
   }
@@ -212,5 +239,30 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
   }
+
+  get studentForm(): FormGroup {
+    return this.form.controls['student'] as FormGroup;
+  }
+
+  get userForm(): FormGroup {
+    return this.studentForm.controls['user'] as FormGroup;
+  }
+
+  get identificationField(): AbstractControl {
+    return this.userForm.controls['identification'];
+  }
+  get lastnameField(): AbstractControl {
+    return this.userForm.controls['lastname'];
+  }
+  get nameField(): AbstractControl {
+    return this.userForm.controls['name'];
+  }
+  get emailField(): AbstractControl {
+    return this.userForm.controls['email'];
+  }
+  get cellPhoneField(): AbstractControl {
+    return this.userForm.controls['cellPhone'];
+  }
+
   protected readonly SkeletonEnum = SkeletonEnum;
 }
