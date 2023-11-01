@@ -16,8 +16,6 @@ import {
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
-  SchoolPeriodsHttpService,
-  StudentsHttpService,
 } from '@services/core';
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
 
@@ -31,6 +29,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
@@ -93,38 +92,37 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       student: this.newStudentForm,
-      date: [null, [Validators.required]],
+      date: [{value:null,disabled:true}],
       academicPeriod: [null, [ Validators.required]],
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      state: [null, [Validators.required]],
       folio: [null, [Validators.required]],
-      observation: [null, [Validators.required]],
+      observation: [{value:null,disabled:true}],
     });
   }
 
   get newStudentForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: [{value:null,disabled:true}, [Validators.required]],
+      informationStudent: [{value:null,disabled:true}],
       user: this.newUserForm,
     });
   }
 
   get newUserForm(): FormGroup {
     return this.formBuilder.group({
-      identification: [{value:null,disabled:true}, [Validators.required]],
-      lastname: [{value:null,disabled:true}, [Validators.required]],
-      name: [{value:null,disabled:true}, [Validators.required]],
-      email: [{value:null,disabled:true},, [Validators.required]],
-      cellPhone: [{value:null,disabled:true},, [Validators.required]],
+      identification: [{value:null,disabled:true}],
+      lastname: [{value:null,disabled:true}],
+      name: [{value:null,disabled:true}],
+      email: [{value:null,disabled:true}],
+      cellPhone: [{value:null,disabled:true}],
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
       if (this.id) {
-        this.update(this.form.value);
+        this.update();
       } else {
         this.create(this.form.value);
       }
@@ -146,8 +144,8 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     });
   }
 
-  update(enrollment: EnrollmentModel): void {
-    this.enrollmentsHttpService.update(this.id!, enrollment).subscribe(() => {
+  update(): void {
+    this.enrollmentsHttpService.update(this.id!, this.form.value).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -205,9 +203,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     if (this.typeField.errors) this.formErrors.push('type');
     if (this.workdayField.errors) this.formErrors.push(' workday');
     if (this.parallelField.errors) this.formErrors.push('parallel');
-    if (this.stateField.errors) this.formErrors.push('state');
     if (this.folioField.errors) this.formErrors.push('folio');
-    if (this.observationField.errors) this.formErrors.push('observation');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
@@ -263,6 +259,4 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get cellPhoneField(): AbstractControl {
     return this.userForm.controls['cellPhone'];
   }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
 }
