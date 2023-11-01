@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from "@angular/forms";
 import { Router } from '@angular/router';
 import { MenuItem, PrimeIcons } from "primeng/api";
-import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel } from '@models/core';
+import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel, SelectEnrollmentDetailDto, EnrollmentDetailModel } from '@models/core';
 import {
   BreadcrumbService,
   CareersHttpService,
@@ -15,13 +15,14 @@ import {
   SchoolPeriodsHttpService
 } from '@services/core';
 import { IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
+import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
 
 @Component({
-  selector: 'app-enrollment-list',
-  templateUrl: './enrollment-list.component.html',
-  styleUrls: ['./enrollment-list.component.scss'],
+  selector: 'app-enrollment-detail-list',
+  templateUrl: './enrollment-detail-list.component.html',
+  styleUrls: ['./enrollment-detail-list.component.scss']
 })
-export class EnrollmentListComponent implements OnInit {
+export class EnrollmentDetailListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
@@ -32,13 +33,13 @@ export class EnrollmentListComponent implements OnInit {
   protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectEnrollmentDto = {};
-  protected selectedItems: EnrollmentModel[] = [];
-  protected items: EnrollmentModel[] = [];
+  protected selectedItem: SelectEnrollmentDetailDto = {};
+  protected selectedItems: EnrollmentDetailModel[] = [];
+  protected items: EnrollmentDetailModel[] = [];
   protected schoolPeriods: SchoolPeriodModel[] = [];
   protected careers: CareerModel[] = [];
   protected academicPeriods: CatalogueModel[] = [];
-  protected selectedCareer: FormControl = new FormControl();
+  protected selectedEnrollment: FormControl = new FormControl();
   protected selectedSchoolPeriod: FormControl = new FormControl();
   protected selectedAcademicPeriod: FormControl = new FormControl();
   protected state: CatalogueModel[] = [];
@@ -60,6 +61,7 @@ export class EnrollmentListComponent implements OnInit {
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
     private careersService: CareersService,
     private careersHttpService: CareersHttpService,
+    private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
 
   ) {
     this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
@@ -68,25 +70,13 @@ export class EnrollmentListComponent implements OnInit {
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.findEnrollmentsByCareer();
+        this.findEnrollmentDetailsByEnrollment();
       }
     });
-
-    this.selectedSchoolPeriod.valueChanges.subscribe(value => {
-      this.findEnrollmentsByCareer();
-  });
-
-    this.selectedCareer.valueChanges.subscribe(value => {
-        this.findEnrollmentsByCareer();
-    });
-
-    this.selectedAcademicPeriod.valueChanges.subscribe(value => {
-      this.findEnrollmentsByCareer();
-  });
   }
 
   ngOnInit() {
-    this.findEnrollmentsByCareer();
+    this.findEnrollmentDetailsByEnrollment();
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
@@ -121,28 +111,25 @@ export class EnrollmentListComponent implements OnInit {
 
 
   /** Load Data **/
-  findEnrollmentsByCareer(page: number = 0) {
-   if (this.selectedCareer.value && this.selectedSchoolPeriod.value){
-    this.careersHttpService.findEnrollmentsByCareer(this.selectedCareer.value.id, this.selectedSchoolPeriod.value.id, this.selectedAcademicPeriod.value?.id, page, this.search.value)
+  findEnrollmentDetailsByEnrollment(page: number = 0) {
+    this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.selectedEnrollment.value?.id, this.search.value)
     .subscribe((response) => {
       this.paginator = response.pagination!;
       this.items = response.data
     });
-   } 
   }
 
 
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'identification', header: 'Cédula'},
-      {field: 'lastname', header: 'Apellido'},
-      {field: 'name', header: 'Nombre'},
+      {field: 'number', header: 'Numero de matricula'},
+      {field: 'subject', header: 'Asignaturas'},
+      {field: 'parallel', header: 'Paralelo'},
+      {field: 'workday', header: 'Jornada'},
       {field: 'type', header: 'Tipo de Matrícula'},
       {field: 'academicPeriod', header: 'Periodo académico'},
-      {field: 'workday', header: 'Jornada'},
-      {field: 'parallel', header: 'Paralelo'},
-      {field: 'enrollmentStates', header: 'Estado'}
+      {field: 'observation', header: 'Observaciones'}
     ];
   }
 
@@ -217,7 +204,7 @@ export class EnrollmentListComponent implements OnInit {
   removeAll() {
     this.messageService.questionDelete().then((result) => {
       if (result.isConfirmed) {
-        this.enrollmentsHttpService.removeAll(this.selectedItems).subscribe(() => {
+        this.enrollmentDetailsHttpService.removeAll(this.selectedItems).subscribe(() => {
           this.selectedItems.forEach(itemDeleted => {
             this.items = this.items.filter(item => item.id !== itemDeleted.id);
             this.paginator.totalItems--;
@@ -229,30 +216,26 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   enroll(id: string) {
-    this.enrollmentsHttpService.enroll(id).subscribe(item => {
+    this.enrollmentDetailsHttpService.enroll(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
     });
   }
 
   revoke(id: string) {
-    this.enrollmentsHttpService.revoke(id).subscribe(item => {
+    this.enrollmentDetailsHttpService.revoke(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;
     });
   }
 
   approve(id: string) {
-    this.enrollmentsHttpService.approve(id).subscribe(item => {
+    this.enrollmentDetailsHttpService.approve(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
     });
   }
 
   reject(id: string) {
-    this.enrollmentsHttpService.reject(id).subscribe(item => {
+    this.enrollmentDetailsHttpService.reject(id).subscribe(item => {
       const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
     });
   }
 
@@ -261,13 +244,13 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   /** Select & Paginate **/
-  selectItem(item: EnrollmentModel) {
+  selectItem(item: EnrollmentDetailModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
   }
 
   paginate(event: any) {
-    this.findEnrollmentsByCareer(event.page);
+    this.findEnrollmentDetailsByEnrollment(event.page);
   }
 
   /** Redirects **/
@@ -283,5 +266,3 @@ export class EnrollmentListComponent implements OnInit {
     this.router.navigate([this.routesService.enrollmentDetails, id]);
   }
 }
-
-

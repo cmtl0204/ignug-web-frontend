@@ -1,8 +1,10 @@
 import {NgModule} from '@angular/core';
-import {ReactiveFormsModule} from "@angular/forms";
-import {CommonModule as NgCommonModule} from '@angular/common';
-import {EnrollmentRoutingModule} from './enrollment-routing.module';
-import {SharedModule} from "@shared/shared.module";
+import {ReactiveFormsModule} from '@angular/forms';
+import {CommonModule, CommonModule as NgCommonModule} from '@angular/common';
+import {EnrollmentDetailRoutingModule} from './enrollment-detail-routing.module';
+import {SharedModule} from '@shared/shared.module';
+import { EnrollmentDetailListComponent } from './enrollment-detail-list/enrollment-detail-list.component';
+import { EnrollmentDetailFormComponent } from './enrollment-detail-form/enrollment-detail-form.component';
 
 // PrimeNg Modules
 import {ButtonModule} from "primeng/button";
@@ -26,23 +28,15 @@ import { AccordionModule } from 'primeng/accordion';
 import { DropdownModule } from 'primeng/dropdown';
 import { BadgeModule } from 'primeng/badge';
 
-// Components
-import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
-import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollment-subject-list.component";
-import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
-import { DownloadComponent } from '../download/download.component';
-
 
 @NgModule({
   declarations: [
-    EnrollmentListComponent,
-    EnrollmentSubjectListComponent,
-    EnrollmentFormComponent,
-    DownloadComponent
+    EnrollmentDetailListComponent,
+    EnrollmentDetailFormComponent
   ],
   imports: [
     NgCommonModule,
-    EnrollmentRoutingModule,
+    EnrollmentDetailRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
@@ -68,5 +62,4 @@ import { DownloadComponent } from '../download/download.component';
     BadgeModule
   ]
 })
-export class EnrollmentModule {
-}
+export class EnrollmentDetailModule { }
