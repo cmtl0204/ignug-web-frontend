@@ -7,7 +7,7 @@
         class="p-button-info ml-2" 
         [icon]="PrimeIcons.REFRESH"
         [loading]="coreService.isLoading" 
-        (click)="find()">
+        (click)="findEnrollmentsByCareer()">
     </button>
     <button pButton 
         pRipple 
@@ -25,29 +25,33 @@
           <app-download></app-download>
     </p-dialog>
   </div>
-  <div class="p-toolbar-group-right">
+  <div class="p-toolbar-group-right  ml-2">
     <p-dropdown [formControl]="selectedSchoolPeriod" 
         dataKey="id" 
+        class="ml-2"
         [options]="schoolPeriods" 
         optionLabel="name" 
-        placeholder="Seleccionar"
+        placeholder="Periodo Lectivo"
         pTooltip="Periodo Lectivo"
         >
     </p-dropdown>
     <p-dropdown [formControl]="selectedCareer" 
         dataKey="id" 
+        class="ml-2"
         [options]="careers" 
         optionLabel="name" 
-        placeholder="Seleccionar"
+        placeholder="Carrera"
         pTooltip="Carrera"
         >
     </p-dropdown>
     <p-dropdown [formControl]="selectedAcademicPeriod" 
         dataKey="id" 
+        class="ml-2"
         [options]="academicPeriods" 
         optionLabel="name" 
-        placeholder="Seleccionar"
+        placeholder="Nivel Académico"
         pTooltip="Nivel Académico"
+        [showClear]="true"
         >
     </p-dropdown>
   </div>
@@ -66,34 +70,12 @@
 
   <ng-template pTemplate="caption">
     <div class="flex">
-      <p>Matriculados:</p>
-      <p *ngIf="matriculados && matriculados.length > 0">
-        <ul>
-          <li *ngFor="let state of matriculados">{{ state }}</li>
-        </ul>
-        <p *ngIf="matriculados && matriculados.length === 0">No se encontraron estados.</p>
-
-      <p>En Proceso:</p>
-      <p *ngIf="enProceso && enProceso.length > 0">
-        <ul>
-          <li *ngFor="let state of enProceso">{{ state }}</li>
-        </ul>
-        <p *ngIf="enProceso && enProceso.length === 0">No se encontraron estados.</p>
-
-      <p>Retirados:</p>
-      <p *ngIf="retirados && retirados.length > 0">
-        <ul>
-          <li *ngFor="let state of retirados">{{ state }}</li>
-        </ul>
-        <p *ngIf="retirados && retirados.length === 0">No se encontraron estados.</p>
-
-      <p>Anulados:</p>
-      <p *ngIf="anulados && anulados.length > 0">
-        <ul>
-          <li *ngFor="let state of anulados">{{ state }}</li>
-        </ul>
-        <p *ngIf="anulados && anulados.length === 0">No se encontraron estados.</p>
-
+      <div class="p-toolbar-group-left">
+        <p-button label="Matriculados" badge="8" styleClass="mr-2"></p-button>
+        <p-button label="En proceso" styleClass="p-button-success mr-2" badge="8" badgeClass="p-badge-danger"></p-button>
+        <p-button label="Retirados" badge="8" styleClass="mr-2"></p-button>
+        <p-button label="Anulados" styleClass="p-button-warning mr-2" badge="8" badgeClass="p-badge-danger"></p-button>
+      </div>
       <div class="p-toolbar-group-right">
         <div class="p-inputgroup">
           <input type="text" 
@@ -105,7 +87,7 @@
             type="button" 
             [icon]="PrimeIcons.SEARCH" 
             [loading]="coreService.isLoading"
-            (click)="find()"
+            (click)="findEnrollmentsByCareer()"
             >
           </button>
         </div>
@@ -121,7 +103,7 @@
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        Acciones
+        {{LabelButtonActionEnum.ACTIONS}}
       </th>
     </tr>
   </ng-template>
@@ -133,36 +115,39 @@
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'student'">
-            {{rowData[col.field]?.name}}
-          </div>
-          <div *ngSwitchCase="'type'">
-            {{rowData[col.field]?.name}}
-          </div>
           <div *ngSwitchCase="'academicPeriod'">
             {{rowData[col.field].name}}
           </div>
-          <div *ngSwitchCase="'parallel'">
+          <div *ngSwitchCase="'type'">
             {{rowData[col.field].name}}
           </div>
           <div *ngSwitchCase="'workday'">
+            {{rowData[col.field].name}}
+          </div>
+          <div *ngSwitchCase="'parallel'">
             {{rowData[col.field].name}}
           </div>
         </div>
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'state'">
-            <p-tag *ngIf="!rowData[col.field]" severity="danger" value="Inhabilitado" class="mr-1"></p-tag>
-            <p-tag *ngIf="rowData[col.field]" severity="success" value="Habilitado" class="mr-1"></p-tag>
-          </div>
+          <div *ngSwitchDefault>{{rowData[col.field]}}</div>
           <div *ngSwitchCase="'identification'">
-            {{rowData['student']?.identification}}
+            {{rowData['student']?.user.identification}}
+          </div>
+          <div *ngSwitchCase="'lastname'">
+            {{rowData['student']?.user.lastname}}
           </div>
           <div *ngSwitchCase="'name'">
-            {{rowData['student']?.name}}
+            {{rowData['student']?.user.name}}
           </div>
-          <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          <div *ngSwitchCase="'enrollmentStates'">
+            <ul>
+              <li *ngFor="let item of rowData[col.field]">
+                {{item.state.name}}
+              </li>
+            </ul>
+          </div>
         </div>
       </td>
       <td class="text-center">

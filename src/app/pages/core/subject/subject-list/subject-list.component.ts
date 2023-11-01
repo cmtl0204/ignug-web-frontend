@@ -127,7 +127,7 @@ export class SubjectListComponent implements OnInit {
       {field: 'hours', header: 'Horas Doc. / Prac. / Aut.'},
       {field: 'academicPeriod', header: 'Periodo académico'},
       {field: 'type', header: 'Tipo'},
-      {field: 'isVisible', header: 'Estado'}
+      {field: 'state', header: 'Estado'}
     ];
   }
 

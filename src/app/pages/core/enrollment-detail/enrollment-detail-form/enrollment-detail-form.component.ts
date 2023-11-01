@@ -19,14 +19,15 @@ import {
   SchoolPeriodsHttpService,
   StudentsHttpService,
 } from '@services/core';
+
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-enrollment-form',
-  templateUrl: './enrollment-form.component.html',
-  styleUrls: ['./enrollment-form.component.scss']
+  selector: 'app-enrollment-detail-form',
+  templateUrl: './enrollment-detail-form.component.html',
+  styleUrls: ['./enrollment-detail-form.component.scss']
 })
-export class EnrollmentFormComponent implements OnInit, OnExitInterface {
+export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;

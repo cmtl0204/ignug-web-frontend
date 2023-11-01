@@ -8,7 +8,10 @@ import {
   UpdateInstitutionDto,
   InstitutionModel,
   CreateEnrollmentDto,
-  EnrollmentModel
+  EnrollmentModel,
+  CreateEnrollmentDetailDto,
+  EnrollmentDetailModel,
+  UpdateEnrollmentDetailDto
 } from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
@@ -16,13 +19,13 @@ import {CoreService, MessageService} from "@services/core";
 @Injectable({
   providedIn: 'root'
 })
-export class EnrollmentsHttpService {
-  API_URL = `${environment.API_URL}/enrollments`;
+export class EnrollmentDetailsHttpService {
+  API_URL = `${environment.API_URL}/enrollment-details`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
 
-  create(payload: CreateEnrollmentDto): Observable<EnrollmentModel> {
+  create(payload: CreateEnrollmentDetailDto): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}`;
 
     this.coreService.isProcessing = true;
@@ -50,21 +53,6 @@ export class EnrollmentsHttpService {
     );
   }
 
-  findEnrollmentDetailsByEnrollment( id: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
-    const url = `${this.API_URL}/${id}`;
-    
-    const headers = new HttpHeaders().append('pagination', 'true');
-    const params = new HttpParams()
-      .append('page', page)
-      .append('search', search);
-
-    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
-      map((response) => {
-        return response;
-      })
-    );
-  }
-
   findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = this.API_URL;
 
@@ -80,7 +68,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  findOne(id: string): Observable<EnrollmentModel> {
+  findOne(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
@@ -90,7 +78,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  update(id: string, payload: UpdateInstitutionDto): Observable<EnrollmentModel> {
+  update(id: string, payload: UpdateEnrollmentDetailDto): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing=true;
@@ -103,7 +91,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  reactivate(id: string): Observable<InstitutionModel> {
+  reactivate(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
@@ -114,7 +102,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  remove(id: string): Observable<InstitutionModel> {
+  remove(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
@@ -125,7 +113,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  removeAll(institutions: EnrollmentModel[]): Observable<InstitutionModel[]> {
+  removeAll(institutions: EnrollmentDetailModel[]): Observable<EnrollmentDetailModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, institutions).pipe(
@@ -136,7 +124,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  hide(id: string): Observable<EnrollmentModel> {
+  hide(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}/hide`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
@@ -147,7 +135,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  approve(id: string): Observable<EnrollmentModel> {
+  approve(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}/approve`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
@@ -158,7 +146,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  reject(id: string): Observable<EnrollmentModel> {
+  reject(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}/reject`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
@@ -169,7 +157,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  enroll(id: string): Observable<EnrollmentModel> {
+  enroll(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}/enroll`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
@@ -180,7 +168,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  revoke(id: string): Observable<EnrollmentModel> {
+  revoke(id: string): Observable<EnrollmentDetailModel> {
     const url = `${this.API_URL}/${id}/revoke`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(

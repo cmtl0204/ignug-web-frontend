@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel, CurriculumModel} from '@models/core';
+import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel, CurriculumModel, EnrollmentModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 
@@ -41,13 +41,16 @@ export class CareersHttpService {
 
   findEnrollmentsByCareer( id: string, schoolPeriodId: string, academicPeriodId: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/enrollments`;
-
+    console.log(academicPeriodId)
     const headers = new HttpHeaders().append('pagination', 'true');
-    const params = new HttpParams()
+    let params = new HttpParams()
       .append('page', page)
       .append('search', search)
       .append('schoolPeriodId', schoolPeriodId)
-      .append('academicPeriodId', academicPeriodId);
+      
+      if(academicPeriodId){
+        params = params.append('academicPeriodId', academicPeriodId);
+      }
 
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
