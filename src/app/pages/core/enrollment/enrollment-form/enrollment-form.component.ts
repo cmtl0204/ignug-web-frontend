@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from "@angular/common";
 import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
   CatalogueModel,
@@ -55,6 +56,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     private router: Router,
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
+    private location: Location,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
@@ -133,7 +135,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.enrollments]);
+    this.location.back();
   }
 
   /** Actions **/
@@ -151,17 +153,15 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     });
   }
 
-  approve(id: string) {
-    this.enrollmentsHttpService.approve(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+  approve() {
+    this.enrollmentsHttpService.approve(this.id!).subscribe(item => {
+      this.back();
     });
   }
 
-  reject(id: string) {
-    this.enrollmentsHttpService.reject(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+  reject() {
+    this.enrollmentsHttpService.reject(this.id!).subscribe(item => {
+      this.back();
     });
   }
 

@@ -16,11 +16,11 @@ const routes: Routes = [
     component: EnrollmentFormComponent,
     canDeactivate: [ExitGuard]
   },
-  /*{
+  {
     path: ':id/subjects',
     component: EnrollmentSubjectListComponent,
     canDeactivate: [ExitGuard]
-  },*/
+  },
 ];
 
 @NgModule({

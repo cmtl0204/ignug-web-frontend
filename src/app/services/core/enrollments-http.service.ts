@@ -150,7 +150,7 @@ export class EnrollmentsHttpService {
   approve(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/approve`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -161,7 +161,7 @@ export class EnrollmentsHttpService {
   reject(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/reject`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -172,7 +172,7 @@ export class EnrollmentsHttpService {
   enroll(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/enroll`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;
@@ -183,7 +183,7 @@ export class EnrollmentsHttpService {
   revoke(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/revoke`;
 
-    return this.httpClient.put<ServerResponse>(url, null).pipe(
+    return this.httpClient.patch<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;

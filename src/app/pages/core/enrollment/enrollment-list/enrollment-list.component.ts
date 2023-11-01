@@ -5,6 +5,7 @@ import { MenuItem, PrimeIcons } from "primeng/api";
 import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel } from '@models/core';
 import {
   BreadcrumbService,
+  CareersHttpService,
   CareersService,
   CataloguesHttpService,
   CoreService,
@@ -58,6 +59,7 @@ export class EnrollmentListComponent implements OnInit {
     private cataloguesHttpService: CataloguesHttpService,
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
     private careersService: CareersService,
+    private careersHttpService: CareersHttpService,
 
   ) {
     this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
@@ -66,13 +68,25 @@ export class EnrollmentListComponent implements OnInit {
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
-        this.find();
+        this.findEnrollmentsByCareer();
       }
     });
+
+    this.selectedSchoolPeriod.valueChanges.subscribe(value => {
+      this.findEnrollmentsByCareer();
+  });
+
+    this.selectedCareer.valueChanges.subscribe(value => {
+        this.findEnrollmentsByCareer();
+    });
+
+    this.selectedAcademicPeriod.valueChanges.subscribe(value => {
+      this.findEnrollmentsByCareer();
+  });
   }
 
   ngOnInit() {
-    this.find();
+    this.findEnrollmentsByCareer();
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
@@ -107,12 +121,14 @@ export class EnrollmentListComponent implements OnInit {
 
 
   /** Load Data **/
-  find(page: number = 0) {
-    this.enrollmentsHttpService.find(page, this.search.value)
-      .subscribe((response) => {
-        this.paginator = response.pagination!;
-        this.items = response.data
-      });
+  findEnrollmentsByCareer(page: number = 0) {
+   if (this.selectedCareer.value && this.selectedSchoolPeriod.value){
+    this.careersHttpService.findEnrollmentsByCareer(this.selectedCareer.value.id, this.selectedSchoolPeriod.value.id, this.selectedAcademicPeriod.value?.id, page, this.search.value)
+    .subscribe((response) => {
+      this.paginator = response.pagination!;
+      this.items = response.data
+    });
+   } 
   }
 
 
@@ -120,13 +136,13 @@ export class EnrollmentListComponent implements OnInit {
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'identification', header: 'Cédula'},
-      {field: 'student', header: 'Apellido'},
+      {field: 'lastname', header: 'Apellido'},
       {field: 'name', header: 'Nombre'},
       {field: 'type', header: 'Tipo de Matrícula'},
       {field: 'academicPeriod', header: 'Periodo académico'},
       {field: 'workday', header: 'Jornada'},
       {field: 'parallel', header: 'Paralelo'},
-      {field: 'state', header: 'Estado'}
+      {field: 'enrollmentStates', header: 'Estado'}
     ];
   }
 
@@ -251,7 +267,7 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   paginate(event: any) {
-    this.find(event.page);
+    this.findEnrollmentsByCareer(event.page);
   }
 
   /** Redirects **/

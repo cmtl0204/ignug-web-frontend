@@ -7,7 +7,7 @@
         class="p-button-info ml-2" 
         [icon]="PrimeIcons.REFRESH"
         [loading]="coreService.isLoading" 
-        (click)="find()">
+        (click)="findEnrollmentsByCareer()">
     </button>
     <button pButton 
         pRipple 
@@ -51,6 +51,7 @@
         optionLabel="name" 
         placeholder="Nivel Académico"
         pTooltip="Nivel Académico"
+        [showClear]="true"
         >
     </p-dropdown>
   </div>
@@ -86,7 +87,7 @@
             type="button" 
             [icon]="PrimeIcons.SEARCH" 
             [loading]="coreService.isLoading"
-            (click)="find()"
+            (click)="findEnrollmentsByCareer()"
             >
           </button>
         </div>
@@ -114,13 +115,16 @@
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'user'">
-            {{rowData[col.field]?.name}}
-          </div>
           <div *ngSwitchCase="'academicPeriod'">
             {{rowData[col.field].name}}
           </div>
           <div *ngSwitchCase="'type'">
+            {{rowData[col.field].name}}
+          </div>
+          <div *ngSwitchCase="'workday'">
+            {{rowData[col.field].name}}
+          </div>
+          <div *ngSwitchCase="'parallel'">
             {{rowData[col.field].name}}
           </div>
         </div>
@@ -128,11 +132,21 @@
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          <div *ngSwitchCase="'identification'">
+            {{rowData['student']?.user.identification}}
+          </div>
           <div *ngSwitchCase="'lastname'">
-            {{rowData['user']?.lastname}}
+            {{rowData['student']?.user.lastname}}
           </div>
           <div *ngSwitchCase="'name'">
-            {{rowData['user']?.name}}
+            {{rowData['student']?.user.name}}
+          </div>
+          <div *ngSwitchCase="'enrollmentStates'">
+            <ul>
+              <li *ngFor="let item of rowData[col.field]">
+                {{item.state.name}}
+              </li>
+            </ul>
           </div>
         </div>
       </td>
