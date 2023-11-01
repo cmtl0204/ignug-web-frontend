@@ -8,7 +8,9 @@ import {
   UpdateInstitutionDto,
   InstitutionModel,
   CreateEnrollmentDto,
-  EnrollmentModel
+  EnrollmentModel,
+  UpdateEnrollmentDto,
+  SelectEnrollmentDto
 } from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
@@ -90,9 +92,9 @@ export class EnrollmentsHttpService {
     );
   }
 
-  update(id: string, payload: UpdateInstitutionDto): Observable<EnrollmentModel> {
+  update(id: string, payload: SelectEnrollmentDto): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}`;
-
+    console.log(payload)
     this.coreService.isProcessing=true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
@@ -103,7 +105,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  reactivate(id: string): Observable<InstitutionModel> {
+  reactivate(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 
     return this.httpClient.put<ServerResponse>(url, null).pipe(
@@ -114,7 +116,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  remove(id: string): Observable<InstitutionModel> {
+  remove(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}`;
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
@@ -125,7 +127,7 @@ export class EnrollmentsHttpService {
     );
   }
 
-  removeAll(institutions: EnrollmentModel[]): Observable<InstitutionModel[]> {
+  removeAll(institutions: EnrollmentModel[]): Observable<EnrollmentModel[]> {
     const url = `${this.API_URL}/remove-all`;
 
     return this.httpClient.patch<ServerResponse>(url, institutions).pipe(
