@@ -3,7 +3,9 @@ import {Location} from "@angular/common";
 import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
   CatalogueModel,
+  EnrollmentDetailModel,
   EnrollmentModel,
+  SelectEnrollmentDetailDto,
   SelectEnrollmentDto
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
@@ -21,6 +23,7 @@ import {
 } from '@services/core';
 
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
+import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
 
 @Component({
   selector: 'app-enrollment-detail-form',
@@ -36,9 +39,9 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   protected form: FormGroup;
   protected formErrors: string[] = [];
 
-  protected selectedItem: SelectEnrollmentDto = {};
-  protected selectedItems: EnrollmentModel[] = [];
-  protected items: EnrollmentModel[] = [];
+  protected selectedItem: SelectEnrollmentDetailDto = {};
+  protected selectedItems: EnrollmentDetailModel[] = [];
+  protected items: EnrollmentDetailModel[] = [];
 
   // Foreign Keys
   protected academicPeriods: CatalogueModel[] = [];
@@ -56,8 +59,9 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private enrollmentsHttpService: EnrollmentsHttpService,
     private location: Location,
+    private enrollmentsHttpService: EnrollmentsHttpService,
+    private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
@@ -93,32 +97,15 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      student: this.newStudentForm,
+      number: [null, [Validators.required]],
       date: [null, [Validators.required]],
       academicPeriod: [null, [ Validators.required]],
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      state: [null, [Validators.required]],
-      folio: [null, [Validators.required]],
+      finalAttendance: [null, [Validators.required]],
+      academicObservation: [null, [Validators.required]],
       observation: [null, [Validators.required]],
-    });
-  }
-
-  get newStudentForm(): FormGroup {
-    return this.formBuilder.group({
-      informationStudent: [{value:null,disabled:true}, [Validators.required]],
-      user: this.newUserForm,
-    });
-  }
-
-  get newUserForm(): FormGroup {
-    return this.formBuilder.group({
-      identification: [{value:null,disabled:true}, [Validators.required]],
-      lastname: [{value:null,disabled:true}, [Validators.required]],
-      name: [{value:null,disabled:true}, [Validators.required]],
-      email: [{value:null,disabled:true},, [Validators.required]],
-      cellPhone: [{value:null,disabled:true},, [Validators.required]],
     });
   }
 
@@ -140,15 +127,15 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   }
 
   /** Actions **/
-  create(enrollment: EnrollmentModel): void {
-    this.enrollmentsHttpService.create(enrollment).subscribe(() => {
+  create(enrollmentDetail: EnrollmentDetailModel): void {
+    this.enrollmentDetailsHttpService.create(enrollmentDetail).subscribe(() => {
       this.form.reset();
       this.back();
     });
   }
 
-  update(enrollment: EnrollmentModel): void {
-    this.enrollmentsHttpService.update(this.id!, enrollment).subscribe(() => {
+  update(enrollmentDetail: EnrollmentDetailModel): void {
+    this.enrollmentDetailsHttpService.update(this.id!, enrollmentDetail).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -198,17 +185,15 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
   validateForm() {
     this.formErrors = [];
-    if (this.identificationField.errors) this.formErrors.push('identification');
-    if (this.lastnameField.errors) this.formErrors.push('lastname');
-    if (this.nameField.errors) this.formErrors.push('name');
     if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
     if (this.dateField.errors) this.formErrors.push('date');
     if (this.typeField.errors) this.formErrors.push('type');
     if (this.workdayField.errors) this.formErrors.push(' workday');
     if (this.parallelField.errors) this.formErrors.push('parallel');
-    if (this.stateField.errors) this.formErrors.push('state');
-    if (this.folioField.errors) this.formErrors.push('folio');
+    if (this.finalAttendanceField.errors) this.formErrors.push('finalAttendance');
+    if (this.academicObservationField.errors) this.formErrors.push('academicObservation');
     if (this.observationField.errors) this.formErrors.push('observation');
+    if (this.numberField.errors) this.formErrors.push('number');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
@@ -222,6 +207,9 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   get dateField(): AbstractControl {
     return this.form.controls['date'];
   }
+  get numberField(): AbstractControl {
+    return this.form.controls['number'];
+  }
   get typeField(): AbstractControl {
     return this.form.controls['type'];
   }
@@ -231,38 +219,14 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
-  get stateField(): AbstractControl {
-    return this.form.controls['state'];
+  get finalAttendanceField(): AbstractControl {
+    return this.form.controls['finalAttendance'];
   }
-  get folioField(): AbstractControl {
-    return this.form.controls['folio'];
+  get academicObservationField(): AbstractControl {
+    return this.form.controls['academicObservation'];
   }
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
-  }
-
-  get studentForm(): FormGroup {
-    return this.form.controls['student'] as FormGroup;
-  }
-
-  get userForm(): FormGroup {
-    return this.studentForm.controls['user'] as FormGroup;
-  }
-
-  get identificationField(): AbstractControl {
-    return this.userForm.controls['identification'];
-  }
-  get lastnameField(): AbstractControl {
-    return this.userForm.controls['lastname'];
-  }
-  get nameField(): AbstractControl {
-    return this.userForm.controls['name'];
-  }
-  get emailField(): AbstractControl {
-    return this.userForm.controls['email'];
-  }
-  get cellPhoneField(): AbstractControl {
-    return this.userForm.controls['cellPhone'];
   }
 
   protected readonly SkeletonEnum = SkeletonEnum;

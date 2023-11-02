@@ -33,22 +33,17 @@ export class EnrollmentDetailListComponent implements OnInit {
   protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
+
   protected selectedItem: SelectEnrollmentDetailDto = {};
   protected selectedItems: EnrollmentDetailModel[] = [];
   protected items: EnrollmentDetailModel[] = [];
+
   protected schoolPeriods: SchoolPeriodModel[] = [];
   protected careers: CareerModel[] = [];
   protected academicPeriods: CatalogueModel[] = [];
   protected selectedEnrollment: FormControl = new FormControl();
   protected selectedSchoolPeriod: FormControl = new FormControl();
   protected selectedAcademicPeriod: FormControl = new FormControl();
-  protected state: CatalogueModel[] = [];
-  protected isVisible: boolean = false;
-
-  matriculados: string[] = [];
-  enProceso: string[] = [];
-  retirados: string[] = [];
-  anulados: string[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -80,7 +75,6 @@ export class EnrollmentDetailListComponent implements OnInit {
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
-    this.cargarDatosCategorias();
   }
 
   findSchoolPeriods() {
@@ -98,27 +92,24 @@ export class EnrollmentDetailListComponent implements OnInit {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
-  filterEnrollmentsByState(){
-    this.state = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
-  }
 
-  cargarDatosCategorias() {
-    this.matriculados = ['Estado1', 'Estado2', 'Estado3'];
-    this.enProceso = ['Estado4', 'Estado5'];
-    this.retirados = [];
-    this.anulados = ['Estado6'];
-  }
-
-
+  /** Load Data 
+  findEnrollmentDetails(page: number = 0) {
+      this.enrollmentDetailsHttpService.findAll(page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.items = response.data
+      });
+  }**/
   /** Load Data **/
-  findEnrollmentDetailsByEnrollment(page: number = 0) {
-    this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.selectedEnrollment.value?.id, this.search.value)
-    .subscribe((response) => {
-      this.paginator = response.pagination!;
-      this.items = response.data
-    });
-  }
 
+  findEnrollmentDetailsByEnrollment(page: number = 0) {
+      this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.selectedEnrollment.value?.id, page, this.search.value)
+      .subscribe((response) => {
+        this.paginator = response.pagination!;
+        this.items = response.data
+      });
+  }
 
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
@@ -141,13 +132,6 @@ export class EnrollmentDetailListComponent implements OnInit {
         icon: PrimeIcons.PENCIL,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Asignaturas',
-        icon: PrimeIcons.BOOK,
-        command: () => {
-          if (this.selectedItem?.id) this.redirectEnrollmentDetails(this.selectedItem.id);
         },
       },
       {
@@ -239,10 +223,6 @@ export class EnrollmentDetailListComponent implements OnInit {
     });
   }
 
-  downloadModal() {
-    this.isVisible = true;
-  }
-
   /** Select & Paginate **/
   selectItem(item: EnrollmentDetailModel) {
     this.isButtonActions = true;
@@ -260,9 +240,5 @@ export class EnrollmentDetailListComponent implements OnInit {
 
   redirectEditForm(id: string) {
     this.router.navigate([this.routesService.enrollments, id]);
-  }
-
-  redirectEnrollmentDetails(id: string) {
-    this.router.navigate([this.routesService.enrollmentDetails, id]);
   }
 }

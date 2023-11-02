@@ -31,6 +31,8 @@ import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.compone
 import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollment-subject-list.component";
 import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
 import { DownloadComponent } from '../download/download.component';
+import { EnrollmentDetailListComponent } from './enrollment-detail/enrollment-detail-list/enrollment-detail-list.component';
+import { EnrollmentDetailFormComponent } from './enrollment-detail/enrollment-detail-form/enrollment-detail-form.component';
 
 
 @NgModule({
@@ -38,6 +40,8 @@ import { DownloadComponent } from '../download/download.component';
     EnrollmentListComponent,
     EnrollmentSubjectListComponent,
     EnrollmentFormComponent,
+    EnrollmentDetailListComponent,
+    EnrollmentDetailFormComponent,
     DownloadComponent
   ],
   imports: [

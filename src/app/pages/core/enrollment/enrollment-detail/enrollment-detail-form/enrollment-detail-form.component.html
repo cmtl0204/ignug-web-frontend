@@ -26,91 +26,22 @@
 
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- Student-->
-    <div formGroupName="student">
-      <div formGroupName="user">
-        <div class="formgrid grid">
-          <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-            <label 
-              appLabel 
-              for="lastname" 
-              label="Apellido:" 
-              [required]="lastnameField"
-            >
-            </label>
-            <input 
-              pInputText 
-              type="text" 
-              id="lastname" 
-              formControlName="lastname"
-            />
-          </div>
-          <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-            <label 
-              appLabel 
-              for="name" 
-              label="Nombre:" 
-              [required]="nameField"
-            >
-            </label>
-          <input 
-            pInputText 
-            type="text" 
-            id="name" 
-            formControlName="name"
-          />
-        </div>
-        </div>
-        <div class="formgrid grid">
-            <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-                <label 
-                  appLabel 
-                  for="identification" 
-                  label="Número de identificatión:" 
-                  [required]="identificationField"
-                >
-                </label>
-                <input 
-                  pInputText 
-                  type="number" 
-                  id="identification" 
-                  formControlName="identification" 
-                />
-            </div>
-            <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-              <label 
-                appLabel 
-                for="email" 
-                label="Correo electrónico:" 
-                [required]="emailField"
-              >
-              </label>
-              <input 
-                pInputText 
-                type="text" 
-                id="email" 
-                formControlName="email" 
-              />
-          </div>
-          <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-            <label 
-              appLabel 
-              for="cellPhone" 
-              label="Número de celular:" 
-              [required]="cellPhoneField"
-            >
-            </label>
-            <input 
-              pInputText 
-              type="number" 
-              id="cellPhone" 
-              formControlName="cellPhone" 
-            />
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label 
+          appLabel 
+          for="number" 
+          label="Numero de matricula:" 
+          [required]="numberField"
+        >
+        </label>
+        <input 
+          pInputText 
+          type="number" 
+          id="number" 
+          formControlName="number" 
+        />
+      </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label 
           appLabel 
@@ -134,19 +65,36 @@
           >
         </small>
       </div>
+    </div>
+    <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label 
           appLabel 
-          for="folio" 
-          label="Número de folio:" 
-          [required]="folioField"
+          for="academicObservation" 
+          label="Observacion academica:" 
+          [required]="academicObservationField"
         >
         </label>
         <input 
           pInputText 
           type="text" 
-          id="folio" 
-          formControlName="folio"
+          id="academicObservation" 
+          formControlName="academicObservation"
+        />
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label 
+          appLabel 
+          for="finalAttendance" 
+          label="Valor de la asistencia:" 
+          [required]="finalAttendanceField"
+        >
+        </label>
+        <input 
+          pInputText 
+          type="text" 
+          id="finalAttendance" 
+          formControlName="finalAttendance"
         />
       </div>
     </div>

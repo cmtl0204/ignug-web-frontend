@@ -280,7 +280,7 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   redirectEnrollmentDetails(id: string) {
-    this.router.navigate([this.routesService.enrollmentDetails, id]);
+    this.router.navigate([this.routesService.enrollments, id]);
   }
 }
 

@@ -53,8 +53,8 @@ export class EnrollmentsHttpService {
   }
 
   findEnrollmentDetailsByEnrollment( id: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
-    const url = `${this.API_URL}/${id}`;
-    
+    const url = `${this.API_URL}/${id}/enrollment-details`;
+  
     const headers = new HttpHeaders().append('pagination', 'true');
     const params = new HttpParams()
       .append('page', page)

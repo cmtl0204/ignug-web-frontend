@@ -59,10 +59,6 @@ const routes: Routes = [
     path: 'enrollment-request',
     loadChildren: () => import('./enrollment-request/enrollment-request.module').then(m => m.EnrollmentRequestModule)
   },
-  {
-    path: 'enrollment-details',
-    loadChildren: () => import('./enrollment-detail/enrollment-detail.module').then(m => m.EnrollmentDetailModule)
-  },
 ];
 
 @NgModule({
