@@ -322,8 +322,12 @@
       </small>
     </div>
   </form>
+  <app-map
+    [latitudeIn]="0"
+    [longitudeIn]="0"
+    (latitudeOut)="nameField.setValue($event)"
+    (longitudeOut)="codeField.setValue($event)"></app-map>
 </p-panel>
-
 <p-overlayPanel #opIsEnabledField>
   <ng-template pTemplate="content">
     Se toma en cuenta para realizar procesos

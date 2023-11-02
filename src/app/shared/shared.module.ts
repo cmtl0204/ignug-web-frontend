@@ -40,12 +40,13 @@ import {ImageUploadComponent} from "@shared/components/image-upload/image-upload
 import {HeaderFormComponent} from './components/header-form/header-form.component';
 import {ConfirmDialogModule} from "primeng/confirmdialog";
 import {HelpFieldComponent} from './components/help-field/help-field.component';
-import { ErrorsFieldComponent } from './components/errors-field/errors-field.component';
+import {ErrorsFieldComponent} from './components/errors-field/errors-field.component';
 import {PanelModule} from "primeng/panel";
 import {IsVisiblePipe} from "@shared/pipes/core/is-visible.pipe";
-import { VisibleComponent } from './components/visible/visible.component';
+import {VisibleComponent} from './components/visible/visible.component';
 import {DialogModule} from "primeng/dialog";
-import { ButtonActionComponent } from './components/button-action/button-action.component';
+import {ButtonActionComponent} from './components/button-action/button-action.component';
+import {MapComponent} from './components/map/map.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { ButtonActionComponent } from './components/button-action/button-action.
     SelecetedPipe,
     VisibleComponent,
     ButtonActionComponent,
+    MapComponent,
   ],
   exports: [
     SkeletonComponent,
@@ -102,7 +104,8 @@ import { ButtonActionComponent } from './components/button-action/button-action.
     IsVisiblePipe,
     SelecetedPipe,
     VisibleComponent,
-    ButtonActionComponent
+    ButtonActionComponent,
+    MapComponent,
   ],
   imports: [
     CommonModule,
