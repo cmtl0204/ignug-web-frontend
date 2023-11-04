@@ -26,6 +26,7 @@ export class RoutesService {
   get users(): string {
     return this.administration + '/users';
   }
+
   get careers(): string {
     return this.core + '/careers';
   }
@@ -61,7 +62,7 @@ export class RoutesService {
   get enrollments(): string {
     return this.core + '/enrollments';
   }
-  
+
   get teacherDistributions(): string {
     return this.core + '/teacher-distributions';
   }
@@ -81,6 +82,7 @@ export class RoutesService {
   institutionSelect() {
     this.router.navigateByUrl(`/auth/authentication/institution-select`);
   }
+
   roleSelect() {
     this.router.navigateByUrl(`/auth/authentication/role-select`);
   }
@@ -102,7 +104,7 @@ export class RoutesService {
   }
 
   dashboardStudent() {
-    this.router.navigateByUrl(`/core/dashboards/student`);
+    this.router.navigateByUrl(`/core/enrollment-application`);
   }
 
   dashboardCoordinatorAdministrative() {
@@ -111,6 +113,14 @@ export class RoutesService {
 
   dashboardCoordinatorCareer() {
     this.router.navigateByUrl(`/core/dashboards/coordinator-career`);
+  }
+
+  dashboardReviewer() {
+    this.router.navigateByUrl(`/core/inscriptions`);
+  }
+
+  dashboardSecretary() {
+    this.router.navigateByUrl(`/core/enrollments`);
   }
 
   passwordReset() {

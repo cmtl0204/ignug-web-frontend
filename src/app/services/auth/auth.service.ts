@@ -38,14 +38,14 @@ export class AuthService {
     sessionStorage.setItem('accessToken', JSON.stringify(value));
   }
 
-  get auth(): UserModel {
-    return JSON.parse(String(sessionStorage.getItem('auth')));
-  }
-
   set avatar(value: string) {
     const auth = this.auth;
     auth.avatar = value;
     sessionStorage.setItem('auth', JSON.stringify(auth));
+  }
+
+  get auth(): UserModel {
+    return JSON.parse(String(sessionStorage.getItem('auth')));
   }
 
   set auth(user: UserModel | undefined | null) {
@@ -122,6 +122,14 @@ export class AuthService {
       }
       case RolesEnum.COORDINATOR_CAREER: {
         this.routesService.dashboardCoordinatorCareer();
+        break;
+      }
+      case RolesEnum.REVIEWER: {
+        this.routesService.dashboardReviewer();
+        break;
+      }
+      case RolesEnum.SECRETARY: {
+        this.routesService.dashboardSecretary();
         break;
       }
     }

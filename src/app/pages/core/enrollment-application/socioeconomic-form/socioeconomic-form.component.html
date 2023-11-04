@@ -1,0 +1,99 @@
+<p-panel class="p-fluid">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    {{activeIndex}}
+    <p-accordion [activeIndex]="activeIndex" (activeIndexChange)="activeIndex=$event">
+      <p-accordionTab header="A.- Datos Personales">
+        <app-personal-information-form
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()">
+        </app-personal-information-form>
+      </p-accordionTab>
+      <p-accordionTab header="B.- Datos Académicos del Estudiante">
+        <app-academic-data-form
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-academic-data-form>
+      </p-accordionTab>
+      <p-accordionTab header="C.- Otros Datos Académicos del Estudiante">
+        <app-other-academic-data-form
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-other-academic-data-form>
+      </p-accordionTab>
+      <p-accordionTab header="D.- Lugar de Procedencia">
+        <app-place-origin
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-place-origin>
+      </p-accordionTab>
+      <p-accordionTab header="E.- Lugar de Residencia">
+        <app-place-residence
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-place-residence>
+      </p-accordionTab>
+      <p-accordionTab header="F.- Datos del Grupo Familiar">
+        <app-family-group-data
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-family-group-data>
+      </p-accordionTab>
+      <p-accordionTab header="G.- Otros Datos Económicos Familiares">
+        <app-family-economic-data
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-family-economic-data>
+      </p-accordionTab>
+      <p-accordionTab header="H.- Antecedentes de Salud de la Familia">
+        <app-family-health-ants
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-family-health-ants>
+      </p-accordionTab>
+      <p-accordionTab header="I.- Datos de la Vivienda del Estudiante">
+        <app-student-housing-data
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-student-housing-data>
+      </p-accordionTab>
+      <p-accordionTab header="J.- Migración de País">
+        <app-migration-country
+          *ngIf="student"
+          [student]="student"
+          [id]="student.id"
+          (next)="next()"
+          (previous)="previous()"
+        ></app-migration-country>
+      </p-accordionTab>
+      <p-accordionTab header="K.- Sección Psicosocial">
+        <app-psychosocial-section></app-psychosocial-section>
+      </p-accordionTab>
+    </p-accordion>
+  </form>
+</p-panel>

@@ -5,6 +5,7 @@ export interface MenuModel {
   children: MenuModel[],
   code: string;
   icon: string;
+  isVisible: boolean;
   label: string;
   routerLink: string;
   type: string;

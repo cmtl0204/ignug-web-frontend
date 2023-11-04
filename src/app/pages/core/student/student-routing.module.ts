@@ -1,11 +1,9 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {UserComponent} from "../../auth/user/user.component";
-import {ProfileComponent} from "../../auth/user/profile/profile.component";
-import {UserFormComponent} from "../../auth/user/user-form/user-form.component";
 import {ExitGuard} from "@shared/guards";
-import { StudentListComponent } from './student-list/student-list.component';
-import { StudentFormComponent } from './student-form/student-form.component';
+import {StudentListComponent} from './student-list/student-list.component';
+import {StudentFormComponent} from './student-form/student-form.component';
+import {EnrollmentApplicationComponent} from "../enrollment-application/enrollment-application.component";
 
 const routes: Routes = [
   {

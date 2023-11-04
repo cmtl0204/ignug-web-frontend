@@ -32,7 +32,11 @@
       <ul class="sub-menu">
         <li>
           <a class="link_name" [routerLink]="item.routerLink">{{item.label}}</a>
-          <a *ngFor="let subItem of item.children" [routerLink]="subItem.routerLink">{{subItem.label}}</a>
+          <div *ngFor="let subItem of item.children">
+            <a *ngIf="subItem.isVisible" [routerLink]="subItem.routerLink">
+              {{subItem.label}}
+            </a>
+          </div>
         </li>
       </ul>
     </li>

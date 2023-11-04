@@ -60,7 +60,7 @@ export class AuthHttpService {
       );
   }
 
-  login(credentials: LoginModel): Observable<ServerResponse> {
+    login(credentials: LoginModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/login`;
 
     return this.httpClient.post<ServerResponse>(url, credentials)

@@ -27,20 +27,19 @@ export class InstitutionSelectComponent implements OnInit {
     this.form = this.newForm();
 
     this.institutionField.valueChanges.subscribe(institution => {
-      console.log(this.careersService.careers);
-      console.log(institution.id);
       this.careers = this.careersService.careers.filter(career => career.institution?.id === institution.id);
-      console.log(this.careers);
 
       if (this.careers.length === 0) this.careerField.clearValidators();
       else this.careerField.setValidators(Validators.required);
 
+      if (this.careers.length === 1) this.careerField.patchValue(this.careers[0]);
       this.careerField.updateValueAndValidity();
     });
   }
 
   ngOnInit(): void {
     this.institutions = this.institutionsService.institutions;
+    if (this.institutions.length === 1) this.institutionField.patchValue(this.institutions[0]);
   }
 
   newForm(): FormGroup {

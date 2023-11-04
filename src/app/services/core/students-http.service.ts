@@ -71,6 +71,184 @@ export class StudentsHttpService {
     );
   }
 
+  updatePersonalInformation(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    const url = `${this.API_URL}/${id}/personal-information`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateOriginPlace(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/origin-place`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateResidencePlace(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/residence-place`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateCroquis(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/croquis`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateFamilyEconomic(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/family-economic`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateFamilyGroup(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/family-group`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateFamilyHealth(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/family-health`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateMigrationCountry(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/migration-country`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateAcademicData(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/academic-data`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateAdittionalEconomicData(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/other-academic-data`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updateHousingData(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/housing-data`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
+  updatePsychosocialSection(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
+    console.log(payload);
+
+    const url = `${this.API_URL}/${id}/psychosocial-section`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.patch<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response).then();
+        return response.data;
+      })
+    );
+  }
+
   reactivate(id: string): Observable<StudentModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 

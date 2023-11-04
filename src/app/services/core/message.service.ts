@@ -41,7 +41,7 @@ export class MessageService {
     return Swal.fire({
       title: serverResponse.title,
       text: serverResponse.message,
-      icon: 'info'
+      icon: 'success'
     });
   }
 

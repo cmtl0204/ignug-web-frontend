@@ -24,6 +24,10 @@ const routes: Routes = [
     loadChildren: () => import('./event/event.module').then(m => m.EventModule)
   },
   {
+    path: 'inscriptions',
+    loadChildren: () => import('./inscription/inscription.module').then(m => m.InscriptionModule)
+  },
+  {
     path: 'institutions',
     loadChildren: () => import('./institution/institution.module').then(m => m.InstitutionModule)
   },
@@ -56,8 +60,8 @@ const routes: Routes = [
     loadChildren: () => import('./consolidated-notes/consolidated-notes.module').then(m => m.ConsolidatedNotesModule)
   },
   {
-    path: 'enrollment-request',
-    loadChildren: () => import('./enrollment-request/enrollment-request.module').then(m => m.EnrollmentRequestModule)
+    path: 'enrollment-application',
+    loadChildren: () => import('./enrollment-application/enrollment-application.module').then(m => m.EnrollmentApplicationModule)
   },
 ];
 
