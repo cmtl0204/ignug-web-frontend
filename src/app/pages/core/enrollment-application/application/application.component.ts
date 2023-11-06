@@ -170,6 +170,15 @@ export class ApplicationComponent {
             }
           }
         }
+
+        const enrollmentDetailLeveling = this.items.filter(enrollmentDetail => enrollmentDetail.type.code === 'leveling');
+
+        const approvedLeveling = enrollmentDetailLeveling.every(enrollmentDetail => enrollmentDetail.academicState === 'a');
+
+        if (enrollmentDetailLeveling.length === 0 || !approvedLeveling) {
+          this.items = this.items.filter(item => item.type.code === 'leveling');
+        }
+
         // this.items = subjects.sort(function (a, b) {
         //   if (a.academicPeriod.code > b.academicPeriod.code) {
         //     return 1;
