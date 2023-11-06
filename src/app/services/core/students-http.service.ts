@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateStudentDto, StudentModel, UpdateStudentDto} from '@models/core';
+import {CreateStudentDto, EnrollmentDetailModel, StudentModel, UpdateStudentDto} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 
@@ -292,4 +292,15 @@ export class StudentsHttpService {
       })
     );
   }
+
+  findEnrollmentDetailsByStudent(studentId: string): Observable<EnrollmentDetailModel[]> {
+    const url = `${this.API_URL}/${studentId}/enrollment-details`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
+
 }

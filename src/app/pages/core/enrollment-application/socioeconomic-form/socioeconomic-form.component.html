@@ -1,6 +1,5 @@
 <p-panel class="p-fluid">
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    {{activeIndex}}
     <p-accordion [activeIndex]="activeIndex" (activeIndexChange)="activeIndex=$event">
       <p-accordionTab header="A.- Datos Personales">
         <app-personal-information-form

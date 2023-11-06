@@ -32,12 +32,12 @@ import {UserModel} from '@models/auth/user.model';
 })
 export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
   protected student!: StudentModel | null;
-
   protected disabilityTypes: CatalogueModel[] = [];
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-  items: MenuItem[] = [];
+  protected items: MenuItem[] = [];
+  protected activeIndex: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -130,8 +130,6 @@ export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
         this.student = student;
       });
   }
-
-  activeIndex: number = 0;
 
   next() {
     this.activeIndex++;

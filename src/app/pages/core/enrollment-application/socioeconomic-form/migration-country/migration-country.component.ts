@@ -59,8 +59,6 @@ export class MigrationCountryComponent {
   }
 
   ngOnInit(): void {
-
-    console.log(this.student);
     this.form.patchValue(this.student);
 
     this.loadIsDisabilities();

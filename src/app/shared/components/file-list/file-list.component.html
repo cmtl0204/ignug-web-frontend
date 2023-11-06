@@ -9,8 +9,9 @@
                    [fileLimit]="fileLimit"
                    mode="advanced"
                    [modelId]="modelId"
-                   (flagUploadFiles)="findByModel()"
-  ></app-file-upload>
+                   [types]="types"
+                   (flagUploadFiles)="findByModel()">
+  </app-file-upload>
 
   <p-paginator
     [rows]="paginator.limit"
@@ -99,7 +100,6 @@
     </ng-template>
   </p-table>
 </p-dialog>
-
 
 <p-sidebar [(visible)]="isButtonActions" position="right">
   <p-panelMenu [model]="buttonActions" [style]="{'width':'300px'}" (click)="isButtonActions=false"></p-panelMenu>

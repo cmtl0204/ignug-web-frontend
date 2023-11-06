@@ -52,7 +52,6 @@ export class PlaceOriginComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    console.log(this.student);
     this.form.patchValue(this.student);
 
     this.loadProvinces();

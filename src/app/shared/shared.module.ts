@@ -47,6 +47,7 @@ import {VisibleComponent} from './components/visible/visible.component';
 import {DialogModule} from "primeng/dialog";
 import {ButtonActionComponent} from './components/button-action/button-action.component';
 import {MapComponent} from './components/map/map.component';
+import {AcademicStatePipe} from "@shared/pipes/core/academic-state.pipe";
 
 @NgModule({
   declarations: [
@@ -77,6 +78,7 @@ import {MapComponent} from './components/map/map.component';
     VisibleComponent,
     ButtonActionComponent,
     MapComponent,
+    AcademicStatePipe,
   ],
   exports: [
     SkeletonComponent,
@@ -106,6 +108,7 @@ import {MapComponent} from './components/map/map.component';
     VisibleComponent,
     ButtonActionComponent,
     MapComponent,
+    AcademicStatePipe,
   ],
   imports: [
     CommonModule,

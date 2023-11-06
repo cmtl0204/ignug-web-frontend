@@ -13,7 +13,7 @@ export enum BreadcrumbEnum {
   PROFILE = 'Mi Perfil',
   HOME = 'Home',
   ENROLLMENTS = 'Matrículas',
-  ENROLLMENT_REQUEST = 'Solicitud de Matrícula',
+  ENROLLMENT_REQUEST = 'Proceso de Matrícula',
   USERS = 'Usuarios',
   TEACHER_CHARGE = 'Consolidado de notas',
   SUBJECT_REQUIREMENTS = 'Pre y Co Requisitos'

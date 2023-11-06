@@ -53,14 +53,6 @@ export class PsychosocialSectionComponent {
     private routesService: RoutesService,
     private studentsHttpService: StudentsHttpService
   ) {
-    this.breadcrumbService.setItems([
-      {
-        label: BreadcrumbEnum.STUDENTS,
-        routerLink: [this.routesService.students],
-      },
-      { label: BreadcrumbEnum.FORM },
-    ]);
-
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
@@ -114,7 +106,7 @@ export class PsychosocialSectionComponent {
       CatalogueCoreTypeEnum.DISABILITY_TYPE
     );
   }
-  
+
   loadDiscriminationType(): void {
     this.discriminationType = this.cataloguesHttpService.findByType(
       CatalogueCoreTypeEnum.DISABILITY_TYPE
@@ -140,7 +132,7 @@ export class PsychosocialSectionComponent {
   get suicedField(): AbstractControl {
     return this.psychosocialSectionField.controls['suiced'];
   }
-  
+
   get discriminationField(): AbstractControl {
     return this.psychosocialSectionField.controls['discrimination'];
   }

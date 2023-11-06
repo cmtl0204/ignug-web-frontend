@@ -10,7 +10,7 @@
     </button>
 
     <button pButton pRipple type="button"
-            (click)="findSubjectsByCurriculum()"
+            (click)="findSubjectsAllByCurriculum()"
             [icon]="IconButtonActionEnum.SYNC"
             [label]="LabelButtonActionEnum.SYNC"
             [loading]="coreService.isLoading"
@@ -41,7 +41,7 @@
       class="ml-3"
       [options]="curriculums"
       [formControl]="selectedCurriculum"
-      (onChange)="findSubjectsByCurriculum()"
+      (onChange)="findSubjectsAllByCurriculum()"
       pTooltip="Mallas Curriculares"
       filterBy="name"
       optionLabel="name"

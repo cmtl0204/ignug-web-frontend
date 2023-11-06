@@ -14,6 +14,7 @@ export interface EnrollmentDetailModel {
     enrollment: EnrollmentModel;
     parallel: CatalogueModel;
     subject: SubjectModel;
+    subjectId: string;
     type: CatalogueModel;
     workday: CatalogueModel;
 

@@ -52,9 +52,9 @@ export class EnrollmentsHttpService {
     );
   }
 
-  findEnrollmentDetailsByEnrollment( id: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
+  findEnrollmentDetailsByEnrollment(id: string, page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/enrollment-details`;
-  
+
     const headers = new HttpHeaders().append('pagination', 'true');
     const params = new HttpParams()
       .append('page', page)
@@ -66,7 +66,6 @@ export class EnrollmentsHttpService {
       })
     );
   }
-
   findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = this.API_URL;
 
@@ -95,10 +94,10 @@ export class EnrollmentsHttpService {
   update(id: string, payload: SelectEnrollmentDto): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}`;
     console.log(payload)
-    this.coreService.isProcessing=true;
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.isProcessing=false;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })

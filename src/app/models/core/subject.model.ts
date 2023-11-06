@@ -24,7 +24,9 @@ export interface SubjectModel {
   teacherHour: number;
   isVisible: boolean;
 
-  items:SubjectModel[];
+  items: SubjectModel[];
+
+  academicState: string | undefined;
 }
 
 export interface CreateSubjectDto extends Omit<SubjectModel, 'id'> {

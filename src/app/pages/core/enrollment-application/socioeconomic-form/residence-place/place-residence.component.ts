@@ -54,7 +54,6 @@ export class PlaceResidenceComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.student);
     this.form.patchValue(this.student);
 
     this.loadProvinces();

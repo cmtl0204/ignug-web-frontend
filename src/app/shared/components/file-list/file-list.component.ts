@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {ConfirmationService, MenuItem, PrimeIcons} from "primeng/api";
-import {ColumnModel, EventModel, FileModel, ModelI, PaginatorModel, SelectEventDto} from "@models/core";
+import {CatalogueModel, ColumnModel, EventModel, FileModel, ModelI, PaginatorModel, SelectEventDto} from "@models/core";
 import {CoreService, FilesHttpService, MessageService, OverlaysService} from "@services/core";
 
 @Component({
@@ -18,11 +18,14 @@ export class FileListComponent implements OnInit {
   @Input() modelId: string = '';
   @Output() isHide: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Input() isVisible: boolean = false;
+  @Input() types: CatalogueModel[] = [];
+  @Output() selectedType: EventEmitter<CatalogueModel> = new EventEmitter<CatalogueModel>();
   protected buttonActions: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
+  protected type: FormControl = new FormControl();
   protected selectedItem: SelectEventDto = {};
   protected selectedItems: EventModel[] = [];
   protected items: EventModel[] = [];
@@ -41,6 +44,10 @@ export class FileListComponent implements OnInit {
       if (value.length === 0) {
         this.findByModel();
       }
+    });
+
+    this.type.valueChanges.subscribe(value => {
+      this.selectedType.emit(value);
     });
   }
 

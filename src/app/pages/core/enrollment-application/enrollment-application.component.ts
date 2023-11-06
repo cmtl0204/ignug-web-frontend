@@ -21,9 +21,11 @@ import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums
 })
 export class EnrollmentApplicationComponent {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
-  items: MenuItem[] = [];
+  protected items: MenuItem[] = [];
+  protected activeIndex: number = 3;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -106,10 +108,6 @@ export class EnrollmentApplicationComponent {
     });
   }
 
-
-  activeIndex: number = 0;
-
-
   next1() {
     this.activeIndex = 0;
   }
@@ -129,6 +127,4 @@ export class EnrollmentApplicationComponent {
   send() {
     //TODO
   }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
 }

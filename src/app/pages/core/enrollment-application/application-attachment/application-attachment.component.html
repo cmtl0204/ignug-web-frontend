@@ -1,1 +1,8 @@
-<p>application-attachment works!</p>
+<button pButton pRipple label="Adjuntar Archivos" (click)="isFileList=true"></button>
+<app-file-list *ngIf="isFileList"
+               [isVisible]="isFileList"
+               (isHide)="isFileList=false"
+               (selectedType)="isFileList=false"
+               [types]="fileTypes"
+               [modelId]="'asd'">
+</app-file-list>

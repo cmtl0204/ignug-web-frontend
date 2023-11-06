@@ -1,9 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
-
 import {MenuItem, PrimeIcons} from 'primeng/api';
-
 import {ColumnModel, SubjectModel, CurriculumModel, CareerModel} from '@models/core';
 import {
   BreadcrumbService,
@@ -72,7 +70,6 @@ export class SubjectListComponent implements OnInit {
     private readonly subjectsService: SubjectsService,
     protected readonly coreService: CoreService,
     protected readonly messageService: MessageService,
-
   ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.INSTITUTIONS, routerLink: [this.routesService.institutions]},
@@ -90,7 +87,7 @@ export class SubjectListComponent implements OnInit {
     if (this.curriculums.length > 0) {
       this.selectedCurriculum.patchValue(this.curriculums[0]);
       this.curriculumsService.curriculum = this.curriculums[0];
-      this.findSubjectsByCurriculum();
+      this.findSubjectsAllByCurriculum();
     }
 
     this.selectedCareer.valueChanges.subscribe(selectedCareer => {
@@ -101,18 +98,18 @@ export class SubjectListComponent implements OnInit {
         this.selectedCurriculum.patchValue(selectedCareer.curriculums[0]);
         this.curriculumsService.curriculum = selectedCareer.curriculums[0];
         this.curriculums = selectedCareer.curriculums;
-        this.findSubjectsByCurriculum();
+        this.findSubjectsAllByCurriculum();
       }
     });
   }
 
   ngOnInit() {
     if (this.selectedCurriculum.value)
-      this.findSubjectsByCurriculum();
+      this.findSubjectsAllByCurriculum();
   }
 
   /** Load Data **/
-  findSubjectsByCurriculum() {
+  findSubjectsAllByCurriculum() {
     this.curriculumsHttpService.findSubjectsAllByCurriculum(this.selectedCurriculum.value.id)
       .subscribe(subjects => {
         this.items = subjects;

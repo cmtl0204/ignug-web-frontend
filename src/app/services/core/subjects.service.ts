@@ -18,4 +18,12 @@ export class SubjectsService {
   set subject(value: SubjectModel) {
     sessionStorage.setItem('subject', JSON.stringify(value));
   }
+
+  get enrollmentSubjects(): SubjectModel[] {
+    return JSON.parse(String(sessionStorage.getItem('enrollmentSubjects')));
+  }
+
+  set enrollmentSubjects(value: SubjectModel[]) {
+    sessionStorage.setItem('enrollmentSubjects', JSON.stringify(value));
+  }
 }
