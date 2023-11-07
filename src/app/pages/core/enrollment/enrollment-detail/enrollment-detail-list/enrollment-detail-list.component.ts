@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from "@angular/forms";
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { MenuItem, PrimeIcons } from "primeng/api";
 import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel, SelectEnrollmentDetailDto, EnrollmentDetailModel } from '@models/core';
 import {
@@ -31,9 +31,9 @@ export class EnrollmentDetailListComponent implements OnInit {
   protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
-  protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
 
+  protected enrollmentId!: string;
   protected selectedItem: SelectEnrollmentDetailDto = {};
   protected selectedItems: EnrollmentDetailModel[] = [];
   protected items: EnrollmentDetailModel[] = [];
@@ -46,6 +46,7 @@ export class EnrollmentDetailListComponent implements OnInit {
   protected selectedAcademicPeriod: FormControl = new FormControl();
 
   constructor(
+    private readonly activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     public coreService: CoreService,
     public messageService: MessageService,
@@ -61,7 +62,9 @@ export class EnrollmentDetailListComponent implements OnInit {
   ) {
     this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
 
-    this.paginator = this.coreService.paginator;
+    if (activatedRoute.snapshot.params['id'] !== 'new') {
+      this.enrollmentId = activatedRoute.snapshot.params['id'];
+    }
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
@@ -93,7 +96,7 @@ export class EnrollmentDetailListComponent implements OnInit {
   }
 
 
-  /** Load Data 
+  /** Load Data
   findEnrollmentDetails(page: number = 0) {
       this.enrollmentDetailsHttpService.findAll(page, this.search.value)
       .subscribe((response) => {
@@ -104,10 +107,9 @@ export class EnrollmentDetailListComponent implements OnInit {
   /** Load Data **/
 
   findEnrollmentDetailsByEnrollment(page: number = 0) {
-      this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.selectedEnrollment.value?.id, page, this.search.value)
+      this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.enrollmentId)
       .subscribe((response) => {
-        this.paginator = response.pagination!;
-        this.items = response.data
+        this.items = response;
       });
   }
 
@@ -179,25 +181,11 @@ export class EnrollmentDetailListComponent implements OnInit {
         if (result.isConfirmed) {
           this.enrollmentsHttpService.remove(id).subscribe(() => {
             this.items = this.items.filter(item => item.id !== id);
-            this.paginator.totalItems--;
           });
         }
       });
   }
 
-  removeAll() {
-    this.messageService.questionDelete().then((result) => {
-      if (result.isConfirmed) {
-        this.enrollmentDetailsHttpService.removeAll(this.selectedItems).subscribe(() => {
-          this.selectedItems.forEach(itemDeleted => {
-            this.items = this.items.filter(item => item.id !== itemDeleted.id);
-            this.paginator.totalItems--;
-          });
-          this.selectedItems = [];
-        });
-      }
-    });
-  }
 
   enroll(id: string) {
     this.enrollmentDetailsHttpService.enroll(id).subscribe(item => {
