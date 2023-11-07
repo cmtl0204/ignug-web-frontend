@@ -163,4 +163,14 @@ export class SchoolPeriodsHttpService {
     );
   }
 
+  findOpenSchoolPeriod(): Observable<SchoolPeriodModel> {
+    const url = `${this.API_URL}/states/open`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
 }
+

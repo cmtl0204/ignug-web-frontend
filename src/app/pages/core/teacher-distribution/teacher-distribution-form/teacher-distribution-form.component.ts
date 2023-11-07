@@ -102,7 +102,7 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
     return this.formBuilder.group({
       parallel: [null, [Validators.required]],
       teacher: [this.teachersService.teacher, [Validators.required]],
-      schoolPeriod: [this.schoolPeriodsService.schoolPeriod, [Validators.required]],
+      schoolPeriod: [this.schoolPeriodsService.openSchoolPeriod, [Validators.required]],
       subject: [this.subjectsService.subject, [Validators.required]],
       career: [this.careersService.career, [Validators.required]],
       workday: [null, [Validators.required]],

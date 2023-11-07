@@ -1,5 +1,5 @@
 import {RoleModel} from '@models/auth';
-import {CatalogueModel, CurriculumModel, SubjectRequirementModel} from '@models/core';
+import {CatalogueModel, CurriculumModel, EnrollmentDetailStateModel, SubjectRequirementModel} from '@models/core';
 
 
 export interface SubjectModel {
@@ -27,6 +27,7 @@ export interface SubjectModel {
   items: SubjectModel[];
 
   academicState: string | undefined;
+  enrollmentStates: EnrollmentDetailStateModel[];
 }
 
 export interface CreateSubjectDto extends Omit<SubjectModel, 'id'> {

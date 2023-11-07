@@ -1,20 +1,28 @@
-import {Component} from '@angular/core';
-import {FormControl} from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
-  CareersService,
+  CareersService, CataloguesHttpService,
   CoreService,
   CurriculumsHttpService,
   CurriculumsService,
   EnrollmentsHttpService,
-  MessageService, StudentsHttpService, SubjectsService
+  MessageService, SchoolPeriodsService, StudentsHttpService, SubjectsService
 } from "@services/core";
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {ColumnModel, SubjectModel, CurriculumModel, CareerModel, StudentModel} from '@models/core';
+import {
+  ColumnModel,
+  SubjectModel,
+  CurriculumModel,
+  CareerModel,
+  StudentModel,
+  CatalogueModel,
+  EnrollmentModel, SubjectRequirementModel, SelectSubjectDto, SchoolPeriodModel
+} from '@models/core';
 import {
   IdButtonActionEnum,
   LabelButtonActionEnum,
   IconButtonActionEnum,
-  ClassButtonActionEnum
+  ClassButtonActionEnum, CatalogueCoreEnrollmentStateEnum, CatalogueCoreTypeEnum
 } from "@shared/enums";
 import {AuthService} from "@services/auth";
 
@@ -23,7 +31,7 @@ import {AuthService} from "@services/auth";
   templateUrl: './application.component.html',
   styleUrls: ['./application.component.scss']
 })
-export class ApplicationComponent {
+export class ApplicationComponent implements OnInit {
   // Reference Prime Icons
   protected readonly PrimeIcons = PrimeIcons;
 
@@ -49,31 +57,46 @@ export class ApplicationComponent {
   protected items: SubjectModel[] = [];
 
   // Foreign Keys
-  protected selectedCareer: FormControl = new FormControl();
   protected selectedCurriculum: FormControl = new FormControl();
   protected careers: CareerModel[] = [];
   protected curriculums: CurriculumModel[] = [];
+  protected workdays: CatalogueModel[] = [];
+  protected parallels: CatalogueModel[] = [];
+  protected schoolPeriods: SchoolPeriodModel[] = [];
 
   protected student!: StudentModel;
   protected totalCredits: number = 0;
+  protected enrollment!: EnrollmentModel;
+
+  protected form: FormGroup;
+  protected formErrors: string[] = [];
 
   constructor(
     private readonly authService: AuthService,
     protected readonly coreService: CoreService,
     private readonly careersService: CareersService,
+    private readonly cataloguesHttpService: CataloguesHttpService,
     private readonly curriculumsHttpService: CurriculumsHttpService,
     private readonly curriculumsService: CurriculumsService,
     private readonly subjectsService: SubjectsService,
     private readonly enrollmentsHttpService: EnrollmentsHttpService,
+    private readonly formBuilder: FormBuilder,
     private readonly studentsHttpService: StudentsHttpService,
-    protected readonly messageService: MessageService,) {
+    protected readonly messageService: MessageService,
+    protected readonly schoolPeriodsService: SchoolPeriodsService,
+  ) {
     this.student = authService.auth.student;
     this.selectedItems = subjectsService.enrollmentSubjects;
     this.careers = this.careersService.careers;
 
-    this.selectedCareer.patchValue(this.careersService.career);
+    this.form = this.newForm;
+
+    this.careerField.patchValue(this.careersService.career);
 
     this.curriculums = this.careersService.career.curriculums;
+
+    this.schoolPeriods = [this.schoolPeriodsService.openSchoolPeriod];
+    this.schoolPeriodField.patchValue(this.schoolPeriodsService.openSchoolPeriod);
 
     if (this.curriculums.length > 0) {
       this.selectedCurriculum.patchValue(this.curriculums[0]);
@@ -81,7 +104,7 @@ export class ApplicationComponent {
       this.findSubjectsAllByCurriculum();
     }
 
-    this.selectedCareer.valueChanges.subscribe(selectedCareer => {
+    this.careerField.valueChanges.subscribe(selectedCareer => {
       this.items = [];
       this.curriculumsService.curriculum = {};
 
@@ -92,6 +115,24 @@ export class ApplicationComponent {
         this.findSubjectsAllByCurriculum();
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.findEnrollmentByStudent();
+    this.loadWorkdays();
+    this.loadParallels();
+  }
+
+  get newForm() {
+    return this.formBuilder.group({
+      student: [this.student, [Validators.required]],
+      academicPeriod: [null, []],
+      career: [null, [Validators.required]],
+      enrollmentDetails: [[]],
+      parallel: [null, [Validators.required]],
+      schoolPeriod: [null, [Validators.required]],
+      workday: [null, [Validators.required]],
+    })
   }
 
   get buildColumns(): ColumnModel[] {
@@ -167,6 +208,7 @@ export class ApplicationComponent {
           for (const enrollmentDetail of enrollmentDetails) {
             if (item.id === enrollmentDetail.subjectId) {
               item.academicState = enrollmentDetail.academicState?.code;
+              item.enrollmentStates = enrollmentDetail.enrollmentDetailStates;
             }
           }
         }
@@ -191,6 +233,70 @@ export class ApplicationComponent {
       });
   }
 
+  findEnrollmentByStudent() {
+    this.studentsHttpService.findEnrollmentByStudent(this.student.id)
+      .subscribe(enrollment => {
+        this.enrollment = enrollment;
+      });
+  }
+
+  loadWorkdays(): void {
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+  }
+
+  loadParallels(): void {
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
+  }
+
+  /** Actions **/
+  onSubmit(): void {
+    this.enrollmentDetailsField.patchValue(this.selectedItems);
+    this.calculateAcademicPeriod();
+
+    if (this.validateForm()) {
+      this.sendRegistration();
+    } else {
+      this.form.markAllAsTouched();
+      this.messageService.errorsFields(this.formErrors);
+    }
+  }
+
+  validateForm() {
+    this.formErrors = [];
+
+    if (this.academicPeriodField.errors) this.formErrors.push('Nivel Académico');
+    if (this.careerField.errors) this.formErrors.push('Carrera');
+    if (this.enrollmentDetailsField.errors) this.formErrors.push('Asignaturas');
+    if (this.workdayField.errors) this.formErrors.push('Jornada');
+    if (this.parallelField.errors) this.formErrors.push('Paralelo');
+    if (this.schoolPeriodField.errors) this.formErrors.push('Periodo Lectivo');
+    if (this.studentField.errors) this.formErrors.push('Estudiante');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
+  }
+
+  sendRegistration() {
+    this.enrollmentsHttpService.sendRegistration(this.form.value).subscribe(() => {
+      this.findSubjectsAllByCurriculum();
+    });
+  }
+
+  calculateAcademicPeriod() {
+    this.selectedItems.sort(function (a, b) {
+      if (a.academicPeriod.code > b.academicPeriod.code) {
+        return 1;
+      }
+      if (a.academicPeriod.code < b.academicPeriod.code) {
+        return -1;
+      }
+      return 0;
+    });
+
+    if (this.selectedItems.length > 0)
+      this.academicPeriodField.patchValue(this.selectedItems[0].academicPeriod);
+  }
+
   /** Select **/
   selectItem(item: SubjectModel) {
     this.isButtonActions = true;
@@ -203,5 +309,43 @@ export class ApplicationComponent {
     console.log(this.selectedItems);
     this.totalCredits = this.selectedItems.reduce((accumulator, currentValue) => accumulator + currentValue.credits, 0);
     this.subjectsService.enrollmentSubjects = this.selectedItems;
+  }
+
+  previous() {
+
+  }
+
+  next() {
+    this.sendRegistration();
+  }
+
+  /** Getteres Form **/
+
+  get academicPeriodField() {
+    return this.form.controls['academicPeriod'];
+  }
+
+  get careerField() {
+    return this.form.controls['career'];
+  }
+
+  get parallelField() {
+    return this.form.controls['parallel'];
+  }
+
+  get schoolPeriodField() {
+    return this.form.controls['schoolPeriod'];
+  }
+
+  get workdayField() {
+    return this.form.controls['workday'];
+  }
+
+  get enrollmentDetailsField() {
+    return this.form.controls['enrollmentDetails'];
+  }
+
+  get studentField() {
+    return this.form.controls['student'];
   }
 }

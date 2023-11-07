@@ -1,4 +1,4 @@
-import {CatalogueModel, EnrollmentModel, GradeModel, SubjectModel} from '@models/core';
+import {CatalogueModel, EnrollmentDetailStateModel, EnrollmentModel, GradeModel, SubjectModel} from '@models/core';
 
 export interface EnrollmentDetailModel {
     id?: string;
@@ -7,7 +7,7 @@ export interface EnrollmentDetailModel {
     deletedAt: Date;
 
     grades: GradeModel[];
-    enrollmentDetailStates: EnrollmentDetailModel[];
+    enrollmentDetailStates: EnrollmentDetailStateModel[];
 
     //foreingkeys
     academicState: CatalogueModel;

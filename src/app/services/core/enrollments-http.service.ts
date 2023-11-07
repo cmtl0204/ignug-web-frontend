@@ -61,6 +61,7 @@ export class EnrollmentsHttpService {
       })
     );
   }
+
   findAll(page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = this.API_URL;
 
@@ -180,6 +181,17 @@ export class EnrollmentsHttpService {
     const url = `${this.API_URL}/${id}/revoke`;
 
     return this.httpClient.patch<ServerResponse>(url, null).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  sendRegistration(payload: any): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/send-registration`;
+
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {
         this.messageService.success(response);
         return response.data;

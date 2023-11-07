@@ -7,7 +7,13 @@ import {environment} from '@env/environment';
 import {LoginModel, PasswordChangeModel, PasswordResetModel, RoleModel, UpdateUserDto, UserModel} from '@models/auth';
 import {LoginResponse, ServerResponse} from '@models/http-response';
 import {AuthService} from '@services/auth';
-import {CareersService, CoreService, InstitutionsService, MessageService} from '@services/core';
+import {
+  CareersService,
+  CoreService,
+  InstitutionsService,
+  MessageService,
+  SchoolPeriodsService
+} from '@services/core';
 // import {AuthRoutesEnum, RoutesEnum} from "@shared/enums";
 import {RoutesService} from "@services/core/routes.service";
 import {RolePipe} from "@shared/pipes";
@@ -28,6 +34,7 @@ export class AuthHttpService {
               private careersService: CareersService,
               private router: Router,
               private routesService: RoutesService,
+              private readonly schoolPeriodsService: SchoolPeriodsService,
               private messageService: MessageService) {
   }
 
@@ -60,7 +67,7 @@ export class AuthHttpService {
       );
   }
 
-    login(credentials: LoginModel): Observable<ServerResponse> {
+  login(credentials: LoginModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/login`;
 
     return this.httpClient.post<ServerResponse>(url, credentials)
@@ -71,6 +78,7 @@ export class AuthHttpService {
           this.authService.roles = response.data.user.roles;
           this.institutionsService.institutions = response.data.user.institutions;
           this.careersService.careers = response.data.user.careers;
+          this.schoolPeriodsService.openSchoolPeriod = response.data.schoolPeriod;
           return response;
         })
       );
@@ -161,9 +169,9 @@ export class AuthHttpService {
       );
   }
 
-  verifyTransactionalCode(token: string,username:string): Observable<ServerResponse> {
+  verifyTransactionalCode(token: string, username: string): Observable<ServerResponse> {
     const url = `${this.API_URL}/transactional-codes/${token}/verify`;
-    return this.httpClient.patch<ServerResponse>(url,{username})
+    return this.httpClient.patch<ServerResponse>(url, {username})
       .pipe(
         map(response => {
           this.messageService.success(response);
