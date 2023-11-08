@@ -44,10 +44,6 @@ export class EnrollmentListComponent implements OnInit {
   protected state: CatalogueModel[] = [];
   protected isVisible: boolean = false;
 
-  matriculados: string[] = [];
-  enProceso: string[] = [];
-  retirados: string[] = [];
-  anulados: string[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -90,7 +86,6 @@ export class EnrollmentListComponent implements OnInit {
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
-    this.cargarDatosCategorias();
   }
 
   findSchoolPeriods() {
@@ -108,18 +103,6 @@ export class EnrollmentListComponent implements OnInit {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
-  filterEnrollmentsByState(){
-    this.state = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
-  }
-
-  cargarDatosCategorias() {
-    this.matriculados = ['Estado1', 'Estado2', 'Estado3'];
-    this.enProceso = ['Estado4', 'Estado5'];
-    this.retirados = [];
-    this.anulados = ['Estado6'];
-  }
-
-
   /** Load Data **/
   findEnrollmentsByCareer(page: number = 0) {
    if (this.selectedCareer.value && this.selectedSchoolPeriod.value){
@@ -128,7 +111,7 @@ export class EnrollmentListComponent implements OnInit {
       this.paginator = response.pagination!;
       this.items = response.data
     });
-   } 
+   }
   }
 
 
@@ -280,7 +263,7 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   redirectEnrollmentDetails(id: string) {
-    this.router.navigate([this.routesService.enrollments, id]);
+    this.router.navigate([this.routesService.enrollmentsDetailList, id]);
   }
 }
 

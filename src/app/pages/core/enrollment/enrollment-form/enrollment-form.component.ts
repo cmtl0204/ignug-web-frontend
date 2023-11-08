@@ -77,7 +77,6 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-
     this.loadAcademicPeriods();
     this.loadParallels();
     this.loadStates();
@@ -92,13 +91,15 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       student: this.newStudentForm,
+      states: this.newStateForm,
       date: [{value:null,disabled:true}],
       academicPeriod: [null, [ Validators.required]],
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      folio: [null, [Validators.required]],
-      observation: [{value:null,disabled:true}],
+      code: [null, [Validators.required]],
+      observation: [null],
+      enrollmentStates: [{value:null,disabled:true}],
     });
   }
 
@@ -115,7 +116,15 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       lastname: [{value:null,disabled:true}],
       name: [{value:null,disabled:true}],
       email: [{value:null,disabled:true}],
+      personalEmail: [{value:null,disabled:true}],
       cellPhone: [{value:null,disabled:true}],
+      phone: [{value:null,disabled:true}],
+    });
+  }
+
+  get newStateForm(): FormGroup {
+    return this.formBuilder.group({
+      state: [{value:null,disabled:true}],
     });
   }
 
@@ -166,7 +175,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get(): void {
     this.enrollmentsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
-      console.log(this.academicPeriodField.value)
+      console.log(this.enrollmentStatesField.value);
     });
   }
 
@@ -198,17 +207,20 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     if (this.identificationField.errors) this.formErrors.push('identification');
     if (this.lastnameField.errors) this.formErrors.push('lastname');
     if (this.nameField.errors) this.formErrors.push('name');
+    if (this.emailField.errors) this.formErrors.push('email');
+    if (this.personalEmailField.errors) this.formErrors.push('personalEmail');
+    if (this.cellPhoneField.errors) this.formErrors.push('cellPhone');
+    if (this.phoneField.errors) this.formErrors.push('phone');
     if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
     if (this.dateField.errors) this.formErrors.push('date');
     if (this.typeField.errors) this.formErrors.push('type');
     if (this.workdayField.errors) this.formErrors.push(' workday');
     if (this.parallelField.errors) this.formErrors.push('parallel');
-    if (this.folioField.errors) this.formErrors.push('folio');
+    if (this.codeField.errors) this.formErrors.push('code');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
   }
-
 
   /** Form Getters **/
   get academicPeriodField(): AbstractControl {
@@ -226,14 +238,14 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
-  get stateField(): AbstractControl {
-    return this.form.controls['state'];
-  }
-  get folioField(): AbstractControl {
-    return this.form.controls['folio'];
+  get codeField(): AbstractControl {
+    return this.form.controls['code'];
   }
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
+  }
+  get enrollmentStatesField(): AbstractControl {
+    return this.form.controls['enrollmentStates'];
   }
 
   get studentForm(): FormGroup {
@@ -256,7 +268,20 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get emailField(): AbstractControl {
     return this.userForm.controls['email'];
   }
+  get personalEmailField(): AbstractControl {
+    return this.userForm.controls['personalEmail'];
+  }
   get cellPhoneField(): AbstractControl {
     return this.userForm.controls['cellPhone'];
+  }
+  get phoneField(): AbstractControl {
+    return this.userForm.controls['phone'];
+  }
+
+  get stateForm(): FormGroup {
+    return this.form.controls['states'] as FormGroup;
+  }
+  get stateField(): AbstractControl {
+    return this.stateForm.controls['state'];
   }
 }

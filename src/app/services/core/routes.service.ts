@@ -35,6 +35,14 @@ export class RoutesService {
     return this.core + '/curriculums';
   }
 
+  get enrollmentsDetailList(): string {
+    return this.core + '/enrollment-details/enrollments';
+  }
+
+  get enrollmentsDetailForm(): string {
+    return this.core + '/enrollment-details';
+  }
+
   get events(): string {
     return this.core + '/events';
   }

@@ -1,12 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from "@angular/common";
-import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
+import {FormBuilder, AbstractControl, Validators, FormGroup, FormControl} from '@angular/forms';
 import {
   CatalogueModel,
   EnrollmentDetailModel,
   EnrollmentModel,
   SelectEnrollmentDetailDto,
-  SelectEnrollmentDto
+  SelectEnrollmentDto,
+  SubjectModel
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from 'primeng/api';
@@ -20,6 +21,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService,
   StudentsHttpService,
+  SubjectsHttpService,
 } from '@services/core';
 
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
@@ -34,6 +36,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -42,6 +45,8 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   protected selectedItem: SelectEnrollmentDetailDto = {};
   protected selectedItems: EnrollmentDetailModel[] = [];
   protected items: EnrollmentDetailModel[] = [];
+  protected selectedSubject: FormControl = new FormControl();
+  protected selectedAcademicPeriod: FormControl = new FormControl();
 
   // Foreign Keys
   protected academicPeriods: CatalogueModel[] = [];
@@ -49,6 +54,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   protected states: CatalogueModel[] = [];
   protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
+  protected subjects: SubjectModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -62,7 +68,8 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     private location: Location,
     private enrollmentsHttpService: EnrollmentsHttpService,
     private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
-  ) {
+    private subjectsHttpService: SubjectsHttpService,
+    ) {
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
       {label: BreadcrumbEnum.FORM},
@@ -73,6 +80,15 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     }
 
     this.form = this.newForm;
+
+    this.selectedSubject.valueChanges.subscribe(value => {
+      this.findSubjectsByacademicPeriod();
+  });
+
+
+  this.selectedAcademicPeriod.valueChanges.subscribe(value => {
+    this.findSubjectsByacademicPeriod();
+});
   }
 
   async onExit(): Promise<boolean> {
@@ -89,6 +105,8 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     this.loadStates();
     this.loadWorkdays();
     this.loadTypes();
+    this.loadSubjects();
+    this.findSubjectsByacademicPeriod();
 
     if (this.id) {
       this.get();
@@ -100,6 +118,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
       number: [null, [Validators.required]],
       date: [null, [Validators.required]],
       academicPeriod: [null, [ Validators.required]],
+      subject: [null],
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
@@ -125,6 +144,15 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   back(): void {
     this.location.back();
   }
+
+  findSubjectsByacademicPeriod(page: number = 0) {
+    if (this.selectedSubject.value && this.selectedAcademicPeriod.value){
+     this.enrollmentDetailsHttpService.findSubjectsByAcademicPeriod(this.selectedSubject.value, this.selectedAcademicPeriod.value)
+     .subscribe((response) => {
+       this.items = response.data
+     });
+    }
+   }
 
   /** Actions **/
   create(enrollmentDetail: EnrollmentDetailModel): void {
@@ -154,7 +182,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   }
 
   get(): void {
-    this.enrollmentsHttpService.findOne(this.id!).subscribe((enrollment) => {
+    this.enrollmentDetailsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
       console.log(this.academicPeriodField.value)
     });
@@ -182,6 +210,10 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   loadTypes(): void {
     this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
   }
+  loadSubjects(): void {
+    this.subjectsHttpService.getAllSubjects()
+      .subscribe((items) => this.subjects = items);
+  }
 
   validateForm() {
     this.formErrors = [];
@@ -203,6 +235,9 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   /** Form Getters **/
   get academicPeriodField(): AbstractControl {
     return this.form.controls['academicPeriod'];
+  }
+  get subjectField(): AbstractControl {
+    return this.form.controls['subject'];
   }
   get dateField(): AbstractControl {
     return this.form.controls['date'];
@@ -228,6 +263,4 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
   }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
 }

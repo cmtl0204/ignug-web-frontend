@@ -50,7 +50,7 @@ export class EnrollmentDetailListComponent implements OnInit {
     private breadcrumbService: BreadcrumbService,
     public coreService: CoreService,
     public messageService: MessageService,
-    private router: Router,
+    private readonly router: Router,
     private routesService: RoutesService,
     private enrollmentsHttpService: EnrollmentsHttpService,
     private cataloguesHttpService: CataloguesHttpService,
@@ -116,12 +116,12 @@ export class EnrollmentDetailListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'number', header: 'Numero de matricula'},
-      {field: 'subject', header: 'Asignaturas'},
-      {field: 'parallel', header: 'Paralelo'},
+      {field: 'academicPeriod', header: 'Periodo Académico'},
+      {field: 'subject', header: 'Asignatura'},
+      {field: 'number', header: 'Número de Matrícula'},
       {field: 'workday', header: 'Jornada'},
+      {field: 'parallel', header: 'Paralelo'},
       {field: 'type', header: 'Tipo de Matrícula'},
-      {field: 'academicPeriod', header: 'Periodo académico'},
       {field: 'observation', header: 'Observaciones'}
     ];
   }
@@ -164,13 +164,6 @@ export class EnrollmentDetailListComponent implements OnInit {
           if (this.selectedItem?.id) this.revoke(this.selectedItem.id);
         },
       },
-      {
-        label: 'Descargar Certificado',
-        icon: PrimeIcons.DOWNLOAD,
-        command: () => {
-          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
-        },
-      },
     ];
   }
 
@@ -185,7 +178,6 @@ export class EnrollmentDetailListComponent implements OnInit {
         }
       });
   }
-
 
   enroll(id: string) {
     this.enrollmentDetailsHttpService.enroll(id).subscribe(item => {
@@ -217,16 +209,12 @@ export class EnrollmentDetailListComponent implements OnInit {
     this.selectedItem = item;
   }
 
-  paginate(event: any) {
-    this.findEnrollmentDetailsByEnrollment(event.page);
-  }
-
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.enrollments, 'new']);
+    this.router.navigate([this.routesService.enrollmentsDetailForm, 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.enrollments, id]);
+    this.router.navigate([this.routesService.enrollmentsDetailForm, id]);
   }
 }
