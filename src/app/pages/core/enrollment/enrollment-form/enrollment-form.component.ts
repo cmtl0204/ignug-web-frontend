@@ -97,7 +97,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      code: [null, [Validators.required]],
+      code: [{value:null,disabled:true}],
       observation: [null],
       enrollmentStates: [{value:null,disabled:true}],
     });

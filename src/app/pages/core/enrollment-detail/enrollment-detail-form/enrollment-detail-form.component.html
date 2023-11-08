@@ -51,59 +51,7 @@
           [dirty]="subjectField.dirty">
         </small>
       </div>
-    </div>
-    <div class="formgrid grid">
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="workday"
-          label="Jornada:"
-          [required]="workdayField"
-        >
-        </label>
-        <p-dropdown
-          id="workday"
-          formControlName="workday"
-          dataKey="id"
-          [options]="workdays"
-          optionLabel="name"
-          placeholder="Seleccione"
-        >
-        </p-dropdown>
-        <small
-          appErrorMessage
-          [errors]="workdayField.errors"
-          [touched]="workdayField.touched"
-          [dirty]="workdayField.dirty"
-        >
-        </small>
-      </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="parallel"
-          label="Paralelo:"
-          [required]="parallelField"
-        >
-        </label>
-        <p-dropdown
-          id="parallel"
-          formControlName="parallel"
-          dataKey="id"
-          [options]="parallels"
-          optionLabel="name"
-          placeholder="Seleccione"
-        >
-        </p-dropdown>
-        <small
-          appErrorMessage
-          [errors]="parallelField.errors"
-          [touched]="parallelField.touched"
-          [dirty]="parallelField.dirty"
-        >
-        </small>
-      </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
           appLabel
           for="type"
@@ -133,17 +81,71 @@
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
           appLabel
+          for="workday"
+          label="Jornada:"
+          [required]="workdayField"
+        >
+        </label>
+        <p-dropdown
+          id="workday"
+          formControlName="workday"
+          dataKey="id"
+          [options]="workdays"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="workdayField.errors"
+          [touched]="workdayField.touched"
+          [dirty]="workdayField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="parallel"
+          label="Paralelo:"
+          [required]="parallelField"
+        >
+        </label>
+        <p-dropdown
+          id="parallel"
+          formControlName="parallel"
+          dataKey="id"
+          [options]="parallels"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="parallelField.errors"
+          [touched]="parallelField.touched"
+          [dirty]="parallelField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
           for="number"
           label="Numero de matricula:"
           [required]="numberField"
         >
         </label>
-        <input
-          pInputText
-          type="number"
+        <p-inputNumber
           id="number"
           formControlName="number"
-        />
+          [min]="1" 
+          [max]="3" 
+          [showButtons]="true"
+        >
+        </p-inputNumber>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label
@@ -167,38 +169,6 @@
           [dirty]="dateField.dirty"
         >
         </small>
-      </div>
-    </div>
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label
-          appLabel
-          for="academicObservation"
-          label="Observacion academica:"
-          [required]="academicObservationField"
-        >
-        </label>
-        <input
-          pInputText
-          type="text"
-          id="academicObservation"
-          formControlName="academicObservation"
-        />
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label
-          appLabel
-          for="finalAttendance"
-          label="Valor de la asistencia:"
-          [required]="finalAttendanceField"
-        >
-        </label>
-        <input
-          pInputText
-          type="text"
-          id="finalAttendance"
-          formControlName="finalAttendance"
-        />
       </div>
     </div>
     <div class="formgrid grid">

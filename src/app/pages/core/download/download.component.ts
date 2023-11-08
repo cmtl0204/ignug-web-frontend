@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenuItem, PrimeIcons } from "primeng/api";
 
 @Component({
   selector: 'app-download',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./download.component.scss']
 })
 export class DownloadComponent {
-
+  protected readonly PrimeIcons = PrimeIcons;
 }

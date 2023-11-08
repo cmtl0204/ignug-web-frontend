@@ -118,9 +118,9 @@ export class EnrollmentListComponent implements OnInit {
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'identification', header: 'Cédula'},
-      {field: 'lastname', header: 'Apellido'},
-      {field: 'name', header: 'Nombre'},
+      {field: 'identification', header: 'Número de Documento'},
+      {field: 'lastname', header: 'Apellidos'},
+      {field: 'name', header: 'Nombres'},
       {field: 'type', header: 'Tipo de Matrícula'},
       {field: 'academicPeriod', header: 'Periodo académico'},
       {field: 'workday', header: 'Jornada'},

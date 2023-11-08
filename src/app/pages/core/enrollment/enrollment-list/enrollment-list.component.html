@@ -61,7 +61,9 @@
             (onPageChange)="paginate($event)"
             >
 </p-paginator>
-<p-table dataKey="id" 
+<p-table
+        #dt1
+        dataKey="id" 
         styleClass="p-datatable-striped" 
         [value]="items" 
         [columns]="columns"
@@ -96,9 +98,8 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 3rem">
-      </th>
-      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+      <!--      <th style="width: 3rem"></th>-->
+      <th class="text-center"  *ngFor="let col of columns" [pSortableColumn]="col.field">
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
@@ -109,10 +110,10 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-      <td>
-        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-      </td>
-      <td *ngFor="let col of columns">
+<!--      <td>-->
+<!--        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
+<!--      </td>-->
+      <td class="text-center" *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'academicPeriod'">

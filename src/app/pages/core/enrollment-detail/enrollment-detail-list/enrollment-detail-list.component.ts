@@ -60,7 +60,10 @@ export class EnrollmentDetailListComponent implements OnInit {
     private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
 
   ) {
-    this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
+    this.breadcrumbService.setItems([
+      { label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments] },
+      {label: BreadcrumbEnum.ENROLLMENT_DETAILS }
+    ]);
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.enrollmentId = activatedRoute.snapshot.params['id'];
@@ -95,17 +98,7 @@ export class EnrollmentDetailListComponent implements OnInit {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
-
-  /** Load Data
-  findEnrollmentDetails(page: number = 0) {
-      this.enrollmentDetailsHttpService.findAll(page, this.search.value)
-      .subscribe((response) => {
-        this.paginator = response.pagination!;
-        this.items = response.data
-      });
-  }**/
   /** Load Data **/
-
   findEnrollmentDetailsByEnrollment(page: number = 0) {
       this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.enrollmentId)
       .subscribe((response) => {
@@ -117,7 +110,7 @@ export class EnrollmentDetailListComponent implements OnInit {
   get buildColumns(): ColumnModel[] {
     return [
       {field: 'academicPeriod', header: 'Periodo Académico'},
-      {field: 'subject', header: 'Asignatura'},
+      {field: 'subject', header: 'Asignaturas'},
       {field: 'number', header: 'Número de Matrícula'},
       {field: 'workday', header: 'Jornada'},
       {field: 'parallel', header: 'Paralelo'},
@@ -162,6 +155,13 @@ export class EnrollmentDetailListComponent implements OnInit {
         icon: PrimeIcons.BAN,
         command: () => {
           if (this.selectedItem?.id) this.revoke(this.selectedItem.id);
+        },
+      },
+      {
+        label: 'Eliminar',
+        icon: PrimeIcons.TRASH,
+        command: () => {
+          if (this.selectedItem?.id) this.remove(this.selectedItem.id);
         },
       },
     ];

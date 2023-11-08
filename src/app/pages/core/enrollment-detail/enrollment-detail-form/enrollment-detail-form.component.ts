@@ -71,7 +71,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     private subjectsHttpService: SubjectsHttpService,
     ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.ENROLLMENT_DETAILS, routerLink: [this.routesService.enrollmentsDetailList]},
       {label: BreadcrumbEnum.FORM},
     ]);
 
@@ -115,15 +115,13 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      number: [null, [Validators.required]],
+      number: [null, [Validators.required, Validators.min(1),Validators.maxLength(3)]],
       date: [null, [Validators.required]],
       academicPeriod: [null, [ Validators.required]],
       subject: [null],
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      finalAttendance: [null, [Validators.required]],
-      academicObservation: [null, [Validators.required]],
       observation: [null, [Validators.required]],
     });
   }
@@ -217,15 +215,13 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
   validateForm() {
     this.formErrors = [];
-    if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
-    if (this.dateField.errors) this.formErrors.push('date');
-    if (this.typeField.errors) this.formErrors.push('type');
-    if (this.workdayField.errors) this.formErrors.push(' workday');
-    if (this.parallelField.errors) this.formErrors.push('parallel');
-    if (this.finalAttendanceField.errors) this.formErrors.push('finalAttendance');
-    if (this.academicObservationField.errors) this.formErrors.push('academicObservation');
-    if (this.observationField.errors) this.formErrors.push('observation');
-    if (this.numberField.errors) this.formErrors.push('number');
+    if (this.academicPeriodField.errors) this.formErrors.push('Periodo Académico');
+    if (this.dateField.errors) this.formErrors.push('Fecha');
+    if (this.typeField.errors) this.formErrors.push('Tipo');
+    if (this.workdayField.errors) this.formErrors.push(' Jornada');
+    if (this.parallelField.errors) this.formErrors.push('Paralelo');
+    if (this.observationField.errors) this.formErrors.push('Observación');
+    if (this.numberField.errors) this.formErrors.push('Número');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
@@ -253,12 +249,6 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   }
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
-  }
-  get finalAttendanceField(): AbstractControl {
-    return this.form.controls['finalAttendance'];
-  }
-  get academicObservationField(): AbstractControl {
-    return this.form.controls['academicObservation'];
   }
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
