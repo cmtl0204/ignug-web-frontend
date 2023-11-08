@@ -1,12 +1,19 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {InscriptionComponent} from "./inscription.component";
+import {ExitGuard} from "@shared/guards";
+import {InscriptionListComponent} from "./inscription-list/inscription-list.component";
+import {InscriptionFormComponent} from "./inscription-form/inscription-form.component";
 
 const routes: Routes = [
   {
     path: '',
-    component: InscriptionComponent
-  }
+    component: InscriptionListComponent,
+  },
+  {
+    path: ':id',
+    component: InscriptionFormComponent,
+    canDeactivate: [ExitGuard]
+  },
 ];
 
 @NgModule({

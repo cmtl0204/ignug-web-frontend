@@ -43,6 +43,18 @@ export class RoutesService {
     return this.core + '/enrollment-details';
   }
 
+  get inscriptions(): string {
+    return this.core + '/inscriptions';
+  }
+
+  get inscriptionsDetailList(): string {
+    return this.core + '/inscription-details/inscriptions';
+  }
+
+  get inscriptionsDetailForm(): string {
+    return this.core + '/inscription-details';
+  }
+
   get events(): string {
     return this.core + '/events';
   }

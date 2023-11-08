@@ -1,1 +1,286 @@
-<p>inscription-form works!</p>
+<app-skeleton
+  *ngIf="coreService.isLoading"
+  [type]="SkeletonEnum.CARD"
+></app-skeleton>
+
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
+    <app-header-form [id]="id"></app-header-form>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton pRipple type="button"
+            (click)="back()"
+            [icon]="IconButtonActionEnum.CANCEL"
+            [label]="LabelButtonActionEnum.CANCEL"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CANCEL]"></button>
+    <p-divider layout="vertical"></p-divider>
+    <button pButton pRipple type="button"
+            (click)="onSubmit()"
+            [icon]="IconButtonActionEnum.SAVE"
+            [label]="LabelButtonActionEnum.SAVE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.SAVE]"></button>
+  </div>
+</p-toolbar>
+
+<p-panel *ngIf="!coreService.isLoading" class="p-fluid">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Student-->
+    <div formGroupName="student">
+      <div formGroupName="user">
+        <div class="formgrid grid">
+          <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+            <label
+              appLabel
+              for="identification"
+              label="Número de Documento:"
+              [required]="identificationField"
+            >
+            </label>
+            <input
+              pInputText
+              type="number"
+              id="identification"
+              formControlName="identification"
+            />
+          </div>
+          <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+            <label
+              appLabel
+              for="lastname"
+              label="Apellidos:"
+              [required]="lastnameField"
+            >
+            </label>
+            <input
+              pInputText
+              type="text"
+              id="lastname"
+              formControlName="lastname"
+            />
+          </div>
+          <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+            <label
+              appLabel
+              for="name"
+              label="Nombres:"
+              [required]="nameField"
+            >
+            </label>
+            <input
+              pInputText
+              type="text"
+              id="name"
+              formControlName="name"
+            />
+          </div>
+        </div>
+        <div class="formgrid grid">
+          <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+            <label
+              appLabel
+              for="email"
+              label="Correo electrónico Institucional:"
+              [required]="emailField"
+            >
+            </label>
+            <input
+              pInputText
+              type="text"
+              id="email"
+              formControlName="email"
+            />
+          </div>
+          <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+            <label
+              appLabel
+              for="personalEmail"
+              label="Correo electrónico Personal:"
+              [required]="personalEmailField"
+            >
+            </label>
+            <input
+              pInputText
+              type="text"
+              id="personalEmail"
+              formControlName="personalEmail"
+            />
+          </div>
+          <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+            <label
+              appLabel
+              for="cellPhone"
+              label="Teléfono celular:"
+              [required]="cellPhoneField"
+            >
+            </label>
+            <input
+              pInputText
+              type="number"
+              id="cellPhone"
+              formControlName="cellPhone"
+            />
+          </div>
+          <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+            <label
+              appLabel
+              for="phone"
+              label="Teléfono de casa:"
+              [required]="phoneField"
+            >
+            </label>
+            <input
+              pInputText
+              type="number"
+              id="phone"
+              formControlName="phone"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="date"
+          label="Fecha de Matrícula:"
+          [required]="dateField"
+        >
+        </label>
+        <p-calendar
+          id="date"
+          formControlName="date"
+          dateFormat="yy-mm-dd"
+          [showIcon]="true"
+        >
+        </p-calendar>
+        <small
+          appErrorMessage
+          [errors]="dateField.errors"
+          [touched]="dateField.touched"
+          [dirty]="dateField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="code"
+          label="Código de la Matrícula:"
+          [required]="codeField"
+        >
+        </label>
+        <input
+          pInputText
+          type="text"
+          id="code"
+          formControlName="code"
+        />
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="enrollmentStates"
+          label="Estado de la Matrícula:"
+          [required]="enrollmentStatesField">
+        </label>
+        <div id="enrollmentStates">
+          <p-tag *ngFor="let item of enrollmentStatesField.value" [value]="item.state.name"></p-tag>
+        </div>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="academicPeriod"
+          label="Periodo Acádemico:"
+          [required]="academicPeriodField"
+        ></label>
+        <p-dropdown
+          id="academicPeriod"
+          dataKey="id"
+          formControlName="academicPeriod"
+          [options]="academicPeriods"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="academicPeriodField.errors"
+          [touched]="academicPeriodField.touched"
+          [dirty]="academicPeriodField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="workday"
+          label="Jornada:"
+          [required]="workdayField"
+        >
+        </label>
+        <p-dropdown
+          id="workday"
+          formControlName="workday"
+          dataKey="id"
+          [options]="workdays"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="workdayField.errors"
+          [touched]="workdayField.touched"
+          [dirty]="workdayField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label
+          appLabel
+          for="parallel"
+          label="Paralelo:"
+          [required]="parallelField"
+        >
+        </label>
+        <p-dropdown
+          id="parallel"
+          formControlName="parallel"
+          dataKey="id"
+          [options]="parallels"
+          optionLabel="name"
+          placeholder="Seleccione"
+        >
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="parallelField.errors"
+          [touched]="parallelField.touched"
+          [dirty]="parallelField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
+        <label
+          appLabel
+          for="observation"
+          label="Observación de la Matrícula:"
+        >
+        </label>
+        <input
+          pInputText
+          type="text"
+          id="observation"
+          formControlName="observation"
+        />
+      </div>
+    </div>
+  </form>
+</p-panel>

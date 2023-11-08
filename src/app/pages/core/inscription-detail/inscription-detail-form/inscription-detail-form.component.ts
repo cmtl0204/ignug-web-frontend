@@ -1,10 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from "@angular/common";
-import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
+import {FormBuilder, AbstractControl, Validators, FormGroup, FormControl} from '@angular/forms';
 import {
   CatalogueModel,
+  EnrollmentDetailModel,
   EnrollmentModel,
-  SelectEnrollmentDto
+  SelectEnrollmentDetailDto,
+  SelectEnrollmentDto,
+  SubjectModel
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from 'primeng/api';
@@ -16,27 +19,34 @@ import {
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
+  SchoolPeriodsHttpService,
+  StudentsHttpService,
+  SubjectsHttpService,
 } from '@services/core';
+
 import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
+import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
 
 @Component({
-  selector: 'app-inscription-form',
-  templateUrl: './inscription-form.component.html',
-  styleUrls: ['./inscription-form.component.scss']
+  selector: 'app-inscription-detail-form',
+  templateUrl: './inscription-detail-form.component.html',
+  styleUrls: ['./inscription-detail-form.component.scss']
 })
-export class InscriptionFormComponent implements OnInit, OnExitInterface {
+export class InscriptionDetailFormComponent implements OnInit, OnExitInterface{
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
-  protected readonly PrimeIcons = PrimeIcons;
   protected readonly SkeletonEnum = SkeletonEnum;
+  protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
 
-  protected selectedItem: SelectEnrollmentDto = {};
-  protected selectedItems: EnrollmentModel[] = [];
-  protected items: EnrollmentModel[] = [];
+  protected selectedItem: SelectEnrollmentDetailDto = {};
+  protected selectedItems: EnrollmentDetailModel[] = [];
+  protected items: EnrollmentDetailModel[] = [];
+  protected selectedSubject: FormControl = new FormControl();
+  protected selectedAcademicPeriod: FormControl = new FormControl();
 
   // Foreign Keys
   protected academicPeriods: CatalogueModel[] = [];
@@ -44,6 +54,7 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   protected states: CatalogueModel[] = [];
   protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
+  protected subjects: SubjectModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -54,11 +65,13 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private enrollmentsHttpService: EnrollmentsHttpService,
     private location: Location,
+    private enrollmentsHttpService: EnrollmentsHttpService,
+    private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
+    private subjectsHttpService: SubjectsHttpService,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.ENROLLMENT_DETAILS, routerLink: [this.routesService.enrollmentsDetailList]},
       {label: BreadcrumbEnum.FORM},
     ]);
 
@@ -67,6 +80,15 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
     }
 
     this.form = this.newForm;
+
+    this.selectedSubject.valueChanges.subscribe(value => {
+      this.findSubjectsByacademicPeriod();
+    });
+
+
+    this.selectedAcademicPeriod.valueChanges.subscribe(value => {
+      this.findSubjectsByacademicPeriod();
+    });
   }
 
   async onExit(): Promise<boolean> {
@@ -77,11 +99,14 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
+
     this.loadAcademicPeriods();
     this.loadParallels();
     this.loadStates();
     this.loadWorkdays();
     this.loadTypes();
+    this.loadSubjects();
+    this.findSubjectsByacademicPeriod();
 
     if (this.id) {
       this.get();
@@ -90,48 +115,21 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      student: this.newStudentForm,
-      states: this.newStateForm,
-      date: [{value:null,disabled:true}],
+      number: [null, [Validators.required, Validators.min(1),Validators.maxLength(3)]],
+      date: [null, [Validators.required]],
       academicPeriod: [null, [ Validators.required]],
+      subject: [null],
       type: [null, [ Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      code: [{value:null,disabled:true}],
-      observation: [null],
-      enrollmentStates: [{value:null,disabled:true}],
-    });
-  }
-
-  get newStudentForm(): FormGroup {
-    return this.formBuilder.group({
-      informationStudent: [{value:null,disabled:true}],
-      user: this.newUserForm,
-    });
-  }
-
-  get newUserForm(): FormGroup {
-    return this.formBuilder.group({
-      identification: [{value:null,disabled:true}],
-      lastname: [{value:null,disabled:true}],
-      name: [{value:null,disabled:true}],
-      email: [{value:null,disabled:true}],
-      personalEmail: [{value:null,disabled:true}],
-      cellPhone: [{value:null,disabled:true}],
-      phone: [{value:null,disabled:true}],
-    });
-  }
-
-  get newStateForm(): FormGroup {
-    return this.formBuilder.group({
-      state: [{value:null,disabled:true}],
+      observation: [null, [Validators.required]],
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
       if (this.id) {
-        this.update();
+        this.update(this.form.value);
       } else {
         this.create(this.form.value);
       }
@@ -145,16 +143,25 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
     this.location.back();
   }
 
+  findSubjectsByacademicPeriod(page: number = 0) {
+    if (this.selectedSubject.value && this.selectedAcademicPeriod.value){
+      this.enrollmentDetailsHttpService.findSubjectsByAcademicPeriod(this.selectedSubject.value, this.selectedAcademicPeriod.value)
+        .subscribe((response) => {
+          this.items = response.data
+        });
+    }
+  }
+
   /** Actions **/
-  create(enrollment: EnrollmentModel): void {
-    this.enrollmentsHttpService.create(enrollment).subscribe(() => {
+  create(enrollmentDetail: EnrollmentDetailModel): void {
+    this.enrollmentDetailsHttpService.create(enrollmentDetail).subscribe(() => {
       this.form.reset();
       this.back();
     });
   }
 
-  update(): void {
-    this.enrollmentsHttpService.update(this.id!, this.form.value).subscribe(() => {
+  update(enrollmentDetail: EnrollmentDetailModel): void {
+    this.enrollmentDetailsHttpService.update(this.id!, enrollmentDetail).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -173,9 +180,9 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   }
 
   get(): void {
-    this.enrollmentsHttpService.findOne(this.id!).subscribe((enrollment) => {
+    this.enrollmentDetailsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
-      console.log(this.enrollmentStatesField.value);
+      console.log(this.academicPeriodField.value)
     });
   }
 
@@ -201,33 +208,38 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   loadTypes(): void {
     this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
   }
+  loadSubjects(): void {
+    this.subjectsHttpService.getAllSubjects()
+      .subscribe((items) => this.subjects = items);
+  }
 
   validateForm() {
     this.formErrors = [];
-    if (this.identificationField.errors) this.formErrors.push('identification');
-    if (this.lastnameField.errors) this.formErrors.push('lastname');
-    if (this.nameField.errors) this.formErrors.push('name');
-    if (this.emailField.errors) this.formErrors.push('email');
-    if (this.personalEmailField.errors) this.formErrors.push('personalEmail');
-    if (this.cellPhoneField.errors) this.formErrors.push('cellPhone');
-    if (this.phoneField.errors) this.formErrors.push('phone');
-    if (this.academicPeriodField.errors) this.formErrors.push('academicPeriod');
-    if (this.dateField.errors) this.formErrors.push('date');
-    if (this.typeField.errors) this.formErrors.push('type');
-    if (this.workdayField.errors) this.formErrors.push(' workday');
-    if (this.parallelField.errors) this.formErrors.push('parallel');
-    if (this.codeField.errors) this.formErrors.push('code');
+    if (this.academicPeriodField.errors) this.formErrors.push('Periodo Académico');
+    if (this.dateField.errors) this.formErrors.push('Fecha');
+    if (this.typeField.errors) this.formErrors.push('Tipo');
+    if (this.workdayField.errors) this.formErrors.push(' Jornada');
+    if (this.parallelField.errors) this.formErrors.push('Paralelo');
+    if (this.observationField.errors) this.formErrors.push('Observación');
+    if (this.numberField.errors) this.formErrors.push('Número');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
   }
 
+
   /** Form Getters **/
   get academicPeriodField(): AbstractControl {
     return this.form.controls['academicPeriod'];
   }
+  get subjectField(): AbstractControl {
+    return this.form.controls['subject'];
+  }
   get dateField(): AbstractControl {
     return this.form.controls['date'];
+  }
+  get numberField(): AbstractControl {
+    return this.form.controls['number'];
   }
   get typeField(): AbstractControl {
     return this.form.controls['type'];
@@ -238,50 +250,7 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
-  get codeField(): AbstractControl {
-    return this.form.controls['code'];
-  }
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
-  }
-  get enrollmentStatesField(): AbstractControl {
-    return this.form.controls['enrollmentStates'];
-  }
-
-  get studentForm(): FormGroup {
-    return this.form.controls['student'] as FormGroup;
-  }
-
-  get userForm(): FormGroup {
-    return this.studentForm.controls['user'] as FormGroup;
-  }
-
-  get identificationField(): AbstractControl {
-    return this.userForm.controls['identification'];
-  }
-  get lastnameField(): AbstractControl {
-    return this.userForm.controls['lastname'];
-  }
-  get nameField(): AbstractControl {
-    return this.userForm.controls['name'];
-  }
-  get emailField(): AbstractControl {
-    return this.userForm.controls['email'];
-  }
-  get personalEmailField(): AbstractControl {
-    return this.userForm.controls['personalEmail'];
-  }
-  get cellPhoneField(): AbstractControl {
-    return this.userForm.controls['cellPhone'];
-  }
-  get phoneField(): AbstractControl {
-    return this.userForm.controls['phone'];
-  }
-
-  get stateForm(): FormGroup {
-    return this.form.controls['states'] as FormGroup;
-  }
-  get stateField(): AbstractControl {
-    return this.stateForm.controls['state'];
   }
 }

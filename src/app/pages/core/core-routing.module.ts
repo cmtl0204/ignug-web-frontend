@@ -32,6 +32,10 @@ const routes: Routes = [
     loadChildren: () => import('./inscription/inscription.module').then(m => m.InscriptionModule)
   },
   {
+    path: 'inscription-details',
+    loadChildren: () => import('./inscription-detail/inscription-detail.module').then(m => m.InscriptionDetailModule)
+  },
+  {
     path: 'institutions',
     loadChildren: () => import('./institution/institution.module').then(m => m.InstitutionModule)
   },

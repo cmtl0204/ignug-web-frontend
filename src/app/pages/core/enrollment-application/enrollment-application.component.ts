@@ -25,7 +25,7 @@ export class EnrollmentApplicationComponent {
   protected id: string | null = null;
   protected form: FormGroup;
   protected items: MenuItem[] = [];
-  protected activeIndex: number = 2;
+  protected activeIndex: number = 0;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,

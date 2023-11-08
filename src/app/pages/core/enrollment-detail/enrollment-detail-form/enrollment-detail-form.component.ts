@@ -70,14 +70,15 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
     private subjectsHttpService: SubjectsHttpService,
     ) {
-    this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENT_DETAILS, routerLink: [this.routesService.enrollmentsDetailList]},
-      {label: BreadcrumbEnum.FORM},
-    ]);
-
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
+
+    this.breadcrumbService.setItems([
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.ENROLLMENT_DETAILS, routerLink: [this.routesService.enrollmentsDetailList,this.id]},
+      {label: BreadcrumbEnum.FORM},
+    ]);
 
     this.form = this.newForm;
 

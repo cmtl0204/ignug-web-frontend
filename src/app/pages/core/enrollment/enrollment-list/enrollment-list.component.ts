@@ -12,7 +12,7 @@ import {
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
-  SchoolPeriodsHttpService
+  SchoolPeriodsHttpService, SchoolPeriodsService
 } from '@services/core';
 import { IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
 
@@ -54,6 +54,7 @@ export class EnrollmentListComponent implements OnInit {
     private enrollmentsHttpService: EnrollmentsHttpService,
     private cataloguesHttpService: CataloguesHttpService,
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
+    private schoolPeriodsService: SchoolPeriodsService,
     private careersService: CareersService,
     private careersHttpService: CareersHttpService,
 
@@ -79,6 +80,10 @@ export class EnrollmentListComponent implements OnInit {
     this.selectedAcademicPeriod.valueChanges.subscribe(value => {
       this.findEnrollmentsByCareer();
   });
+
+    this.selectedSchoolPeriod.patchValue(this.schoolPeriodsService.openSchoolPeriod);
+
+    this.selectedCareer.patchValue(this.careersService.career);
   }
 
   ngOnInit() {
@@ -114,7 +119,6 @@ export class EnrollmentListComponent implements OnInit {
    }
   }
 
-
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
@@ -147,22 +151,8 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
-        label: 'Aprobar',
-        icon: PrimeIcons.BOOK,
-        command: () => {
-          if (this.selectedItem?.id) this.approve(this.selectedItem.id);
-        },
-      },
-      {
-        label: 'Rechazar',
-        icon: PrimeIcons.BOOK,
-        command: () => {
-          if (this.selectedItem?.id) this.reject(this.selectedItem.id);
-        },
-      },
-      {
         label: 'Matricular',
-        icon: PrimeIcons.BOOK,
+        icon: PrimeIcons.CHECK,
         command: () => {
           if (this.selectedItem?.id) this.enroll(this.selectedItem.id);
         },
@@ -178,7 +168,7 @@ export class EnrollmentListComponent implements OnInit {
         label: 'Descargar Certificado',
         icon: PrimeIcons.DOWNLOAD,
         command: () => {
-          if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+          alert('certificado');
         },
       },
     ];

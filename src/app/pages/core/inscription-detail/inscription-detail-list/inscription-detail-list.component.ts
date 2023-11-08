@@ -18,11 +18,11 @@ import { IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonA
 import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
 
 @Component({
-  selector: 'app-enrollment-detail-list',
-  templateUrl: './enrollment-detail-list.component.html',
-  styleUrls: ['./enrollment-detail-list.component.scss']
+  selector: 'app-inscription-detail-list',
+  templateUrl: './inscription-detail-list.component.html',
+  styleUrls: ['./inscription-detail-list.component.scss']
 })
-export class EnrollmentDetailListComponent implements OnInit {
+export class InscriptionDetailListComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
@@ -94,14 +94,13 @@ export class EnrollmentDetailListComponent implements OnInit {
   findCareers(){
     this.careers = this.careersService.careers;
   }
-
   findAcademicPeriods(){
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
   /** Load Data **/
   findEnrollmentDetailsByEnrollment(page: number = 0) {
-      this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.enrollmentId)
+    this.enrollmentsHttpService.findEnrollmentDetailsByEnrollment(this.enrollmentId)
       .subscribe((response) => {
         this.items = response;
       });
@@ -131,17 +130,17 @@ export class EnrollmentDetailListComponent implements OnInit {
         },
       },
       {
-        label: 'Matricular',
-        icon: PrimeIcons.BOOK,
+        label: 'Aprobar',
+        icon: PrimeIcons.CHECK,
         command: () => {
-          if (this.selectedItem?.id) this.enroll(this.selectedItem.id);
+          if (this.selectedItem?.id) this.approve(this.selectedItem.id);
         },
       },
       {
-        label: 'Anular',
+        label: 'Rechazar',
         icon: PrimeIcons.BAN,
         command: () => {
-          if (this.selectedItem?.id) this.revoke(this.selectedItem.id);
+          if (this.selectedItem?.id) this.reject(this.selectedItem.id);
         },
       },
       {
@@ -198,10 +197,10 @@ export class EnrollmentDetailListComponent implements OnInit {
 
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.enrollmentsDetailForm, 'new']);
+    this.router.navigate([this.routesService.inscriptionsDetailForm, 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.enrollmentsDetailForm, id]);
+    this.router.navigate([this.routesService.inscriptionsDetailForm, id]);
   }
 }

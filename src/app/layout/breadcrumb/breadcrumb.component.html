@@ -16,45 +16,46 @@
 <app-progress-bar *ngIf="coreService.isLoading"></app-progress-bar>
 
 <p-overlayPanel #op>
-  <div class="text-center">
-    <p-avatar *ngIf="authService.auth"
-              [image]="HOST_URL+authService.auth.avatar" styleClass="mr-2" size="xlarge"
-              shape="circle"></p-avatar>
-  </div>
-  <div class="field">
-    <button pButton pRipple type="button"
-            class="p-button-text"
-            [icon]="PrimeIcons.USER"
-            pTooltip="Usuario"
-            [label]="authService.auth.name + ' ' + authService.auth.lastname"
-            (click)="redirectProfile()"></button>
-    <p-divider></p-divider>
-    <button pButton pRipple type="button"
-            class="p-button-text"
-            [icon]="PrimeIcons.ID_CARD"
-            pTooltip="Rol"
-            [label]="authService.role.name"
-            (click)="redirectProfile()"></button>
-    <br>
-    <button *ngIf="institutionsService.institution" pButton pRipple type="button"
-            class="p-button-text"
-            [icon]="PrimeIcons.BUILDING"
-            pTooltip="Institución"
-            [label]="institutionsService.institution.shortName!"
-            (click)="redirectProfile()"></button>
-    <br>
-    <button *ngIf="coreService.version!=coreService.newVersion" pButton pRipple type="button"
-            class="p-button-success p-button-text"
-            [icon]="PrimeIcons.SYNC"
-            pTooltip="Nueva Actualización"
-            [label]="'Actualizar '+coreService.newVersion"
-            (click)="updateSystem()"></button>
-    <p-divider></p-divider>
-    <button pButton pRipple type="button"
-            class="p-button-danger p-button-text"
-            [icon]="PrimeIcons.SIGN_OUT"
-            label="Cerrar Sesión"
-            (click)="signOut()"></button>
+  <div *ngIf="authService.auth">
+    <div class="text-center">
+      <p-avatar [image]="HOST_URL+authService.auth.avatar" styleClass="mr-2" size="xlarge"
+                shape="circle"></p-avatar>
+    </div>
+    <div class="field">
+      <button pButton pRipple type="button"
+              class="p-button-text"
+              [icon]="PrimeIcons.USER"
+              pTooltip="Usuario"
+              [label]="authService.auth.name + ' ' + authService.auth.lastname"
+              (click)="redirectProfile()"></button>
+      <p-divider></p-divider>
+      <button pButton pRipple type="button"
+              class="p-button-text"
+              [icon]="PrimeIcons.ID_CARD"
+              pTooltip="Rol"
+              [label]="authService.role.name"
+              (click)="redirectProfile()"></button>
+      <br>
+      <button *ngIf="institutionsService.institution" pButton pRipple type="button"
+              class="p-button-text"
+              [icon]="PrimeIcons.BUILDING"
+              pTooltip="Institución"
+              [label]="institutionsService.institution.shortName!"
+              (click)="redirectProfile()"></button>
+      <br>
+      <button *ngIf="coreService.version!=coreService.newVersion" pButton pRipple type="button"
+              class="p-button-success p-button-text"
+              [icon]="PrimeIcons.SYNC"
+              pTooltip="Nueva Actualización"
+              [label]="'Actualizar '+coreService.newVersion"
+              (click)="updateSystem()"></button>
+      <p-divider></p-divider>
+      <button pButton pRipple type="button"
+              class="p-button-danger p-button-text"
+              [icon]="PrimeIcons.SIGN_OUT"
+              label="Cerrar Sesión"
+              (click)="signOut()"></button>
+    </div>
   </div>
 </p-overlayPanel>
 

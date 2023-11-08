@@ -1,9 +1,9 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {InscriptionRoutingModule} from './inscription-routing.module';
-import {InscriptionListComponent} from "./inscription-list/inscription-list.component";
-import {InscriptionFormComponent} from "./inscription-form/inscription-form.component";
+import {InscriptionDetailRoutingModule} from './inscription-detail-routing.module';
+import {InscriptionDetailListComponent} from "./inscription-detail-list/inscription-detail-list.component";
+import {InscriptionDetailFormComponent} from "./inscription-detail-form/inscription-detail-form.component";
 import {ReactiveFormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
@@ -30,12 +30,12 @@ import {BadgeModule} from "primeng/badge";
 
 @NgModule({
   declarations: [
-    InscriptionListComponent,
-    InscriptionFormComponent
+    InscriptionDetailListComponent,
+    InscriptionDetailFormComponent
   ],
   imports: [
     CommonModule,
-    InscriptionRoutingModule,
+    InscriptionDetailRoutingModule,
     ReactiveFormsModule,
     ButtonModule,
     RippleModule,
@@ -61,5 +61,5 @@ import {BadgeModule} from "primeng/badge";
     BadgeModule
   ]
 })
-export class InscriptionModule {
+export class InscriptionDetailModule {
 }
