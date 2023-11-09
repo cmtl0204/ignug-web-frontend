@@ -35,24 +35,28 @@ export class RoutesService {
     return this.core + '/curriculums';
   }
 
-  get enrollmentsDetailList(): string {
-    return this.core + '/enrollment-details/enrollments';
+  get enrollments(): string {
+    return this.core + '/enrollments';
   }
 
-  get enrollmentsDetailForm(): string {
-    return this.core + '/enrollment-details';
+  enrollmentsDetailList(enrollmentId: string): string {
+    return this.core + `/enrollments/${enrollmentId}/enrollment-details/`;
+  }
+
+  enrollmentsDetailForm(enrollmentId: string): string {
+    return this.core + `/enrollments/${enrollmentId}/enrollment-details/`;
   }
 
   get inscriptions(): string {
     return this.core + '/inscriptions';
   }
 
-  get inscriptionsDetailList(): string {
-    return this.core + '/inscription-details/inscriptions';
+  inscriptionsDetailList(enrollmentId: string): string {
+    return this.core + `/inscriptions/${enrollmentId}/inscription-details`;
   }
 
-  get inscriptionsDetailForm(): string {
-    return this.core + '/inscription-details';
+  inscriptionsDetailForm(enrollmentId: string): string {
+    return this.core + `/inscriptions/${enrollmentId}/inscription-details`;
   }
 
   get events(): string {
@@ -77,10 +81,6 @@ export class RoutesService {
 
   get teachers(): string {
     return this.core + '/teachers';
-  }
-
-  get enrollments(): string {
-    return this.core + '/enrollments';
   }
 
   get teacherDistributions(): string {

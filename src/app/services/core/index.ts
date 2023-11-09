@@ -27,3 +27,4 @@ export * from './teacher-distributions.service';
 export * from './secretary.service';
 export * from './teacher-charge.service';
 export * from './students.service';
+export * from './enrollment-details-http.service';

@@ -1,6 +1,11 @@
 import {PrimeIcons} from "primeng/api";
 
 export enum IdButtonActionEnum {
+  APPROVED = 'approved',
+  REJECTED = 'rejected',
+  ENROLLED = 'enrolled',
+  REGISTERED = 'registered',
+  SENT_REQUEST = 'sent_request',
   UPDATE = 'update',
   DELETE = 'delete',
   HIDE = 'hide',
@@ -17,6 +22,7 @@ export enum LabelButtonActionEnum {
   ACTIONS = 'Acciones',
   CREATE = 'Crear',
   CANCEL = 'Cancelar',
+  RETURN = 'Regresar',
   SAVE = 'Guardar',
   UPDATE = 'Editar',
   DELETE = 'Eliminar',
@@ -39,6 +45,7 @@ export enum IconButtonActionEnum {
   SYNC = 'pi pi-sync',
   UPDATE = 'pi pi-pencil',
   CANCEL = 'pi pi-arrow-left',
+  RETURN = 'pi pi-arrow-left',
   SAVE = 'pi pi-save',
   DELETE = 'Eliminar',
   HIDE = 'pi pi-eye-slash',
@@ -54,6 +61,7 @@ export enum IconButtonActionEnum {
 export enum ClassButtonActionEnum {
   CREATE = 'p-button-success',
   CANCEL = 'p-button-warning',
+  RETURN = 'p-button-warning',
   SAVE = '',
   SYNC = 'p-button-info',
   REDIRECT_SECONDARY = 'p-button-secondary',

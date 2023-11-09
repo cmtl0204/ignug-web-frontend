@@ -10,7 +10,7 @@ import {OnExitInterface} from '@shared/interfaces';
 import {DateValidators} from '@shared/validators';
 import {DateFormatPipe} from "@shared/pipes";
 import {CatalogueCoreTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
-import {environment} from "@env/environment.prod";
+import {environment} from "@env/environment";
 
 @Component({
   selector: 'app-user-profile',

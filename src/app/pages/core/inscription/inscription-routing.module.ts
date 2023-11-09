@@ -3,6 +3,12 @@ import {RouterModule, Routes} from '@angular/router';
 import {ExitGuard} from "@shared/guards";
 import {InscriptionListComponent} from "./inscription-list/inscription-list.component";
 import {InscriptionFormComponent} from "./inscription-form/inscription-form.component";
+import {
+  InscriptionDetailListComponent
+} from "../inscription-detail/inscription-detail-list/inscription-detail-list.component";
+import {
+  InscriptionDetailFormComponent
+} from "../inscription-detail/inscription-detail-form/inscription-detail-form.component";
 
 const routes: Routes = [
   {
@@ -13,6 +19,14 @@ const routes: Routes = [
     path: ':id',
     component: InscriptionFormComponent,
     canDeactivate: [ExitGuard]
+  },
+  {
+    path: ':enrollmentId/inscription-details',
+    component: InscriptionDetailListComponent,
+  },
+  {
+    path: ':enrollmentId/inscription-details/:id',
+    component: InscriptionDetailFormComponent,
   },
 ];
 

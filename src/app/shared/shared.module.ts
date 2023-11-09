@@ -48,6 +48,7 @@ import {DialogModule} from "primeng/dialog";
 import {ButtonActionComponent} from './components/button-action/button-action.component';
 import {MapComponent} from './components/map/map.component';
 import {AcademicStatePipe} from "@shared/pipes/core/academic-state.pipe";
+import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import {AcademicStatePipe} from "@shared/pipes/core/academic-state.pipe";
     ButtonActionComponent,
     MapComponent,
     AcademicStatePipe,
+    EnrollmentStatePipe,
   ],
   exports: [
     SkeletonComponent,
@@ -109,6 +111,7 @@ import {AcademicStatePipe} from "@shared/pipes/core/academic-state.pipe";
     ButtonActionComponent,
     MapComponent,
     AcademicStatePipe,
+    EnrollmentStatePipe,
   ],
   imports: [
     CommonModule,

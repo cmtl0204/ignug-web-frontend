@@ -63,6 +63,7 @@
         <p-button label="Retirados" badge="8" styleClass="mr-2"></p-button>
         <p-button label="Anulados" styleClass="p-button-warning mr-2" badge="8" badgeClass="p-badge-danger"></p-button>
       </div> -->
+      <h1>Lista de Inscritos</h1>
       <div class="p-input-icon-left ml-auto">
         <div class="p-inputgroup">
           <input type="text"
@@ -128,11 +129,9 @@
             {{rowData['student']?.user.name}}
           </div>
           <div *ngSwitchCase="'enrollmentStates'">
-            <ul>
-              <li *ngFor="let item of rowData[col.field]">
-                {{item.state.name}}
-              </li>
-            </ul>
+           <span *ngFor="let item of rowData[col.field]">
+              <p-tag [value]="item.state.name" [severity]="item.state.code|enrollmentState" class="mr-1"></p-tag>
+            </span>
           </div>
         </div>
       </td>

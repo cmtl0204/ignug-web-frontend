@@ -1,8 +1,15 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from "@angular/forms";
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from "@angular/forms";
 import {ActivatedRoute, Router} from '@angular/router';
-import { MenuItem, PrimeIcons } from "primeng/api";
-import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel, SelectEnrollmentDetailDto, EnrollmentDetailModel } from '@models/core';
+import {MenuItem, PrimeIcons} from "primeng/api";
+import {
+  ColumnModel,
+  CareerModel,
+  CatalogueModel,
+  SchoolPeriodModel,
+  SelectEnrollmentDetailDto,
+  EnrollmentDetailModel,
+} from '@models/core';
 import {
   BreadcrumbService,
   CareersHttpService,
@@ -10,12 +17,20 @@ import {
   CataloguesHttpService,
   CoreService,
   EnrollmentsHttpService,
+  EnrollmentDetailsHttpService,
   MessageService,
   RoutesService,
   SchoolPeriodsHttpService
 } from '@services/core';
-import { IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
-import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
+import {
+  IdButtonActionEnum,
+  BreadcrumbEnum,
+  CatalogueCoreTypeEnum,
+  ClassButtonActionEnum,
+  IconButtonActionEnum,
+  LabelButtonActionEnum,
+  CatalogueCoreEnrollmentStateEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-inscription-detail-list',
@@ -41,9 +56,7 @@ export class InscriptionDetailListComponent implements OnInit {
   protected schoolPeriods: SchoolPeriodModel[] = [];
   protected careers: CareerModel[] = [];
   protected academicPeriods: CatalogueModel[] = [];
-  protected selectedEnrollment: FormControl = new FormControl();
-  protected selectedSchoolPeriod: FormControl = new FormControl();
-  protected selectedAcademicPeriod: FormControl = new FormControl();
+  protected enrolledOrRevoked: boolean = false;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -58,16 +71,13 @@ export class InscriptionDetailListComponent implements OnInit {
     private careersService: CareersService,
     private careersHttpService: CareersHttpService,
     private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
-
   ) {
     this.breadcrumbService.setItems([
-      { label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments] },
-      {label: BreadcrumbEnum.ENROLLMENT_DETAILS }
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.inscriptions]},
+      {label: BreadcrumbEnum.ENROLLMENT_DETAILS}
     ]);
 
-    if (activatedRoute.snapshot.params['id'] !== 'new') {
-      this.enrollmentId = activatedRoute.snapshot.params['id'];
-    }
+    this.enrollmentId = activatedRoute.snapshot.params['enrollmentId'];
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
@@ -81,6 +91,11 @@ export class InscriptionDetailListComponent implements OnInit {
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
+    this.findEnrollment();
+  }
+
+  back(): void {
+    this.router.navigate([this.routesService.inscriptions]);
   }
 
   findSchoolPeriods() {
@@ -91,10 +106,11 @@ export class InscriptionDetailListComponent implements OnInit {
     )
   }
 
-  findCareers(){
+  findCareers() {
     this.careers = this.careersService.careers;
   }
-  findAcademicPeriods(){
+
+  findAcademicPeriods() {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
   }
 
@@ -106,15 +122,26 @@ export class InscriptionDetailListComponent implements OnInit {
       });
   }
 
+  findEnrollment(): void {
+    this.enrollmentsHttpService.findOne(this.enrollmentId).subscribe((enrollment) => {
+      if (enrollment.enrollmentStates) {
+        const exist = enrollment.enrollmentStates.find(item =>
+          item.state.code === CatalogueCoreEnrollmentStateEnum.ENROLLED || item.state.code === CatalogueCoreEnrollmentStateEnum.REVOKED)
+
+        this.enrolledOrRevoked = exist ? true : false;
+      }
+    });
+  }
+
   /** Build Data **/
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'academicPeriod', header: 'Periodo Académico'},
       {field: 'subject', header: 'Asignaturas'},
       {field: 'number', header: 'Número de Matrícula'},
       {field: 'workday', header: 'Jornada'},
       {field: 'parallel', header: 'Paralelo'},
       {field: 'type', header: 'Tipo de Matrícula'},
+      {field: 'enrollmentDetailStates', header: 'Estado'},
       {field: 'observation', header: 'Observaciones'}
     ];
   }
@@ -130,6 +157,7 @@ export class InscriptionDetailListComponent implements OnInit {
         },
       },
       {
+        id: IdButtonActionEnum.APPROVED,
         label: 'Aprobar',
         icon: PrimeIcons.CHECK,
         command: () => {
@@ -137,6 +165,7 @@ export class InscriptionDetailListComponent implements OnInit {
         },
       },
       {
+        id: IdButtonActionEnum.REJECTED,
         label: 'Rechazar',
         icon: PrimeIcons.BAN,
         command: () => {
@@ -144,6 +173,7 @@ export class InscriptionDetailListComponent implements OnInit {
         },
       },
       {
+        id: IdButtonActionEnum.DELETE,
         label: 'Eliminar',
         icon: PrimeIcons.TRASH,
         command: () => {
@@ -153,12 +183,43 @@ export class InscriptionDetailListComponent implements OnInit {
     ];
   }
 
+  validateButtonActions(item: EnrollmentDetailModel) {
+    this.buttonActions = this.buildButtonActions;
+    let index = -1;
+
+    if (this.enrolledOrRevoked) {
+      this.buttonActions = [];
+    }
+
+    if (!item.enrollmentDetailStates.find(enrollmentDetailState => enrollmentDetailState.state.code === CatalogueCoreEnrollmentStateEnum.REQUEST_SENT)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (item.enrollmentDetailStates.find(enrollmentDetailState => enrollmentDetailState.state.code === CatalogueCoreEnrollmentStateEnum.APPROVED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (item.enrollmentDetailStates.find(enrollmentDetailState => enrollmentDetailState.state.code === CatalogueCoreEnrollmentStateEnum.REJECTED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+  }
+
   /** Actions **/
   remove(id: string) {
     this.messageService.questionDelete()
       .then((result) => {
         if (result.isConfirmed) {
-          this.enrollmentsHttpService.remove(id).subscribe(() => {
+          this.enrollmentDetailsHttpService.remove(id).subscribe(() => {
             this.items = this.items.filter(item => item.id !== id);
           });
         }
@@ -179,13 +240,13 @@ export class InscriptionDetailListComponent implements OnInit {
 
   approve(id: string) {
     this.enrollmentDetailsHttpService.approve(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
+      this.findEnrollmentDetailsByEnrollment();
     });
   }
 
   reject(id: string) {
     this.enrollmentDetailsHttpService.reject(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
+      this.findEnrollmentDetailsByEnrollment();
     });
   }
 
@@ -193,14 +254,15 @@ export class InscriptionDetailListComponent implements OnInit {
   selectItem(item: EnrollmentDetailModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
+    this.validateButtonActions(item);
   }
 
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.inscriptionsDetailForm, 'new']);
+    this.router.navigate([this.routesService.inscriptionsDetailForm(this.enrollmentId), 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.inscriptionsDetailForm, id]);
+    this.router.navigate([this.routesService.inscriptionsDetailForm(this.enrollmentId), id]);
   }
 }

@@ -1,6 +1,6 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
-    <button pButton
+    <button [disabled]="enrolledOrRevoked" pButton
             pRipple
             type="button"
             label="Crear"
@@ -8,6 +8,7 @@
             [icon]="PrimeIcons.PLUS"
             (click)="redirectCreateForm()">
     </button>
+
     <button pButton
             pRipple
             type="button"
@@ -17,6 +18,14 @@
             [loading]="coreService.isLoading"
             (click)="findEnrollmentDetailsByEnrollment()">
     </button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton pRipple type="button"
+            (click)="back()"
+            [icon]="IconButtonActionEnum.RETURN"
+            [label]="LabelButtonActionEnum.RETURN"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.RETURN]"></button>
   </div>
 </p-toolbar>
 
@@ -85,13 +94,15 @@
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
-          <div *ngSwitchCase="'academicPeriod'">
-            {{rowData['subject']?.academicPeriod.name}}
+          <div *ngSwitchCase="'enrollmentDetailStates'">
+            <span *ngFor="let item of rowData[col.field]">
+              <p-tag [value]="item.state.name" [severity]="item.state.code|enrollmentState" class="mr-1"></p-tag>
+            </span>
           </div>
         </div>
       </td>
       <td class="text-center">
-        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
+        <button [disabled]="enrolledOrRevoked" pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
       </td>
     </tr>
   </ng-template>

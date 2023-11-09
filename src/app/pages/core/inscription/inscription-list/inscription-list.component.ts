@@ -30,7 +30,7 @@ import {
   CatalogueCoreTypeEnum,
   ClassButtonActionEnum,
   IconButtonActionEnum,
-  LabelButtonActionEnum
+  LabelButtonActionEnum, CatalogueCoreEnrollmentStateEnum
 } from "@shared/enums";
 
 @Component({
@@ -168,6 +168,7 @@ export class InscriptionListComponent implements OnInit {
         },
       },
       {
+        id: IdButtonActionEnum.APPROVED,
         label: 'Aprobar',
         icon: PrimeIcons.CHECK,
         command: () => {
@@ -175,6 +176,7 @@ export class InscriptionListComponent implements OnInit {
         },
       },
       {
+        id: IdButtonActionEnum.REJECTED,
         label: 'Rechazar',
         icon: PrimeIcons.BAN,
         command: () => {
@@ -189,6 +191,45 @@ export class InscriptionListComponent implements OnInit {
       //   },
       // },
     ];
+  }
+
+  validateButtonActions(item: EnrollmentModel) {
+    this.buttonActions = this.buildButtonActions;
+    let index = -1;
+
+    if (item.enrollmentStates.find(enrollmentState =>
+      enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.ENROLLED ||
+      enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.REVOKED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (!item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.REQUEST_SENT)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.APPROVED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.REJECTED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
   }
 
   /** Actions **/
@@ -234,15 +275,13 @@ export class InscriptionListComponent implements OnInit {
 
   approve(id: string) {
     this.enrollmentsHttpService.approve(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+      this.findEnrollmentsByCareer();
     });
   }
 
   reject(id: string) {
     this.enrollmentsHttpService.reject(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+      this.findEnrollmentsByCareer();
     });
   }
 
@@ -254,6 +293,7 @@ export class InscriptionListComponent implements OnInit {
   selectItem(item: EnrollmentModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
+    this.validateButtonActions(item);
   }
 
   paginate(event: any) {
@@ -270,7 +310,7 @@ export class InscriptionListComponent implements OnInit {
   }
 
   redirectEnrollmentDetails(id: string) {
-    this.router.navigate([this.routesService.inscriptionsDetailList, id]);
+    this.router.navigate([this.routesService.inscriptionsDetailList(this.selectedItem.id!)]);
   }
 }
 

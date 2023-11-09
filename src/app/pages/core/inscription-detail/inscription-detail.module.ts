@@ -26,6 +26,7 @@ import {AccordionModule} from "primeng/accordion";
 import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {BadgeModule} from "primeng/badge";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 
 @NgModule({
@@ -33,33 +34,34 @@ import {BadgeModule} from "primeng/badge";
     InscriptionDetailListComponent,
     InscriptionDetailFormComponent
   ],
-  imports: [
-    CommonModule,
-    InscriptionDetailRoutingModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    RippleModule,
-    MessageModule,
-    ToolbarModule,
-    PaginatorModule,
-    TableModule,
-    TagModule,
-    SplitButtonModule,
-    InputTextModule,
-    SidebarModule,
-    PanelMenuModule,
-    SharedModule,
-    PanelModule,
-    DividerModule,
-    InputSwitchModule,
-    TableModule,
-    TabViewModule,
-    CalendarModule,
-    AccordionModule,
-    DialogModule,
-    DropdownModule,
-    BadgeModule
-  ]
+    imports: [
+        CommonModule,
+        InscriptionDetailRoutingModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        RippleModule,
+        MessageModule,
+        ToolbarModule,
+        PaginatorModule,
+        TableModule,
+        TagModule,
+        SplitButtonModule,
+        InputTextModule,
+        SidebarModule,
+        PanelMenuModule,
+        SharedModule,
+        PanelModule,
+        DividerModule,
+        InputSwitchModule,
+        TableModule,
+        TabViewModule,
+        CalendarModule,
+        AccordionModule,
+        DialogModule,
+        DropdownModule,
+        BadgeModule,
+        OverlayPanelModule
+    ]
 })
 export class InscriptionDetailModule {
 }
