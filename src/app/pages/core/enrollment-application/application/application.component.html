@@ -122,11 +122,9 @@
             <div *ngSwitchCase="'state'">
               <p-tag [value]="rowData.academicState|academicState"
                      [severity]="rowData?.academicState==='a'?'success':rowData?.academicState==='r'?'danger':'info'"></p-tag>
-              <ul>
-                <li *ngFor="let enrollmentState of rowData?.enrollmentStates">
-                  {{enrollmentState.state?.name}}
-                </li>
-              </ul>
+
+              <p-tag *ngFor="let enrollmentState of rowData?.enrollmentStates" [value]="enrollmentState?.state?.name"
+                     [severity]="enrollmentState?.state?.code|enrollmentState" class="ml-1"></p-tag>
             </div>
             <div *ngSwitchCase="'hours'">
               {{rowData['teacherHour']}}h / {{rowData['practicalHour']}}h / {{rowData['autonomousHour']}}h

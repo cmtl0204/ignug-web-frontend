@@ -7,7 +7,7 @@ import {CatalogueModel} from "@models/core";
 export class AcademicStatePipe implements PipeTransform {
 
   transform(value: string): string {
-    return value === 'a' ? 'Aprobado' : value === 'r' ? 'Reprobado' : 'Sin Registro';
+    return value === 'a' ? 'Aprobado' : value === 'r' ? 'Reprobado' : 'Sin Estado';
   }
 
 }
