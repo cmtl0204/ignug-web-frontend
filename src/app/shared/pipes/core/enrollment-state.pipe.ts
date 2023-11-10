@@ -9,6 +9,8 @@ export class EnrollmentStatePipe implements PipeTransform {
 
   transform(value: string): string {
     switch (value) {
+      case CatalogueCoreEnrollmentStateEnum.REGISTERED:
+        return 'warning';
       case CatalogueCoreEnrollmentStateEnum.REQUEST_SENT:
         return 'info';
       case CatalogueCoreEnrollmentStateEnum.APPROVED:
