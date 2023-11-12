@@ -25,7 +25,10 @@ export class FilesHttpService {
 
     const headers = new HttpHeaders().append('pagination', 'true');
 
-    const params = new HttpParams().append('page', page.toString()).append('search', search);
+    const params = new HttpParams()
+      .append('page', page.toString())
+      .append('limit', '20')
+      .append('search', search);
 
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
@@ -44,8 +47,8 @@ export class FilesHttpService {
     );
   }
 
-  uploadFile(modelId: string, payload: FormData): Observable<EventModel> {
-    const url = `${this.API_URL}/${modelId}/upload`;
+  uploadFile(modelId: string, typeId: string, payload: FormData): Observable<EventModel> {
+    const url = `${this.API_URL}/${modelId}/upload?typeId=${typeId}`;
 
     this.coreService.isProcessing = true;
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
@@ -109,6 +112,7 @@ export class FilesHttpService {
   remove(id: string): Observable<EventModel> {
     const url = `${this.API_URL}/${id}`;
 
+    this.coreService.isProcessing = true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
         this.messageServicePn.clear();
@@ -118,6 +122,7 @@ export class FilesHttpService {
           summary: response.title,
           detail: response.message
         });
+        this.coreService.isProcessing = false;
         return response.data;
       })
     );
@@ -147,6 +152,7 @@ export class FilesHttpService {
 
   downloadFile(file: FileModel) {
     const url = `${this.API_URL}/${file.id}/download`;
+    this.coreService.isProcessing = true;
     this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
       .subscribe(response => {
         // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
@@ -156,6 +162,7 @@ export class FilesHttpService {
         downloadLink.setAttribute('download', file.originalName!);
         document.body.appendChild(downloadLink);
         downloadLink.click();
+        this.coreService.isProcessing = false;
       });
   }
 }

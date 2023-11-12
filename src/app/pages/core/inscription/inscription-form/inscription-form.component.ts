@@ -15,11 +15,11 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   ClassButtonActionEnum,
   SkeletonEnum,
   LabelButtonActionEnum,
-  IconButtonActionEnum, CatalogueCoreEnrollmentStateEnum
+  IconButtonActionEnum, CatalogueEnrollmentStateEnum
 } from '@shared/enums';
 
 @Component({
@@ -182,8 +182,8 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
         this.dateField.setValue(new Date(this.dateField.value));
 
       if (enrollment.enrollmentStates.find(enrollmentState =>
-        enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.ENROLLED ||
-        enrollmentState.state.code === CatalogueCoreEnrollmentStateEnum.REVOKED)) {
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
         this.form.disable();
       }
     });
@@ -192,24 +192,23 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   /** Load Enrollment Details Data **/
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_STATE);
   }
 
   loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
   }
 
   loadAcademicPeriods(): void {
-    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
-    console.log(this.academicPeriods)
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
   loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
   loadTypes(): void {
-    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
+    this.types = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_TYPE);
   }
 
   validateForm() {

@@ -24,7 +24,7 @@ import {
   SubjectsHttpService,
 } from '@services/core';
 
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
 import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
 
 @Component({
@@ -183,31 +183,29 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   get(): void {
     this.enrollmentDetailsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
-      console.log(this.academicPeriodField.value)
     });
   }
 
   /** Load Enrollment Details Data **/
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_STATE);
   }
 
   loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
   }
 
   loadAcademicPeriods(): void {
-    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
-    console.log(this.academicPeriods)
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
   loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
   loadTypes(): void {
-    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
+    this.types = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_TYPE);
   }
   loadSubjects(): void {
     this.subjectsHttpService.getAllSubjects()

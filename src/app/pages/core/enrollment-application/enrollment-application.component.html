@@ -1,148 +1,23 @@
 <app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
+<p-messages severity="info">
+  <ng-template pTemplate>
+    <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" width="32"/>
+    <div class="ml-2">Always bet on Prime.</div>
+  </ng-template>
+</p-messages>
+
 <p-tabView [activeIndex]="activeIndex" class="p-fluid">
   <p-tabPanel header="Ficha Socioeconómica" [disabled]="!(activeIndex===0)">
-    <!--    <div class="formgrid grid">-->
-    <!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-    <!--      </div>-->
-    <!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-    <!--        <button pButton-->
-    <!--                class="p-button-info"-->
-    <!--                label="Siguiente"-->
-    <!--                [icon]="PrimeIcons.ARROW_RIGHT"-->
-    <!--                iconPos="right"-->
-    <!--                (click)="next2()"></button>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <app-socioeconomic-form></app-socioeconomic-form>
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton
-                class="p-button-info"
-                label="Siguiente"
-                [icon]="PrimeIcons.ARROW_RIGHT"
-                iconPos="right"
-                (click)="next2()"></button>
-      </div>
-    </div>
+    <app-socioeconomic-form (nextOut)="next()"></app-socioeconomic-form>
   </p-tabPanel>
   <p-tabPanel header="Reporte Ficha Socioeconómica" [disabled]="!(activeIndex===1)">
-    <!--    <div class="formgrid grid">-->
-    <!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-    <!--        <button pButton-->
-    <!--                class="p-button-warning"-->
-    <!--                label="Atrás"-->
-    <!--                [icon]="PrimeIcons.ARROW_LEFT"-->
-    <!--                iconPos="left"-->
-    <!--                (click)="next1()"></button>-->
-    <!--      </div>-->
-    <!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-    <!--        <button pButton-->
-    <!--                class="p-button-info"-->
-    <!--                label="Siguiente"-->
-    <!--                [icon]="PrimeIcons.ARROW_RIGHT"-->
-    <!--                iconPos="right"-->
-    <!--                (click)="next3()"></button>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <app-socioeconimc-report></app-socioeconimc-report>
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton
-                class="p-button-warning"
-                label="Atrás"
-                [icon]="PrimeIcons.ARROW_LEFT"
-                iconPos="left"
-                (click)="next1()"></button>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton
-                class="p-button-info"
-                label="Siguiente"
-                [icon]="PrimeIcons.ARROW_RIGHT"
-                iconPos="right"
-                (click)="next3()"></button>
-      </div>
-    </div>
+    <app-socioeconomic-report (nextOut)="next()" (previousOut)="previous()"></app-socioeconomic-report>
   </p-tabPanel>
   <p-tabPanel header="Solicitud de Matricula" [disabled]="!(activeIndex===2)">
-<!--    <div class="formgrid grid">-->
-<!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-<!--        <button pButton-->
-<!--                class="p-button-warning"-->
-<!--                label="Atrás"-->
-<!--                [icon]="PrimeIcons.ARROW_LEFT"-->
-<!--                iconPos="left"-->
-<!--                (click)="next2()"></button>-->
-<!--      </div>-->
-<!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-<!--        <button pButton-->
-<!--                class="p-button-info"-->
-<!--                label="Siguiente"-->
-<!--                [icon]="PrimeIcons.ARROW_RIGHT"-->
-<!--                iconPos="right"-->
-<!--                (click)="next4()"></button>-->
-<!--      </div>-->
-<!--    </div>-->
-    <app-application></app-application>
-<!--    <div class="formgrid grid">-->
-<!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-<!--        <button pButton-->
-<!--                class="p-button-warning"-->
-<!--                label="Atrás"-->
-<!--                [icon]="PrimeIcons.ARROW_LEFT"-->
-<!--                iconPos="left"-->
-<!--                (click)="next2()"></button>-->
-<!--      </div>-->
-<!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-<!--        <button pButton-->
-<!--                class="p-button-info"-->
-<!--                label="Siguiente"-->
-<!--                [icon]="PrimeIcons.ARROW_RIGHT"-->
-<!--                iconPos="right"-->
-<!--                (click)="next4()"></button>-->
-<!--      </div>-->
-<!--    </div>-->
+    <app-application (nextOut)="next()" (previousOut)="previous()"></app-application>
   </p-tabPanel>
   <p-tabPanel header="Adjuntar y Enviar Solicitud" [disabled]="!(activeIndex===3)">
-    <!--    <div class="formgrid grid">-->
-    <!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-    <!--        <button pButton-->
-    <!--                class="p-button-warning"-->
-    <!--                label="Atrás"-->
-    <!--                [icon]="PrimeIcons.ARROW_LEFT"-->
-    <!--                iconPos="left"-->
-    <!--                (click)="next3()"></button>-->
-    <!--      </div>-->
-    <!--      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">-->
-    <!--        <button pButton-->
-    <!--                class="p-button-success"-->
-    <!--                label="Enviar Solicitud"-->
-    <!--                [icon]="PrimeIcons.SEND"-->
-    <!--                iconPos="right"-->
-    <!--                (click)="send()"></button>-->
-    <!--      </div>-->
-    <!--    </div>-->
-    <app-application-attachment></app-application-attachment>
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton
-                class="p-button-warning"
-                label="Atrás"
-                [icon]="PrimeIcons.ARROW_LEFT"
-                iconPos="left"
-                (click)="next3()"></button>
-      </div>
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton
-                class="p-button-success"
-                label="Enviar Solicitud"
-                [icon]="PrimeIcons.SEND"
-                iconPos="right"
-                (click)="send()"></button>
-      </div>
-    </div>
+    <app-application-attachment (previousOut)="previous()"></app-application-attachment>
   </p-tabPanel>
 </p-tabView>

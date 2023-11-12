@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {
   CareersService, CataloguesHttpService,
@@ -22,7 +22,7 @@ import {
   IdButtonActionEnum,
   LabelButtonActionEnum,
   IconButtonActionEnum,
-  ClassButtonActionEnum, CatalogueCoreEnrollmentStateEnum, CatalogueCoreTypeEnum
+  ClassButtonActionEnum, CatalogueEnrollmentStateEnum, CatalogueTypeEnum
 } from "@shared/enums";
 import {AuthService} from "@services/auth";
 
@@ -32,6 +32,8 @@ import {AuthService} from "@services/auth";
   styleUrls: ['./application.component.scss']
 })
 export class ApplicationComponent implements OnInit {
+  @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
+  @Output() previousOut: EventEmitter<number> = new EventEmitter<number>();
   // Reference Prime Icons
   protected readonly PrimeIcons = PrimeIcons;
 
@@ -202,6 +204,7 @@ export class ApplicationComponent implements OnInit {
   }
 
   findEnrollmentDetailByStudent() {
+    this.selectedItems = [];
     this.studentsHttpService.findEnrollmentDetailsByStudent(this.student.id)
       .subscribe(enrollmentDetails => {
         for (const item of this.items) {
@@ -209,6 +212,7 @@ export class ApplicationComponent implements OnInit {
             if (item.id === enrollmentDetail.subjectId) {
               item.academicState = enrollmentDetail.academicState?.code;
               item.enrollmentStates = enrollmentDetail.enrollmentDetailStates;
+              this.selectedItems.push(item);
             }
           }
         }
@@ -230,6 +234,8 @@ export class ApplicationComponent implements OnInit {
         //   }
         //   return 0;
         // });
+
+        this.selectItems();
       });
   }
 
@@ -241,11 +247,11 @@ export class ApplicationComponent implements OnInit {
   }
 
   loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
   loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
   }
 
   /** Actions **/
@@ -277,8 +283,9 @@ export class ApplicationComponent implements OnInit {
   }
 
   sendRegistration() {
-    this.enrollmentsHttpService.sendRegistration(this.form.value).subscribe(() => {
+    this.enrollmentsHttpService.sendRegistration(this.form.value).subscribe(enrollment => {
       this.findSubjectsAllByCurriculum();
+      this.next();
     });
   }
 
@@ -306,17 +313,17 @@ export class ApplicationComponent implements OnInit {
   }
 
   selectItems() {
-    console.log(this.selectedItems);
+    this.selectedItems = [...(new Set(this.selectedItems))];
     this.totalCredits = this.selectedItems.reduce((accumulator, currentValue) => accumulator + currentValue.credits, 0);
     this.subjectsService.enrollmentSubjects = this.selectedItems;
   }
 
   previous() {
-
+    this.previousOut.emit(-1);
   }
 
   next() {
-    this.sendRegistration();
+    this.nextOut.emit(1);
   }
 
   /** Getteres Form **/

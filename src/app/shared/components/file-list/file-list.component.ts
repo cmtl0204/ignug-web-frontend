@@ -16,10 +16,12 @@ export class FileListComponent implements OnInit {
   @Input() maxFileSize = 10240000 * 20;
   @Input() fileLimit = 20;
   @Input() modelId: string = '';
-  @Output() isHide: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Input() isVisible: boolean = false;
+  @Input() enabled: boolean = true;
   @Input() types: CatalogueModel[] = [];
+  @Output() isHide: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Output() selectedType: EventEmitter<CatalogueModel> = new EventEmitter<CatalogueModel>();
+  @Output() files: EventEmitter<FileModel[]> = new EventEmitter<FileModel[]>();
   protected buttonActions: MenuItem[] = [];
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
@@ -29,6 +31,7 @@ export class FileListComponent implements OnInit {
   protected selectedItem: SelectEventDto = {};
   protected selectedItems: EventModel[] = [];
   protected items: EventModel[] = [];
+  @Input() isDialog = true;
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -60,6 +63,7 @@ export class FileListComponent implements OnInit {
       .subscribe((response) => {
         this.paginator = response.pagination!;
         this.items = response.data;
+        this.files.emit(this.items);
       });
   }
 
@@ -67,6 +71,7 @@ export class FileListComponent implements OnInit {
     return [
       {field: 'originalName', header: 'Nombre'},
       {field: 'extension', header: 'Extensión'},
+      {field: 'type', header: 'Tipo'},
       {field: 'size', header: 'Tamaño'},
     ];
   }
@@ -105,6 +110,7 @@ export class FileListComponent implements OnInit {
         this.filesHttpService.remove(id).subscribe(() => {
           this.items = this.items.filter(item => item.id !== id);
           this.paginator.totalItems--;
+          this.files.emit(this.items);
         });
       }
     });

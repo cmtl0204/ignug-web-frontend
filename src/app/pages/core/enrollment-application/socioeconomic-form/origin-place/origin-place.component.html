@@ -1,12 +1,31 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div formGroupName="user">
     <div formGroupName="originAddress">
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="country" label="País:" [required]="countryField"></label>
+          <p-dropdown
+            id="country"
+            formControlName="country"
+            dataKey="id"
+            [options]="countries"
+            optionLabel="name"
+            [filter]="true"
+            filterBy="name"
+            placeholder="Seleccione">
+          </p-dropdown>
+          <small
+            appErrorMessage
+            [errors]="countryField.errors"
+            [touched]="countryField.touched"
+            [dirty]="countryField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
             for="province"
-            label="Tipo de colegio del que proviene:"
+            label="Provincia:"
             [required]="provinceField"
           ></label>
           <p-dropdown
@@ -36,11 +55,14 @@
           >
           </small>
         </div>
+      </div>
+
+      <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
             for="canton"
-            label="Tipo de colegio del que proviene:"
+            label="Canton:"
             [required]="cantonField"
           ></label>
           <p-dropdown
@@ -74,14 +96,14 @@
           <label
             appLabel
             for="parrish"
-            label="Tipo de colegio del que proviene:"
+            label="Parroquia:"
             [required]="parrishField"
           ></label>
           <p-dropdown
             id="parrish"
             formControlName="parrish"
             dataKey="id"
-            [options]="parishs"
+            [options]="parishes"
             optionLabel="name"
             [filter]="true"
             filterBy="name"
@@ -104,6 +126,9 @@
           >
           </small>
         </div>
+      </div>
+
+      <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
@@ -128,106 +153,6 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
-            for="latitude"
-            label="Latitud:"
-            [required]="latitudeField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="latitude"
-            formControlName="latitude"
-          />
-          <small
-            appErrorMessage
-            [errors]="latitudeField.errors"
-            [touched]="latitudeField.touched"
-            [dirty]="latitudeField.dirty"
-          >
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="longitude"
-            label="Longitud:"
-            [required]="longitudeField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="longitude"
-            formControlName="longitude"
-          />
-          <small
-            appErrorMessage
-            [errors]="longitudeField.errors"
-            [touched]="longitudeField.touched"
-            [dirty]="longitudeField.dirty"
-          >
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="mainStreet"
-            label="Calle Principal:"
-            [required]="mainStreetField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="mainStreet"
-            formControlName="mainStreet"
-          />
-          <small
-            appErrorMessage
-            [errors]="mainStreetField.errors"
-            [touched]="mainStreetField.touched"
-            [dirty]="mainStreetField.dirty"
-          >
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="nearbyCity"
-            label="Si usted reside en una comunidad, ¿Qué ciudad es la más cercana a su domicilio?:"
-            [required]="nearbyCityField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="nearbyCity"
-            formControlName="nearbyCity"
-          />
-          <small
-            appErrorMessage
-            [errors]="nearbyCityField.errors"
-            [touched]="nearbyCityField.touched"
-            [dirty]="nearbyCityField.dirty"
-          >
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="number"
-            label="Numero de casa:"
-            [required]="numberField"
-          ></label>
-          <input pInputText type="text" id="number" formControlName="number" />
-          <small
-            appErrorMessage
-            [errors]="numberField.errors"
-            [touched]="numberField.touched"
-            [dirty]="numberField.dirty"
-          >
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
             for="reference"
             label="Referencia la ubicacion:"
             [required]="referenceField"
@@ -246,46 +171,102 @@
           >
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="secondaryStreet"
-            label="Calle Interseccion:"
-            [required]="secondaryStreeteField"
-          ></label>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+          <label appLabel for="mainStreet" label="Calle Principal:" [required]="mainStreetField"></label>
           <input
             pInputText
             type="text"
-            id="secondaryStreet"
-            formControlName="secondaryStreet"
+            id="mainStreet"
+            formControlName="mainStreet"
           />
           <small
             appErrorMessage
-            [errors]="secondaryStreeteField.errors"
-            [touched]="secondaryStreeteField.touched"
-            [dirty]="secondaryStreeteField.dirty"
+            [errors]="mainStreetField.errors"
+            [touched]="mainStreetField.touched"
+            [dirty]="mainStreetField.dirty"
+          >
+          </small>
+        </div>
+        <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+          <label appLabel for="secondaryStreet" label="Calle Interseccion:" [required]="secondaryStreetField"></label>
+          <input pInputText id="secondaryStreet" formControlName="secondaryStreet"/>
+          <small
+            appErrorMessage
+            [errors]="secondaryStreetField.errors"
+            [touched]="secondaryStreetField.touched"
+            [dirty]="secondaryStreetField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12">
+          <label appLabel for="number" label="Numero de casa:" [required]="numberField"></label>
+          <input pInputText type="text" id="number" formControlName="number"/>
+          <small
+            appErrorMessage
+            [errors]="numberField.errors"
+            [touched]="numberField.touched"
+            [dirty]="numberField.dirty"
           >
           </small>
         </div>
       </div>
+
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label
+            appLabel
+            for="longitude"
+            label="Longitud:"
+            [required]="longitudeField"
+          ></label>
+          <input pInputText id="longitude" formControlName="longitude" readonly/>
+          <small
+            appErrorMessage
+            [errors]="longitudeField.errors"
+            [touched]="longitudeField.touched"
+            [dirty]="longitudeField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="latitude" label="Latitud:" [required]="latitudeField"></label>
+          <input pInputText id="latitude" formControlName="latitude" readonly/>
+          <small
+            appErrorMessage
+            [errors]="latitudeField.errors"
+            [touched]="latitudeField.touched"
+            [dirty]="latitudeField.dirty">
+          </small>
+        </div>
+      </div>
+
+      <app-map *ngIf="latitudeField.value && longitudeField.value"
+               map="originPlace"
+               [latitudeIn]="parrishField.value?.latitude"
+               [longitudeIn]="parrishField.value?.longitude"
+               (latitudeOut)="latitudeField.setValue($event)"
+               (longitudeOut)="longitudeField.setValue($event)"></app-map>
     </div>
   </div>
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Atrás"
-    class="p-button-warning"
-    [icon]="PrimeIcons.ARROW_LEFT"
-    (click)="previous.emit(-1)"
-  ></button>
-  <button
-    pButton
-    pRipple
-    type="button"
-    label="Siguiente"
-    class="p-button-info"
-    [icon]="PrimeIcons.ARROW_RIGHT"
-    (click)="update()"
-  ></button>
+  <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <button
+        pButton
+        pRipple
+        type="button"
+        label="Atrás"
+        class="p-button-warning"
+        [icon]="PrimeIcons.ARROW_LEFT"
+        (click)="previous.emit(-1)"></button>
+    </div>
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <button
+        pButton
+        pRipple
+        label="Guardar y Continuar"
+        [icon]="PrimeIcons.ARROW_RIGHT"
+        iconPos="right"></button>
+    </div>
+  </div>
 </form>

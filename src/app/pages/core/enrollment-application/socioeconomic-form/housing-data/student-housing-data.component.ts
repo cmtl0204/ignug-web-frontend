@@ -5,12 +5,9 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { PrimeIcons, MenuItem } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
 import { CatalogueModel, StudentModel } from '@models/core';
 import {
-  BreadcrumbService,
   CataloguesHttpService,
   CoreService,
   MessageService,
@@ -19,7 +16,7 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
 
@@ -59,7 +56,7 @@ export class StudentHousingDataComponent {
   ) {
 
     this.form = this.newForm;
-    this.applyValidations()
+    this.applyValidations();
   }
 
   ngOnInit(): void {
@@ -136,55 +133,55 @@ export class StudentHousingDataComponent {
 
   loadIsDisabilities(): void {
     this.houseTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO_NA
+      CatalogueTypeEnum.YES_NO_NA
     );
   }
 
   loadYesNo(): void {
     this.yesNo = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO_NA
+      CatalogueTypeEnum.YES_NO_NA
     );
   }
 
   loaddisabilityTypes(): void {
     this.housingTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadRoffTypes(): void {
     this.roofTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadFloorTypes(): void {
     this.floorTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadWallTypes(): void {
     this.wallTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadWaterTypes(): void {
     this.waterTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadOutage(): void {
     this.isOutages = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadReceives(): void {
     this.receives = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
   onSubmit(): void {

@@ -9,7 +9,7 @@ import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService} f
 import {OnExitInterface} from '@shared/interfaces';
 import {DateValidators} from '@shared/validators';
 import {DateFormatPipe} from "@shared/pipes";
-import {CatalogueCoreTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
+import {CatalogueTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
 import {environment} from "@env/environment";
 
 @Component({
@@ -105,27 +105,27 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
   }
 
   loadBloodTypes(): void {
-    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
+    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.BLOOD_TYPE);
   }
 
   loadEthnicOrigins(): void {
-    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ETHNIC_ORIGIN);
   }
 
   loadGenders(): void {
-    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
+    this.genders = this.cataloguesHttpService.findByType(CatalogueTypeEnum.GENDER);
   }
 
   loadIdentificationTypes(): void {
-    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE);
+    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.IDENTIFICATION_TYPE);
   }
 
   loadMaritalStatus(): void {
-    this.maritalStatus = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.MARITAL_STATUS);
+    this.maritalStatus = this.cataloguesHttpService.findByType(CatalogueTypeEnum.MARITAL_STATUS);
   }
 
   loadSexes(): void {
-    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
+    this.sexes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SEX);
   }
 
   updateProfile(user: UpdateUserDto): void {

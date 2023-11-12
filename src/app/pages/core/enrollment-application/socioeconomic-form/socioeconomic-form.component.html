@@ -28,22 +28,22 @@
         ></app-other-academic-data-form>
       </p-accordionTab>
       <p-accordionTab header="D.- Lugar de Procedencia">
-        <app-place-origin
+        <app-origin-place
           *ngIf="student"
           [student]="student"
           [id]="student.id"
           (next)="next()"
-          (previous)="previous()"
-        ></app-place-origin>
+          (previous)="previous()">
+        </app-origin-place>
       </p-accordionTab>
       <p-accordionTab header="E.- Lugar de Residencia">
-        <app-place-residence
+        <app-residence-place
           *ngIf="student"
           [student]="student"
           [id]="student.id"
           (next)="next()"
           (previous)="previous()"
-        ></app-place-residence>
+        ></app-residence-place>
       </p-accordionTab>
       <p-accordionTab header="F.- Datos del Grupo Familiar">
         <app-family-group-data
@@ -91,7 +91,10 @@
         ></app-migration-country>
       </p-accordionTab>
       <p-accordionTab header="K.- Sección Psicosocial">
-        <app-psychosocial-section></app-psychosocial-section>
+        <app-psychosocial-section *ngIf="student"
+                                  [student]="student"
+                                  [id]="student.id"
+                                  (nextOut)="nextOut.emit(1)"></app-psychosocial-section>
       </p-accordionTab>
     </p-accordion>
   </form>

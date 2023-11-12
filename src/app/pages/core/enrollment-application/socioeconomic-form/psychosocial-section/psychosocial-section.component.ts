@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons, MenuItem } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, StudentModel } from '@models/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons, MenuItem} from 'primeng/api';
+import {OnExitInterface} from '@shared/interfaces';
+import {CatalogueModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -19,7 +19,7 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
 
@@ -29,18 +29,22 @@ import {
   styleUrls: ['./psychosocial-section.component.scss']
 })
 export class PsychosocialSectionComponent {
+  @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
+  @Input() student!: StudentModel;
+  @Input() id!: string;
+  @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+
   protected readonly PrimeIcons = PrimeIcons;
-  protected id: string | null = null;
+  protected readonly Validators = Validators;
   protected form: FormGroup;
+  protected formErrors: string[] = [];
 
-  protected yesno: CatalogueModel[] = [];
-  protected violenceTypes: CatalogueModel[] = [];
-  protected covids: CatalogueModel[]=[]
-  protected discriminationType: CatalogueModel[] = []
-  protected selfHarmTypes: CatalogueModel[] = []
-  protected urbanTypes: CatalogueModel[] =[]
-
-
+  protected pandemicPsychologicalEffects: CatalogueModel[] = []
+  protected socialGroups: CatalogueModel[] = [];
+  protected typeDiscriminations: CatalogueModel[] = [];
+  protected typeGenderViolences: CatalogueModel[] = [];
+  protected typeInjuries: CatalogueModel[] = [];
+  protected yesNo: CatalogueModel[] = []
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -58,103 +62,176 @@ export class PsychosocialSectionComponent {
     }
 
     this.form = this.newForm;
+    this.applyValidations();
   }
 
   ngOnInit(): void {
+    this.form.patchValue(this.student);
+    this.loadPandemicPsychologicalEffects();
+    this.loadSocialGroups();
+    this.loadTypeDiscriminations();
+    this.loadTypeGenderViolences();
+    this.loadTypeInjuries();
     this.loadYesNo();
-    this.loadViolenceTypes();
-    this.loadCovids();
-    this.loadDiscriminationType();
   }
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      psychosocialSection: this.psychosocialSectionForm,
+      informationStudent: this.newInformationStudentForm,
     });
   }
 
-  get psychosocialSectionForm(): FormGroup {
+  get newInformationStudentForm(): FormGroup {
     return this.formBuilder.group({
-      id: [null],
-      isviolence: [null, [Validators.required]],
-      violenceType:[null, [Validators.required]],
-      covid:[null, [Validators.required]],
-      suiced: [null, [Validators.required]],
-      discrimination: [null, [Validators.required]],
+      additionalInformation: [null],
       isDiscrimination: [null, [Validators.required]],
-      selfHarm: [null, [Validators.required]],
-      selfHarmType:[null, [Validators.required]],
-      urbanType:[null, [Validators.required]],
-      additionalData:[null, [Validators.required]]
+      isGenderViolence: [null, [Validators.required]],
+      isInjuries: [null, [Validators.required]],
+      pandemicPsychologicalEffect: [null, [Validators.required]],
+      socialGroup: [null, [Validators.required]],
+      typeDiscrimination: [null],
+      typeGenderViolence: [null],
+      typeInjuries: [null],
     });
+  }
+
+  onSubmit(): void {
+    if (this.validateForm()) {
+      this.update();
+    } else {
+      this.form.markAllAsTouched();
+      this.messageService.errorsFields(this.formErrors);
+    }
+  }
+
+  update() {
+    this.studentsHttpService.updatePsychosocialSection(
+      this.id,
+      this.form.value
+    ).subscribe();
+
+    this.nextOut.emit();
+  }
+
+  validateForm() {
+    this.formErrors = [];
+
+    if (this.additionalInformationField.errors) this.formErrors.push('Información Adcional');
+    if (this.isDiscriminationField.errors) this.formErrors.push('Alguna vez ha sido usted objeto de discriminación');
+    if (this.isGenderViolenceField.errors) this.formErrors.push('Usted alguna vez ha sido víctima de violencia de género');
+    if (this.isInjuriesField.errors) this.formErrors.push('Alguna vez ha tenido pensamientos o ha intentado hacerse daño a sí mismo');
+    if (this.pandemicPsychologicalEffectField.errors) this.formErrors.push('¿Qué efectos psicosociales le dejo la pandemia (COVID-19)?');
+    if (this.socialGroupField.errors) this.formErrors.push('Tribu urbana o grupo social pertenece');
+    if (this.typeDiscriminationField.errors) this.formErrors.push('Tipo de discriminación');
+    if (this.typeGenderViolenceField.errors) this.formErrors.push('Tipo de violencia');
+    if (this.typeInjuriesField.errors) this.formErrors.push('Tipo de autolesiones');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
+  }
+
+  loadPandemicPsychologicalEffects(): void {
+    this.pandemicPsychologicalEffects = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.PANDEMIC_PSYCHOLOGICAL_EFFECT
+    );
+  }
+
+  loadSocialGroups(): void {
+    this.socialGroups = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.SOCIAL_GROUP
+    );
+  }
+
+  loadTypeDiscriminations(): void {
+    this.typeDiscriminations = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.TYPE_DISCRIMINATION
+    );
+  }
+
+  loadTypeGenderViolences(): void {
+    this.typeGenderViolences = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.TYPE_GENDER_VIOLENCE
+    );
+  }
+
+  loadTypeInjuries(): void {
+    this.typeInjuries = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.TYPE_INJURIES
+    );
   }
 
   loadYesNo(): void {
-    this.yesno = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+    this.yesNo = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.YES_NO
     );
   }
 
-  loadViolenceTypes(): void {
-    this.violenceTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
-    );
+  applyValidations() {
+    this.isDiscriminationField.valueChanges.subscribe(value => {
+      if (value?.code === '1') {
+        this.typeDiscriminationField.addValidators(Validators.required);
+      } else {
+        this.typeDiscriminationField.removeValidators(Validators.required);
+      }
+      this.typeDiscriminationField.updateValueAndValidity();
+    })
+
+    this.isGenderViolenceField.valueChanges.subscribe(value => {
+      if (value?.code === '1') {
+        this.typeGenderViolenceField.addValidators(Validators.required);
+      } else {
+        this.typeGenderViolenceField.removeValidators(Validators.required);
+      }
+      this.typeGenderViolenceField.updateValueAndValidity();
+    })
+
+    this.isInjuriesField.valueChanges.subscribe(value => {
+      if (value?.code === '1') {
+        this.typeInjuriesField.addValidators(Validators.required);
+      } else {
+        this.typeInjuriesField.removeValidators(Validators.required);
+      }
+      this.typeInjuriesField.updateValueAndValidity();
+    })
   }
 
-  loadCovids(): void {
-    this.covids = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
-    );
+  get informationStudentForm(): FormGroup {
+    return this.form.controls['informationStudent'] as FormGroup;
   }
 
-  loadDiscriminationType(): void {
-    this.discriminationType = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  get psychosocialSectionField(): FormGroup {
-    return this.form.controls['psychosocialSection'] as FormGroup;
-  }
-
-  get isviolenceField(): AbstractControl {
-    return this.psychosocialSectionField.controls['isviolence'];
-  }
-
-  get violenceTypeField(): AbstractControl {
-    return this.psychosocialSectionField.controls['violenceType'];
-  }
-
-  get covidField(): AbstractControl {
-    return this.psychosocialSectionField.controls['covid'];
-  }
-
-  get suicedField(): AbstractControl {
-    return this.psychosocialSectionField.controls['suiced'];
-  }
-
-  get discriminationField(): AbstractControl {
-    return this.psychosocialSectionField.controls['discrimination'];
+  get additionalInformationField(): AbstractControl {
+    return this.informationStudentForm.controls['additionalInformation'];
   }
 
   get isDiscriminationField(): AbstractControl {
-    return this.psychosocialSectionField.controls['isDiscrimination'];
+    return this.informationStudentForm.controls['isDiscrimination'];
   }
 
-  get selfHarmField(): AbstractControl {
-    return this.psychosocialSectionField.controls['selfHarm'];
+  get isGenderViolenceField(): AbstractControl {
+    return this.informationStudentForm.controls['isGenderViolence'];
   }
 
-  get selfHarmTypeField(): AbstractControl {
-    return this.psychosocialSectionField.controls['selfHarmType'];
+  get isInjuriesField(): AbstractControl {
+    return this.informationStudentForm.controls['isInjuries'];
   }
 
-  get urbanTypeField(): AbstractControl {
-    return this.psychosocialSectionField.controls['urbanType'];
+  get pandemicPsychologicalEffectField(): AbstractControl {
+    return this.informationStudentForm.controls['pandemicPsychologicalEffect'];
   }
 
-  get additionalDataField(): AbstractControl {
-    return this.psychosocialSectionField.controls['additionalData'];
+  get socialGroupField(): AbstractControl {
+    return this.informationStudentForm.controls['socialGroup'];
   }
 
+  get typeDiscriminationField(): AbstractControl {
+    return this.informationStudentForm.controls['typeDiscrimination'];
+  }
+
+  get typeGenderViolenceField(): AbstractControl {
+    return this.informationStudentForm.controls['typeGenderViolence'];
+  }
+
+  get typeInjuriesField(): AbstractControl {
+    return this.informationStudentForm.controls['typeInjuries'];
+  }
 }

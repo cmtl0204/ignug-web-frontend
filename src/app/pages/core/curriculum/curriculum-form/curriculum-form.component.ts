@@ -14,7 +14,7 @@ import {
 } from "@services/core";
 import {
     BreadcrumbEnum,
-    CatalogueCoreTypeEnum,
+    CatalogueTypeEnum,
     ClassButtonActionEnum, IconButtonActionEnum,
     LabelButtonActionEnum,
     SkeletonEnum
@@ -129,7 +129,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.CURRICULUMS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.CURRICULUMS_STATE);
   }
 
   /** Form Getters **/

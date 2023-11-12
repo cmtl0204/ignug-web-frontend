@@ -26,11 +26,11 @@ import {
 
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   ClassButtonActionEnum,
   SkeletonEnum,
   LabelButtonActionEnum,
-  IconButtonActionEnum, CatalogueCoreEnrollmentStateEnum
+  IconButtonActionEnum, CatalogueEnrollmentStateEnum
 } from '@shared/enums';
 import {EnrollmentDetailsHttpService} from '@services/core/enrollment-details-http.service';
 
@@ -178,8 +178,8 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
         this.dateField.setValue(new Date(this.dateField.value));
 
       if (enrollment.enrollmentDetailStates.find(enrollmentDetailState =>
-        enrollmentDetailState.state.code === CatalogueCoreEnrollmentStateEnum.ENROLLED ||
-        enrollmentDetailState.state.code === CatalogueCoreEnrollmentStateEnum.REVOKED)) {
+        enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+        enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
         this.form.disable();
       }
     });
@@ -188,19 +188,19 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
   /** Load Enrollment Details Data **/
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_STATE);
   }
 
   loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
   }
 
   loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
   loadTypes(): void {
-    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_TYPE);
+    this.types = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_TYPE);
   }
 
   loadSubjects(): void {

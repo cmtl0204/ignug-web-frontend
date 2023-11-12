@@ -1,4 +1,4 @@
-import {CatalogueModel, SubjectModel} from "@models/core";
+import {CatalogueModel, SchoolPeriodModel, SubjectModel} from "@models/core";
 import {EnrollmentDetailModule} from "../../pages/core/enrollment-detail/enrollment-detail.module";
 import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 
@@ -17,6 +17,7 @@ export interface EnrollmentModel {
   subject: SubjectModel;
   type: CatalogueModel;
   workday: CatalogueModel;
+  schoolPeriod: SchoolPeriodModel;
 
   number: number;
   date: Date;

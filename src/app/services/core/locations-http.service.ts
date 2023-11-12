@@ -6,14 +6,14 @@ import {CreateUserDto, UpdateUserDto, UserModel} from '@models/auth';
 import {map} from 'rxjs/operators';
 import {ServerResponse} from '@models/http-response';
 import {MessageService} from '@services/core';
-import {CatalogueModel, PaginatorModel} from '@models/core';
 import {CatalogueTypeEnum} from "@shared/enums";
+import {LocationModel} from "@models/core";
 
 @Injectable({
   providedIn: 'root'
 })
-export class CataloguesHttpService {
-  API_URL = `${environment.API_URL}/catalogues`;
+export class LocationsHttpService {
+  API_URL = `${environment.API_URL}/locations`;
 
   constructor(private httpClient: HttpClient,
               private messageService: MessageService) {
@@ -29,7 +29,7 @@ export class CataloguesHttpService {
     );
   }
 
-  findAll(page: number = 1, search: string = ''): Observable<CatalogueModel[]> {
+  findAll(page: number = 1, search: string = ''): Observable<LocationModel[]> {
     const url = this.API_URL;
     const headers = new HttpHeaders().append('pagination', 'true');
     const params = new HttpParams().append('page', page).append('search', search);
@@ -71,7 +71,7 @@ export class CataloguesHttpService {
     );
   }
 
-  removeAll(id: CatalogueModel[]): Observable<boolean> {
+  removeAll(id: LocationModel[]): Observable<boolean> {
     const url = `${this.API_URL}/${id}`;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map(response => {
@@ -83,17 +83,36 @@ export class CataloguesHttpService {
 
   findCache(): Observable<boolean> {
     const url = `${this.API_URL}/cache/get`;
+
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        localStorage.setItem('catalogues', JSON.stringify(response.data));
+        localStorage.setItem('locations', JSON.stringify(response.data));
         return true;
       })
     );
   }
 
-  findByType(type: CatalogueTypeEnum): CatalogueModel[] {
-    const catalogues: CatalogueModel[] = JSON.parse(String(localStorage.getItem('catalogues')));
+  findCountries(): LocationModel[] {
+    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
 
-    return catalogues.filter(catalogue => catalogue.type === type);
+    return locations.filter(location => location.level === 1);
+  }
+
+  findProvincesByCountry(countryId: string): LocationModel[] {
+    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+
+    return locations.filter(location => location.level === 2 && location.parentId === countryId);
+  }
+
+  findCantonsByProvince(provinceId: string): LocationModel[] {
+    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+
+    return locations.filter(location => location.level === 3 && location.parentId === provinceId);
+  }
+
+  findParishesByCanton(cantonId: string): LocationModel[] {
+    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+
+    return locations.filter(location => location.level === 4 && location.parentId === cantonId);
   }
 }

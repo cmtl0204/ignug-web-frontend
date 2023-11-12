@@ -6,7 +6,7 @@ import {AuthHttpService, AuthService, RolesHttpService, UsersHttpService} from '
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService, RoutesService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from "primeng/api";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
 import {CatalogueModel} from "@models/core";
 
 @Component({
@@ -138,7 +138,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   loadIdentificationTypes(): void {
-    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.IDENTIFICATION_TYPE);
+    this.identificationTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.IDENTIFICATION_TYPE);
   }
 
   handleChangePassword(event: any) {

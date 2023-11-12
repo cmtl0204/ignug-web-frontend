@@ -13,7 +13,7 @@ import {
   MessageService,
   RoutesService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-form',
@@ -129,7 +129,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOOL_TYPE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOOL_TYPE);
   }
 
   /** Form Getters **/

@@ -19,7 +19,7 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
 
@@ -115,22 +115,21 @@ export class AdditionalDataFormComponent {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
-
   loadhHaveTecnologics(): void {
     this.haveTecnologic = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO_NA
+      CatalogueTypeEnum.YES_NO_NA
     );
   }
 
   loadInternetTypes(): void {
     this.internetTpes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadYesNo(): void {
     this.yesNo = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 
@@ -173,6 +172,4 @@ export class AdditionalDataFormComponent {
   get internetTypeField(): AbstractControl {
     return this.informationStudentForm.controls['internetType'];
   }
-
-
 }

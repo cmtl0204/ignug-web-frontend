@@ -1,6 +1,6 @@
 import {Pipe, PipeTransform} from '@angular/core';
 import {CatalogueModel} from "@models/core";
-import {CatalogueCoreEnrollmentStateEnum} from "@shared/enums";
+import {CatalogueEnrollmentStateEnum} from "@shared/enums";
 
 @Pipe({
   name: 'enrollmentState'
@@ -9,15 +9,15 @@ export class EnrollmentStatePipe implements PipeTransform {
 
   transform(value: string): string {
     switch (value) {
-      case CatalogueCoreEnrollmentStateEnum.REGISTERED:
+      case CatalogueEnrollmentStateEnum.REGISTERED:
         return 'warning';
-      case CatalogueCoreEnrollmentStateEnum.REQUEST_SENT:
+      case CatalogueEnrollmentStateEnum.REQUEST_SENT:
         return 'info';
-      case CatalogueCoreEnrollmentStateEnum.APPROVED:
+      case CatalogueEnrollmentStateEnum.APPROVED:
         return '';
-      case CatalogueCoreEnrollmentStateEnum.REJECTED:
+      case CatalogueEnrollmentStateEnum.REJECTED:
         return 'danger';
-      case CatalogueCoreEnrollmentStateEnum.ENROLLED:
+      case CatalogueEnrollmentStateEnum.ENROLLED:
         return 'success';
       default:
         return 'secondary'

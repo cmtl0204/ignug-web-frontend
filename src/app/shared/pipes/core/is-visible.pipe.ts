@@ -1,5 +1,4 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
 
 @Pipe({
   name: 'isVisible'

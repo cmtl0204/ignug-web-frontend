@@ -20,14 +20,12 @@ export class AppComponent {
 
   constructor(@Inject(DOCUMENT) private document: Document, private primengConfig: PrimeNGConfig,
               public readonly coreService: CoreService, private breadcrumbService: BreadcrumbService,
-              private readonly cataloguesHttpService: CataloguesHttpService,
   ) {
     this.breadcrumbService.setItems([{label: BreadcrumbEnum.HOME}]);
   }
 
   ngOnInit() {
     this.primengConfig.ripple = true;
-    this.findCatalogue();
   }
 
   switchTheme(theme: string) {
@@ -35,14 +33,5 @@ export class AppComponent {
 
     if (theme)
       themeLink.href = `./assets/themes/${theme}/theme.css`;
-  }
-
-  findCatalogue() {
-    let catalogues = localStorage.getItem('catalogues');
-
-    if (!catalogues || this.coreService.version !== this.coreService.newVersion) {
-      this.coreService.version = this.coreService.newVersion;
-      this.cataloguesHttpService.findCache().subscribe();
-    }
   }
 }

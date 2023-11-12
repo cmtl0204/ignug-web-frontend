@@ -1,336 +1,194 @@
-<form [formGroup]="form">
-  <div formGroupName="psychosocialSection">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div formGroupName="informationStudent">
+    <div class="field">
+      <label appLabel for="pandemicPsychologicalEffect"
+             label="¿Qué efectos psicosociales le dejó la pandemia (COVID-19)?:"
+             [required]="pandemicPsychologicalEffectField"></label>
+      <p-dropdown
+        id="pandemicPsychologicalEffect"
+        formControlName="pandemicPsychologicalEffect"
+        dataKey="id"
+        [options]="pandemicPsychologicalEffects"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        placeholder="Seleccione">
+      </p-dropdown>
+      <small
+        appErrorMessage
+        [errors]="pandemicPsychologicalEffectField.errors"
+        [touched]="pandemicPsychologicalEffectField.touched"
+        [dirty]="pandemicPsychologicalEffectField.dirty">
+      </small>
+    </div>
     <div class="formgrid grid">
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="isviolence"
-          label="Usted alguna vez ha sido victima de violencia de género"
-          [required]="isviolenceField"
-        ></label>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="isGenderViolence" label="¿Usted alguna vez ha sido victima de violencia de género?:"
+               [required]="isGenderViolenceField"></label>
         <p-dropdown
-          id="isviolence"
-          formControlName="isviolence"
+          id="isGenderViolence"
+          formControlName="isGenderViolence"
           dataKey="id"
-          [options]="yesno"
+          [options]="yesNo"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="isviolenceField.value">
-              <div>{{ isviolenceField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
+          placeholder="Seleccione">
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="isviolenceField.errors"
-          [touched]="isviolenceField.touched"
-          [dirty]="isviolenceField.dirty"
-        >
+          [errors]="isGenderViolenceField.errors"
+          [touched]="isGenderViolenceField.touched"
+          [dirty]="isGenderViolenceField.dirty">
         </small>
       </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="violenceType"
-          label="En caso de ser afirmativa su respuesta especifique que tipo de violencia"
-          [required]="violenceTypeField"
-        ></label>
+      <div *ngIf="typeGenderViolenceField.hasValidator(Validators.required)"
+           class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="typeGenderViolence"
+               label="Tipo de violencia:"
+               [required]="typeGenderViolenceField"></label>
         <p-dropdown
-          id="violenceType"
-          formControlName="violenceType"
+          id="typeGenderViolence"
+          formControlName="typeGenderViolence"
           dataKey="id"
-          [options]="violenceTypes"
+          [options]="typeGenderViolences"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="violenceTypeField.value">
-              <div>{{ violenceTypeField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
+          placeholder="Seleccione">
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="violenceTypeField.errors"
-          [touched]="violenceTypeField.touched"
-          [dirty]="violenceTypeField.dirty"
-        >
+          [errors]="typeGenderViolenceField.errors"
+          [touched]="typeGenderViolenceField.touched"
+          [dirty]="typeGenderViolenceField.dirty">
         </small>
-      </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="covid"
-          label="¿Qué efectos psicosociales le dejo la pandemia (COVID-10)?"
-          [required]="covidField"
-        ></label>
-        <p-dropdown
-          id="covid"
-          formControlName="covid"
-          dataKey="id"
-          [options]="covids"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="covidField.value">
-              <div>{{ covidField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
-        </p-dropdown>
-        <small
-          appErrorMessage
-          [errors]="covidField.errors"
-          [touched]="covidField.touched"
-          [dirty]="covidField.dirty"
-        >
-        </small>
-      </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="suiced"
-          label="Alguna vez ha tenido pensamientos ó ha intentado hacerse daño o si mismo"
-          [required]="suicedField"
-        ></label>
-        <p-dropdown
-          id="suiced"
-          formControlName="suiced"
-          dataKey="id"
-          [options]="yesno"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="suicedField.value">
-              <div>{{ suicedField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
-        </p-dropdown>
-        <!-- <small
-          suicedField
-          [errors]="suicedField.errors"
-          [touched]="suicedField.touched"
-          [dirty]="suicedField.dirty"
-        >
-        </small> -->
       </div>
     </div>
     <div class="formgrid grid">
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="discrimination"
-          label="Alguna vez ha sido usted objeto de discriminación"
-          [required]="discriminationField"
-        ></label>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="isInjuries"
+               label="¿Alguna vez ha tenido pensamientos ó ha intentado hacerse daño o si mismo?:"
+               [required]="isInjuriesField"></label>
         <p-dropdown
-          id="discrimination"
-          formControlName="discrimination"
+          id="isInjuries"
+          formControlName="isInjuries"
           dataKey="id"
-          [options]="yesno"
+          [options]="yesNo"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="discriminationField.value">
-              <div>{{ discriminationField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
+          placeholder="Seleccione">
+        </p-dropdown>
+        <small appErrorMessage
+               [errors]="isInjuriesField.errors"
+               [touched]="isInjuriesField.touched"
+               [dirty]="isInjuriesField.dirty">
+        </small>
+      </div>
+      <div *ngIf="typeInjuriesField.hasValidator(Validators.required)" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="typeInjuries"
+               label="Mencione que tipo de autolesiones:"
+               [required]="typeInjuriesField"></label>
+        <p-dropdown
+          id="typeInjuries"
+          formControlName="typeInjuries"
+          dataKey="id"
+          [options]="typeInjuries"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Seleccione">
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="discriminationField.errors"
-          [touched]="discriminationField.touched"
-          [dirty]="discriminationField.dirty"
-        >
+          [errors]="typeInjuriesField.errors"
+          [touched]="typeInjuriesField.touched"
+          [dirty]="typeInjuriesField.dirty">
         </small>
       </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="isDiscrimination"
-          label="En caso de haber sido objeto de discriminación cual es el motivo:"
-          [required]="isDiscriminationField"
-        ></label>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="isDiscrimination" label="¿Alguna vez ha sido usted objeto de discriminación?:"
+               [required]="isDiscriminationField"></label>
         <p-dropdown
           id="isDiscrimination"
           formControlName="isDiscrimination"
           dataKey="id"
-          [options]="discriminationType"
+          [options]="yesNo"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="isDiscriminationField.value">
-              <div>{{ isDiscriminationField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
+          placeholder="Seleccione">
         </p-dropdown>
-        <small
-          appErrorMessage
-          [errors]="isDiscriminationField.errors"
-          [touched]="isDiscriminationField.touched"
-          [dirty]="isDiscriminationField.dirty"
-        >
+        <small appErrorMessage
+               [errors]="isDiscriminationField.errors"
+               [touched]="isDiscriminationField.touched"
+               [dirty]="isDiscriminationField.dirty">
         </small>
       </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="selfHarm"
-          label="¿Alguna vez usted se ha producido autólesiones?"
-          [required]="selfHarmField"
-        ></label>
+      <div *ngIf="typeDiscriminationField.hasValidator(Validators.required)" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="typeDiscrimination"
+               label="En caso de haber sido objeto de discriminación cuál es el motivo:"
+               [required]="typeDiscriminationField"></label>
         <p-dropdown
-          id="selfHarm"
-          formControlName="selfHarm"
+          id="typeDiscrimination"
+          formControlName="typeDiscrimination"
           dataKey="id"
-          [options]="yesno"
+          [options]="typeDiscriminations"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="selfHarmField.value">
-              <div>{{ selfHarmField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
+          placeholder="Seleccione">
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="selfHarmField.errors"
-          [touched]="selfHarmField.touched"
-          [dirty]="selfHarmField.dirty"
-        >
+          [errors]="typeDiscriminationField.errors"
+          [touched]="typeDiscriminationField.touched"
+          [dirty]="typeDiscriminationField.dirty">
         </small>
       </div>
     </div>
     <div class="formgrid grid">
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="selfHarmType"
-          label="En caso de haber contestado de forma afirmativa a la pregunta anterior, mencione que tipo de autólesiones"
-          [required]="selfHarmTypeField"
-        ></label>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="socialGroup" label="¿A qué tribu urbana o grupo social pertenece?:"
+               [required]="socialGroupField"></label>
         <p-dropdown
-          id="selfHarmType"
-          formControlName="selfHarmType"
+          id="socialGroup"
+          formControlName="socialGroup"
           dataKey="id"
-          [options]="selfHarmTypes"
+          [options]="socialGroups"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="selfHarmTypeField.value">
-              <div>{{ selfHarmTypeField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
+          placeholder="Seleccione">
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="selfHarmTypeField.errors"
-          [touched]="selfHarmTypeField.touched"
-          [dirty]="selfHarmTypeField.dirty"
-        >
-        </small>
-      </div>
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label
-          appLabel
-          for="urbanType"
-          label="A que tribu urbana o grupo social pertenece:"
-          [required]="urbanTypeField"
-        ></label>
-        <p-dropdown
-          id="urbanType"
-          formControlName="urbanType"
-          dataKey="id"
-          [options]="urbanTypes"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          placeholder="Select"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div *ngIf="urbanTypeField.value">
-              <div>{{ urbanTypeField.value.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template pTemplate="item" let-item>
-            {{ item.name }}
-          </ng-template>
-        </p-dropdown>
-        <small
-          appErrorMessage
-          [errors]="urbanTypeField.errors"
-          [touched]="urbanTypeField.touched"
-          [dirty]="urbanTypeField.dirty"
-        >
+          [errors]="socialGroupField.errors"
+          [touched]="socialGroupField.touched"
+          [dirty]="socialGroupField.dirty">
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label
-          appLabel
-          for="additionalData"
-          label="Informacion adicional de estudiante:"
-          [required]="additionalDataField"
-        ></label>
-        <input
-          pInputText
-          id="additionalData"
-          formControlName="additionalData"
-        />
+        <label appLabel for="additionalInformation" label="Información adicional del estudiante:"
+               [required]="additionalInformationField"></label>
+        <input pInputText id="additionalInformation" formControlName="additionalInformation"/>
         <small
           appErrorMessage
-          [errors]="additionalDataField.errors"
-          [touched]="additionalDataField.touched"
-          [dirty]="additionalDataField.dirty"
-        >
+          [errors]="additionalInformationField.errors"
+          [touched]="additionalInformationField.touched"
+          [dirty]="additionalInformationField.dirty">
         </small>
       </div>
     </div>
   </div>
+  <button
+    pButton
+    pRipple
+    class="p-button-success"
+    label="Guardar y Continuar a la siguiente sección"
+    [icon]="PrimeIcons.ARROW_RIGHT"
+    iconPos="right"></button>
 </form>

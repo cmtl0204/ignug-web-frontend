@@ -19,7 +19,7 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
 
@@ -112,13 +112,13 @@ export class FamilyGroupDataComponent {
 
   loadIsDisabilities(): void {
     this.members = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 
   loadDisabilityTypes(): void {
     this.money = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 

@@ -14,7 +14,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService, SchoolPeriodsService
 } from '@services/core';
-import { IdButtonActionEnum, BreadcrumbEnum, CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
+import { IdButtonActionEnum, BreadcrumbEnum, CatalogueTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -105,7 +105,7 @@ export class EnrollmentListComponent implements OnInit {
     this.careers = this.careersService.careers;
   }
   findAcademicPeriods(){
-    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
   /** Load Data **/

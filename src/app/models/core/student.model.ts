@@ -6,10 +6,10 @@ export interface StudentModel {
   createAt: Date;
   updateAt: Date;
   deleteAt: Date;
-  isVisible: boolean; 
+  isVisible: boolean;
 
-  informationStudent: InformationStudentModel[];
-  user: UserModel [];
+  informationStudent: InformationStudentModel;
+  user: UserModel;
 }
 
 export interface CreateStudentDto extends Omit<StudentModel, 'id'> {

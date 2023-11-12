@@ -1,18 +1,15 @@
-import {CatalogueModel} from '@models/core';
-
 export interface LocationModel {
-    id?: number;
-    parent?: LocationModel;
-    type?: CatalogueModel;
-    code?: string;
-    name?: string;
-    alpha2Code?: string;
-    alpha3Code?: string;
-    region?: string;
-    subregion?: string;
-    callingCode?: string;
-    capital?: string;
-    topLevelDomain?: string;
-    flag?: string;
-    timezones?: Array<string>;
+  id?: string;
+  parent?: LocationModel;
+  parentId?: string;
+  alpha2Code?: string;
+  alpha3Code?: string;
+  callingCode?: string;
+  code?: string;
+  flag?: string;
+  latitude?: number;
+  longitude?: number;
+  level?:number;
+  name?: string;
+  zone?: string;
 }

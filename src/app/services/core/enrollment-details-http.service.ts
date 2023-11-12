@@ -181,7 +181,7 @@ export class EnrollmentDetailsHttpService {
 
   findSubjectsByAcademicPeriod(subjectId: string, academicPeriodId: string): Observable<ServerResponse> {
     const url = `${this.API_URL}`;
-    console.log(subjectId)
+
     const headers = new HttpHeaders().append('pagination', 'true');
     let params = new HttpParams()
       .append('subjectId', subjectId)

@@ -12,7 +12,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-enrollment-application',
@@ -25,7 +25,7 @@ export class EnrollmentApplicationComponent {
   protected id: string | null = null;
   protected form: FormGroup;
   protected items: MenuItem[] = [];
-  protected activeIndex: number = 0;
+  protected activeIndex: number = 3;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -56,7 +56,6 @@ export class EnrollmentApplicationComponent {
   }
 
   ngOnInit(): void {
-
     if (this.id) {
       this.get();
     }
@@ -106,6 +105,14 @@ export class EnrollmentApplicationComponent {
     this.studentsHttpService.findOne(this.id!).subscribe((student) => {
       this.form.patchValue(student);
     });
+  }
+
+  next() {
+    this.activeIndex++;
+  }
+
+  previous() {
+    this.activeIndex--;
   }
 
   next1() {

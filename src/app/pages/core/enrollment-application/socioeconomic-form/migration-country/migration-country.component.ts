@@ -19,7 +19,7 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
 import { AuthService } from '@services/auth';
@@ -78,7 +78,7 @@ export class MigrationCountryComponent {
 
   loadIsDisabilities(): void {
     this.disabilityTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 

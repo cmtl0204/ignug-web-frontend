@@ -12,7 +12,7 @@ import {
   RoutesService,
   InstitutionsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
 import {Expressions} from "@shared/regular-expresions";
 
 @Component({
@@ -127,7 +127,7 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.INSTITUTIONS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.INSTITUTIONS_STATE);
   }
 
   /** Validations **/

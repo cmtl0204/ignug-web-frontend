@@ -18,7 +18,7 @@ import {
 import {
   IdButtonActionEnum,
   BreadcrumbEnum,
-  CatalogueCoreSchoolPeriodStateEnum,
+  CatalogueSchoolPeriodStateEnum,
   IconButtonActionEnum, LabelButtonActionEnum, ClassButtonActionEnum
 } from "@shared/enums";
 
@@ -170,7 +170,7 @@ export class SchoolPeriodListComponent implements OnInit {
       });
 
     /** Button Actions Validations **/
-    if (this.selectedItem.state?.code === CatalogueCoreSchoolPeriodStateEnum.CLOSE) {
+    if (this.selectedItem.state?.code === CatalogueSchoolPeriodStateEnum.CLOSE) {
       // this.buttonActions = this.buttonActions.filter(actionButton => {
       //   return actionButton.id !== IdButtonActionEnum.SHOW_EVENTS && actionButton.id !== IdButtonActionEnum.CLOSE_SCHOOL_PERIOD;
       // });
@@ -188,7 +188,7 @@ export class SchoolPeriodListComponent implements OnInit {
       this.buttonActions.splice(index, 1);
     }
 
-    if (this.selectedItem.state?.code === CatalogueCoreSchoolPeriodStateEnum.OPEN) {
+    if (this.selectedItem.state?.code === CatalogueSchoolPeriodStateEnum.OPEN) {
       // this.buttonActions = this.buttonActions.filter(actionButton => {
       //   return actionButton.id !== IdButtonActionEnum.OPEN_SCHOOL_PERIOD;
       // });

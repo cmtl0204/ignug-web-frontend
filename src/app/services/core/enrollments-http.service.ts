@@ -89,8 +89,9 @@ export class EnrollmentsHttpService {
 
   update(id: string, payload: SelectEnrollmentDto): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}`;
-    console.log(payload)
+
     this.coreService.isProcessing = true;
+
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
         this.coreService.isProcessing = false;
@@ -190,6 +191,17 @@ export class EnrollmentsHttpService {
 
   sendRegistration(payload: any): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/send-registration`;
+
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  sendRequest(id: string, payload: any): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/send-request`;
 
     return this.httpClient.post<ServerResponse>(url, payload).pipe(
       map((response) => {

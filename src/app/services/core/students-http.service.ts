@@ -3,7 +3,14 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateStudentDto, EnrollmentDetailModel, EnrollmentModel, StudentModel, UpdateStudentDto} from '@models/core';
+import {
+  CreateStudentDto,
+  EnrollmentDetailModel,
+  EnrollmentModel,
+  FileModel,
+  StudentModel,
+  UpdateStudentDto
+} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
 
@@ -85,8 +92,6 @@ export class StudentsHttpService {
   }
 
   updateOriginPlace(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/origin-place`;
 
     this.coreService.isProcessing = true;
@@ -100,8 +105,6 @@ export class StudentsHttpService {
   }
 
   updateResidencePlace(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/residence-place`;
 
     this.coreService.isProcessing = true;
@@ -115,8 +118,6 @@ export class StudentsHttpService {
   }
 
   updateCroquis(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/croquis`;
 
     this.coreService.isProcessing = true;
@@ -130,8 +131,6 @@ export class StudentsHttpService {
   }
 
   updateFamilyEconomic(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/family-economic`;
 
     this.coreService.isProcessing = true;
@@ -145,8 +144,6 @@ export class StudentsHttpService {
   }
 
   updateFamilyGroup(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/family-group`;
 
     this.coreService.isProcessing = true;
@@ -160,8 +157,6 @@ export class StudentsHttpService {
   }
 
   updateFamilyHealth(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/family-health`;
 
     this.coreService.isProcessing = true;
@@ -175,8 +170,6 @@ export class StudentsHttpService {
   }
 
   updateMigrationCountry(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/migration-country`;
 
     this.coreService.isProcessing = true;
@@ -190,8 +183,6 @@ export class StudentsHttpService {
   }
 
   updateAcademicData(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/academic-data`;
 
     this.coreService.isProcessing = true;
@@ -205,8 +196,6 @@ export class StudentsHttpService {
   }
 
   updateAdittionalEconomicData(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/other-academic-data`;
 
     this.coreService.isProcessing = true;
@@ -220,8 +209,6 @@ export class StudentsHttpService {
   }
 
   updateHousingData(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/housing-data`;
 
     this.coreService.isProcessing = true;
@@ -235,8 +222,6 @@ export class StudentsHttpService {
   }
 
   updatePsychosocialSection(id: string, payload: UpdateStudentDto): Observable<StudentModel> {
-    console.log(payload);
-
     const url = `${this.API_URL}/${id}/psychosocial-section`;
 
     this.coreService.isProcessing = true;
@@ -313,4 +298,25 @@ export class StudentsHttpService {
     );
   }
 
+  generateSocioeconomicForm(id: string): Observable<any> {
+    const url = `${environment.API_URL}/student-reports/${id}/socioeconomic-form`;
+
+    this.coreService.isProcessing = true;
+
+    return this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'}).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        return response;
+      })
+    );
+
+    // this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+    //   .subscribe(response => {
+    //     const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+    // const filePath = URL.createObjectURL(new Blob([response]));
+    // console.log(response);
+    // console.log(filePath);
+    // this.coreService.isProcessing = false;
+    // });
+  }
 }

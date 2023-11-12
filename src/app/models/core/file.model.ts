@@ -1,3 +1,5 @@
+import {CatalogueModel} from "@models/core/catalogue.model";
+
 export interface FileModel {
     id?: string;
     name?: string;
@@ -7,4 +9,5 @@ export interface FileModel {
     extension?: string;
     directory?: string;
     originalName?: string;
+    type?: CatalogueModel;
 }

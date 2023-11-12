@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -19,11 +19,10 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreTypeEnum,
+  CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
 import {AuthService} from '@services/auth/auth.service';
-import {UserModel} from '@models/auth/user.model';
 
 @Component({
   selector: 'app-socioeconomic-form',
@@ -31,13 +30,14 @@ import {UserModel} from '@models/auth/user.model';
   styleUrls: ['./socioeconomic-form.component.scss'],
 })
 export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
+  @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
   protected student!: StudentModel | null;
   protected disabilityTypes: CatalogueModel[] = [];
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
   protected items: MenuItem[] = [];
-  protected activeIndex: number = 0;
+  protected activeIndex: number = 3;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,8 +65,6 @@ export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
   }
 
   ngOnInit(): void {
-
-
     this.loadIsDisabilities();
   }
 
@@ -85,7 +83,7 @@ export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
 
   loadIsDisabilities(): void {
     this.disabilityTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 

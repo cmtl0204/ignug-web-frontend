@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {CommonModule as NgCommonModule} from '@angular/common';
 import {ButtonModule} from "primeng/button";
+import {PdfViewerModule} from "ng2-pdf-viewer";
 import {CalendarModule} from "primeng/calendar";
 import {DividerModule} from "primeng/divider";
 import {InputSwitchModule} from "primeng/inputswitch";
@@ -16,21 +17,22 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ToolbarModule} from "primeng/toolbar";
-import { ReactiveFormsModule } from '@angular/forms';
-import { EnrollmentApplicationRoutingModule } from './enrollment-application-routing.module';
-import { EnrollmentApplicationComponent } from './enrollment-application.component';
-import { TabViewModule } from 'primeng/tabview';
-import { AccordionModule } from 'primeng/accordion';
-import { SocioeconomicFormModule } from './socioeconomic-form/socioeconomic-form.module';
-import { SocioeconimcReportComponent } from './socioeconimc-report/socioeconimc-report.component';
-import { ApplicationAttachmentComponent } from './application-attachment/application-attachment.component';
-import { ApplicationComponent } from './application/application.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {EnrollmentApplicationRoutingModule} from './enrollment-application-routing.module';
+import {EnrollmentApplicationComponent} from './enrollment-application.component';
+import {TabViewModule} from 'primeng/tabview';
+import {AccordionModule} from 'primeng/accordion';
+import {SocioeconomicFormModule} from './socioeconomic-form/socioeconomic-form.module';
+import {SocioeconomicReportComponent} from './socioeconomic-report/socioeconomic-report.component';
+import {ApplicationAttachmentComponent} from './application-attachment/application-attachment.component';
+import {ApplicationComponent} from './application/application.component';
+import {MessagesModule} from "primeng/messages";
 
 
 @NgModule({
   declarations: [
     EnrollmentApplicationComponent,
-    SocioeconimcReportComponent,
+    SocioeconomicReportComponent,
     ApplicationAttachmentComponent,
     ApplicationComponent,
   ],
@@ -58,7 +60,13 @@ import { ApplicationComponent } from './application/application.component';
     PanelModule,
     DividerModule,
     InputSwitchModule,
-    SocioeconomicFormModule
-  ]
+    SocioeconomicFormModule,
+    MessagesModule,
+    PdfViewerModule,
+  ],
+  schemas: [
+    NO_ERRORS_SCHEMA
+  ],
 })
-export class EnrollmentApplicationModule { }
+export class EnrollmentApplicationModule {
+}

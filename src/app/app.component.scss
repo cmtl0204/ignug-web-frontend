@@ -64,6 +64,14 @@ body {
   border-radius: 5px;
 }
 
+.panel-messages-info h1 {
+  margin-bottom: 10px;
+}
+
+.panel-messages-info ul li {
+  margin-bottom: 5px;
+}
+
 .panel-messages-error {
   background: rgba(255, 0, 0, 0.1);
   color: #0d3c61;

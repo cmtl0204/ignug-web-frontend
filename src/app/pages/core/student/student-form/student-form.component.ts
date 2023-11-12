@@ -12,7 +12,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-student-form',
@@ -173,39 +173,39 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   }
 
   loadBloodTypes(): void {
-    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
+    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.BLOOD_TYPE);
   }
 
   loadEthnicOrigins(): void {
-    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ETHNIC_ORIGIN);
   }
 
   loadGenders(): void {
-    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
+    this.genders = this.cataloguesHttpService.findByType(CatalogueTypeEnum.GENDER);
   }
 
   loadSexes(): void {
-    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
+    this.sexes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SEX);
   }
 
   loadIsExecutedPractices(): void {
-    this.isExecutedPractices = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
+    this.isExecutedPractices = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO_NA);
   }
 
   loadIsExecutedCommunities(): void {
-    this.isExecutedCommunities = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
+    this.isExecutedCommunities = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO_NA);
   }
 
   loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
+    this.isDisabilities = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO_NA);
   }
 
   loadIsLostGratuities(): void {
-    this.isLostGratuities = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
+    this.isLostGratuities = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO_NA);
   }
 
   loadIsSubjectRepeats(): void {
-    this.isSubjectRepeats = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO_NA);
+    this.isSubjectRepeats = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO_NA);
   }
 
   /** Form Getters **/

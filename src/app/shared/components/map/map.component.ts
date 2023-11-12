@@ -11,9 +11,10 @@ export class MapComponent implements AfterViewInit {
   @Output() longitudeOut: EventEmitter<number> = new EventEmitter<number>();
   @Input() latitudeIn: number = 0;
   @Input() longitudeIn: number = 0;
+  @Input() map: string = '';
 
   ngAfterViewInit() {
-    const myMap = new Map('map').setView([this.latitudeIn, this.longitudeIn], 14);
+    const myMap = new Map(this.map).setView([this.latitudeIn, this.longitudeIn], 14);
 
     // tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {}).addTo(myMap);
     tileLayer.wms('http://ows.mundialis.de/services/service?', {

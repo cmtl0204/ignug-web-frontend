@@ -8,9 +8,9 @@ import {LoginModel, PasswordChangeModel, PasswordResetModel, RoleModel, UpdateUs
 import {LoginResponse, ServerResponse} from '@models/http-response';
 import {AuthService} from '@services/auth';
 import {
-  CareersService,
+  CareersService, CataloguesHttpService,
   CoreService,
-  InstitutionsService,
+  InstitutionsService, LocationsHttpService,
   MessageService,
   SchoolPeriodsService
 } from '@services/core';
@@ -27,15 +27,17 @@ export class AuthHttpService {
   API_URL: string = `${environment.API_URL}/auth`;
   rolePipe: RolePipe = new RolePipe();
 
-  constructor(private httpClient: HttpClient,
-              private authService: AuthService,
-              private coreService: CoreService,
-              private institutionsService: InstitutionsService,
-              private careersService: CareersService,
-              private router: Router,
-              private routesService: RoutesService,
+  constructor(private readonly httpClient: HttpClient,
+              private readonly authService: AuthService,
+              private readonly coreService: CoreService,
+              private readonly cataloguesHttpService: CataloguesHttpService,
+              private readonly locationsHttpService: LocationsHttpService,
+              private readonly institutionsService: InstitutionsService,
+              private readonly careersService: CareersService,
+              private readonly router: Router,
+              private readonly routesService: RoutesService,
               private readonly schoolPeriodsService: SchoolPeriodsService,
-              private messageService: MessageService) {
+              private readonly messageService: MessageService) {
   }
 
   signup(userData: UserModel): Observable<UserModel> {
@@ -70,6 +72,9 @@ export class AuthHttpService {
   login(credentials: LoginModel): Observable<ServerResponse> {
     const url = `${this.API_URL}/login`;
 
+    this.findCatalogues();
+    this.findLocations();
+
     return this.httpClient.post<ServerResponse>(url, credentials)
       .pipe(
         map(response => {
@@ -82,6 +87,24 @@ export class AuthHttpService {
           return response;
         })
       );
+  }
+
+  findCatalogues() {
+    let catalogues = localStorage.getItem('catalogues');
+
+    if (!catalogues || this.coreService.version !== this.coreService.newVersion) {
+      this.coreService.version = this.coreService.newVersion;
+      this.cataloguesHttpService.findCache().subscribe();
+    }
+  }
+
+  findLocations() {
+    let locations = localStorage.getItem('locations');
+
+    if (!locations || this.coreService.version !== this.coreService.newVersion) {
+      this.coreService.version = this.coreService.newVersion;
+      this.locationsHttpService.findCache().subscribe();
+    }
   }
 
   signOut(): void {

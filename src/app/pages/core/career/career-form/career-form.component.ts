@@ -15,7 +15,7 @@ import {
 } from '@services/core';
 import {
     BreadcrumbEnum,
-    CatalogueCoreTypeEnum,
+    CatalogueTypeEnum,
     ClassButtonActionEnum, IconButtonActionEnum,
     LabelButtonActionEnum,
     SkeletonEnum
@@ -137,7 +137,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.CAREERS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.CAREERS_STATE);
   }
 
 

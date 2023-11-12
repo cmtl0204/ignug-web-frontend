@@ -8,7 +8,7 @@ import {
   SubjectsHttpService, SubjectsService
 } from "@services/core";
 import {CareerModel, SelectCareerDto, SelectSubjectDto, SubjectModel, SubjectRequirementModel} from "@models/core";
-import {BreadcrumbEnum, CatalogueCoreSubjectRequirementTypeEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueSubjectRequirementTypeEnum} from "@shared/enums";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 

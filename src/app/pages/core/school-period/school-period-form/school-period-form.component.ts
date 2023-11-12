@@ -13,7 +13,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
 import {isAfter} from "date-fns";
 
 @Component({
@@ -160,7 +160,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   }
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOOL_PERIODS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOOL_PERIODS_STATE);
   }
 
   /** Form Getters **/

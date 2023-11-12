@@ -11,7 +11,7 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-personal-information-form',
@@ -279,73 +279,73 @@ export class PersonalInformationFormComponent implements OnInit {
 
   loadBloodTypes(): void {
     this.bloodTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.BLOOD_TYPE
+      CatalogueTypeEnum.BLOOD_TYPE
     );
   }
 
   loadEthnicOrigins(): void {
     this.ethnicOrigins = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.ETHNIC_ORIGIN
+      CatalogueTypeEnum.ETHNIC_ORIGIN
     );
   }
 
   loadGenders(): void {
     this.genders = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.GENDER
+      CatalogueTypeEnum.GENDER
     );
   }
 
   loadSexes(): void {
     this.sexes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.SEX
+      CatalogueTypeEnum.SEX
     );
   }
 
   loadIsDisabilities(): void {
     this.isDisabilities = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 
   loadDisabilityTypes(): void {
     this.disabilityTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.DISABILITY_TYPE
+      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 
   loadIdentificationTypes(): void {
     this.identificationTypes = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.IDENTIFICATION_TYPE
+      CatalogueTypeEnum.IDENTIFICATION_TYPE
     );
   }
 
   loadCivilStates(): void {
     this.civilStates = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.MARITAL_STATUS
+      CatalogueTypeEnum.MARITAL_STATUS
     );
   }
 
   loadDoStudents(): void {
     this.isWorks = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 
   loadForStudents(): void {
     this.forStudents = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.STUDENT_INCOME_FOR
+      CatalogueTypeEnum.STUDENT_INCOME_FOR
     );
   }
 
   loadNationality() {
     this.nationalityAUs = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 
   loadYesNo() {
     this.yesNo = this.cataloguesHttpService.findByType(
-      CatalogueCoreTypeEnum.YES_NO
+      CatalogueTypeEnum.YES_NO
     );
   }
 

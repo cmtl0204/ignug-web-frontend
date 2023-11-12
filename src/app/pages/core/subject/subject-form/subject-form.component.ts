@@ -23,8 +23,8 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
-  CatalogueCoreSubjectRequirementTypeEnum,
-  CatalogueCoreTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum,
+  CatalogueSubjectRequirementTypeEnum,
+  CatalogueTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum,
   SkeletonEnum
 } from '@shared/enums';
 import {OnExitInterface} from '@shared/interfaces';
@@ -288,15 +288,15 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
   }
 
   loadAcademicPeriods(): void {
-    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ACADEMIC_PERIOD);
+    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
   loadStates(): void {
-    this.states = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SUBJECTS_STATE);
+    this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SUBJECTS_STATE);
   }
 
   loadTypes(): void {
-    this.types = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SUBJECTS_TYPE);
+    this.types = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SUBJECTS_TYPE);
   }
 
   /** Form Getters **/

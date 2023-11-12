@@ -13,7 +13,7 @@ import {
   RoutesService,
   TeachersHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-teacher-form',
@@ -175,19 +175,19 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   }
 
   loadBloodTypes(): void {
-    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.BLOOD_TYPE);
+    this.bloodTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.BLOOD_TYPE);
   }
 
   loadEthnicOrigins(): void {
-    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ETHNIC_ORIGIN);
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ETHNIC_ORIGIN);
   }
 
   loadGenders(): void {
-    this.genders = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.GENDER);
+    this.genders = this.cataloguesHttpService.findByType(CatalogueTypeEnum.GENDER);
   }
 
   loadSexes(): void {
-    this.sexes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SEX);
+    this.sexes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SEX);
   }
 
   /** Form Getters **/

@@ -28,7 +28,7 @@ import {
   CareersHttpService,
   CareersService,
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueCoreTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-teacher-distribution-form',
@@ -151,11 +151,11 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   }
 
   loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.PARALLEL);
+    this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
   }
 
   loadWorkdays(): void {
-    this.workdays = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.ENROLLMENTS_WORKDAY);
+    this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
   loadTeachersByCareer(): void {

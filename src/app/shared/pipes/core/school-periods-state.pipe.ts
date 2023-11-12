@@ -1,5 +1,5 @@
 import {Pipe, PipeTransform} from '@angular/core';
-import {CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
+import {CatalogueSchoolPeriodStateEnum} from "@shared/enums";
 
 @Pipe({
   name: 'schoolPeriodsState'
@@ -7,7 +7,7 @@ import {CatalogueCoreSchoolPeriodStateEnum} from "@shared/enums";
 export class SchoolPeriodsStatePipe implements PipeTransform {
 
   transform(value: string): string {
-    return value === CatalogueCoreSchoolPeriodStateEnum.OPEN ? 'info' : 'warning';
+    return value === CatalogueSchoolPeriodStateEnum.OPEN ? 'info' : 'warning';
   }
 
 }

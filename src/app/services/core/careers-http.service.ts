@@ -41,13 +41,12 @@ export class CareersHttpService {
 
   findEnrollmentsByCareer( id: string, schoolPeriodId: string, academicPeriodId: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/enrollments`;
-    console.log(academicPeriodId)
     const headers = new HttpHeaders().append('pagination', 'true');
     let params = new HttpParams()
       .append('page', page)
       .append('search', search)
       .append('schoolPeriodId', schoolPeriodId)
-      
+
       if(academicPeriodId){
         params = params.append('academicPeriodId', academicPeriodId);
       }

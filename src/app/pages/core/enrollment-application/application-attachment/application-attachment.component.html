@@ -1,8 +1,53 @@
-<button pButton pRipple label="Adjuntar Archivos" (click)="isFileList=true"></button>
-<app-file-list *ngIf="isFileList"
-               [isVisible]="isFileList"
-               (isHide)="isFileList=false"
-               (selectedType)="isFileList=false"
-               [types]="fileTypes"
-               [modelId]="'asd'">
-</app-file-list>
+<div class="panel-messages-info">
+  <h2>Documentos Requeridos:</h2>
+  <ul>
+    <li>
+      Documento <i *ngIf="isIdentificationField.valid" [class]="PrimeIcons.CHECK_CIRCLE" style="color: green"></i>
+    </li>
+    <li>
+      Solicitud de Matrícula <i *ngIf="isApplicationField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
+                                style="color: green"></i>
+    </li>
+    <li>
+      Ficha Socioeconómica <i *ngIf="isSocioeconomicFormField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
+                              style="color: green"></i>
+    </li>
+    <li>
+      Pago <i *ngIf="isPaymentField.value" [class]="PrimeIcons.CHECK_CIRCLE" style="color: green"></i>
+    </li>
+  </ul>
+</div>
+
+<p-divider></p-divider>
+
+<p-panel *ngIf="enrollment">
+  <app-file-list
+    [isDialog]="false"
+    [enabled]="isFileListEnabled"
+    (isHide)="isFileList=false"
+    (selectedType)="isFileList=false"
+    [types]="fileTypes"
+    [modelId]="enrollment.id"
+    (files)="validateFiles($event)">
+  </app-file-list>
+</p-panel>
+
+<div class="formgrid grid">
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <button pButton
+            type="button"
+            class="p-button-warning"
+            label="Regresar"
+            [icon]="PrimeIcons.ARROW_LEFT"
+            iconPos="left"
+            (click)="previous()"></button>
+  </div>
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <button pButton
+            class="p-button-success"
+            label="Enviar Solicitud"
+            [icon]="PrimeIcons.SEND"
+            iconPos="right"
+            (click)="sendRequest()"></button>
+  </div>
+</div>

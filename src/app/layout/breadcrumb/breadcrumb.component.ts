@@ -3,7 +3,7 @@ import {Subscription} from 'rxjs';
 import {MenuItem, PrimeIcons} from 'primeng/api';
 import {BreadcrumbService, CoreService, InstitutionsService, RoutesService} from '@services/core';
 import {AuthHttpService, AuthService} from "@services/auth";
-import {environment} from "@env/environment.prod";
+import {environment} from "@env/environment";
 
 @Component({
   selector: 'app-breadcrumb',

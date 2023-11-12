@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
 import {CatalogueModel, StudentModel} from "@models/core";
 import {CataloguesHttpService, CoreService, MessageService, RoutesService, StudentsHttpService} from "@services/core";
-import {CatalogueCoreTypeEnum} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-academic-data-form',
@@ -109,27 +109,27 @@ export class AcademicDataFormComponent implements OnInit {
   }
 
   loadSchoolTypes(): void {
-    this.schoolTypes = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOOL_TYPE);
+    this.schoolTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOOL_TYPE);
   }
 
   loadBachTypes(): void {
-    this.academiCycles = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.SCHOLARSHIP_TYPE);
+    this.academiCycles = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOLARSHIP_TYPE);
   }
 
   loadYesNo(): void {
-    this.yesNo = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO);
+    this.yesNo = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO);
   }
 
   loadAcademicCareers(): void {
-    this.academicCareers = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_OCCUPATION);
+    this.academicCareers = this.cataloguesHttpService.findByType(CatalogueTypeEnum.STUDENT_OCCUPATION);
   }
 
   loadAnotherCareer(): void {
-    this.anotherCareers = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.STUDENT_INCOME_FOR);
+    this.anotherCareers = this.cataloguesHttpService.findByType(CatalogueTypeEnum.STUDENT_INCOME_FOR);
   }
 
   loadAnotherTitle(): void {
-    this.anotherTitles = this.cataloguesHttpService.findByType(CatalogueCoreTypeEnum.YES_NO)
+    this.anotherTitles = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO)
   }
 
   applyValidations() {

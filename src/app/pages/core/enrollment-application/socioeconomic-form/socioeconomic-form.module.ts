@@ -36,8 +36,8 @@ import { PersonalInformationFormComponent } from './personal-information/persona
 
 import { AccordionModule } from 'primeng/accordion';
 import { StepsModule } from 'primeng/steps';
-import { PlaceOriginComponent } from './origin-place/place-origin.component';
-import { PlaceResidenceComponent } from './residence-place/place-residence.component';
+import { OriginPlaceComponent } from './origin-place/origin-place.component';
+import { ResidencePlaceComponent } from './residence-place/residence-place.component';
 import { FamilyGroupDataComponent } from './family-group/family-group-data.component';
 import { FamilyEconomicDataComponent } from './family-economic/family-economic-data.component';
 import { FamilyHealthAntsComponent } from './family-health/family-health-ants.component';
@@ -53,8 +53,8 @@ import { AcademicDataFormComponent } from './academic-data/academic-data-form.co
     PersonalInformationFormComponent,
     AdditionalDataFormComponent,
     AcademicDataFormComponent,
-    PlaceOriginComponent,
-    PlaceResidenceComponent,
+    OriginPlaceComponent,
+    ResidencePlaceComponent,
     FamilyGroupDataComponent,
     FamilyEconomicDataComponent,
     FamilyHealthAntsComponent,
