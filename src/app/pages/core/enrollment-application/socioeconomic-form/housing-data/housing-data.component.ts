@@ -21,11 +21,11 @@ import {
 } from '@shared/enums';
 
 @Component({
-  selector: 'app-student-housing-data',
-  templateUrl: './student-housing-data.component.html',
-  styleUrls: ['./student-housing-data.component.scss']
+  selector: 'app-housing-data',
+  templateUrl: './housing-data.component.html',
+  styleUrls: ['./housing-data.component.scss']
 })
-export class StudentHousingDataComponent {
+export class HousingDataComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
 
@@ -37,15 +37,18 @@ export class StudentHousingDataComponent {
   protected form: FormGroup;
   protected formErrors: string[] = [];
 
-  protected houseTypes: CatalogueModel[] = [];
-  protected housingTypes: CatalogueModel[] = [];
-  protected roofTypes: CatalogueModel[] = []
-  protected floorTypes: CatalogueModel[] = [];
-  protected wallTypes: CatalogueModel[] = [];
-  protected waterTypes: CatalogueModel[] = []
-  protected yesNo: CatalogueModel[] = []
-  protected isOutages: CatalogueModel[] = []
-  protected receives: CatalogueModel[] = []
+  protected consumeNewsTypes: CatalogueModel[] = [];
+  protected economicContributions: CatalogueModel[] = [];
+  protected electricServiceBlackouts: CatalogueModel[] = [];
+  protected homeFloors: CatalogueModel[] = [];
+  protected homeOwnerships: CatalogueModel[] = [];
+  protected homeRoofs: CatalogueModel[] = [];
+  protected homeTypes: CatalogueModel[] = [];
+  protected homeWalls: CatalogueModel[] = [];
+  protected sewerageServiceTypes: CatalogueModel[] = [];
+  protected studentLives: CatalogueModel[] = [];
+  protected waterServiceTypes: CatalogueModel[] = [];
+  protected yesNo: CatalogueModel[] = [];
 
   constructor(
     private cataloguesHttpService: CataloguesHttpService,
@@ -62,16 +65,18 @@ export class StudentHousingDataComponent {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
-    this.loadIsDisabilities();
-    this.loaddisabilityTypes();
-    this.loadRoffTypes();
-    this.loadRoffTypes();
-    this.loadWallTypes();
-    this.loadWaterTypes();
+    this.loadConsumeNewsTypes();
+    this.loadEconomicContributions();
+    this.loadElectricServiceBlackouts();
+    this.loadHomeFloors();
+    this.loadHomeOwnerships();
+    this.loadHomeRoofs();
+    this.loadHomeTypes();
+    this.loadHomeWalls();
+    this.loadSewerageServiceTypes();
+    this.loadStudentLives();
+    this.loadWaterServiceTypes();
     this.loadYesNo();
-    this.loadOutage();
-    this.loadReceives();
-
   }
 
   get newForm(): FormGroup {
@@ -95,7 +100,7 @@ export class StudentHousingDataComponent {
       isPhoneService:[null, [Validators.required]],
       isSewerageService:[null, [Validators.required]],
       sewerageServiceType:[null],
-      isEconomicContribution:[null, [Validators.required]],
+      economicContribution:[null, [Validators.required]],
       isFamilyEconomicAid:[null, [Validators.required]],
       consumeNewsType: [null, [Validators.required]]
     });
@@ -131,59 +136,78 @@ export class StudentHousingDataComponent {
      })
     }
 
-  loadIsDisabilities(): void {
-    this.houseTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO_NA
+  loadConsumeNewsTypes(): void {
+    this.consumeNewsTypes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.CONSUME_NEWS_TYPE
+    );
+  }
+
+  loadEconomicContributions(): void {
+    this.economicContributions = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.ECONOMIC_CONTRIBUTION
+    );
+  }
+
+  loadElectricServiceBlackouts(): void {
+    this.electricServiceBlackouts = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.ELECTRIC_SERVICE_BLACKOUT
+    );
+  }
+
+  loadHomeFloors(): void {
+    this.homeFloors = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.HOME_FLOOR
+    );
+  }
+
+  loadHomeOwnerships(): void {
+    this.homeOwnerships = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.HOME_OWNERSHIP
+    );
+  }
+
+  loadHomeRoofs(): void {
+    this.homeRoofs = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.HOME_ROOF
+    );
+  }
+
+  loadHomeTypes(): void {
+    this.homeTypes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.HOME_TYPE
+    );
+  }
+
+  loadHomeWalls(): void {
+    this.homeWalls = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.HOME_WALL
+    );
+  }
+
+  loadSewerageServiceTypes(): void {
+    this.sewerageServiceTypes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.SEWERAGE_SERVICE_TYPE
+    );
+  }
+
+  loadStudentLives(): void {
+    this.studentLives = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.STUDENT_LIVE
+    );
+  }
+
+  loadWaterServiceTypes(): void {
+    this.waterServiceTypes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.WATER_SERVICE_TYPE
     );
   }
 
   loadYesNo(): void {
     this.yesNo = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO_NA
+      CatalogueTypeEnum.YES_NO
     );
   }
 
-  loaddisabilityTypes(): void {
-    this.housingTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadRoffTypes(): void {
-    this.roofTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadFloorTypes(): void {
-    this.floorTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadWallTypes(): void {
-    this.wallTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadWaterTypes(): void {
-    this.waterTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadOutage(): void {
-    this.isOutages = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadReceives(): void {
-    this.receives = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
   onSubmit(): void {
     if (this.validateForm()) {
         this.update();
@@ -218,14 +242,13 @@ export class StudentHousingDataComponent {
     if (this.isElectricServiceField.errors) this.formErrors.push('Posee servicio electrico');
     if (this.electricServiceBlackoutField.errors) this.formErrors.push('Frecuencia de apagones');
     if (this.isPhoneServiceField.errors) this.formErrors.push('Posee servicio telefonico');
-    if (this.isEconomicContributionField.errors) this.formErrors.push('Recibe aportes');
+    if (this.economicContributionField.errors) this.formErrors.push('Recibe aportes');
     if (this.isFamilyEconomicAidField.errors) this.formErrors.push('Beca o bono');
     if (this.consumeNewsTypeField.errors) this.formErrors.push('En que medios consume noticias');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
   }
-
 
   get informationStudentForm(): FormGroup {
     return this.form.controls['informationStudent'] as FormGroup;
@@ -283,8 +306,8 @@ export class StudentHousingDataComponent {
     return this.informationStudentForm.controls['isPhoneService'];
   }
 
-  get isEconomicContributionField(): AbstractControl {
-    return this.informationStudentForm.controls['isEconomicContribution'];
+  get economicContributionField(): AbstractControl {
+    return this.informationStudentForm.controls['economicContribution'];
   }
 
   get isFamilyEconomicAidField(): AbstractControl {

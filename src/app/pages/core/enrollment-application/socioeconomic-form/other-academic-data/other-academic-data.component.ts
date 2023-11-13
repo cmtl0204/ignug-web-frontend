@@ -1,14 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons, MenuItem } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, StudentModel } from '@models/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AbstractControl, FormBuilder, FormGroup, Validators,} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons} from 'primeng/api';
+import {CatalogueModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -17,16 +11,12 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {
-  BreadcrumbEnum,
-  CatalogueTypeEnum,
-  SkeletonEnum,
-} from '@shared/enums';
+import {CatalogueTypeEnum,} from '@shared/enums';
 
 @Component({
-  selector: 'app-other-academic-data-form',
-  templateUrl: './other-academic-data-form.component.html',
-  styleUrls: ['./other-academic-data-form.component.scss'],
+  selector: 'app-other-academic-data',
+  templateUrl: './other-academic-data.component.html',
+  styleUrls: ['./other-academic-data.component.scss'],
 })
 export class AdditionalDataFormComponent {
   @Input() student!: StudentModel;
@@ -40,9 +30,9 @@ export class AdditionalDataFormComponent {
   protected form: FormGroup;
   protected formErrors: string[] = [];
 
-  protected haveTecnologic: CatalogueModel[] = [];
-  protected internetTpes: CatalogueModel[] = [];
-  protected yesNo: CatalogueModel[]= []
+  protected electronicDevices: CatalogueModel[] = [];
+  protected internetTypes: CatalogueModel[] = [];
+  protected yesNo: CatalogueModel[] = []
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,7 +55,7 @@ export class AdditionalDataFormComponent {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
-    this.loadhHaveTecnologics();
+    this.loadElectronicDevices();
     this.loadInternetTypes();
     this.loadYesNo();
   }
@@ -78,16 +68,16 @@ export class AdditionalDataFormComponent {
 
   get newInformationStudentForm(): FormGroup {
     return this.formBuilder.group({
-      isElectronicDevice:[null, [Validators.required]],
+      isElectronicDevice: [null, [Validators.required]],
       electronicDevice: [null],
-      isInternet:[null, [Validators.required]],
-      internetType:[null],
+      isInternet: [null, [Validators.required]],
+      internetType: [null],
     });
   }
 
   onSubmit(): void {
     if (this.validateForm()) {
-        this.update();
+      this.update();
     } else {
       this.form.markAllAsTouched();
       this.messageService.errorsFields(this.formErrors);
@@ -100,7 +90,7 @@ export class AdditionalDataFormComponent {
       this.form.value
     ).subscribe();
     this.next.emit();
-    }
+  }
 
   validateForm() {
     this.formErrors = [];
@@ -115,15 +105,15 @@ export class AdditionalDataFormComponent {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
-  loadhHaveTecnologics(): void {
-    this.haveTecnologic = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO_NA
+  loadElectronicDevices(): void {
+    this.electronicDevices = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.ELECTRONIC_DEVICE
     );
   }
 
   loadInternetTypes(): void {
-    this.internetTpes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
+    this.internetTypes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.INTERNET_TYPE
     );
   }
 
@@ -133,25 +123,25 @@ export class AdditionalDataFormComponent {
     );
   }
 
-  applyValidations(){
+  applyValidations() {
     this.isElectronicDeviceField.valueChanges.subscribe(value => {
-      if(value.code === '1'){
+      if (value.code === '1') {
         this.electronicDeviceField.addValidators(Validators.required);
-     } else {
+      } else {
         this.electronicDeviceField.removeValidators(Validators.required);
-     }
-     this.electronicDeviceField.updateValueAndValidity();
-     })
+      }
+      this.electronicDeviceField.updateValueAndValidity();
+    })
 
     this.isInternetField.valueChanges.subscribe(value => {
-      if(value.code === '1'){
+      if (value.code === '1') {
         this.internetTypeField.addValidators(Validators.required);
-     } else {
+      } else {
         this.internetTypeField.removeValidators(Validators.required);
-     }
-     this.internetTypeField.updateValueAndValidity();
-     })
-    }
+      }
+      this.internetTypeField.updateValueAndValidity();
+    })
+  }
 
   get informationStudentForm(): FormGroup {
     return this.form.controls['informationStudent'] as FormGroup;

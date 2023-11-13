@@ -12,7 +12,7 @@
           id="studentLive"
           formControlName="studentLive"
           dataKey="id"
-          [options]="houseTypes"
+          [options]="studentLives"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -46,7 +46,7 @@
           id="homeOwnership"
           formControlName="homeOwnership"
           dataKey="id"
-          [options]="houseTypes"
+          [options]="homeOwnerships"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -80,7 +80,7 @@
           id="homeType"
           formControlName="homeType"
           dataKey="id"
-          [options]="housingTypes"
+          [options]="homeTypes"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -116,7 +116,7 @@
           id="homeRoof"
           formControlName="homeRoof"
           dataKey="id"
-          [options]="roofTypes"
+          [options]="homeRoofs"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -150,7 +150,7 @@
           id="homeFloor"
           formControlName="homeFloor"
           dataKey="id"
-          [options]="roofTypes"
+          [options]="homeFloors"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -184,7 +184,7 @@
           id="homeWall"
           formControlName="homeWall"
           dataKey="id"
-          [options]="wallTypes"
+          [options]="homeWalls"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -255,7 +255,7 @@
           id="waterServiceType"
           formControlName="waterServiceType"
           dataKey="id"
-          [options]="waterTypes"
+          [options]="waterServiceTypes"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -326,7 +326,7 @@
           id="electricServiceBlackout"
           formControlName="electricServiceBlackout"
           dataKey="id"
-          [options]="isOutages"
+          [options]="electricServiceBlackouts"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -419,7 +419,7 @@
           id="sewerageServiceType"
           formControlName="sewerageServiceType"
           dataKey="id"
-          [options]="yesNo"
+          [options]="sewerageServiceTypes"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
@@ -445,20 +445,20 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label appLabel for="isEconomicContribution" label="¿Para sus estudios recibe aportes de?:"
-               [required]="isEconomicContributionField" class="mb-4"></label>
+        <label appLabel for="economicContribution" label="¿Para sus estudios recibe aportes de?:"
+               [required]="economicContributionField" class="mb-4"></label>
         <p-dropdown
-          id="isEconomicContribution"
-          formControlName="isEconomicContribution"
+          id="economicContribution"
+          formControlName="economicContribution"
           dataKey="id"
-          [options]="receives"
+          [options]="economicContributions"
           optionLabel="name"
           [filter]="true"
           filterBy="name"
           placeholder="Seleccione">
           <ng-template pTemplate="selectedItem">
-            <div *ngIf="isEconomicContributionField.value">
-              <div>{{ isEconomicContributionField.value.name }}</div>
+            <div *ngIf="economicContributionField.value">
+              <div>{{ economicContributionField.value.name }}</div>
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
@@ -467,9 +467,9 @@
         </p-dropdown>
         <small
           appErrorMessage
-          [errors]="isEconomicContributionField.errors"
-          [touched]="isEconomicContributionField.touched"
-          [dirty]="isEconomicContributionField.dirty">
+          [errors]="economicContributionField.errors"
+          [touched]="economicContributionField.touched"
+          [dirty]="economicContributionField.dirty">
         </small>
       </div>
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
@@ -511,7 +511,7 @@
           id="consumeNewsType"
           formControlName="consumeNewsType"
           dataKey="id"
-          [options]="yesNo"
+          [options]="consumeNewsTypes"
           optionLabel="name"
           [filter]="true"
           filterBy="name"

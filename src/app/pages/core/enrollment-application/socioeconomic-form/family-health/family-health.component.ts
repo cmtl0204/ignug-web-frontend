@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons, MenuItem } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, StudentModel } from '@models/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons} from 'primeng/api';
+import {CatalogueModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -17,18 +16,14 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {
-  BreadcrumbEnum,
-  CatalogueTypeEnum,
-  SkeletonEnum,
-} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-family-health-ants',
-  templateUrl: './family-health-ants.component.html',
-  styleUrls: ['./family-health-ants.component.scss'],
+  selector: 'app-family-health',
+  templateUrl: './family-health.component.html',
+  styleUrls: ['./family-health.component.scss'],
 })
-export class FamilyHealthAntsComponent {
+export class FamilyHealthComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
 
@@ -40,9 +35,9 @@ export class FamilyHealthAntsComponent {
   protected form: FormGroup;
   protected formErrors: string[] = [];
 
+  protected familyKinshipCatastrophicIllness: CatalogueModel[] = [];
+  protected familyKinshipDisabilities: CatalogueModel[] = [];
   protected yesNo: CatalogueModel[] = [];
-  protected diseaseWhos: CatalogueModel[] = [];
-  protected disabilityWhos: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -66,13 +61,14 @@ export class FamilyHealthAntsComponent {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
-    this.loadYesNO();
-    this.loadDiseaseWhos();
+    this.loadFamilyKinshipCatastrophicIllness();
+    this.loadFamilyKinshipDisabilities();
+    this.loadYesNo();
   }
 
   onSubmit(): void {
     if (this.validateForm()) {
-        this.update();
+      this.update();
     } else {
       this.form.markAllAsTouched();
       this.messageService.errorsFields(this.formErrors);
@@ -101,7 +97,6 @@ export class FamilyHealthAntsComponent {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
-
   get newForm(): FormGroup {
     return this.formBuilder.group({
       informationStudent: this.newInformationStudent,
@@ -119,21 +114,21 @@ export class FamilyHealthAntsComponent {
     });
   }
 
-  loadYesNO(): void {
+  loadFamilyKinshipCatastrophicIllness(): void {
+    this.familyKinshipCatastrophicIllness = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.FAMILY_KINSHIP_CATASTROPHIC_ILLNESS
+    );
+  }
+
+  loadFamilyKinshipDisabilities(): void {
+    this.familyKinshipDisabilities = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.FAMILY_KINSHIP_DISABILITY
+    );
+  }
+
+  loadYesNo(): void {
     this.yesNo = this.cataloguesHttpService.findByType(
       CatalogueTypeEnum.YES_NO
-    );
-  }
-
-  loadDiseaseWhos(): void {
-    this.diseaseWhos = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
-    );
-  }
-
-  loadDisabilityWhos(): void {
-    this.disabilityWhos = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
     );
   }
 

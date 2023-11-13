@@ -6,8 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PrimeIcons, MenuItem} from 'primeng/api';
-import {OnExitInterface} from '@shared/interfaces';
+import {PrimeIcons} from 'primeng/api';
 import {CatalogueModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
@@ -17,18 +16,14 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {
-  BreadcrumbEnum,
-  CatalogueTypeEnum,
-  SkeletonEnum,
-} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-family-economic-data',
-  templateUrl: './family-economic-data.component.html',
-  styleUrls: ['./family-economic-data.component.scss']
+  selector: 'app-family-economic',
+  templateUrl: './family-economic.component.html',
+  styleUrls: ['./family-economic.component.scss']
 })
-export class FamilyEconomicDataComponent {
+export class FamilyEconomicComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
 
@@ -41,7 +36,7 @@ export class FamilyEconomicDataComponent {
   protected formErrors: string[] = [];
 
   protected yesNo: CatalogueModel[] = [];
-  protected houses: CatalogueModel[] = [];
+  protected familyProperties: CatalogueModel[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -65,8 +60,8 @@ export class FamilyEconomicDataComponent {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
-    this.loadIsDisabilities();
-    this.loadDisabilityTypes()
+    this.loadFamilyProperties();
+    this.loadYesNo();
   }
 
   onSubmit(): void {
@@ -97,7 +92,6 @@ export class FamilyEconomicDataComponent {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
-
   get newForm(): FormGroup {
     return this.formBuilder.group({
       informationStudent: this.newInformationStudentForm,
@@ -112,15 +106,15 @@ export class FamilyEconomicDataComponent {
     });
   }
 
-  loadIsDisabilities(): void {
-    this.yesNo = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO
+  loadFamilyProperties(): void {
+    this.familyProperties = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.FAMILY_PROPERTIES
     );
   }
 
-  loadDisabilityTypes(): void {
-    this.houses = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
+  loadYesNo(): void {
+    this.yesNo = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.YES_NO
     );
   }
 

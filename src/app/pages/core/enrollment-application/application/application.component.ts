@@ -16,13 +16,15 @@ import {
   CareerModel,
   StudentModel,
   CatalogueModel,
-  EnrollmentModel, SubjectRequirementModel, SelectSubjectDto, SchoolPeriodModel
+  EnrollmentModel,
+  SchoolPeriodModel
 } from '@models/core';
 import {
   IdButtonActionEnum,
   LabelButtonActionEnum,
   IconButtonActionEnum,
-  ClassButtonActionEnum, CatalogueEnrollmentStateEnum, CatalogueTypeEnum
+  ClassButtonActionEnum,
+  CatalogueTypeEnum
 } from "@shared/enums";
 import {AuthService} from "@services/auth";
 

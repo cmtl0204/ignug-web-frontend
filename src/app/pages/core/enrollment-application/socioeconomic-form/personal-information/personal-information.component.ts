@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
-import {CatalogueModel, StudentModel} from '@models/core';
+import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -11,16 +11,17 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-personal-information-form',
-  templateUrl: './personal-information-form.component.html',
-  styleUrls: ['./personal-information-form.component.scss'],
+  selector: 'app-personal-information',
+  templateUrl: './personal-information.component.html',
+  styleUrls: ['./personal-information.component.scss'],
 })
-export class PersonalInformationFormComponent implements OnInit {
+export class PersonalInformationComponent implements OnInit {
   @Input() student!: StudentModel;
   @Input() id!: string;
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
 
   protected form: FormGroup;
@@ -29,22 +30,21 @@ export class PersonalInformationFormComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly Validators = Validators;
 
+  protected ancestralLanguageNames: CatalogueModel[] = [];
   protected bloodTypes: CatalogueModel[] = [];
-  protected civilStates: CatalogueModel[] = [];
-  protected contactEmergencyKinships: CatalogueModel[] = [];
+  protected contactEmergencyKinship: CatalogueModel[] = [];
   protected disabilityTypes: CatalogueModel[] = [];
   protected ethnicOrigins: CatalogueModel[] = [];
-  protected forStudents: CatalogueModel[] = [];
+  protected foreignLanguageNames: CatalogueModel[] = [];
   protected genders: CatalogueModel[] = [];
   protected identificationTypes: CatalogueModel[] = [];
-  protected isDisabilities: CatalogueModel[] = [];
-  protected isWorks: CatalogueModel[] = [];
-  protected manyChils: CatalogueModel[] = [];
-  protected monthlySalarys: CatalogueModel[] = [];
-  protected nationalityAUs: CatalogueModel[] = [];
+  protected indigenousNationalities: CatalogueModel[] = [];
+  protected maritalStatus: CatalogueModel[] = [];
+  protected monthlySalaries: CatalogueModel[] = [];
+  protected nationalities: CatalogueModel[] = [];
   protected sexes: CatalogueModel[] = [];
-  protected workingHourss: CatalogueModel[] = [];
-  protected workPositions: CatalogueModel[] = [];
+  protected towns: CatalogueModel[] = [];
+  protected workingHours: CatalogueModel[] = [];
   protected yesNo: CatalogueModel[] = [];
 
   constructor(
@@ -63,17 +63,30 @@ export class PersonalInformationFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+          item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.disable();
+      }
+    }
+
+    this.loadAncestralLanguageNames();
     this.loadBloodTypes();
-    this.loadCivilStates();
-    this.loadEthnicOrigins();
-    this.loadGenders();
-    this.loadSexes();
-    this.loadIdentificationTypes();
-    this.loadDoStudents();
-    this.loadForStudents();
-    this.loadIsDisabilities();
+    this.loadContactEmergencyKinship();
     this.loadDisabilityTypes();
-    this.loadNationality();
+    this.loadEthnicOrigins();
+    this.loadForeignLanguageNames();
+    this.loadGenders();
+    this.loadIdentificationTypes();
+    this.loadIndigenousNationalities();
+    this.loadMaritalStatus();
+    this.loadMonthlySalaries();
+    this.loadNationalities();
+    this.loadSexes();
+    this.loadTowns();
+    this.loadWorkingHours();
     this.loadYesNo();
   }
 
@@ -277,33 +290,21 @@ export class PersonalInformationFormComponent implements OnInit {
     });
   }
 
+  loadAncestralLanguageNames() {
+    this.ancestralLanguageNames = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.ANCESTRAL_LANGUAGE_NAME
+    );
+  }
+
   loadBloodTypes(): void {
     this.bloodTypes = this.cataloguesHttpService.findByType(
       CatalogueTypeEnum.BLOOD_TYPE
     );
   }
 
-  loadEthnicOrigins(): void {
-    this.ethnicOrigins = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.ETHNIC_ORIGIN
-    );
-  }
-
-  loadGenders(): void {
-    this.genders = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.GENDER
-    );
-  }
-
-  loadSexes(): void {
-    this.sexes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.SEX
-    );
-  }
-
-  loadIsDisabilities(): void {
-    this.isDisabilities = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO
+  loadContactEmergencyKinship() {
+    this.contactEmergencyKinship = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.CONTACT_EMERGENCY_KINSHIP
     );
   }
 
@@ -313,33 +314,69 @@ export class PersonalInformationFormComponent implements OnInit {
     );
   }
 
+  loadEthnicOrigins(): void {
+    this.ethnicOrigins = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.ETHNIC_ORIGIN
+    );
+  }
+
+  loadForeignLanguageNames() {
+    this.foreignLanguageNames = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.FOREING_LANGUAGE_NAME
+    );
+  }
+
+  loadGenders(): void {
+    this.genders = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.GENDER
+    );
+  }
+
   loadIdentificationTypes(): void {
     this.identificationTypes = this.cataloguesHttpService.findByType(
       CatalogueTypeEnum.IDENTIFICATION_TYPE
     );
   }
 
-  loadCivilStates(): void {
-    this.civilStates = this.cataloguesHttpService.findByType(
+  loadIndigenousNationalities() {
+    this.indigenousNationalities = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.INDIGENOUS_NATIONALITY
+    );
+  }
+
+  loadMaritalStatus(): void {
+    this.maritalStatus = this.cataloguesHttpService.findByType(
       CatalogueTypeEnum.MARITAL_STATUS
     );
   }
 
-  loadDoStudents(): void {
-    this.isWorks = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO
+  loadMonthlySalaries() {
+    this.monthlySalaries = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.MONTHLY_SALARY
     );
   }
 
-  loadForStudents(): void {
-    this.forStudents = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.STUDENT_INCOME_FOR
+  loadNationalities() {
+    this.nationalities = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.NATIONALITY
     );
   }
 
-  loadNationality() {
-    this.nationalityAUs = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO
+  loadSexes(): void {
+    this.sexes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.SEX
+    );
+  }
+
+  loadTowns() {
+    this.towns = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.TOWN
+    );
+  }
+
+  loadWorkingHours() {
+    this.workingHours = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.WORKING_HOURS
     );
   }
 

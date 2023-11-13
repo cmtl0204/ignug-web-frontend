@@ -1,14 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PrimeIcons, MenuItem } from 'primeng/api';
-import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, StudentModel } from '@models/core';
+import {ActivatedRoute, Router} from '@angular/router';
+import {PrimeIcons} from 'primeng/api';
+import {CatalogueModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -17,18 +16,14 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {
-  BreadcrumbEnum,
-  CatalogueTypeEnum,
-  SkeletonEnum,
-} from '@shared/enums';
+import {CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-family-group-data',
-  templateUrl: './family-group-data.component.html',
-  styleUrls: ['./family-group-data.component.scss']
+  selector: 'app-family-group',
+  templateUrl: './family-group.component.html',
+  styleUrls: ['./family-group.component.scss']
 })
-export class FamilyGroupDataComponent {
+export class FamilyGroupComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
 
@@ -39,8 +34,8 @@ export class FamilyGroupDataComponent {
   protected form: FormGroup;
   protected formErrors: string[] = [];
 
-  protected members: CatalogueModel[] = [];
-  protected money: CatalogueModel[] = [];
+  protected familyIncomes: CatalogueModel[] = [];
+  protected yesNo: CatalogueModel[] = []
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -63,8 +58,8 @@ export class FamilyGroupDataComponent {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
-    this.loadIsDisabilities();
-    this.loadDisabilityTypes()
+    this.loadFamilyIncomes();
+    this.loadYesNo();
   }
 
 
@@ -77,14 +72,14 @@ export class FamilyGroupDataComponent {
   get newInformationStudentForm(): FormGroup {
     return this.formBuilder.group({
       membersHouseNumber: [null, [Validators.required]],
-      familyIncome:[null, [Validators.required]],
+      familyIncome: [null, [Validators.required]],
       isDependsEconomically: [null, [Validators.required]]
     });
   }
 
   onSubmit(): void {
     if (this.validateForm()) {
-        this.update();
+      this.update();
     } else {
       this.form.markAllAsTouched();
       this.messageService.errorsFields(this.formErrors);
@@ -110,15 +105,15 @@ export class FamilyGroupDataComponent {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
-  loadIsDisabilities(): void {
-    this.members = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO
+  loadFamilyIncomes(): void {
+    this.familyIncomes = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.FAMILY_INCOME
     );
   }
 
-  loadDisabilityTypes(): void {
-    this.money = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.DISABILITY_TYPE
+  loadYesNo(): void {
+    this.yesNo = this.cataloguesHttpService.findByType(
+      CatalogueTypeEnum.YES_NO
     );
   }
 

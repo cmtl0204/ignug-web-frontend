@@ -1,14 +1,7 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PrimeIcons, MenuItem} from 'primeng/api';
-import {OnExitInterface} from '@shared/interfaces';
-import {CatalogueModel, StudentModel} from '@models/core';
+import {PrimeIcons} from 'primeng/api';
+import {EnrollmentModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -17,106 +10,40 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {
-  BreadcrumbEnum,
-  CatalogueTypeEnum,
-  SkeletonEnum,
-} from '@shared/enums';
-import {AuthService} from '@services/auth/auth.service';
+import {SkeletonEnum,} from '@shared/enums';
+import {AuthService} from '@services/auth';
 
 @Component({
   selector: 'app-socioeconomic-form',
   templateUrl: './socioeconomic-form.component.html',
   styleUrls: ['./socioeconomic-form.component.scss'],
 })
-export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
+export class SocioeconomicFormComponent implements OnInit {
   @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
+  protected readonly SkeletonEnum = SkeletonEnum;
   protected student!: StudentModel | null;
-  protected disabilityTypes: CatalogueModel[] = [];
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
-  protected form: FormGroup;
-  protected items: MenuItem[] = [];
-  protected activeIndex: number = 3;
+  protected enrollment!: EnrollmentModel;
+  protected activeIndex: number = 0;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
     private cataloguesHttpService: CataloguesHttpService,
     protected coreService: CoreService,
-    private formBuilder: FormBuilder,
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
     private studentsHttpService: StudentsHttpService,
     private authService: AuthService
   ) {
-    this.form = this.newForm;
-    this.get();
-  }
 
-  async onExit(): Promise<boolean> {
-    if (this.form.touched || this.form.dirty) {
-      return await this.messageService
-        .questionOnExit()
-        .then((result) => result.isConfirmed);
-    }
-    return true;
   }
 
   ngOnInit(): void {
-    this.loadIsDisabilities();
-  }
-
-  get newForm(): FormGroup {
-    return this.formBuilder.group({
-      informationStudent: this.informationStudentForm,
-    });
-  }
-
-  get informationStudentForm(): FormGroup {
-    return this.formBuilder.group({
-      id: [null],
-      isFamilyEmigrant: [null, [Validators.required]],
-    });
-  }
-
-  loadIsDisabilities(): void {
-    this.disabilityTypes = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.YES_NO
-    );
-  }
-
-  onSubmit(): void {
-    if (this.form.valid) {
-      if (this.id) {
-        this.update(this.form.value);
-      } else {
-        this.create(this.form.value);
-      }
-    } else {
-      this.form.markAllAsTouched();
-      this.messageService.errorsFields();
-    }
-  }
-
-  back(): void {
-    this.router.navigate([this.routesService.students]);
-  }
-
-  /** Actions **/
-  create(student: StudentModel): void {
-    this.studentsHttpService.create(student).subscribe(() => {
-      this.form.reset();
-      this.back();
-    });
-  }
-
-  update(student: StudentModel): void {
-    this.studentsHttpService.update(this.id!, student).subscribe(() => {
-      this.form.reset();
-      this.back();
-    });
+    this.get();
+    this.findEnrollmentByStudent();
   }
 
   /** Load Data **/
@@ -129,6 +56,13 @@ export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
       });
   }
 
+  findEnrollmentByStudent() {
+    this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id)
+      .subscribe(enrollment => {
+        this.enrollment = enrollment;
+      });
+  }
+
   next() {
     this.activeIndex++;
   }
@@ -136,14 +70,4 @@ export class SocioeconomicFormComponent implements OnInit, OnExitInterface {
   previous() {
     this.activeIndex--;
   }
-
-  get aditionalField(): FormGroup {
-    return this.form.controls['informationStudent'] as FormGroup;
-  }
-
-  get isFamilyEmigrantField(): AbstractControl {
-    return this.aditionalField.controls['isFamilyEmigrant'];
-  }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
 }

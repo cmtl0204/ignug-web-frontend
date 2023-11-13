@@ -31,34 +31,34 @@ import { ToolbarModule } from 'primeng/toolbar';
 import { PickListModule } from 'primeng/picklist';
 import { SocioeconomicFormComponent } from './socioeconomic-form.component';
 import { TabViewModule } from 'primeng/tabview';
-import { PersonalInformationFormComponent } from './personal-information/personal-information-form.component';
+import { PersonalInformationComponent } from './personal-information/personal-information.component';
 
 
 import { AccordionModule } from 'primeng/accordion';
 import { StepsModule } from 'primeng/steps';
 import { OriginPlaceComponent } from './origin-place/origin-place.component';
 import { ResidencePlaceComponent } from './residence-place/residence-place.component';
-import { FamilyGroupDataComponent } from './family-group/family-group-data.component';
-import { FamilyEconomicDataComponent } from './family-economic/family-economic-data.component';
-import { FamilyHealthAntsComponent } from './family-health/family-health-ants.component';
-import { StudentHousingDataComponent } from './housing-data/student-housing-data.component';
+import { FamilyGroupComponent } from './family-group/family-group.component';
+import { FamilyEconomicComponent } from './family-economic/family-economic.component';
+import { FamilyHealthComponent } from './family-health/family-health.component';
+import { HousingDataComponent } from './housing-data/housing-data.component';
 import { MigrationCountryComponent } from './migration-country/migration-country.component';
 import { PsychosocialSectionComponent } from './psychosocial-section/psychosocial-section.component';
-import { AdditionalDataFormComponent } from './other-academic-data/other-academic-data-form.component';
-import { AcademicDataFormComponent } from './academic-data/academic-data-form.component';
+import { AdditionalDataFormComponent } from './other-academic-data/other-academic-data.component';
+import { AcademicDataComponent } from './academic-data/academic-data.component';
 
 @NgModule({
   declarations: [
     SocioeconomicFormComponent,
-    PersonalInformationFormComponent,
+    PersonalInformationComponent,
     AdditionalDataFormComponent,
-    AcademicDataFormComponent,
+    AcademicDataComponent,
     OriginPlaceComponent,
     ResidencePlaceComponent,
-    FamilyGroupDataComponent,
-    FamilyEconomicDataComponent,
-    FamilyHealthAntsComponent,
-    StudentHousingDataComponent,
+    FamilyGroupComponent,
+    FamilyEconomicComponent,
+    FamilyHealthComponent,
+    HousingDataComponent,
     MigrationCountryComponent,
     PsychosocialSectionComponent,
   ],

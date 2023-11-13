@@ -1,11 +1,11 @@
 <app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
-<p-messages severity="info">
-  <ng-template pTemplate>
-    <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" width="32"/>
-    <div class="ml-2">Always bet on Prime.</div>
-  </ng-template>
-</p-messages>
+<div *ngIf="enrollment" class="panel-messages-info">
+  <div *ngFor="let item of enrollment.enrollmentStates" class="ml-2">
+    Estado Matrícula:
+    <p-tag [value]="item.state.name" class="mr-2"></p-tag>
+  </div>
+</div>
 
 <p-tabView [activeIndex]="activeIndex" class="p-fluid">
   <p-tabPanel header="Ficha Socioeconómica" [disabled]="!(activeIndex===0)">

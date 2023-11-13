@@ -7,12 +7,12 @@ import {CataloguesHttpService, CoreService, MessageService, RoutesService, Stude
 import {CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
-  selector: 'app-academic-data-form',
-  templateUrl: './academic-data-form.component.html',
-  styleUrls: ['./academic-data-form.component.scss']
+  selector: 'app-academic-data',
+  templateUrl: './academic-data.component.html',
+  styleUrls: ['./academic-data.component.scss']
 })
 
-export class AcademicDataFormComponent implements OnInit {
+export class AcademicDataComponent implements OnInit {
   @Input() student!: StudentModel;
   @Input() id!: string;
 
@@ -26,11 +26,10 @@ export class AcademicDataFormComponent implements OnInit {
 
   // Foreign Keys
   protected yesNo: CatalogueModel[] = [];
-  protected academicCareers: CatalogueModel[] = [];
-  protected anotherTitles: CatalogueModel[] = [];
-  protected anotherCareers: CatalogueModel[] = [];
-  protected schoolTypes: CatalogueModel[] = [];
-  protected academiCycles: CatalogueModel[] = [];
+  protected universityCareers: CatalogueModel[] = [];
+  protected typeSchools: CatalogueModel[] = [];
+  protected degreeSuperiors: CatalogueModel[] = [];
+  protected typeStudyOtherCareers: CatalogueModel[] = [];
 
   constructor(
     private cataloguesHttpService: CataloguesHttpService,
@@ -45,15 +44,13 @@ export class AcademicDataFormComponent implements OnInit {
     this.applyValidations();
   }
 
-
   ngOnInit(): void {
     this.form.patchValue(this.student);
-    this.loadSchoolTypes();
-    this.loadBachTypes();
+    this.loadDegreeSuperiors();
+    this.loadTypeSchools();
+    this.loadTypeStudyOtherCareers();
+    this.loadUniversityCareers();
     this.loadYesNo();
-    this.loadAcademicCareers();
-    this.loadAnotherCareer();
-    this.loadAnotherTitle();
   }
 
   get newForm(): FormGroup {
@@ -108,28 +105,24 @@ export class AcademicDataFormComponent implements OnInit {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
-  loadSchoolTypes(): void {
-    this.schoolTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOOL_TYPE);
+  loadDegreeSuperiors(): void {
+    this.degreeSuperiors = this.cataloguesHttpService.findByType(CatalogueTypeEnum.DEGREE_SUPERIOR);
   }
 
-  loadBachTypes(): void {
-    this.academiCycles = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOLARSHIP_TYPE);
+  loadTypeSchools(): void {
+    this.typeSchools = this.cataloguesHttpService.findByType(CatalogueTypeEnum.TYPE_SCHOOL);
+  }
+
+  loadTypeStudyOtherCareers(): void {
+    this.typeStudyOtherCareers = this.cataloguesHttpService.findByType(CatalogueTypeEnum.TYPE_STUDY_OTHER_CAREER);
+  }
+
+  loadUniversityCareers(): void {
+    this.universityCareers = this.cataloguesHttpService.findByType(CatalogueTypeEnum.UNIVERSITY_CAREER);
   }
 
   loadYesNo(): void {
     this.yesNo = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO);
-  }
-
-  loadAcademicCareers(): void {
-    this.academicCareers = this.cataloguesHttpService.findByType(CatalogueTypeEnum.STUDENT_OCCUPATION);
-  }
-
-  loadAnotherCareer(): void {
-    this.anotherCareers = this.cataloguesHttpService.findByType(CatalogueTypeEnum.STUDENT_INCOME_FOR);
-  }
-
-  loadAnotherTitle(): void {
-    this.anotherTitles = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO)
   }
 
   applyValidations() {

@@ -1,9 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {PrimeIcons, MenuItem} from "primeng/api";
-import {OnExitInterface} from "@shared/interfaces";
-import {CatalogueModel, StudentModel} from "@models/core";
+import {EnrollmentModel, StudentModel} from "@models/core";
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -12,23 +11,29 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueEnrollmentStateEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
+import {AuthService} from "@services/auth";
+import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 
 @Component({
   selector: 'app-enrollment-application',
   templateUrl: './enrollment-application.component.html',
   styleUrls: ['./enrollment-application.component.scss']
 })
-export class EnrollmentApplicationComponent {
+export class EnrollmentApplicationComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
   protected items: MenuItem[] = [];
-  protected activeIndex: number = 3;
+  protected enrollment!: EnrollmentModel;
+  protected student!: StudentModel;
+  protected enrollmentState!: EnrollmentStateModel;
+  protected activeIndex: number = 0;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
+    private readonly authService: AuthService,
     private readonly breadcrumbService: BreadcrumbService,
     private readonly cataloguesHttpService: CataloguesHttpService,
     protected readonly coreService: CoreService,
@@ -40,6 +45,7 @@ export class EnrollmentApplicationComponent {
   ) {
     this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENT_REQUEST}]);
 
+    this.student = authService.auth.student;
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
@@ -56,11 +62,12 @@ export class EnrollmentApplicationComponent {
   }
 
   ngOnInit(): void {
+    this.findEnrollmentByStudent();
+
     if (this.id) {
       this.get();
     }
   }
-
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
@@ -107,31 +114,21 @@ export class EnrollmentApplicationComponent {
     });
   }
 
+  findEnrollmentByStudent() {
+    this.studentsHttpService.findEnrollmentByStudent(this.student.id)
+      .subscribe(enrollment => {
+        this.enrollment = enrollment;
+        if (enrollment.enrollmentStates) {
+          this.enrollmentState = enrollment.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED)!;
+        }
+      });
+  }
+
   next() {
     this.activeIndex++;
   }
 
   previous() {
     this.activeIndex--;
-  }
-
-  next1() {
-    this.activeIndex = 0;
-  }
-
-  next2() {
-    this.activeIndex = 1;
-  }
-
-  next3() {
-    this.activeIndex = 2;
-  }
-
-  next4() {
-    this.activeIndex = 3;
-  }
-
-  send() {
-    //TODO
   }
 }
