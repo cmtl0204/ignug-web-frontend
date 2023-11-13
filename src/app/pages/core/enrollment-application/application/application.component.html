@@ -103,7 +103,7 @@
     <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
       <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
         <td>
-          <p-tableCheckbox *ngIf="rowData?.academicState!='a'" [value]="rowData"></p-tableCheckbox>
+          <p-tableCheckbox *ngIf="rowData?.academicState!='a'" [disabled]="form.disabled" [value]="rowData"></p-tableCheckbox>
         </td>
         <td *ngFor="let col of columns">
           <!--Objects-->
@@ -146,7 +146,7 @@
   </p-table>
 
   <div class="formgrid grid">
-    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
       <button pButton
               type="button"
               class="p-button-warning"
@@ -155,12 +155,19 @@
               iconPos="left"
               (click)="previous()"></button>
     </div>
-    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <button pButton
-              class="p-button-success"
-              label="Guardar y Continuar a la siguiente sección"
-              [icon]="PrimeIcons.ARROW_RIGHT"
+    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+      <button *ngIf="form.enabled" pButton pRipple
+              label="Guardar"
+              [icon]="PrimeIcons.SAVE"
               iconPos="right"></button>
+    </div>
+    <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+      <button *ngIf="form.disabled" pButton pRipple type="button"
+              class="p-button-success"
+              label="Continuar a la siguiente sección"
+              [icon]="PrimeIcons.ARROW_RIGHT"
+              iconPos="right"
+              (click)="next()"></button>
     </div>
   </div>
 </form>

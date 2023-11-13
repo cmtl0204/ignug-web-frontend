@@ -8,7 +8,7 @@ import {
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons, MenuItem} from 'primeng/api';
 import {OnExitInterface} from '@shared/interfaces';
-import {CatalogueModel, StudentModel} from '@models/core';
+import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -18,7 +18,7 @@ import {
   StudentsHttpService,
 } from '@services/core';
 import {
-  BreadcrumbEnum,
+  BreadcrumbEnum, CatalogueEnrollmentStateEnum,
   CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
@@ -28,11 +28,13 @@ import {
   templateUrl: './psychosocial-section.component.html',
   styleUrls: ['./psychosocial-section.component.scss']
 })
-export class PsychosocialSectionComponent {
+export class PsychosocialSectionComponent implements OnInit{
   @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
   @Input() student!: StudentModel;
   @Input() id!: string;
+  @Input() enrollment!: EnrollmentModel;
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly Validators = Validators;
@@ -67,6 +69,18 @@ export class PsychosocialSectionComponent {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
+
+    this.validateForm();
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
+
     this.loadPandemicPsychologicalEffects();
     this.loadSocialGroups();
     this.loadTypeDiscriminations();
@@ -127,6 +141,8 @@ export class PsychosocialSectionComponent {
     if (this.typeInjuriesField.errors) this.formErrors.push('Tipo de autolesiones');
 
     this.formErrors.sort();
+
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 

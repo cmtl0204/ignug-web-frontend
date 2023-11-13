@@ -86,7 +86,8 @@
                [dirty]="isInjuriesField.dirty">
         </small>
       </div>
-      <div *ngIf="typeInjuriesField.hasValidator(Validators.required)" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div *ngIf="typeInjuriesField.hasValidator(Validators.required)"
+           class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="typeInjuries"
                label="Mencione que tipo de autolesiones:"
                [required]="typeInjuriesField"></label>
@@ -128,7 +129,8 @@
                [dirty]="isDiscriminationField.dirty">
         </small>
       </div>
-      <div *ngIf="typeDiscriminationField.hasValidator(Validators.required)" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <div *ngIf="typeDiscriminationField.hasValidator(Validators.required)"
+           class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
         <label appLabel for="typeDiscrimination"
                label="En caso de haber sido objeto de discriminación cuál es el motivo:"
                [required]="typeDiscriminationField"></label>
@@ -184,11 +186,21 @@
       </div>
     </div>
   </div>
-  <button
+  <button *ngIf="!form.disabled"
     pButton
     pRipple
     class="p-button-success"
     label="Guardar y Continuar a la siguiente sección"
     [icon]="PrimeIcons.ARROW_RIGHT"
     iconPos="right"></button>
+
+  <button *ngIf="form.disabled"
+          pButton
+          pRipple
+          type="button"
+          class="p-button-success"
+          label="Continuar a la siguiente sección"
+          [icon]="PrimeIcons.ARROW_RIGHT"
+          iconPos="right"
+          (click)="nextOut.emit()"></button>
 </form>

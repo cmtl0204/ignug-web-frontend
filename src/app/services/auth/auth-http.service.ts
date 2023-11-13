@@ -93,7 +93,6 @@ export class AuthHttpService {
     let catalogues = localStorage.getItem('catalogues');
 
     if (!catalogues || this.coreService.version !== this.coreService.newVersion) {
-      this.coreService.version = this.coreService.newVersion;
       this.cataloguesHttpService.findCache().subscribe();
     }
   }
@@ -102,7 +101,6 @@ export class AuthHttpService {
     let locations = localStorage.getItem('locations');
 
     if (!locations || this.coreService.version !== this.coreService.newVersion) {
-      this.coreService.version = this.coreService.newVersion;
       this.locationsHttpService.findCache().subscribe();
     }
   }

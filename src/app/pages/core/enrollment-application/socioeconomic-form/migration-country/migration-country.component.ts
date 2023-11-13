@@ -8,7 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { PrimeIcons, MenuItem } from 'primeng/api';
 import { OnExitInterface } from '@shared/interfaces';
-import { CatalogueModel, StudentModel } from '@models/core';
+import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -18,7 +18,7 @@ import {
   StudentsHttpService,
 } from '@services/core';
 import {
-  BreadcrumbEnum,
+  BreadcrumbEnum, CatalogueEnrollmentStateEnum,
   CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
@@ -32,9 +32,10 @@ import { AuthService } from '@services/auth';
 export class MigrationCountryComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected disabilityTypes: CatalogueModel[] = [];
 
@@ -60,6 +61,17 @@ export class MigrationCountryComponent {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
+
+    this.validateForm();
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
 
     this.loadIsDisabilities();
   }
@@ -105,6 +117,8 @@ export class MigrationCountryComponent {
     if (this.isFamilyEmigrantField.errors) this.formErrors.push('Algun familiar emigro');
 
     this.formErrors.sort();
+
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 

@@ -1,5 +1,5 @@
 <div class="formgrid grid">
-  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
     <button pButton
             type="button"
             class="p-button-warning"
@@ -8,10 +8,18 @@
             iconPos="left"
             (click)="previous()"></button>
   </div>
-  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+    <button pButton
+            type="button"
+            label="Descargar"
+            [icon]="PrimeIcons.DOWNLOAD"
+            iconPos="left"
+            (click)="download()"></button>
+  </div>
+  <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
     <button pButton
             class="p-button-success"
-            label="Descargar y Continuar a la siguiente sección"
+            label="Continuar a la siguiente sección"
             [icon]="PrimeIcons.ARROW_RIGHT"
             iconPos="right"
             (click)="next()"></button>

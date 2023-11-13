@@ -49,7 +49,6 @@ export class SocioeconomicReportComponent {
   }
 
   next() {
-    this.download();
     this.nextOut.emit(1);
   }
 }

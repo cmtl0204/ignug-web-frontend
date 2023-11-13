@@ -6,7 +6,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { PrimeIcons, MenuItem } from 'primeng/api';
-import { CatalogueModel, StudentModel } from '@models/core';
+import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   CataloguesHttpService,
   CoreService,
@@ -15,7 +15,7 @@ import {
   StudentsHttpService,
 } from '@services/core';
 import {
-  BreadcrumbEnum,
+  BreadcrumbEnum, CatalogueEnrollmentStateEnum,
   CatalogueTypeEnum,
   SkeletonEnum,
 } from '@shared/enums';
@@ -28,9 +28,10 @@ import {
 export class HousingDataComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly Validators = Validators;
   protected readonly PrimeIcons = PrimeIcons;
@@ -64,6 +65,17 @@ export class HousingDataComponent {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
+
+    this.validateForm();
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
 
     this.loadConsumeNewsTypes();
     this.loadEconomicContributions();
@@ -109,7 +121,7 @@ export class HousingDataComponent {
 
   applyValidations(){
     this.isWaterServiceField.valueChanges.subscribe(value => {
-      if(value.code === '1'){
+      if(value?.code === '1'){
         this.waterServiceTypeField.addValidators(Validators.required);
      } else {
         this.waterServiceTypeField.removeValidators(Validators.required);
@@ -118,7 +130,7 @@ export class HousingDataComponent {
      })
 
      this.isElectricServiceField.valueChanges.subscribe(value => {
-      if(value.code === '1'){
+      if(value?.code === '1'){
         this.electricServiceBlackoutField.addValidators(Validators.required);
      } else {
         this.electricServiceBlackoutField.removeValidators(Validators.required);
@@ -127,7 +139,7 @@ export class HousingDataComponent {
      })
 
      this.isSewerageServiceField.valueChanges.subscribe(value => {
-      if(value.code === '1'){
+      if(value?.code === '1'){
         this.sewerageServiceTypeField.addValidators(Validators.required);
      } else {
         this.sewerageServiceTypeField.removeValidators(Validators.required);
@@ -247,6 +259,7 @@ export class HousingDataComponent {
     if (this.consumeNewsTypeField.errors) this.formErrors.push('En que medios consume noticias');
 
     this.formErrors.sort();
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 

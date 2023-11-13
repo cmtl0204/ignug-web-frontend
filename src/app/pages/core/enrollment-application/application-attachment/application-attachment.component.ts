@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {CataloguesHttpService, EnrollmentsHttpService, StudentsHttpService, SubjectsService} from "@services/core";
-import {CatalogueModel, EnrollmentModel, FileModel, SubjectModel} from "@models/core";
+import {CatalogueModel, EnrollmentModel, FileModel} from "@models/core";
 import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from "@shared/enums";
 import {AuthService} from "@services/auth";
 import {PrimeIcons} from "primeng/api";
@@ -48,6 +48,7 @@ export class ApplicationAttachmentComponent implements OnInit {
   findEnrollmentByStudent() {
     this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id).subscribe(enrollment => {
       this.enrollment = enrollment;
+      console.log(enrollment);
       this.isFileListEnabled = this.enrollment?.enrollmentStates.some(enrollmentState =>
         enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED
       );
@@ -72,9 +73,10 @@ export class ApplicationAttachmentComponent implements OnInit {
     });
   }
 
-  previous(){
+  previous() {
     this.previousOut.emit(-1);
   }
+
   get isIdentificationField() {
     return this.form.controls['isIdentification'];
   }

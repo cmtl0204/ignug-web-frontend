@@ -289,7 +289,7 @@ export class StudentsHttpService {
   }
 
   findEnrollmentByStudent(studentId: string): Observable<EnrollmentModel> {
-    const url = `${this.API_URL}/${studentId}/enrollment`;
+    const url = `${this.API_URL}/${studentId}/enrollments`;
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map((response) => {

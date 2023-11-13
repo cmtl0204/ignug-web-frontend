@@ -10,7 +10,7 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {SkeletonEnum,} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, SkeletonEnum,} from '@shared/enums';
 import {AuthService} from '@services/auth';
 
 @Component({
@@ -25,7 +25,10 @@ export class SocioeconomicFormComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected enrollment!: EnrollmentModel;
+  protected isNew: boolean = false;
+  protected registered: boolean = false;
   protected activeIndex: number = 0;
+  protected sections: boolean[] = [false, false, false, false, false, false, false, false, false, false, false];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -60,6 +63,18 @@ export class SocioeconomicFormComponent implements OnInit {
     this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id)
       .subscribe(enrollment => {
         this.enrollment = enrollment;
+        if (!enrollment) this.isNew = true;
+
+        if (this.enrollment?.enrollmentStates) {
+          this.registered = this.enrollment.enrollmentStates.some(
+            item => item.state.code !== CatalogueEnrollmentStateEnum.REGISTERED);
+
+          if (this.registered) { //reviewer
+            this.activeIndex = -1;
+          } else {
+            this.activeIndex = 0;
+          }
+        }
       });
   }
 

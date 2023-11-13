@@ -24,7 +24,7 @@ import {
   LabelButtonActionEnum,
   IconButtonActionEnum,
   ClassButtonActionEnum,
-  CatalogueTypeEnum
+  CatalogueTypeEnum, CatalogueEnrollmentStateEnum
 } from "@shared/enums";
 import {AuthService} from "@services/auth";
 
@@ -123,6 +123,7 @@ export class ApplicationComponent implements OnInit {
 
   ngOnInit(): void {
     this.findEnrollmentByStudent();
+
     this.loadWorkdays();
     this.loadParallels();
   }
@@ -245,6 +246,30 @@ export class ApplicationComponent implements OnInit {
     this.studentsHttpService.findEnrollmentByStudent(this.student.id)
       .subscribe(enrollment => {
         this.enrollment = enrollment;
+        this.workdayField.patchValue(enrollment.workday);
+        this.parallelField.patchValue(enrollment.parallel);
+
+        if (this.enrollment?.enrollmentStates) {
+          const registeredState = this.enrollment.enrollmentStates.some(
+            item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED);
+
+          console.log(registeredState);
+          if (registeredState) { //reviewer
+            this.form.enable();
+            this.schoolPeriodField.enable();
+            this.careerField.enable();
+            this.selectedCurriculum.enable();
+            this.workdayField.enable();
+            this.parallelField.enable();
+          } else {
+            this.form.disable();
+            this.schoolPeriodField.disable();
+            this.careerField.disable();
+            this.selectedCurriculum.disable();
+            this.workdayField.disable();
+            this.parallelField.disable();
+          }
+        }
       });
   }
 

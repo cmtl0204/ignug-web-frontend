@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators,} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
-import {CatalogueModel, StudentModel} from '@models/core';
+import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -11,7 +11,7 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {CatalogueTypeEnum,} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum,} from '@shared/enums';
 
 @Component({
   selector: 'app-other-academic-data',
@@ -21,9 +21,10 @@ import {CatalogueTypeEnum,} from '@shared/enums';
 export class AdditionalDataFormComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly Validators = Validators;
@@ -55,6 +56,18 @@ export class AdditionalDataFormComponent {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
+
+    this.validateForm();
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
+
     this.loadElectronicDevices();
     this.loadInternetTypes();
     this.loadYesNo();
@@ -100,8 +113,9 @@ export class AdditionalDataFormComponent {
     if (this.isInternetField.errors) this.formErrors.push('Posee internete');
     if (this.internetTypeField.errors) this.formErrors.push('Tipo de internet');
 
-
     this.formErrors.sort();
+
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 
@@ -125,7 +139,7 @@ export class AdditionalDataFormComponent {
 
   applyValidations() {
     this.isElectronicDeviceField.valueChanges.subscribe(value => {
-      if (value.code === '1') {
+      if (value?.code === '1') {
         this.electronicDeviceField.addValidators(Validators.required);
       } else {
         this.electronicDeviceField.removeValidators(Validators.required);
@@ -134,7 +148,7 @@ export class AdditionalDataFormComponent {
     })
 
     this.isInternetField.valueChanges.subscribe(value => {
-      if (value.code === '1') {
+      if (value?.code === '1') {
         this.internetTypeField.addValidators(Validators.required);
       } else {
         this.internetTypeField.removeValidators(Validators.required);

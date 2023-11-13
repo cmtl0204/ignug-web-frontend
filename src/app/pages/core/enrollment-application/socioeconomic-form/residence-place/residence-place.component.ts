@@ -6,13 +6,14 @@ import {
   Validators,
 } from '@angular/forms';
 import { PrimeIcons, MenuItem } from 'primeng/api';
-import { LocationModel, StudentModel} from '@models/core';
+import {EnrollmentModel, LocationModel, StudentModel} from '@models/core';
 import {
   CataloguesHttpService,
   CoreService, LocationsHttpService,
   MessageService,
   StudentsHttpService,
 } from '@services/core';
+import {CatalogueEnrollmentStateEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-residence-place',
@@ -22,9 +23,10 @@ import {
 export class ResidencePlaceComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly PrimeIcons = PrimeIcons;
   protected form: FormGroup;
@@ -50,6 +52,15 @@ export class ResidencePlaceComponent {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
+
     this.loadCountries();
   }
 
@@ -71,7 +82,7 @@ export class ResidencePlaceComponent {
       province: [null, [Validators.required]],
       canton: [null, [Validators.required]],
       parrish: [null, [Validators.required]],
-      nearbyCity: [null, [Validators.required]],
+      nearbyCity: [null],
       latitude: [null, [Validators.required]],
       longitude: [null, [Validators.required]],
       mainStreet: [null, [Validators.required]],

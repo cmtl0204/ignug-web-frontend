@@ -15,6 +15,7 @@ export class CoreService {
   }
 
   updateSystem() {
+    this.version = this.newVersion;
     location.reload();
   }
 
@@ -53,18 +54,22 @@ export class CoreService {
   }
 
   get version() {
-    return JSON.parse(String(localStorage.getItem('version')));
+    // return JSON.parse(String(localStorage.getItem('version')));
+    return JSON.parse(String(sessionStorage.getItem('version')));
   }
 
   set version(value: any) {
-    localStorage.setItem('version', JSON.stringify(value));
+    // localStorage.setItem('version', JSON.stringify(value));
+    sessionStorage.setItem('version', JSON.stringify(value));
   }
 
   get newVersion() {
-    return JSON.parse(String(localStorage.getItem('newVersion')));
+    // return JSON.parse(String(localStorage.getItem('newVersion')));
+    return JSON.parse(String(sessionStorage.getItem('newVersion')));
   }
 
   set newVersion(value: any) {
-    localStorage.setItem('newVersion', JSON.stringify(value));
+    // localStorage.setItem('newVersion', JSON.stringify(value));
+    sessionStorage.setItem('newVersion', JSON.stringify(value));
   }
 }

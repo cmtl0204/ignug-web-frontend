@@ -23,6 +23,7 @@ export class PersonalInformationComponent implements OnInit {
   @Input() id!: string;
   @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected form: FormGroup;
   protected formErrors: string[] = [];
@@ -64,10 +65,13 @@ export class PersonalInformationComponent implements OnInit {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
+    this.validateForm();
+
     if (this.enrollment?.enrollmentStates) {
       if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
-          item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
         this.form.disable();
       }
     }
@@ -207,6 +211,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.sexField.errors) this.formErrors.push('Sexo');
 
     this.formErrors.sort();
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 
@@ -322,7 +327,7 @@ export class PersonalInformationComponent implements OnInit {
 
   loadForeignLanguageNames() {
     this.foreignLanguageNames = this.cataloguesHttpService.findByType(
-      CatalogueTypeEnum.FOREING_LANGUAGE_NAME
+      CatalogueTypeEnum.FOREIGN_LANGUAGE_NAME
     );
   }
 

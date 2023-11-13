@@ -1,6 +1,7 @@
 import {LOCALE_ID, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {AppRoutingModule} from './app-routing.module';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
 import {AppComponent} from './app.component';
 import {HttpInterceptorProviders} from './interceptors';
 import {HttpClientModule} from '@angular/common/http';
@@ -73,10 +74,10 @@ registerLocaleData(localEs, 'es');
     InputTextModule,
   ],
   providers: [
-    // {
-    //   provide: LocationStrategy,
-    //   useClass: HashLocationStrategy
-    // },
+    {
+      provide: LocationStrategy,
+      useClass: HashLocationStrategy
+    },
     {provide: LOCALE_ID, useValue: 'es'},
     HttpInterceptorProviders,
     MessageService,

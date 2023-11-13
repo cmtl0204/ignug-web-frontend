@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {PrimeIcons} from 'primeng/api';
-import {CatalogueModel, StudentModel} from '@models/core';
+import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   BreadcrumbService,
   CataloguesHttpService,
@@ -16,7 +16,7 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-family-economic',
@@ -26,9 +26,10 @@ import {CatalogueTypeEnum} from '@shared/enums';
 export class FamilyEconomicComponent {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly Validators = Validators;
@@ -60,6 +61,17 @@ export class FamilyEconomicComponent {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
+    this.validateForm();
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
+
     this.loadFamilyProperties();
     this.loadYesNo();
   }
@@ -89,6 +101,8 @@ export class FamilyEconomicComponent {
     if (this.familyPropertiesField.errors) this.formErrors.push('Que propiedades');
 
     this.formErrors.sort();
+
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 

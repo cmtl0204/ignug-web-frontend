@@ -1,7 +1,7 @@
 import {Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {PrimeIcons} from 'primeng/api';
-import {LocationModel, StudentModel} from '@models/core';
+import {EnrollmentModel, LocationModel, StudentModel} from '@models/core';
 import {
   CataloguesHttpService,
   CoreService,
@@ -9,7 +9,7 @@ import {
   MessageService,
   StudentsHttpService
 } from '@services/core';
-import {CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-origin-place',
@@ -20,9 +20,10 @@ import {CatalogueTypeEnum} from '@shared/enums';
 export class OriginPlaceComponent implements OnInit {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<StudentModel> = new EventEmitter<StudentModel>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly PrimeIcons = PrimeIcons;
   protected form: FormGroup;
@@ -48,6 +49,17 @@ export class OriginPlaceComponent implements OnInit {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
+    this.validateForm();
+
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
+
     this.loadCountries();
   }
 
@@ -69,7 +81,7 @@ export class OriginPlaceComponent implements OnInit {
       province: [null, [Validators.required]],
       canton: [null, [Validators.required]],
       parrish: [null, [Validators.required]],
-      community: [null, [Validators.required]],
+      community: [null],
       latitude: [null, [Validators.required]],
       longitude: [null, [Validators.required]],
       mainStreet: [null, [Validators.required]],
@@ -138,6 +150,8 @@ export class OriginPlaceComponent implements OnInit {
     if (this.secondaryStreetField.errors) this.formErrors.push('Calle intersección');
 
     this.formErrors.sort();
+
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 

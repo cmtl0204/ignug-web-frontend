@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
-import {CatalogueModel, StudentModel} from "@models/core";
+import {CatalogueModel, EnrollmentModel, StudentModel} from "@models/core";
 import {CataloguesHttpService, CoreService, MessageService, RoutesService, StudentsHttpService} from "@services/core";
-import {CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-academic-data',
@@ -15,9 +15,10 @@ import {CatalogueTypeEnum} from '@shared/enums';
 export class AcademicDataComponent implements OnInit {
   @Input() student!: StudentModel;
   @Input() id!: string;
-
+  @Input() enrollment!: EnrollmentModel;
   @Output() next: EventEmitter<number> = new EventEmitter<number>();
   @Output() previous: EventEmitter<number> = new EventEmitter<number>();
+  @Output() validForm: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly Validators = Validators;
@@ -46,6 +47,17 @@ export class AcademicDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.form.patchValue(this.student);
+
+    this.validateForm();
+    if (this.enrollment?.enrollmentStates) {
+      if (this.enrollment.enrollmentStates.some(
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        this.form.enable();
+      }else{
+        this.form.disable();
+      }
+    }
+
     this.loadDegreeSuperiors();
     this.loadTypeSchools();
     this.loadTypeStudyOtherCareers();
@@ -102,6 +114,8 @@ export class AcademicDataComponent implements OnInit {
     if (this.typeSchoolField.errors) this.formErrors.push('Tipo de colegio');
 
     this.formErrors.sort();
+
+    this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
 
