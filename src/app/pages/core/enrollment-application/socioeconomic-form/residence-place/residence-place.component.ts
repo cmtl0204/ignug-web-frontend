@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { PrimeIcons, MenuItem } from 'primeng/api';
+import {PrimeIcons, MenuItem} from 'primeng/api';
 import {EnrollmentModel, LocationModel, StudentModel} from '@models/core';
 import {
   CataloguesHttpService,
@@ -54,9 +54,10 @@ export class ResidencePlaceComponent {
 
     if (this.enrollment?.enrollmentStates) {
       if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+          item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
         this.form.enable();
-      }else{
+      } else {
         this.form.disable();
       }
     }
@@ -109,12 +110,12 @@ export class ResidencePlaceComponent {
       this.latitudeField.setValue(null);
       this.longitudeField.setValue(null);
 
-      setTimeout(() => {
-        this.latitudeField.patchValue(value.latitude);
-        this.longitudeField.patchValue(value.longitude);
-      }, 200);
-
-
+      if (value?.latitude && value?.longitude) {
+        setTimeout(() => {
+          this.latitudeField.patchValue(value.latitude);
+          this.longitudeField.patchValue(value.longitude);
+        }, 200);
+      }
     });
   }
 

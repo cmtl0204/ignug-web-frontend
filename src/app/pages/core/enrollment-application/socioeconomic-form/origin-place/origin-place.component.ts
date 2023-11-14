@@ -53,9 +53,10 @@ export class OriginPlaceComponent implements OnInit {
 
     if (this.enrollment?.enrollmentStates) {
       if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+          item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
         this.form.enable();
-      }else{
+      } else {
         this.form.disable();
       }
     }
@@ -108,12 +109,12 @@ export class OriginPlaceComponent implements OnInit {
       this.latitudeField.setValue(null);
       this.longitudeField.setValue(null);
 
-      setTimeout(() => {
-        this.latitudeField.patchValue(value.latitude);
-        this.longitudeField.patchValue(value.longitude);
-      }, 200);
-
-
+      if (value?.latitude && value?.longitude) {
+        setTimeout(() => {
+          this.latitudeField.patchValue(value.latitude);
+          this.longitudeField.patchValue(value.longitude);
+        }, 200);
+      }
     });
   }
 

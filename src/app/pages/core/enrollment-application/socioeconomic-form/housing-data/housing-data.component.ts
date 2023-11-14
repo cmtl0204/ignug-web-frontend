@@ -70,7 +70,8 @@ export class HousingDataComponent {
 
     if (this.enrollment?.enrollmentStates) {
       if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED)) { //reviewer
+        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+          item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
         this.form.enable();
       }else{
         this.form.disable();

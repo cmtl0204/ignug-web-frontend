@@ -1,13 +1,9 @@
-import {Component, OnInit} from '@angular/core';
 import {Location} from "@angular/common";
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
-import {
-  CatalogueModel,
-  EnrollmentModel,
-  SelectEnrollmentDto
-} from '@models/core';
-import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from 'primeng/api';
+import {CatalogueModel, EnrollmentModel, SelectEnrollmentDto} from '@models/core';
+import {OnExitInterface} from '@shared/interfaces';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   BreadcrumbService,
@@ -17,7 +13,14 @@ import {
   MessageService,
   RoutesService,
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
+import {
+  BreadcrumbEnum,
+  CatalogueTypeEnum,
+  ClassButtonActionEnum,
+  SkeletonEnum,
+  LabelButtonActionEnum,
+  IconButtonActionEnum, CatalogueEnrollmentStateEnum
+} from '@shared/enums';
 
 @Component({
   selector: 'app-enrollment-form',
@@ -45,6 +48,10 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
 
+  protected enrolled: boolean = false;
+  protected approved: boolean = false;
+  protected revoked: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
@@ -58,15 +65,15 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     private location: Location,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.inscriptions]},
       {label: BreadcrumbEnum.FORM},
     ]);
+
+    this.form = this.newForm;
 
     if (activatedRoute.snapshot.params['id'] !== 'new') {
       this.id = activatedRoute.snapshot.params['id'];
     }
-
-    this.form = this.newForm;
   }
 
   async onExit(): Promise<boolean> {
@@ -92,46 +99,47 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     return this.formBuilder.group({
       student: this.newStudentForm,
       states: this.newStateForm,
-      date: [{value:null,disabled:true}],
-      academicPeriod: [null, [ Validators.required]],
-      type: [null, [ Validators.required]],
+      date: [{value: null, disabled: true}],
+      academicPeriod: [null, [Validators.required]],
+      type: [null, [Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
-      code: [{value:null,disabled:true}],
+      code: [{value: null, disabled: true}],
       observation: [null],
-      enrollmentStates: [{value:null,disabled:true}],
+      enrollmentStates: [{value: null, disabled: true}],
     });
   }
 
   get newStudentForm(): FormGroup {
     return this.formBuilder.group({
-      informationStudent: [{value:null,disabled:true}],
+      informationStudent: [{value: null, disabled: true}],
       user: this.newUserForm,
     });
   }
 
   get newUserForm(): FormGroup {
     return this.formBuilder.group({
-      identification: [{value:null,disabled:true}],
-      lastname: [{value:null,disabled:true}],
-      name: [{value:null,disabled:true}],
-      email: [{value:null,disabled:true}],
-      personalEmail: [{value:null,disabled:true}],
-      cellPhone: [{value:null,disabled:true}],
-      phone: [{value:null,disabled:true}],
+      identification: [{value: null, disabled: true}],
+      lastname: [{value: null, disabled: true}],
+      name: [{value: null, disabled: true}],
+      email: [{value: null, disabled: true}],
+      personalEmail: [{value: null, disabled: true}],
+      cellPhone: [{value: null, disabled: true}],
+      phone: [{value: null, disabled: true}],
     });
   }
 
   get newStateForm(): FormGroup {
     return this.formBuilder.group({
-      state: [{value:null,disabled:true}],
+      state: [{value: null, disabled: true}],
     });
   }
 
   onSubmit(): void {
     if (this.form.valid) {
       if (this.id) {
-        this.update();
+        if (this.enrollmentStatesField.value)
+          this.update();
       } else {
         this.create(this.form.value);
       }
@@ -142,7 +150,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.location.back();
+    this.router.navigate([this.routesService.inscriptions]);
   }
 
   /** Actions **/
@@ -155,6 +163,20 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
   update(): void {
     this.enrollmentsHttpService.update(this.id!, this.form.value).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
+  }
+
+  updateApproved(): void {
+    this.enrollmentsHttpService.updateEnrolled(this.id!, this.form.value).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
+  }
+
+  updateEnrolled(): void {
+    this.enrollmentsHttpService.updateEnrolled(this.id!, this.form.value).subscribe(() => {
       this.form.reset();
       this.back();
     });
@@ -175,6 +197,10 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get(): void {
     this.enrollmentsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
+      if (this.dateField.value)
+        this.dateField.setValue(new Date(this.dateField.value));
+
+      this.validateEnrollmentState(enrollment);
     });
   }
 
@@ -220,28 +246,58 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     return this.formErrors.length === 0 && this.form.valid;
   }
 
+  validateEnrollmentState(enrollment: EnrollmentModel) {
+    if (enrollment.enrollmentStates) {
+      this.approved = enrollment.enrollmentStates.some(enrollmentState =>
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED);
+
+      this.enrolled = enrollment.enrollmentStates.some(enrollmentState =>
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED);
+
+      this.revoked = enrollment.enrollmentStates.some(enrollmentState =>
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED);
+
+      if (this.approved) {
+        this.form.disable();
+        this.parallelField.enable();
+        this.workdayField.enable();
+      }
+
+      if (this.enrolled || this.revoked) {
+        this.form.disable();
+      }
+    }
+  }
+
   /** Form Getters **/
   get academicPeriodField(): AbstractControl {
     return this.form.controls['academicPeriod'];
   }
+
   get dateField(): AbstractControl {
     return this.form.controls['date'];
   }
+
   get typeField(): AbstractControl {
     return this.form.controls['type'];
   }
+
   get workdayField(): AbstractControl {
     return this.form.controls['workday'];
   }
+
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
+
   get codeField(): AbstractControl {
     return this.form.controls['code'];
   }
+
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
   }
+
   get enrollmentStatesField(): AbstractControl {
     return this.form.controls['enrollmentStates'];
   }
@@ -257,21 +313,27 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get identificationField(): AbstractControl {
     return this.userForm.controls['identification'];
   }
+
   get lastnameField(): AbstractControl {
     return this.userForm.controls['lastname'];
   }
+
   get nameField(): AbstractControl {
     return this.userForm.controls['name'];
   }
+
   get emailField(): AbstractControl {
     return this.userForm.controls['email'];
   }
+
   get personalEmailField(): AbstractControl {
     return this.userForm.controls['personalEmail'];
   }
+
   get cellPhoneField(): AbstractControl {
     return this.userForm.controls['cellPhone'];
   }
+
   get phoneField(): AbstractControl {
     return this.userForm.controls['phone'];
   }
@@ -279,6 +341,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   get stateForm(): FormGroup {
     return this.form.controls['states'] as FormGroup;
   }
+
   get stateField(): AbstractControl {
     return this.stateForm.controls['state'];
   }

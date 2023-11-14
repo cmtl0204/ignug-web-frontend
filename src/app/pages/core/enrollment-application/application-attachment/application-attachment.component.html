@@ -1,19 +1,20 @@
 <div class="panel-messages-info">
   <h2>Documentos Requeridos:</h2>
-  <ul>
+  <ul *ngIf="fileTypes.length">
     <li>
-      Documento <i *ngIf="isIdentificationField.valid" [class]="PrimeIcons.CHECK_CIRCLE" style="color: green"></i>
+      {{fileTypes[0].name}} <i *ngIf="isIdentificationField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
+                               style="color: green"></i>
     </li>
     <li>
-      Solicitud de Matrícula <i *ngIf="isApplicationField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
-                                style="color: green"></i>
+      {{fileTypes[1].name}} <i *ngIf="isSocioeconomicFormField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
+                               style="color: green"></i>
     </li>
     <li>
-      Ficha Socioeconómica <i *ngIf="isSocioeconomicFormField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
-                              style="color: green"></i>
+      {{fileTypes[2].name}} <i *ngIf="isApplicationField.valid" [class]="PrimeIcons.CHECK_CIRCLE"
+                               style="color: green"></i>
     </li>
     <li>
-      Pago <i *ngIf="isPaymentField.value" [class]="PrimeIcons.CHECK_CIRCLE" style="color: green"></i>
+      {{fileTypes[3].name}} <i *ngIf="isPaymentField.value" [class]="PrimeIcons.CHECK_CIRCLE" style="color: green"></i>
     </li>
   </ul>
 </div>
@@ -22,6 +23,7 @@
 
 <p-panel *ngIf="enrollment">
   <app-file-list
+    [acceptAttributes]="'.pdf, image/*'"
     [isDialog]="false"
     [enabled]="isFileListEnabled"
     (isHide)="isFileList=false"

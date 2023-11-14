@@ -118,7 +118,7 @@
       </div>
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
         <label appLabel for="code" label="Código de matrícula:" [required]="codeField"></label>
-        <app-help-field (mouseenter)="opDateField.toggle($event)" (mouseleave)="opDateField.hide()"></app-help-field>
+        <app-help-field (mouseenter)="opCodeField.toggle($event)" (mouseleave)="opCodeField.hide()"></app-help-field>
         <input pInputText id="code" formControlName="code"/>
         <small
           appErrorMessage
@@ -255,7 +255,7 @@
   </ng-template>
 </p-overlayPanel>
 
-<p-overlayPanel #opCode>
+<p-overlayPanel #opCodeField>
   <ng-template pTemplate="content">
     <p>El código se genera automáticamente cuando se matricula</p>
   </ng-template>

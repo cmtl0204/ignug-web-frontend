@@ -30,6 +30,7 @@ import { BadgeModule } from 'primeng/badge';
 import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
 import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
 import { DownloadComponent } from '../download/download.component';
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import { DownloadComponent } from '../download/download.component';
     AccordionModule,
     DialogModule,
     DropdownModule,
-    BadgeModule
+    BadgeModule,
+    OverlayPanelModule
   ]
 })
 export class EnrollmentModule {

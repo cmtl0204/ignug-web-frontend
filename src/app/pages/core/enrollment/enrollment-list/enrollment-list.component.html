@@ -1,74 +1,59 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
     <button pButton
-        pRipple
-        type="button"
-        label="Refrescar"
-        class="p-button-info ml-2"
-        [icon]="PrimeIcons.REFRESH"
-        [loading]="coreService.isLoading"
-        (click)="findEnrollmentsByCareer()">
+            pRipple
+            type="button"
+            label="Refrescar"
+            class="p-button-info ml-2"
+            [icon]="PrimeIcons.REFRESH"
+            [loading]="coreService.isLoading"
+            (click)="findEnrollmentsByCareer()">
     </button>
-    <button pButton
-        pRipple
-        type="button"
-        label="Descargas"
-        class="ml-2"
-        [icon]="PrimeIcons.DOWNLOAD"
-        [loading]="coreService.isLoading"
-        (click)="downloadModal()">
-    </button>
-    <p-dialog [(visible)]="isVisible"
-          [modal]="true"
-          [style]="{width: '50%'}"
-          header="Descargas">
-          <app-download></app-download>
-    </p-dialog>
   </div>
   <div class="p-toolbar-group-right  ml-2">
     <p-dropdown [formControl]="selectedSchoolPeriod"
-        dataKey="id"
-        class="ml-2"
-        [options]="schoolPeriods"
-        optionLabel="name"
-        placeholder="Periodo Lectivo"
-        pTooltip="Periodo Lectivo"
-        >
+                dataKey="id"
+                class="ml-2"
+                [options]="schoolPeriods"
+                optionLabel="name"
+                placeholder="Periodo Lectivo"
+                pTooltip="Periodo Lectivo"
+    >
     </p-dropdown>
     <p-dropdown [formControl]="selectedCareer"
-        dataKey="id"
-        class="ml-2"
-        [options]="careers"
-        optionLabel="name"
-        placeholder="Carrera"
-        pTooltip="Carrera"
-        >
+                dataKey="id"
+                class="ml-2"
+                [options]="careers"
+                optionLabel="name"
+                placeholder="Carrera"
+                pTooltip="Carrera"
+    >
     </p-dropdown>
     <p-dropdown [formControl]="selectedAcademicPeriod"
-        dataKey="id"
-        class="ml-2"
-        [options]="academicPeriods"
-        optionLabel="name"
-        placeholder="Todos los Niveles"
-        pTooltip="Nivel Académico"
-        [showClear]="true"
-        >
+                dataKey="id"
+                class="ml-2"
+                [options]="academicPeriods"
+                optionLabel="name"
+                placeholder="Todos los Niveles"
+                pTooltip="Nivel Académico"
+                [showClear]="true"
+    >
     </p-dropdown>
   </div>
 </p-toolbar>
 <p-paginator [rows]="paginator.limit"
-            [totalRecords]="paginator.totalItems"
-            (onPageChange)="paginate($event)"
-            >
+             [totalRecords]="paginator.totalItems"
+             (onPageChange)="paginate($event)"
+>
 </p-paginator>
 <p-table
-        #dt1
-        dataKey="id"
-        styleClass="p-datatable-striped"
-        [value]="items"
-        [columns]="columns"
-        [loading]="coreService.isLoading"
-        [(selection)]="selectedItems">
+  #dt1
+  dataKey="id"
+  styleClass="p-datatable-striped"
+  [value]="items"
+  [columns]="columns"
+  [loading]="coreService.isLoading"
+  [(selection)]="selectedItems">
 
   <ng-template pTemplate="caption">
     <div class="flex">
@@ -78,19 +63,20 @@
         <p-button label="Retirados" badge="8" styleClass="mr-2"></p-button>
         <p-button label="Anulados" styleClass="p-button-warning mr-2" badge="8" badgeClass="p-badge-danger"></p-button>
       </div> -->
+      <h1>Lista de Inscritos</h1>
       <div class="p-input-icon-left ml-auto">
         <div class="p-inputgroup">
           <input type="text"
-            pInputText
-            [formControl]="search"
-            placeholder="Buscar...">
+                 pInputText
+                 [formControl]="search"
+                 placeholder="Buscar...">
           <button pButton
-            pRipple
-            type="button"
-            [icon]="PrimeIcons.SEARCH"
-            [loading]="coreService.isLoading"
-            (click)="findEnrollmentsByCareer()"
-            >
+                  pRipple
+                  type="button"
+                  [icon]="PrimeIcons.SEARCH"
+                  [loading]="coreService.isLoading"
+                  (click)="findEnrollmentsByCareer()"
+          >
           </button>
         </div>
       </div>
@@ -110,9 +96,9 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-<!--      <td>-->
-<!--        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
-<!--      </td>-->
+      <!--      <td>-->
+      <!--        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
+      <!--      </td>-->
       <td class="text-center" *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
@@ -143,11 +129,9 @@
             {{rowData['student']?.user.name}}
           </div>
           <div *ngSwitchCase="'enrollmentStates'">
-            <ul>
-              <li *ngFor="let item of rowData[col.field]">
-                {{item.state.name}}
-              </li>
-            </ul>
+           <span *ngFor="let item of rowData[col.field]">
+              <p-tag [value]="item.state.name" [severity]="item.state.code|enrollmentState" class="mr-1"></p-tag>
+            </span>
           </div>
         </div>
       </td>

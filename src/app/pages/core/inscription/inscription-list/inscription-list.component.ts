@@ -61,7 +61,8 @@ export class InscriptionListComponent implements OnInit {
   protected selectedAcademicPeriod: FormControl = new FormControl();
   protected state: CatalogueModel[] = [];
   protected isVisible: boolean = false;
-
+  protected isFileList: boolean = false;
+  protected fileTypes: CatalogueModel[] = [];
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -108,6 +109,7 @@ export class InscriptionListComponent implements OnInit {
     this.findSchoolPeriods();
     this.findAcademicPeriods();
     this.findCareers();
+    this.loadFileTypes();
   }
 
   findSchoolPeriods() {
@@ -184,13 +186,15 @@ export class InscriptionListComponent implements OnInit {
           if (this.selectedItem?.id) this.reject(this.selectedItem.id);
         },
       },
-      // {
-      //   label: 'Descargar Certificado',
-      //   icon: PrimeIcons.DOWNLOAD,
-      //   command: () => {
-      //     if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
-      //   },
-      // },
+      {
+        id: IdButtonActionEnum.FILE_LIST,
+        label: LabelButtonActionEnum.FILE_LIST,
+        icon: IconButtonActionEnum.FILE_LIST,
+        command: () => {
+          if (this.selectedItem?.id) this.isFileList=true;
+        },
+
+      }
     ];
   }
 
@@ -201,16 +205,6 @@ export class InscriptionListComponent implements OnInit {
     if (item.enrollmentStates.find(enrollmentState =>
       enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
       enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-    }
-
-    if (!item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT)) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
       if (index > -1)
         this.buttonActions.splice(index, 1);
@@ -262,15 +256,13 @@ export class InscriptionListComponent implements OnInit {
 
   enroll(id: string) {
     this.enrollmentsHttpService.enroll(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+      this.findEnrollmentsByCareer();
     });
   }
 
   revoke(id: string) {
     this.enrollmentsHttpService.revoke(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;
+      this.findEnrollmentsByCareer();
     });
   }
 
@@ -290,6 +282,9 @@ export class InscriptionListComponent implements OnInit {
     this.isVisible = true;
   }
 
+  loadFileTypes(): void {
+    this.fileTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENT_FILE_TYPE);
+  }
   /** Select & Paginate **/
   selectItem(item: EnrollmentModel) {
     this.isButtonActions = true;

@@ -48,6 +48,10 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
 
+  protected enrolled: boolean = false;
+  protected approved: boolean = false;
+  protected revoked: boolean = false;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
@@ -134,7 +138,8 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
   onSubmit(): void {
     if (this.form.valid) {
       if (this.id) {
-        this.update();
+        if (this.enrollmentStatesField.value)
+          this.update();
       } else {
         this.create(this.form.value);
       }
@@ -163,6 +168,20 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+  updateApproved(): void {
+    this.enrollmentsHttpService.updateEnrolled(this.id!, this.form.value).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
+  }
+
+  updateEnrolled(): void {
+    this.enrollmentsHttpService.updateEnrolled(this.id!, this.form.value).subscribe(() => {
+      this.form.reset();
+      this.back();
+    });
+  }
+
   approve() {
     this.enrollmentsHttpService.approve(this.id!).subscribe(item => {
       this.back();
@@ -181,11 +200,7 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
       if (this.dateField.value)
         this.dateField.setValue(new Date(this.dateField.value));
 
-      if (enrollment.enrollmentStates.find(enrollmentState =>
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
-        this.form.disable();
-      }
+      this.validateEnrollmentState(enrollment);
     });
   }
 
@@ -229,6 +244,29 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
+  }
+
+  validateEnrollmentState(enrollment: EnrollmentModel) {
+    if (enrollment.enrollmentStates) {
+      this.approved = enrollment.enrollmentStates.some(enrollmentState =>
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED);
+
+      this.enrolled = enrollment.enrollmentStates.some(enrollmentState =>
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED);
+
+      this.revoked = enrollment.enrollmentStates.some(enrollmentState =>
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED);
+
+      if (this.approved) {
+        this.form.disable();
+        this.parallelField.enable();
+        this.workdayField.enable();
+      }
+
+      if (this.enrolled || this.revoked) {
+        this.form.disable();
+      }
+    }
   }
 
   /** Form Getters **/

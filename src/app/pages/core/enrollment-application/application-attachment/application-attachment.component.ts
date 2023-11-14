@@ -1,7 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {CataloguesHttpService, EnrollmentsHttpService, StudentsHttpService, SubjectsService} from "@services/core";
+import {
+  CataloguesHttpService,
+  EnrollmentsHttpService,
+  MessageService,
+  StudentsHttpService,
+  SubjectsService
+} from "@services/core";
 import {CatalogueModel, EnrollmentModel, FileModel} from "@models/core";
-import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from "@shared/enums";
+import {CatalogueEnrollmentFileTyeEnum, CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from "@shared/enums";
 import {AuthService} from "@services/auth";
 import {PrimeIcons} from "primeng/api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -21,12 +27,14 @@ export class ApplicationAttachmentComponent implements OnInit {
   protected enrollment!: EnrollmentModel;
   protected files: FileModel[] = [];
   protected form: FormGroup;
+  protected formErrors: string[] = [];
 
   constructor(protected readonly subjectsService: SubjectsService,
               private readonly authService: AuthService,
               private readonly formBuilder: FormBuilder,
               private readonly enrollmentsHttpService: EnrollmentsHttpService,
               private readonly studentsHttpService: StudentsHttpService,
+              protected messageService: MessageService,
               private readonly cataloguesHttpService: CataloguesHttpService,) {
     this.form = this.newForm;
   }
@@ -48,29 +56,46 @@ export class ApplicationAttachmentComponent implements OnInit {
   findEnrollmentByStudent() {
     this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id).subscribe(enrollment => {
       this.enrollment = enrollment;
-      console.log(enrollment);
+
       this.isFileListEnabled = this.enrollment?.enrollmentStates.some(enrollmentState =>
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED
+        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED || enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED
       );
     })
   }
 
   loadFileTypes(): void {
-    this.fileTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.DISABILITY_TYPE);
+    this.fileTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENT_FILE_TYPE);
   }
 
   validateFiles(files: any) {
     this.files = files;
-    this.isIdentificationField.patchValue(this.files.some(file => file.type?.code === '1'));
-    this.isSocioeconomicFormField.patchValue(this.files.some(file => file.type?.code === '2'));
-    this.isApplicationField.patchValue(this.files.some(file => file.type?.code === '3'));
-    this.isPaymentField.patchValue(this.files.some(file => file.type?.code === '4'));
+    this.isIdentificationField.patchValue(this.files.some(file => file.type?.code === CatalogueEnrollmentFileTyeEnum.IDENTIFICATION_REQUIREMENT));
+    this.isSocioeconomicFormField.patchValue(this.files.some(file => file.type?.code === CatalogueEnrollmentFileTyeEnum.SOCIOECONOMIC_FORM));
+    this.isApplicationField.patchValue(this.files.some(file => file.type?.code === CatalogueEnrollmentFileTyeEnum.APPLICATION));
+    this.isPaymentField.patchValue(this.files.some(file => file.type?.code === CatalogueEnrollmentFileTyeEnum.PAYMENT));
   }
 
   sendRequest() {
-    this.enrollmentsHttpService.sendRequest(this.enrollment.id, null).subscribe(() => {
-      this.findEnrollmentByStudent();
-    });
+    if (this.validateForm()) {
+      this.enrollmentsHttpService.sendRequest(this.enrollment.id, null).subscribe(() => {
+        this.findEnrollmentByStudent();
+      });
+    } else {
+      this.form.markAllAsTouched();
+      this.messageService.errorsFields(this.formErrors);
+    }
+  }
+
+  validateForm() {
+    this.formErrors = [];
+
+    if (this.isIdentificationField.errors) this.formErrors.push('Documento de Identificación');
+    if (this.isSocioeconomicFormField.errors) this.formErrors.push('Ficha Socioeconómica');
+    if (this.isApplicationField.errors) this.formErrors.push('Solicitud de Matrícula');
+    if (this.isPaymentField.errors) this.formErrors.push('Pago');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
   }
 
   previous() {

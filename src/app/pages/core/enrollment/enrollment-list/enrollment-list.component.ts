@@ -1,8 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { FormControl } from "@angular/forms";
-import { Router } from '@angular/router';
-import { MenuItem, PrimeIcons } from "primeng/api";
-import { ColumnModel, InstitutionModel, PaginatorModel, SelectEnrollmentDto, EnrollmentModel, SubjectModel, CareerModel, CatalogueModel, SchoolPeriodModel } from '@models/core';
+import {Component, OnInit} from '@angular/core';
+import {FormControl} from "@angular/forms";
+import {Router} from '@angular/router';
+import {MenuItem, PrimeIcons} from "primeng/api";
+import {
+  ColumnModel,
+  InstitutionModel,
+  PaginatorModel,
+  SelectEnrollmentDto,
+  EnrollmentModel,
+  SubjectModel,
+  CareerModel,
+  CatalogueModel,
+  SchoolPeriodModel
+} from '@models/core';
 import {
   BreadcrumbService,
   CareersHttpService,
@@ -14,7 +24,15 @@ import {
   RoutesService,
   SchoolPeriodsHttpService, SchoolPeriodsService
 } from '@services/core';
-import { IdButtonActionEnum, BreadcrumbEnum, CatalogueTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum } from "@shared/enums";
+import {
+  IdButtonActionEnum,
+  BreadcrumbEnum,
+  CatalogueTypeEnum,
+  ClassButtonActionEnum,
+  IconButtonActionEnum,
+  LabelButtonActionEnum,
+  CatalogueEnrollmentStateEnum
+} from "@shared/enums";
 
 @Component({
   selector: 'app-enrollment-list',
@@ -54,12 +72,11 @@ export class EnrollmentListComponent implements OnInit {
     private enrollmentsHttpService: EnrollmentsHttpService,
     private cataloguesHttpService: CataloguesHttpService,
     private schoolPeriodsHttpService: SchoolPeriodsHttpService,
-    private schoolPeriodsService: SchoolPeriodsService,
     private careersService: CareersService,
     private careersHttpService: CareersHttpService,
-
+    private schoolPeriodsService: SchoolPeriodsService,
   ) {
-    this.breadcrumbService.setItems([{ label: BreadcrumbEnum.ENROLLMENTS }]);
+    this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENTS}]);
 
     this.paginator = this.coreService.paginator;
 
@@ -71,15 +88,15 @@ export class EnrollmentListComponent implements OnInit {
 
     this.selectedSchoolPeriod.valueChanges.subscribe(value => {
       this.findEnrollmentsByCareer();
-  });
+    });
 
     this.selectedCareer.valueChanges.subscribe(value => {
-        this.findEnrollmentsByCareer();
+      this.findEnrollmentsByCareer();
     });
 
     this.selectedAcademicPeriod.valueChanges.subscribe(value => {
       this.findEnrollmentsByCareer();
-  });
+    });
 
     this.selectedSchoolPeriod.patchValue(this.schoolPeriodsService.openSchoolPeriod);
 
@@ -101,22 +118,23 @@ export class EnrollmentListComponent implements OnInit {
     )
   }
 
-  findCareers(){
+  findCareers() {
     this.careers = this.careersService.careers;
   }
-  findAcademicPeriods(){
+
+  findAcademicPeriods() {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
   /** Load Data **/
   findEnrollmentsByCareer(page: number = 0) {
-   if (this.selectedCareer.value && this.selectedSchoolPeriod.value){
-    this.careersHttpService.findEnrollmentsByCareer(this.selectedCareer.value.id, this.selectedSchoolPeriod.value.id, this.selectedAcademicPeriod.value?.id, page, this.search.value)
-    .subscribe((response) => {
-      this.paginator = response.pagination!;
-      this.items = response.data
-    });
-   }
+    if (this.selectedCareer.value && this.selectedSchoolPeriod.value) {
+      this.careersHttpService.findEnrollmentsByCareer(this.selectedCareer.value.id, this.selectedSchoolPeriod.value.id, this.selectedAcademicPeriod.value?.id, page, this.search.value)
+        .subscribe((response) => {
+          this.paginator = response.pagination!;
+          this.items = response.data
+        });
+    }
   }
 
   /** Build Data **/
@@ -151,27 +169,66 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
-        label: 'Matricular',
+        id: IdButtonActionEnum.APPROVED,
+        label: 'Aprobar',
         icon: PrimeIcons.CHECK,
+        command: () => {
+          if (this.selectedItem?.id) this.approve(this.selectedItem.id);
+        },
+      },
+      {
+        id: IdButtonActionEnum.ENROLLED,
+        label: 'Matricular',
+        icon: PrimeIcons.STAR,
         command: () => {
           if (this.selectedItem?.id) this.enroll(this.selectedItem.id);
         },
       },
       {
-        label: 'Anular',
+        id: IdButtonActionEnum.REJECTED,
+        label: 'Rechazar',
         icon: PrimeIcons.BAN,
         command: () => {
-          if (this.selectedItem?.id) this.revoke(this.selectedItem.id);
+          if (this.selectedItem?.id) this.reject(this.selectedItem.id);
         },
       },
-      {
-        label: 'Descargar Certificado',
-        icon: PrimeIcons.DOWNLOAD,
-        command: () => {
-          alert('certificado');
-        },
-      },
+      // {
+      //   label: 'Descargar Certificado',
+      //   icon: PrimeIcons.DOWNLOAD,
+      //   command: () => {
+      //     if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+      //   },
+      // },
     ];
+  }
+
+  validateButtonActions(item: EnrollmentModel) {
+    this.buttonActions = this.buildButtonActions;
+    let index = -1;
+
+    if (item.enrollmentStates.find(enrollmentState =>
+      enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+      enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
+
+    if (item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED)) {
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED);
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+    }
   }
 
   /** Actions **/
@@ -203,29 +260,25 @@ export class EnrollmentListComponent implements OnInit {
 
   enroll(id: string) {
     this.enrollmentsHttpService.enroll(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+      this.findEnrollmentsByCareer();
     });
   }
 
   revoke(id: string) {
     this.enrollmentsHttpService.revoke(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = true;
+      this.findEnrollmentsByCareer();
     });
   }
 
   approve(id: string) {
     this.enrollmentsHttpService.approve(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+      this.findEnrollmentsByCareer();
     });
   }
 
   reject(id: string) {
     this.enrollmentsHttpService.reject(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
-      this.items[index].isVisible = false;
+      this.findEnrollmentsByCareer();
     });
   }
 
@@ -237,6 +290,7 @@ export class EnrollmentListComponent implements OnInit {
   selectItem(item: EnrollmentModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
+    this.validateButtonActions(item);
   }
 
   paginate(event: any) {
@@ -249,12 +303,10 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.enrollments, id]);
+    this.router.navigate([this.routesService.inscriptions, id]);
   }
 
   redirectEnrollmentDetails(id: string) {
-    this.router.navigate([this.routesService.enrollmentsDetailList, id]);
+    this.router.navigate([this.routesService.inscriptionsDetailList(this.selectedItem.id!)]);
   }
 }
-
-

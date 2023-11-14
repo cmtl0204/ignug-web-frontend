@@ -41,11 +41,13 @@
     </p-dropdown>
   </div>
 </p-toolbar>
+
 <p-paginator [rows]="paginator.limit"
              [totalRecords]="paginator.totalItems"
              (onPageChange)="paginate($event)"
 >
 </p-paginator>
+
 <p-table
   #dt1
   dataKey="id"
@@ -85,7 +87,7 @@
   <ng-template pTemplate="header" let-columns>
     <tr>
       <!--      <th style="width: 3rem"></th>-->
-      <th class="text-center"  *ngFor="let col of columns" [pSortableColumn]="col.field">
+      <th class="text-center" *ngFor="let col of columns" [pSortableColumn]="col.field">
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
@@ -155,3 +157,10 @@
 <p-sidebar [(visible)]="isButtonActions" position="right">
   <p-panelMenu [model]="buttonActions" [style]="{'width':'300px'}" (click)="isButtonActions=false"></p-panelMenu>
 </p-sidebar>
+
+<app-file-list *ngIf="isFileList"
+               [isVisible]="isFileList"
+               (isHide)="isFileList=false"
+               [modelId]="selectedItem.id!"
+               [types]="fileTypes">
+</app-file-list>

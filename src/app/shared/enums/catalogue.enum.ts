@@ -42,6 +42,7 @@ export enum CatalogueTypeEnum {
   FAMILY_PROPERTIES = 'FAMILY_PROPERTIES',
   FAMILY_KINSHIP_CATASTROPHIC_ILLNESS = 'FAMILY_KINSHIP_CATASTROPHIC_ILLNESS',
   FAMILY_KINSHIP_DISABILITY = "FAMILY_KINSHIP_DISABILITY",
+  ENROLLMENT_FILE_TYPE = "ENROLLMENT_FILE_TYPE",
   NATIONALITY = 'NATIONALITY',
   PARALLEL = 'PARALLEL',
   PROJECT_SCOPE = 'PROJECT_SCOPE',
@@ -126,4 +127,11 @@ export enum UsersIdentificationTypeStateEnum {
 
 export enum CatalogueMaritalStatusEnum {
   SINGLE = 'single'
+}
+
+export enum CatalogueEnrollmentFileTyeEnum {
+  IDENTIFICATION_REQUIREMENT = 'identification_requirement',
+  SOCIOECONOMIC_FORM = 'socioeconomic_form',
+  APPLICATION = 'application',
+  PAYMENT = 'payment',
 }

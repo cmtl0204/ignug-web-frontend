@@ -131,9 +131,9 @@ export class ApplicationComponent implements OnInit {
   get newForm() {
     return this.formBuilder.group({
       student: [this.student, [Validators.required]],
-      academicPeriod: [null, []],
+      academicPeriod: [null, [Validators.required]],
       career: [null, [Validators.required]],
-      enrollmentDetails: [[]],
+      enrollmentDetails: [[],[Validators.required]],
       parallel: [null, [Validators.required]],
       schoolPeriod: [null, [Validators.required]],
       workday: [null, [Validators.required]],
@@ -253,7 +253,6 @@ export class ApplicationComponent implements OnInit {
           const registeredState = this.enrollment.enrollmentStates.some(
             item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED);
 
-          console.log(registeredState);
           if (registeredState) { //reviewer
             this.form.enable();
             this.schoolPeriodField.enable();
@@ -285,7 +284,7 @@ export class ApplicationComponent implements OnInit {
   onSubmit(): void {
     this.enrollmentDetailsField.patchValue(this.selectedItems);
     this.calculateAcademicPeriod();
-
+    console.log(this.enrollmentDetailsField.value);
     if (this.validateForm()) {
       this.sendRegistration();
     } else {

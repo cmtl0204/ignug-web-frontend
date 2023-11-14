@@ -101,6 +101,34 @@ export class EnrollmentsHttpService {
     );
   }
 
+  updateApproved(id: string, payload: SelectEnrollmentDto): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/approved`;
+
+    this.coreService.isProcessing = true;
+
+    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  updateEnrolled(id: string, payload: SelectEnrollmentDto): Observable<EnrollmentModel> {
+    const url = `${this.API_URL}/${id}/enrolled`;
+
+    this.coreService.isProcessing = true;
+
+    return this.httpClient.put<ServerResponse>(url, payload).pipe(
+      map(response => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
   reactivate(id: string): Observable<EnrollmentModel> {
     const url = `${this.API_URL}/${id}/reactivate`;
 

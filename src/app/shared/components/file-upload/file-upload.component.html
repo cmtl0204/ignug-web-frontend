@@ -11,7 +11,7 @@
     </p-dropdown>
   </div>
 </div>
-<p-fileUpload
+<p-fileUpload *ngIf="type.value"
   #uploadFiles
   chooseLabel="Browse"
   [chooseIcon]="PrimeIcons.SEARCH"
