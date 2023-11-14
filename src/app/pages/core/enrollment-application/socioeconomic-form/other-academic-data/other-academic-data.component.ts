@@ -55,6 +55,7 @@ export class AdditionalDataFormComponent {
   }
 
   ngOnInit(): void {
+    console.log(this.student);
     this.form.patchValue(this.student);
 
     this.validateForm();
