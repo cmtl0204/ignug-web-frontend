@@ -27,7 +27,7 @@ export class EnrollmentApplicationComponent implements OnInit {
   protected enrollment!: EnrollmentModel;
   protected student!: StudentModel;
   protected enrollmentState!: EnrollmentStateModel;
-  protected activeIndex: number = 3;
+  protected activeIndex: number = 0;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
