@@ -111,6 +111,12 @@
             <div *ngSwitchCase="'academicPeriod'">
               {{rowData[col.field].name}}
             </div>
+            <div *ngSwitchCase="'academicState'">
+              a{{rowData[col.field]|json}}v
+              a{{rowData[col.field]?.name|json}}v
+              <p-tag [value]="rowData[col.field]?.code|academicState"
+                     [severity]="rowData[col.field]?.code==='a'?'success':rowData[col.field]?.code==='r'?'danger':'info'"></p-tag>
+            </div>
             <div *ngSwitchCase="'type'">
               {{rowData[col.field].name}}
             </div>
@@ -119,10 +125,11 @@
           <!--Fields-->
           <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
             <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+            <div *ngSwitchCase="'academicState'">
+              <p-tag [value]="rowData[col.field]?.code|academicState"
+                     [severity]="rowData[col.field]?.code==='a'?'success':rowData[col.field]?.code==='r'?'danger':'info'"></p-tag>
+            </div>
             <div *ngSwitchCase="'state'">
-              <p-tag [value]="rowData.academicState|academicState"
-                     [severity]="rowData?.academicState==='a'?'success':rowData?.academicState==='r'?'danger':'info'"></p-tag>
-
               <p-tag *ngFor="let enrollmentState of rowData?.enrollmentStates" [value]="enrollmentState?.state?.name"
                      [severity]="enrollmentState?.state?.code|enrollmentState" class="ml-1"></p-tag>
             </div>
@@ -157,7 +164,7 @@
     </div>
     <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
       <button *ngIf="form.enabled" pButton pRipple
-              label="Guardar"
+              label="Guardar y Continuar"
               [icon]="PrimeIcons.SAVE"
               iconPos="right"></button>
     </div>

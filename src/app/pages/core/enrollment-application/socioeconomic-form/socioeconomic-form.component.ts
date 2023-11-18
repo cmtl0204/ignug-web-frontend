@@ -63,17 +63,12 @@ export class SocioeconomicFormComponent implements OnInit {
     this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id)
       .subscribe(enrollment => {
         this.enrollment = enrollment;
+
         if (!enrollment) this.isNew = true;
 
         if (this.enrollment?.enrollmentStates) {
-          this.registered = this.enrollment.enrollmentStates.some(
-            item => item.state.code !== CatalogueEnrollmentStateEnum.REGISTERED);
-
-          if (this.registered) { //reviewer
-            this.activeIndex = -1;
-          } else {
-            this.activeIndex = 0;
-          }
+          this.registered = true;
+          this.activeIndex = -1;
         }
       });
   }

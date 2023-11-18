@@ -146,7 +146,8 @@ export class ApplicationComponent implements OnInit {
       {field: 'name', header: 'Nombre'},
       {field: 'hours', header: 'Horas Doc. / Prac. / Aut.'},
       {field: 'academicPeriod', header: 'Periodo académico'},
-      {field: 'state', header: 'Estado'}
+      {field: 'academicState', header: 'Estado académico'},
+      {field: 'state', header: 'Estado matrícula'}
     ];
   }
 
@@ -284,7 +285,7 @@ export class ApplicationComponent implements OnInit {
   onSubmit(): void {
     this.enrollmentDetailsField.patchValue(this.selectedItems);
     this.calculateAcademicPeriod();
-    console.log(this.enrollmentDetailsField.value);
+
     if (this.validateForm()) {
       this.sendRegistration();
     } else {

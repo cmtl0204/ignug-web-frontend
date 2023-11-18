@@ -47,6 +47,7 @@ export class ApplicationAttachmentComponent implements OnInit {
   get newForm() {
     return this.formBuilder.group({
       isIdentification: [false, [Validators.requiredTrue]],
+      isPhoto: [false, [Validators.requiredTrue]],
       isSocioeconomicForm: [false, [Validators.requiredTrue]],
       isApplication: [false, [Validators.requiredTrue]],
       isPayment: [false],

@@ -145,7 +145,7 @@ export class PersonalInformationComponent implements OnInit {
       name: [null, [Validators.required]],
       nationality: [null, [Validators.required]],
       personalEmail: [null, [Validators.required]],
-      phone: [null, [Validators.required, Validators.minLength(9), Validators.maxLength(9)]],
+      phone: [null, [Validators.minLength(9), Validators.maxLength(9)]],
       sex: [null, [Validators.required]],
     });
   }
@@ -180,7 +180,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.isDisabilityField.errors) this.formErrors.push('Posee discapacidad');
     if (this.disabilityPercentageField.errors) this.formErrors.push('Porcentaje de discapacidad');
     if (this.disabilityTypeField.errors) this.formErrors.push('Tipo de discapacidad');
-    if (this.isCatastrophicIllnessField.errors) this.formErrors.push('Posee enfermedades catastroficas');
+    if (this.isCatastrophicIllnessField.errors) this.formErrors.push('Posee enfermedades catastróficas');
     if (this.catastrophicIllnessField.errors) this.formErrors.push('Nombre de la enfermedad catastrofica');
     if (this.isHouseHeadField.errors) this.formErrors.push('Es jefe de familia?');
     if (this.isPrivateSecurityField.errors) this.formErrors.push('Posee seguro privado');
@@ -193,7 +193,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.ancestralLanguageNameField.errors) this.formErrors.push('Nombre del lenguaje ancestral');
     if (this.isForeignLanguageField.errors) this.formErrors.push('Habla un lenguaje extranjero');
     if (this.foreignLanguageNameField.errors) this.formErrors.push('Lenguaje extrajero');
-    if (this.indigenousNationalityField.errors) this.formErrors.push('Nacionalidad indigena');
+    if (this.indigenousNationalityField.errors) this.formErrors.push('Nacionalidad indígena');
     if (this.townField.errors) this.formErrors.push('Pueblo');
 
     if (this.emailField.errors) this.formErrors.push('Correo');
