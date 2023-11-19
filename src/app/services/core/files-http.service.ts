@@ -109,13 +109,16 @@ export class FilesHttpService {
     );
   }
 
-  remove(id: string): Observable<EventModel> {
+  remove(id: string): Observable<FileModel> {
     const url = `${this.API_URL}/${id}`;
 
     this.coreService.isProcessing = true;
+
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
+        console.log('1');
         this.messageServicePn.clear();
+        console.log('2');
         this.messageServicePn.add({
           key: CoreMessageEnum.APP_TOAST,
           severity: 'info',

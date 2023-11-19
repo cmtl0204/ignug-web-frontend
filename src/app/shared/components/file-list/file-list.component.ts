@@ -34,11 +34,11 @@ export class FileListComponent implements OnInit {
   @Input() isDialog = true;
 
   constructor(
-    private confirmationService: ConfirmationService,
-    public coreService: CoreService,
-    public filesHttpService: FilesHttpService,
-    public messageService: MessageService,
-    private overlaysService: OverlaysService
+    private readonly confirmationService: ConfirmationService,
+    public readonly coreService: CoreService,
+    public readonly filesHttpService: FilesHttpService,
+    public readonly messageService: MessageService,
+    private readonly overlaysService: OverlaysService
   ) {
 
     this.paginator = this.coreService.paginator;

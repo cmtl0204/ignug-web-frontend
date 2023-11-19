@@ -20,23 +20,22 @@ export class FileUploadComponent {
   @Output() flagUploadFiles: EventEmitter<boolean> = new EventEmitter<boolean>(false);
   @Input() types: CatalogueModel[] = [];
   @Output() selectedType: EventEmitter<CatalogueModel> = new EventEmitter<CatalogueModel>();
-  protected type: FormControl = new FormControl(null, [Validators.required]);
+  @Input() typeId!: string;
   protected readonly PrimeIcons = PrimeIcons;
 
   constructor(private filesHttpService: FilesHttpService, protected messageService: MessageService) {
   }
 
   uploadFile(event: any, uploadFiles: any) {
-    if (this.type.valid) {
+    if (this.typeId) {
       const formData = new FormData();
       formData.append('file', event.files[0]);
 
-      this.filesHttpService.uploadFile(this.modelId, this.type.value.id, formData).subscribe(response => {
+      this.filesHttpService.uploadFile(this.modelId, this.typeId, formData).subscribe(response => {
         this.flagUploadFiles.emit(true);
         uploadFiles.clear();
       }, error => uploadFiles.clear());
     } else {
-      this.type.markAsTouched();
       this.messageService.errorCustom('Seleccione un tipo de documento', 'Intente de nuevo por favor');
     }
   }

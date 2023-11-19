@@ -1,13 +1,18 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {
   CataloguesHttpService,
-  EnrollmentsHttpService,
+  EnrollmentsHttpService, FilesHttpService,
   MessageService,
   StudentsHttpService,
   SubjectsService
 } from "@services/core";
-import {CatalogueModel, EnrollmentModel, FileModel} from "@models/core";
-import {CatalogueEnrollmentFileTyeEnum, CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from "@shared/enums";
+import {CatalogueModel, ColumnModel, EnrollmentModel, FileModel} from "@models/core";
+import {
+  BreadcrumbEnum,
+  CatalogueEnrollmentFileTyeEnum,
+  CatalogueEnrollmentStateEnum,
+  CatalogueTypeEnum, LabelButtonActionEnum
+} from "@shared/enums";
 import {AuthService} from "@services/auth";
 import {PrimeIcons} from "primeng/api";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -28,13 +33,16 @@ export class ApplicationAttachmentComponent implements OnInit {
   protected files: FileModel[] = [];
   protected form: FormGroup;
   protected formErrors: string[] = [];
+  protected columns: ColumnModel[] = this.buildColumns;
+  protected columnsRequirement: ColumnModel[] = this.buildColumnsRequirement;
 
   constructor(protected readonly subjectsService: SubjectsService,
               private readonly authService: AuthService,
               private readonly formBuilder: FormBuilder,
               private readonly enrollmentsHttpService: EnrollmentsHttpService,
               private readonly studentsHttpService: StudentsHttpService,
-              protected messageService: MessageService,
+              protected readonly messageService: MessageService,
+              public readonly filesHttpService: FilesHttpService,
               private readonly cataloguesHttpService: CataloguesHttpService,) {
     this.form = this.newForm;
   }
@@ -54,6 +62,20 @@ export class ApplicationAttachmentComponent implements OnInit {
     })
   }
 
+  /** Build Data **/
+  get buildColumns(): ColumnModel[] {
+    return [
+      {field: 'name', header: 'Requisito'}
+    ];
+  }
+
+  get buildColumnsRequirement(): ColumnModel[] {
+    return [
+      {field: 'type', header: 'Requisito'},
+      {field: 'originalName', header: 'Archivo'}
+    ];
+  }
+
   findEnrollmentByStudent() {
     this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id).subscribe(enrollment => {
       this.enrollment = enrollment;
@@ -61,7 +83,21 @@ export class ApplicationAttachmentComponent implements OnInit {
       this.isFileListEnabled = this.enrollment?.enrollmentStates.some(enrollmentState =>
         enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED || enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED
       );
+
+      this.findFilesByModel();
     })
+  }
+
+  findFilesByModel(page: number = 0) {
+    this.filesHttpService.findByModel(this.enrollment.id, 0, '')
+      .subscribe((response) => {
+        this.files = response.data;
+        this.files.forEach(file => {
+          this.fileTypes = this.fileTypes.filter(fileType => {
+            return fileType.id != file.type?.id
+          });
+        });
+      });
   }
 
   loadFileTypes(): void {
@@ -85,6 +121,22 @@ export class ApplicationAttachmentComponent implements OnInit {
       this.form.markAllAsTouched();
       this.messageService.errorsFields(this.formErrors);
     }
+  }
+
+  uploadFile() {
+    this.isFileList = true;
+  }
+
+  download(file: FileModel) {
+    this.filesHttpService.downloadFile(file);
+  }
+
+  removeFile(file: FileModel) {
+    if (file?.id)
+      this.filesHttpService.remove(file.id).subscribe(() => {
+        this.loadFileTypes();
+        this.findFilesByModel();
+      });
   }
 
   validateForm() {
@@ -118,4 +170,7 @@ export class ApplicationAttachmentComponent implements OnInit {
   get isPaymentField() {
     return this.form.controls['isPayment'];
   }
+
+  protected readonly BreadcrumbEnum = BreadcrumbEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
 }

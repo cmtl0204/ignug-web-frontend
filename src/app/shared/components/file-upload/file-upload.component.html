@@ -1,20 +1,20 @@
-<div class="formgrid grid">
-  <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
-    <label appLabel for="type" label="Tipo de Documento:" [required]="type"></label>
-    <p-dropdown
-      id="type"
-      dataKey="id"
-      [formControl]="type"
-      [options]="types"
-      optionLabel="name"
-      placeholder="Seleccione...">
-    </p-dropdown>
-  </div>
-</div>
-<p-fileUpload *ngIf="type.value"
+<!--<div class="formgrid grid">-->
+<!--  <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">-->
+<!--    <label appLabel for="type" label="Tipo de Documento:" [required]="type"></label>-->
+<!--    <p-dropdown-->
+<!--      id="type"-->
+<!--      dataKey="id"-->
+<!--      [formControl]="type"-->
+<!--      [options]="types"-->
+<!--      optionLabel="name"-->
+<!--      placeholder="Seleccione...">-->
+<!--    </p-dropdown>-->
+<!--  </div>-->
+<!--</div>-->
+<p-fileUpload
   #uploadFiles
-  chooseLabel="Browse"
-  [chooseIcon]="PrimeIcons.SEARCH"
+  chooseLabel="Cargar Archivo"
+  [chooseIcon]="PrimeIcons.UPLOAD"
   uploadLabel="Subir archivos"
   cancelLabel="Limpiar"
   name="files[]"
