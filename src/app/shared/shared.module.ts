@@ -23,7 +23,15 @@ import {CardModule} from "primeng/card";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 import {ReactiveFormsModule} from "@angular/forms";
 import {SearchComponent} from './components/search/search.component';
-import {ActivePipe, DateFormatPipe, ExtensionsPipe, RolePipe, SelecetedPipe, StatePipe} from '@shared/pipes';
+import {
+  ActivePipe,
+  DateFormatPipe,
+  ExtensionsPipe,
+  RequiredPipe, RequiredSeverityPipe,
+  RolePipe,
+  SelecetedPipe,
+  StatePipe
+} from '@shared/pipes';
 import {UserStatePipe} from "@shared/pipes/auth/userState.pipe";
 import {SchoolPeriodsStatePipe} from "@shared/pipes/core/school-periods-state.pipe";
 import {LocationComponent} from './components/location/location.component';
@@ -81,6 +89,8 @@ import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
     MapComponent,
     AcademicStatePipe,
     EnrollmentStatePipe,
+    RequiredPipe,
+    RequiredSeverityPipe
   ],
   exports: [
     SkeletonComponent,
@@ -112,6 +122,8 @@ import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
     MapComponent,
     AcademicStatePipe,
     EnrollmentStatePipe,
+    RequiredPipe,
+    RequiredSeverityPipe,
   ],
   imports: [
     CommonModule,

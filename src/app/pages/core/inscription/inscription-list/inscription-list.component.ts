@@ -283,7 +283,7 @@ export class InscriptionListComponent implements OnInit {
   }
 
   loadFileTypes(): void {
-    this.fileTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENT_FILE_TYPE);
+    this.fileTypes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENT_FILE_TYPE_NEW_STUDENT);
   }
   /** Select & Paginate **/
   selectItem(item: EnrollmentModel) {

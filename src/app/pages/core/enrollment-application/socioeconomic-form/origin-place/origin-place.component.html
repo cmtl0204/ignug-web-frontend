@@ -21,7 +21,7 @@
             [dirty]="countryField.dirty">
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div *ngIf="provinces.length" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
             for="province"
@@ -58,7 +58,7 @@
       </div>
 
       <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div *ngIf="cantons.length" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
             for="canton"
@@ -92,7 +92,7 @@
           >
           </small>
         </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <div *ngIf="parishes.length" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
             for="parrish"
@@ -123,51 +123,6 @@
             [errors]="parrishField.errors"
             [touched]="parrishField.touched"
             [dirty]="parrishField.dirty"
-          >
-          </small>
-        </div>
-      </div>
-
-      <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="community"
-            label="Comunidad de procedencia:"
-            [required]="communityField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="community"
-            formControlName="community"
-          />
-          <small
-            appErrorMessage
-            [errors]="communityField.errors"
-            [touched]="communityField.touched"
-            [dirty]="communityField.dirty"
-          >
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="reference"
-            label="Referencia la ubicacion:"
-            [required]="referenceField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="reference"
-            formControlName="reference"
-          />
-          <small
-            appErrorMessage
-            [errors]="referenceField.errors"
-            [touched]="referenceField.touched"
-            [dirty]="referenceField.dirty"
           >
           </small>
         </div>
@@ -217,6 +172,51 @@
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label
             appLabel
+            for="reference"
+            label="Referencia la ubicacion:"
+            [required]="referenceField"
+          ></label>
+          <input
+            pInputText
+            type="text"
+            id="reference"
+            formControlName="reference"
+          />
+          <small
+            appErrorMessage
+            [errors]="referenceField.errors"
+            [touched]="referenceField.touched"
+            [dirty]="referenceField.dirty"
+          >
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label
+            appLabel
+            for="community"
+            label="Comunidad de procedencia:"
+            [required]="communityField"
+          ></label>
+          <input
+            pInputText
+            type="text"
+            id="community"
+            formControlName="community"
+          />
+          <small
+            appErrorMessage
+            [errors]="communityField.errors"
+            [touched]="communityField.touched"
+            [dirty]="communityField.dirty"
+          >
+          </small>
+        </div>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label
+            appLabel
             for="longitude"
             label="Longitud:"
             [required]="longitudeField"
@@ -241,7 +241,7 @@
         </div>
       </div>
 
-      <app-map *ngIf="latitudeField.value && longitudeField.value"
+      <app-map *ngIf="(latitudeField.value && longitudeField.value) || countryField.value?.alpha3Code!=='ECU'"
                map="originPlace"
                [latitudeIn]="parrishField.value?.latitude"
                [longitudeIn]="parrishField.value?.longitude"

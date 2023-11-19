@@ -9,7 +9,7 @@ import {
   MessageService,
   StudentsHttpService
 } from '@services/core';
-import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-origin-place',
@@ -94,7 +94,28 @@ export class OriginPlaceComponent implements OnInit {
 
   applyValidations() {
     this.countryField.valueChanges.subscribe(value => {
-      this.loadProvinces(value?.id);
+      if (value.alpha3Code === 'ECU') {
+        this.loadProvinces(value?.id);
+        this.provinceField.addValidators(Validators.required);
+        this.cantonField.addValidators(Validators.required);
+        this.parrishField.addValidators(Validators.required);
+      } else {
+        this.latitudeField.setValue(0);
+        this.longitudeField.setValue(0);
+        this.provinceField.setValue(null);
+        this.cantonField.setValue(null);
+        this.parrishField.setValue(null);
+        this.provinceField.clearValidators();
+        this.cantonField.clearValidators();
+        this.parrishField.clearValidators();
+        this.provinces = [];
+        this.cantons = [];
+        this.parishes = [];
+      }
+
+      this.provinceField.updateValueAndValidity();
+      this.cantonField.updateValueAndValidity();
+      this.parrishField.updateValueAndValidity();
     });
 
     this.provinceField.valueChanges.subscribe(value => {

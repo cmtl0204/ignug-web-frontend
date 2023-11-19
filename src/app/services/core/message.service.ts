@@ -113,6 +113,19 @@ export class MessageService {
     });
   }
 
+  questionCustom(title :string, text :string) {
+    return Swal.fire({
+      title,
+      text,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#3085d6',
+      confirmButtonText: '<i class="pi pi-check-circle"> Si</i>',
+      cancelButtonText: 'Cancelar'
+    });
+  }
+
   get requiredFields(): string {
     return `Todos los campos con <b class="p-error">*</b> son obligatorios.`;
   }

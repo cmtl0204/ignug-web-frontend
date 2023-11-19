@@ -1,5 +1,3 @@
-<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
-
 <div *ngIf="enrollment" class="panel-messages-info">
   Estado Matrícula:
   <span *ngFor="let item of enrollment.enrollmentStates" class="ml-2">
