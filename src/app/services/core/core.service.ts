@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject} from 'rxjs';
-import {PaginatorModel, SelectCareerDto} from "@models/core";
-import {CataloguesHttpService} from "@services/core/catalogues-http.service";
+import {PaginatorModel} from "@models/core";
+import {CataloguesHttpService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'

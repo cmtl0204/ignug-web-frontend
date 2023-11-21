@@ -50,7 +50,6 @@ export class AcademicDataComponent implements OnInit {
 
     this.validateForm();
     if (this.enrollment?.enrollmentStates) {
-      console.log(this.enrollment?.enrollmentStates);
       if (this.enrollment.enrollmentStates.some(
         item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
           item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
