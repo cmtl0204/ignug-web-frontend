@@ -116,9 +116,8 @@ export class FilesHttpService {
 
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        console.log('1');
         this.messageServicePn.clear();
-        console.log('2');
+
         this.messageServicePn.add({
           key: CoreMessageEnum.APP_TOAST,
           severity: 'info',

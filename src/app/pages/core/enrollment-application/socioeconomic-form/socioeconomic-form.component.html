@@ -9,7 +9,7 @@
         (click)="nextOut.emit()"></button>
 <p-panel class="p-fluid">
   <p-accordion [activeIndex]="activeIndex" (activeIndexChange)="activeIndex=$event">
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==0">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">A.- Datos Personales</span>
@@ -26,7 +26,7 @@
         </app-personal-information>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==1">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">B.- Datos Académicos del Estudiante</span>
@@ -44,7 +44,7 @@
         ></app-academic-data>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==2">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">C.- Otros Datos Académicos del Estudiante</span>
@@ -63,7 +63,7 @@
         ></app-other-academic-data>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==3">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">D.- Lugar de Procedencia</span>
@@ -82,7 +82,7 @@
         </app-origin-place>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==4">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">E.- Lugar de Residencia</span>
@@ -101,7 +101,7 @@
         ></app-residence-place>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==5">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">F.- Datos del Grupo Familiar</span>
@@ -120,7 +120,7 @@
         ></app-family-group>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==6">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">G.- Otros Datos Económicos Familiares</span>
@@ -139,7 +139,7 @@
         ></app-family-economic>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==7">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">H.- Antecedentes de Salud de la Familia</span>
@@ -158,7 +158,7 @@
         ></app-family-health>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==8">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">I.- Datos de la Vivienda del Estudiante</span>
@@ -177,7 +177,7 @@
         ></app-housing-data>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==9">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">J.- Migración de País</span>
@@ -196,7 +196,7 @@
         ></app-migration-country>
       </ng-template>
     </p-accordionTab>
-    <p-accordionTab>
+    <p-accordionTab [disabled]="activeIndex!==10">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">K.- Sección Psicosocial</span>

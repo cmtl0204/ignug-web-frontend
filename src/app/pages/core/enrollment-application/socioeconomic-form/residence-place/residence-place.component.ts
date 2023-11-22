@@ -157,6 +157,7 @@ export class ResidencePlaceComponent {
 
   loadCountries(): void {
     this.countries = this.locationsHttpService.findCountries();
+    this.countries = this.countries.filter(country => country.alpha3Code === 'ECU');
   }
 
   loadProvinces(countryId: string): void {

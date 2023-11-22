@@ -133,7 +133,7 @@ export class ApplicationComponent implements OnInit {
       student: [this.student, [Validators.required]],
       academicPeriod: [null, [Validators.required]],
       career: [null, [Validators.required]],
-      enrollmentDetails: [[],[Validators.required]],
+      enrollmentDetails: [[], [Validators.required]],
       parallel: [null, [Validators.required]],
       schoolPeriod: [null, [Validators.required]],
       workday: [null, [Validators.required]],
@@ -247,27 +247,29 @@ export class ApplicationComponent implements OnInit {
     this.studentsHttpService.findEnrollmentByStudent(this.student.id)
       .subscribe(enrollment => {
         this.enrollment = enrollment;
-        this.workdayField.patchValue(enrollment.workday);
-        this.parallelField.patchValue(enrollment.parallel);
+        if (this.enrollment) {
+          this.workdayField.patchValue(enrollment.workday);
+          this.parallelField.patchValue(enrollment.parallel);
 
-        if (this.enrollment?.enrollmentStates) {
-          const registeredState = this.enrollment.enrollmentStates.some(
-            item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED);
+          if (this.enrollment?.enrollmentStates) {
+            const registeredState = this.enrollment.enrollmentStates.some(
+              item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED);
 
-          if (registeredState) { //reviewer
-            this.form.enable();
-            this.schoolPeriodField.enable();
-            this.careerField.enable();
-            this.selectedCurriculum.enable();
-            this.workdayField.enable();
-            this.parallelField.enable();
-          } else {
-            this.form.disable();
-            this.schoolPeriodField.disable();
-            this.careerField.disable();
-            this.selectedCurriculum.disable();
-            this.workdayField.disable();
-            this.parallelField.disable();
+            if (registeredState) { //reviewer
+              this.form.enable();
+              this.schoolPeriodField.enable();
+              this.careerField.enable();
+              this.selectedCurriculum.enable();
+              this.workdayField.enable();
+              this.parallelField.enable();
+            } else {
+              this.form.disable();
+              this.schoolPeriodField.disable();
+              this.careerField.disable();
+              this.selectedCurriculum.disable();
+              this.workdayField.disable();
+              this.parallelField.disable();
+            }
           }
         }
       });
