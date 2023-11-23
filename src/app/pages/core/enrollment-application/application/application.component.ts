@@ -27,6 +27,7 @@ import {
   CatalogueTypeEnum, CatalogueEnrollmentStateEnum
 } from "@shared/enums";
 import {AuthService} from "@services/auth";
+import {parallel} from "@angular/cdk/testing";
 
 @Component({
   selector: 'app-application',
@@ -119,13 +120,16 @@ export class ApplicationComponent implements OnInit {
         this.findSubjectsAllByCurriculum();
       }
     });
+
+    this.workdayField.valueChanges.subscribe(value => {
+      this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL).filter(parallel => parallel.parentId === value.id);
+    });
   }
 
   ngOnInit(): void {
     this.findEnrollmentByStudent();
 
     this.loadWorkdays();
-    this.loadParallels();
   }
 
   get newForm() {
@@ -226,9 +230,11 @@ export class ApplicationComponent implements OnInit {
         const approvedLeveling = enrollmentDetailLeveling.every(enrollmentDetail => enrollmentDetail.academicState === 'a');
 
         if (enrollmentDetailLeveling.length === 0 || !approvedLeveling) {
+          console.log(this.items);
           this.items = this.items.filter(item => item.type.code === 'leveling');
         }
 
+        console.log(this.items);
         // this.items = subjects.sort(function (a, b) {
         //   if (a.academicPeriod.code > b.academicPeriod.code) {
         //     return 1;
@@ -279,10 +285,6 @@ export class ApplicationComponent implements OnInit {
     this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
 
-  loadParallels(): void {
-    this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
-  }
-
   /** Actions **/
   onSubmit(): void {
     this.enrollmentDetailsField.patchValue(this.selectedItems);
@@ -299,13 +301,13 @@ export class ApplicationComponent implements OnInit {
   validateForm() {
     this.formErrors = [];
 
-    if (this.academicPeriodField.errors) this.formErrors.push('Nivel Académico');
+    // if (this.academicPeriodField.errors) this.formErrors.push('Nivel Académico');
     if (this.careerField.errors) this.formErrors.push('Carrera');
     if (this.enrollmentDetailsField.errors) this.formErrors.push('Asignaturas');
     if (this.workdayField.errors) this.formErrors.push('Jornada');
     if (this.parallelField.errors) this.formErrors.push('Paralelo');
     if (this.schoolPeriodField.errors) this.formErrors.push('Periodo Lectivo');
-    if (this.studentField.errors) this.formErrors.push('Estudiante');
+    // if (this.studentField.errors) this.formErrors.push('Estudiante');
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
@@ -343,7 +345,7 @@ export class ApplicationComponent implements OnInit {
 
   selectItems() {
     this.selectedItems = [...(new Set(this.selectedItems))];
-    this.totalCredits = this.selectedItems.reduce((accumulator, currentValue) => accumulator + currentValue.credits, 0);
+    // this.totalCredits = this.selectedItems.reduce((accumulator, currentValue) => accumulator + currentValue.credits, 0);
     this.subjectsService.enrollmentSubjects = this.selectedItems;
   }
 

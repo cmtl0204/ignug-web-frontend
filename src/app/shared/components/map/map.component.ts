@@ -14,14 +14,13 @@ export class MapComponent implements AfterViewInit {
   @Input() map: string = '';
 
   ngAfterViewInit() {
-    console.log(this.latitudeIn);
-    console.log(this.longitudeIn);
     if (this.latitudeIn && this.longitudeIn) {
       const myMap = new Map(this.map).setView([this.latitudeIn, this.longitudeIn], 14);
 
       // tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {}).addTo(myMap);
-      tileLayer.wms('http://ows.mundialis.de/services/service?', {
-        layers: 'OSM-WMS',
+      //
+      //http://ows.mundialis.de/services/service?
+      tileLayer.wms('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         format: 'image/png',
         transparent: true,
         attribution: ''
