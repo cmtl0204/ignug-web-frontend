@@ -87,7 +87,7 @@ export class ResidencePlaceComponent {
       latitude: [null, [Validators.required]],
       longitude: [null, [Validators.required]],
       mainStreet: [null, [Validators.required]],
-      number: [null, [Validators.required]],
+      number: [null],
       reference: [null, [Validators.required]],
       secondaryStreet: [null, [Validators.required]]
     });

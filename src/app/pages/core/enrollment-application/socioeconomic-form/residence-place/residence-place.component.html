@@ -62,7 +62,7 @@
           <label
             appLabel
             for="canton"
-            label="Canton:"
+            label="Cantón:"
             [required]="cantonField"
           ></label>
           <p-dropdown
@@ -129,42 +129,6 @@
       </div>
 
       <div class="formgrid grid">
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="nearbyCity"
-                 label="Si usted reside en una comunidad, ¿Qué ciudad es la más cercana a su domicilio?:"
-                 [required]="nearbyCityField"></label>
-          <input pInputText id="nearbyCity" formControlName="nearbyCity"/>
-          <small
-            appErrorMessage
-            [errors]="nearbyCityField.errors"
-            [touched]="nearbyCityField.touched"
-            [dirty]="nearbyCityField.dirty">
-          </small>
-        </div>
-        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label
-            appLabel
-            for="reference"
-            label="Referencia la ubicacion:"
-            [required]="referenceField"
-          ></label>
-          <input
-            pInputText
-            type="text"
-            id="reference"
-            formControlName="reference"
-          />
-          <small
-            appErrorMessage
-            [errors]="referenceField.errors"
-            [touched]="referenceField.touched"
-            [dirty]="referenceField.dirty"
-          >
-          </small>
-        </div>
-      </div>
-
-      <div class="formgrid grid">
         <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
           <label appLabel for="mainStreet" label="Calle Principal:" [required]="mainStreetField"></label>
           <input
@@ -205,6 +169,42 @@
             [touched]="numberField.touched"
             [dirty]="numberField.dirty"
           >
+          </small>
+        </div>
+      </div>
+
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label
+            appLabel
+            for="reference"
+            label="Referencia la ubicación:"
+            [required]="referenceField"
+          ></label>
+          <input
+            pInputText
+            type="text"
+            id="reference"
+            formControlName="reference"
+          />
+          <small
+            appErrorMessage
+            [errors]="referenceField.errors"
+            [touched]="referenceField.touched"
+            [dirty]="referenceField.dirty"
+          >
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="nearbyCity"
+                 label="Si usted reside en una comunidad, ¿Qué ciudad es la más cercana a su domicilio?:"
+                 [required]="nearbyCityField"></label>
+          <input pInputText id="nearbyCity" formControlName="nearbyCity"/>
+          <small
+            appErrorMessage
+            [errors]="nearbyCityField.errors"
+            [touched]="nearbyCityField.touched"
+            [dirty]="nearbyCityField.dirty">
           </small>
         </div>
       </div>

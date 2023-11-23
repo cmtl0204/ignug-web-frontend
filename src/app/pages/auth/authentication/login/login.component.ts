@@ -32,10 +32,10 @@ export class LoginComponent implements OnInit {
 
   newForm(): FormGroup {
     return this.formBuilder.group({
-      username: ['reviewer', [Validators.required]],
-      // username: [null, [Validators.required]],
-      password: ['12345678', [Validators.required]],
-      // password: [null, [Validators.required]],
+      // username: ['reviewer', [Validators.required]],
+      username: [null, [Validators.required]],
+      // password: ['12345678', [Validators.required]],
+      password: [null, [Validators.required]],
     });
   }
 

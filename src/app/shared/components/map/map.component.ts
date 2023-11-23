@@ -14,25 +14,31 @@ export class MapComponent implements AfterViewInit {
   @Input() map: string = '';
 
   ngAfterViewInit() {
-    const myMap = new Map(this.map).setView([this.latitudeIn, this.longitudeIn], 14);
+    console.log(this.latitudeIn);
+    console.log(this.longitudeIn);
+    if (this.latitudeIn && this.longitudeIn) {
+      const myMap = new Map(this.map).setView([this.latitudeIn, this.longitudeIn], 14);
 
-    // tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {}).addTo(myMap);
-    tileLayer.wms('http://ows.mundialis.de/services/service?', {
-      layers: 'OSM-WMS',
-      format: 'image/png',
-      transparent: true,
-      attribution: ''
-    }).addTo(myMap);
+      // tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {}).addTo(myMap);
+      tileLayer.wms('http://ows.mundialis.de/services/service?', {
+        layers: 'OSM-WMS',
+        format: 'image/png',
+        transparent: true,
+        attribution: ''
+      }).addTo(myMap);
 
-    let markerItem = marker([this.latitudeIn, this.longitudeIn]).addTo(myMap).bindPopup('Mi Ubicación');
+      let markerItem = marker([this.latitudeIn, this.longitudeIn]).addTo(myMap).bindPopup('Mi Ubicación');
 
-    myMap.on('click', (e: {
-      latlng: LatLng
-    }) => {
-      myMap.removeLayer(markerItem);
-      markerItem = marker([e.latlng.lat, e.latlng.lng]).addTo(myMap).bindPopup('Mi Ubicación');
-      this.latitudeOut.emit(e.latlng.lat);
-      this.longitudeOut.emit(e.latlng.lng);
-    });
+      myMap.on('click', (e: {
+        latlng: LatLng
+      }) => {
+        myMap.removeLayer(markerItem);
+        if (e?.latlng && e?.latlng) {
+          markerItem = marker([e.latlng.lat, e.latlng.lng]).addTo(myMap).bindPopup('Mi Ubicación');
+          this.latitudeOut.emit(e.latlng.lat);
+          this.longitudeOut.emit(e.latlng.lng);
+        }
+      });
+    }
   }
 }

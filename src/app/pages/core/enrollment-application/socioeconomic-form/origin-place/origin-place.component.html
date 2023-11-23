@@ -11,6 +11,7 @@
             [options]="countries"
             optionLabel="name"
             [filter]="true"
+            (onChange)="changeCoordinates(-0.20122059654071353,-78.4895313136003)"
             filterBy="name"
             placeholder="Seleccione">
           </p-dropdown>
@@ -35,6 +36,7 @@
             [options]="provinces"
             optionLabel="name"
             [filter]="true"
+            (onChange)="changeCoordinates(null,null)"
             filterBy="name"
             placeholder="Seleccione"
           >
@@ -72,6 +74,7 @@
             [options]="cantons"
             optionLabel="name"
             [filter]="true"
+            (onChange)="changeCoordinates(null,null)"
             filterBy="name"
             placeholder="Seleccione"
           >
@@ -106,9 +109,9 @@
             [options]="parishes"
             optionLabel="name"
             [filter]="true"
+            (onChange)="changeCoordinates(parrishField.value.latitude,parrishField.value.longitude)"
             filterBy="name"
-            placeholder="Seleccione"
-          >
+            placeholder="Seleccione">
             <ng-template pTemplate="selectedItem">
               <div *ngIf="parrishField.value">
                 <div>{{ parrishField.value.name }}</div>
@@ -173,7 +176,7 @@
           <label
             appLabel
             for="reference"
-            label="Referencia la ubicacion:"
+            label="Referencia la ubicación:"
             [required]="referenceField"
           ></label>
           <input
@@ -241,10 +244,12 @@
         </div>
       </div>
 
-      <app-map *ngIf="(latitudeField.value && longitudeField.value) || countryField.value?.alpha3Code!=='ECU'"
+      latitudeField: {{latitudeField.value}}
+      longitudeField: {{longitudeField.value}}
+      <app-map *ngIf="latitudeField.value && longitudeField.value"
                map="originPlace"
-               [latitudeIn]="parrishField.value?.latitude"
-               [longitudeIn]="parrishField.value?.longitude"
+               [latitudeIn]="latitudeField.value"
+               [longitudeIn]="longitudeField.value"
                (latitudeOut)="latitudeField.setValue($event)"
                (longitudeOut)="longitudeField.setValue($event)"></app-map>
     </div>

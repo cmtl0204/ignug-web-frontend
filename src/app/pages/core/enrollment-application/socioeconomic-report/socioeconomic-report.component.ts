@@ -1,7 +1,8 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {FilesHttpService, StudentsHttpService} from "@services/core";
+import {CoreService, FilesHttpService, StudentsHttpService} from "@services/core";
 import {AuthService} from "@services/auth";
 import {PrimeIcons} from "primeng/api";
+import {SkeletonEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-socioeconomic-report',
@@ -14,8 +15,10 @@ export class SocioeconomicReportComponent {
   protected readonly PrimeIcons = PrimeIcons;
   protected pdfSrc: string = '';
   protected pdf!: Blob;
+  protected isLoadingPdf: boolean = false;
 
-  constructor(private filesHttpService: FilesHttpService,
+  constructor(private readonly filesHttpService: FilesHttpService,
+              protected readonly coreService: CoreService,
               private readonly authService: AuthService,
               private readonly studentsHttpService: StudentsHttpService
   ) {
@@ -23,6 +26,7 @@ export class SocioeconomicReportComponent {
   }
 
   generateSocioeconomicForm() {
+    this.isLoadingPdf = false;
     this.studentsHttpService.generateSocioeconomicForm(this.authService.auth.student.id).subscribe(pdf => {
       this.pdf = pdf;
       const reader = new FileReader();
@@ -30,6 +34,7 @@ export class SocioeconomicReportComponent {
       reader.onloadend = () => {
         if (typeof reader.result === 'string')
           this.pdfSrc = reader.result;
+        this.isLoadingPdf = true;
       }
     });
   }
@@ -51,4 +56,6 @@ export class SocioeconomicReportComponent {
   next() {
     this.nextOut.emit(1);
   }
+
+  protected readonly SkeletonEnum = SkeletonEnum;
 }

@@ -86,7 +86,7 @@ export class OriginPlaceComponent implements OnInit {
       latitude: [null, [Validators.required]],
       longitude: [null, [Validators.required]],
       mainStreet: [null, [Validators.required]],
-      number: [null, [Validators.required]],
+      number: [null],
       reference: [null, [Validators.required]],
       secondaryStreet: [null, [Validators.required]]
     });
@@ -100,14 +100,14 @@ export class OriginPlaceComponent implements OnInit {
         this.cantonField.addValidators(Validators.required);
         this.parrishField.addValidators(Validators.required);
       } else {
-        this.latitudeField.setValue(0);
-        this.longitudeField.setValue(0);
+        this.latitudeField.patchValue(-0.20122059654071353);
+        this.longitudeField.patchValue(-78.4895313136003);
         this.provinceField.setValue(null);
-        this.cantonField.setValue(null);
-        this.parrishField.setValue(null);
+
         this.provinceField.clearValidators();
         this.cantonField.clearValidators();
         this.parrishField.clearValidators();
+
         this.provinces = [];
         this.cantons = [];
         this.parishes = [];
@@ -124,18 +124,6 @@ export class OriginPlaceComponent implements OnInit {
 
     this.cantonField.valueChanges.subscribe(value => {
       this.loadParishes(value?.id);
-    });
-
-    this.parrishField.valueChanges.subscribe(value => {
-      this.latitudeField.setValue(null);
-      this.longitudeField.setValue(null);
-
-      if (value?.latitude && value?.longitude) {
-        setTimeout(() => {
-          this.latitudeField.patchValue(value.latitude);
-          this.longitudeField.patchValue(value.longitude);
-        }, 200);
-      }
     });
   }
 
@@ -191,6 +179,18 @@ export class OriginPlaceComponent implements OnInit {
 
   loadParishes(cantonId: string): void {
     this.parishes = this.locationsHttpService.findParishesByCanton(cantonId);
+  }
+
+  changeCoordinates(latitude: number | null, longitude: number | null) {
+    this.latitudeField.setValue(null);
+    this.longitudeField.setValue(null);
+
+    if (latitude && longitude) {
+      setTimeout(() => {
+        this.latitudeField.patchValue(latitude);
+        this.longitudeField.patchValue(longitude);
+      }, 200);
+    }
   }
 
   get userForm(): FormGroup {
