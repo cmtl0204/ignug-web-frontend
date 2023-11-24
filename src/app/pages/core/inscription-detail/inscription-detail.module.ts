@@ -1,10 +1,10 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-
+import {CommonModule as NgCommonModule} from '@angular/common';
+import {ReactiveFormsModule} from "@angular/forms";
 import {InscriptionDetailRoutingModule} from './inscription-detail-routing.module';
+
 import {InscriptionDetailListComponent} from "./inscription-detail-list/inscription-detail-list.component";
 import {InscriptionDetailFormComponent} from "./inscription-detail-form/inscription-detail-form.component";
-import {ReactiveFormsModule} from "@angular/forms";
 import {ButtonModule} from "primeng/button";
 import {RippleModule} from "primeng/ripple";
 import {MessageModule} from "primeng/message";
@@ -28,40 +28,39 @@ import {DropdownModule} from "primeng/dropdown";
 import {BadgeModule} from "primeng/badge";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 
-
 @NgModule({
   declarations: [
     InscriptionDetailListComponent,
     InscriptionDetailFormComponent
   ],
-    imports: [
-        CommonModule,
-        InscriptionDetailRoutingModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        RippleModule,
-        MessageModule,
-        ToolbarModule,
-        PaginatorModule,
-        TableModule,
-        TagModule,
-        SplitButtonModule,
-        InputTextModule,
-        SidebarModule,
-        PanelMenuModule,
-        SharedModule,
-        PanelModule,
-        DividerModule,
-        InputSwitchModule,
-        TableModule,
-        TabViewModule,
-        CalendarModule,
-        AccordionModule,
-        DialogModule,
-        DropdownModule,
-        BadgeModule,
-        OverlayPanelModule
-    ]
+  imports: [
+    NgCommonModule,
+    InscriptionDetailRoutingModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    RippleModule,
+    MessageModule,
+    ToolbarModule,
+    PaginatorModule,
+    TableModule,
+    TagModule,
+    SplitButtonModule,
+    InputTextModule,
+    SidebarModule,
+    PanelMenuModule,
+    SharedModule,
+    PanelModule,
+    DividerModule,
+    InputSwitchModule,
+    TableModule,
+    TabViewModule,
+    CalendarModule,
+    AccordionModule,
+    DialogModule,
+    DropdownModule,
+    BadgeModule,
+    OverlayPanelModule
+  ]
 })
 export class InscriptionDetailModule {
 }

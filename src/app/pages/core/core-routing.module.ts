@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {SubjectRequirementComponent} from "./subject/subject-requirement/subject-requirement.component";
 
 const routes: Routes = [
   {

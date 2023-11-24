@@ -20,24 +20,21 @@ import {SplitButtonModule} from "primeng/splitbutton";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
 import {ToolbarModule} from "primeng/toolbar";
-import { TabViewModule } from 'primeng/tabview';
-import { CalendarModule } from 'primeng/calendar';
-import { AccordionModule } from 'primeng/accordion';
-import { DropdownModule } from 'primeng/dropdown';
-import { BadgeModule } from 'primeng/badge';
+import {TabViewModule} from 'primeng/tabview';
+import {CalendarModule} from 'primeng/calendar';
+import {AccordionModule} from 'primeng/accordion';
+import {DropdownModule} from 'primeng/dropdown';
+import {BadgeModule} from 'primeng/badge';
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 // Components
 import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.component";
-import { EnrollmentFormComponent } from './enrollment-form/enrollment-form.component';
-import { DownloadComponent } from '../download/download.component';
-import {OverlayPanelModule} from "primeng/overlaypanel";
-
+import {EnrollmentFormComponent} from './enrollment-form/enrollment-form.component';
 
 @NgModule({
   declarations: [
     EnrollmentListComponent,
     EnrollmentFormComponent,
-    DownloadComponent
   ],
   imports: [
     NgCommonModule,

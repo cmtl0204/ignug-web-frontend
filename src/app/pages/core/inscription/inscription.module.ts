@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import {CommonModule as NgCommonModule} from '@angular/common';
 
 import {InscriptionRoutingModule} from './inscription-routing.module';
 import {InscriptionListComponent} from "./inscription-list/inscription-list.component";
@@ -28,40 +28,39 @@ import {DropdownModule} from "primeng/dropdown";
 import {BadgeModule} from "primeng/badge";
 import {OverlayPanelModule} from "primeng/overlaypanel";
 
-
 @NgModule({
   declarations: [
     InscriptionListComponent,
     InscriptionFormComponent
   ],
-    imports: [
-        CommonModule,
-        InscriptionRoutingModule,
-        ReactiveFormsModule,
-        ButtonModule,
-        RippleModule,
-        MessageModule,
-        ToolbarModule,
-        PaginatorModule,
-        TableModule,
-        TagModule,
-        SplitButtonModule,
-        InputTextModule,
-        SidebarModule,
-        PanelMenuModule,
-        SharedModule,
-        PanelModule,
-        DividerModule,
-        InputSwitchModule,
-        TableModule,
-        TabViewModule,
-        CalendarModule,
-        AccordionModule,
-        DialogModule,
-        DropdownModule,
-        BadgeModule,
-        OverlayPanelModule
-    ]
+  imports: [
+    NgCommonModule,
+    InscriptionRoutingModule,
+    ReactiveFormsModule,
+    ButtonModule,
+    RippleModule,
+    MessageModule,
+    ToolbarModule,
+    PaginatorModule,
+    TableModule,
+    TagModule,
+    SplitButtonModule,
+    InputTextModule,
+    SidebarModule,
+    PanelMenuModule,
+    SharedModule,
+    PanelModule,
+    DividerModule,
+    InputSwitchModule,
+    TableModule,
+    TabViewModule,
+    CalendarModule,
+    AccordionModule,
+    DialogModule,
+    DropdownModule,
+    BadgeModule,
+    OverlayPanelModule
+  ]
 })
 export class InscriptionModule {
 }

@@ -254,4 +254,17 @@ export class EnrollmentsHttpService {
         this.coreService.isProcessing = false;
       });
   }
+
+  generateEnrollmentApllication(id: string): Observable<any> {
+    const url = `${environment.API_URL}/enrollment-reports/${id}/application`;
+
+    this.coreService.isProcessing = true;
+
+    return this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'}).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        return response;
+      })
+    );
+  }
 }

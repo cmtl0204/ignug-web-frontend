@@ -1,8 +1,9 @@
 import {Component, EventEmitter, Output} from '@angular/core';
-import {CoreService, FilesHttpService, StudentsHttpService} from "@services/core";
+import {CoreService, EnrollmentsHttpService, FilesHttpService, StudentsHttpService} from "@services/core";
 import {PrimeIcons} from "primeng/api";
-import {SkeletonEnum} from "@shared/enums";
+import {CatalogueEnrollmentStateEnum, SkeletonEnum} from "@shared/enums";
 import {AuthService} from "@services/auth";
+import {StudentModel} from "@models/core";
 
 @Component({
   selector: 'app-application-report',
@@ -17,18 +18,28 @@ export class ApplicationReportComponent {
   protected pdfSrc: string = '';
   protected pdf!: Blob;
   protected isLoadingPdf: boolean = false;
+  protected student!: StudentModel;
 
   constructor(private readonly filesHttpService: FilesHttpService,
               protected readonly coreService: CoreService,
               private readonly authService: AuthService,
-              private readonly studentsHttpService: StudentsHttpService
+              private readonly studentsHttpService: StudentsHttpService,
+              private readonly enrollmentsHttpService: EnrollmentsHttpService
   ) {
-    this.generateSocioeconomicForm();
+    this.student = authService.auth.student;
+    this.findEnrollmentByStudent();
   }
 
-  generateSocioeconomicForm() {
+  findEnrollmentByStudent() {
+    this.studentsHttpService.findEnrollmentByStudent(this.student.id)
+      .subscribe(enrollment => {
+        this.generateEnrollmentCertificate(enrollment.id);
+      });
+  }
+
+  generateEnrollmentCertificate(id:string) {
     this.isLoadingPdf = false;
-    this.studentsHttpService.generateSocioeconomicForm(this.authService.auth.student.id).subscribe(pdf => {
+    this.enrollmentsHttpService.generateEnrollmentApllication(id).subscribe(pdf => {
       this.pdf = pdf;
       const reader = new FileReader();
       reader.readAsDataURL(pdf);

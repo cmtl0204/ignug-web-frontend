@@ -1,45 +1,43 @@
 import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {ReactiveFormsModule} from "@angular/forms";
-import {CommonModule as NgCommonModule} from '@angular/common';
 import {EnrollmentDetailRoutingModule} from './enrollment-detail-routing.module';
-import {SharedModule} from "@shared/shared.module";
 
-// PrimeNg Modules
+import {EnrollmentDetailListComponent} from "./enrollment-detail-list/enrollment-detail-list.component";
+import {EnrollmentDetailFormComponent} from "./enrollment-detail-form/enrollment-detail-form.component";
 import {ButtonModule} from "primeng/button";
-import {DialogModule} from 'primeng/dialog';
-import {DividerModule} from "primeng/divider";
-import {InputSwitchModule} from "primeng/inputswitch";
-import {InputTextModule} from "primeng/inputtext";
-import {MessageModule} from "primeng/message";
-import {PaginatorModule} from "primeng/paginator";
-import {PanelMenuModule} from "primeng/panelmenu";
-import {PanelModule} from "primeng/panel";
 import {RippleModule} from "primeng/ripple";
-import {SidebarModule} from "primeng/sidebar";
-import {SplitButtonModule} from "primeng/splitbutton";
+import {MessageModule} from "primeng/message";
+import {ToolbarModule} from "primeng/toolbar";
+import {PaginatorModule} from "primeng/paginator";
 import {TableModule} from "primeng/table";
 import {TagModule} from "primeng/tag";
-import {ToolbarModule} from "primeng/toolbar";
-import { TabViewModule } from 'primeng/tabview';
-import { CalendarModule } from 'primeng/calendar';
-import { AccordionModule } from 'primeng/accordion';
-import { DropdownModule } from 'primeng/dropdown';
-import { BadgeModule } from 'primeng/badge';
-
-// Components
-import { EnrollmentDetailFormComponent } from './enrollment-detail-form/enrollment-detail-form.component';
-import {EnrollmentDetailListComponent} from "./enrollment-detail-list/enrollment-detail-list.component";
-
+import {SplitButtonModule} from "primeng/splitbutton";
+import {InputTextModule} from "primeng/inputtext";
+import {SidebarModule} from "primeng/sidebar";
+import {PanelMenuModule} from "primeng/panelmenu";
+import {SharedModule} from "@shared/shared.module";
+import {PanelModule} from "primeng/panel";
+import {DividerModule} from "primeng/divider";
+import {InputSwitchModule} from "primeng/inputswitch";
+import {TabViewModule} from "primeng/tabview";
+import {CalendarModule} from "primeng/calendar";
+import {AccordionModule} from "primeng/accordion";
+import {DialogModule} from "primeng/dialog";
+import {DropdownModule} from "primeng/dropdown";
+import {BadgeModule} from "primeng/badge";
+import {OverlayPanelModule} from "primeng/overlaypanel";
 
 @NgModule({
   declarations: [
-    EnrollmentDetailFormComponent,
-    EnrollmentDetailListComponent
+    EnrollmentDetailListComponent,
+    EnrollmentDetailFormComponent
   ],
   imports: [
-    NgCommonModule,
+    CommonModule,
     EnrollmentDetailRoutingModule,
     ReactiveFormsModule,
+    SharedModule,
     ButtonModule,
     RippleModule,
     MessageModule,
@@ -51,7 +49,6 @@ import {EnrollmentDetailListComponent} from "./enrollment-detail-list/enrollment
     InputTextModule,
     SidebarModule,
     PanelMenuModule,
-    SharedModule,
     PanelModule,
     DividerModule,
     InputSwitchModule,
@@ -61,7 +58,8 @@ import {EnrollmentDetailListComponent} from "./enrollment-detail-list/enrollment
     AccordionModule,
     DialogModule,
     DropdownModule,
-    BadgeModule
+    BadgeModule,
+    OverlayPanelModule
   ]
 })
 export class EnrollmentDetailModule {

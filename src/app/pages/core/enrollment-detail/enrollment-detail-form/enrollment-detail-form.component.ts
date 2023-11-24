@@ -1,12 +1,9 @@
 import {Component, OnInit} from '@angular/core';
-import {Location} from "@angular/common";
-import {FormBuilder, AbstractControl, Validators, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
   CatalogueModel,
   EnrollmentDetailModel,
-  EnrollmentModel,
   SelectEnrollmentDetailDto,
-  SelectEnrollmentDto,
   SubjectModel
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
@@ -19,25 +16,32 @@ import {
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
-  SchoolPeriodsHttpService,
-  StudentsHttpService,
   SubjectsHttpService,
 } from '@services/core';
 
-import {BreadcrumbEnum, CatalogueTypeEnum, ClassButtonActionEnum, SkeletonEnum, LabelButtonActionEnum, IconButtonActionEnum} from '@shared/enums';
-import { EnrollmentDetailsHttpService } from '@services/core/enrollment-details-http.service';
+import {
+  BreadcrumbEnum,
+  CatalogueTypeEnum,
+  ClassButtonActionEnum,
+  SkeletonEnum,
+  LabelButtonActionEnum,
+  IconButtonActionEnum, CatalogueEnrollmentStateEnum
+} from '@shared/enums';
+
+import {EnrollmentDetailsHttpService} from '@services/core';
 
 @Component({
   selector: 'app-enrollment-detail-form',
   templateUrl: './enrollment-detail-form.component.html',
   styleUrls: ['./enrollment-detail-form.component.scss']
 })
-export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
+export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface {
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected readonly PrimeIcons = PrimeIcons;
+  protected enrollmentId!: string;
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
@@ -45,11 +49,8 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   protected selectedItem: SelectEnrollmentDetailDto = {};
   protected selectedItems: EnrollmentDetailModel[] = [];
   protected items: EnrollmentDetailModel[] = [];
-  protected selectedSubject: FormControl = new FormControl();
-  protected selectedAcademicPeriod: FormControl = new FormControl();
 
   // Foreign Keys
-  protected academicPeriods: CatalogueModel[] = [];
   protected parallels: CatalogueModel[] = [];
   protected states: CatalogueModel[] = [];
   protected types: CatalogueModel[] = [];
@@ -65,31 +66,28 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
-    private location: Location,
     private enrollmentsHttpService: EnrollmentsHttpService,
     private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
     private subjectsHttpService: SubjectsHttpService,
-    ) {
-    if (activatedRoute.snapshot.params['id'] !== 'new') {
-      this.id = activatedRoute.snapshot.params['id'];
-    }
+  ) {
+    this.enrollmentId = activatedRoute.snapshot.params['enrollmentId'];
 
     this.breadcrumbService.setItems([
       {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
-      {label: BreadcrumbEnum.ENROLLMENT_DETAILS, routerLink: [this.routesService.enrollmentsDetailList,this.id]},
+      {
+        label: BreadcrumbEnum.ENROLLMENT_DETAILS,
+        routerLink: [this.routesService.enrollmentsDetailList(this.enrollmentId)]
+      },
       {label: BreadcrumbEnum.FORM},
     ]);
 
     this.form = this.newForm;
 
-    this.selectedSubject.valueChanges.subscribe(value => {
-      this.findSubjectsByacademicPeriod();
-  });
-
-
-  this.selectedAcademicPeriod.valueChanges.subscribe(value => {
-    this.findSubjectsByacademicPeriod();
-});
+    if (activatedRoute.snapshot.params['id'] !== 'new') {
+      this.id = activatedRoute.snapshot.params['id'];
+      this.subjectField.disable();
+      this.observationField.removeValidators(Validators.required);
+    }
   }
 
   async onExit(): Promise<boolean> {
@@ -100,14 +98,11 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   }
 
   ngOnInit(): void {
-
-    this.loadAcademicPeriods();
     this.loadParallels();
     this.loadStates();
     this.loadWorkdays();
     this.loadTypes();
     this.loadSubjects();
-    this.findSubjectsByacademicPeriod();
 
     if (this.id) {
       this.get();
@@ -116,11 +111,11 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
   get newForm(): FormGroup {
     return this.formBuilder.group({
-      number: [null, [Validators.required, Validators.min(1),Validators.maxLength(3)]],
-      date: [null, [Validators.required]],
-      academicPeriod: [null, [ Validators.required]],
+      number: [null, [Validators.required, Validators.min(1), Validators.maxLength(3)]],
+      date: [{value: null, disabled: true}],
+      enrollmentId: this.enrollmentId,
       subject: [null],
-      type: [null, [ Validators.required]],
+      type: [null, [Validators.required]],
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
       observation: [null, [Validators.required]],
@@ -141,17 +136,8 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   }
 
   back(): void {
-    this.location.back();
+    this.router.navigate([this.routesService.enrollmentsDetailList(this.enrollmentId)]);
   }
-
-  findSubjectsByacademicPeriod(page: number = 0) {
-    if (this.selectedSubject.value && this.selectedAcademicPeriod.value){
-     this.enrollmentDetailsHttpService.findSubjectsByAcademicPeriod(this.selectedSubject.value, this.selectedAcademicPeriod.value)
-     .subscribe((response) => {
-       this.items = response.data
-     });
-    }
-   }
 
   /** Actions **/
   create(enrollmentDetail: EnrollmentDetailModel): void {
@@ -183,6 +169,14 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   get(): void {
     this.enrollmentDetailsHttpService.findOne(this.id!).subscribe((enrollment) => {
       this.form.patchValue(enrollment);
+      if (this.dateField.value)
+        this.dateField.setValue(new Date(this.dateField.value));
+
+      if (enrollment.enrollmentDetailStates.find(enrollmentDetailState =>
+        enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+        enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
+        this.form.disable();
+      }
     });
   }
 
@@ -196,10 +190,6 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
     this.parallels = this.cataloguesHttpService.findByType(CatalogueTypeEnum.PARALLEL);
   }
 
-  loadAcademicPeriods(): void {
-    this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
-  }
-
   loadWorkdays(): void {
     this.workdays = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_WORKDAY);
   }
@@ -207,6 +197,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
   loadTypes(): void {
     this.types = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_TYPE);
   }
+
   loadSubjects(): void {
     this.subjectsHttpService.getAllSubjects()
       .subscribe((items) => this.subjects = items);
@@ -214,7 +205,6 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
   validateForm() {
     this.formErrors = [];
-    if (this.academicPeriodField.errors) this.formErrors.push('Periodo Académico');
     if (this.dateField.errors) this.formErrors.push('Fecha');
     if (this.typeField.errors) this.formErrors.push('Tipo');
     if (this.workdayField.errors) this.formErrors.push(' Jornada');
@@ -228,28 +218,33 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface{
 
 
   /** Form Getters **/
-  get academicPeriodField(): AbstractControl {
-    return this.form.controls['academicPeriod'];
-  }
   get subjectField(): AbstractControl {
     return this.form.controls['subject'];
   }
+
   get dateField(): AbstractControl {
     return this.form.controls['date'];
   }
+
   get numberField(): AbstractControl {
     return this.form.controls['number'];
   }
+
   get typeField(): AbstractControl {
     return this.form.controls['type'];
   }
+
   get workdayField(): AbstractControl {
     return this.form.controls['workday'];
   }
+
   get parallelField(): AbstractControl {
     return this.form.controls['parallel'];
   }
+
   get observationField(): AbstractControl {
     return this.form.controls['observation'];
   }
+
+  protected readonly Validators = Validators;
 }

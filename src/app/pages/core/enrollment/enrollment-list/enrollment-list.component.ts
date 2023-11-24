@@ -48,7 +48,7 @@ export class EnrollmentListComponent implements OnInit {
   protected isButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
-  protected selectedItem: SelectEnrollmentDto = {};
+  protected selectedItem!: EnrollmentModel;
   protected selectedItems: EnrollmentModel[] = [];
   protected items: EnrollmentModel[] = [];
   protected schoolPeriods: SchoolPeriodModel[] = [];
@@ -191,10 +191,11 @@ export class EnrollmentListComponent implements OnInit {
         },
       },
       {
+        id: IdButtonActionEnum.ENROLLED,
         label: 'Descargar Certificado',
         icon: PrimeIcons.DOWNLOAD,
         command: () => {
-          if (this.selectedItem?.id) this.downloadEnrollmentCertificate(this.selectedItem.id);
+          if (this.selectedItem?.id) this.downloadEnrollmentCertificate(this.selectedItem);
         },
       },
     ];
@@ -212,6 +213,10 @@ export class EnrollmentListComponent implements OnInit {
         this.buttonActions.splice(index, 1);
 
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
+      if (index > -1)
+        this.buttonActions.splice(index, 1);
+
+      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.ENROLLED)
       if (index > -1)
         this.buttonActions.splice(index, 1);
     }
@@ -284,8 +289,13 @@ export class EnrollmentListComponent implements OnInit {
     this.isVisible = true;
   }
 
-  downloadEnrollmentCertificate(id:string) {
-   this.enrollmentsHttpService.downloadEnrollmentCertificate(id);
+  downloadEnrollmentCertificate(enrollment: EnrollmentModel) {
+    if (enrollment.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED)) {
+      this.enrollmentsHttpService.downloadEnrollmentCertificate(enrollment.id);
+    } else {
+      this.messageService.errorCustom('No se puede descargar', 'El estudiante no se encuentra matriculado');
+    }
+
   }
 
   /** Select & Paginate **/
@@ -305,10 +315,10 @@ export class EnrollmentListComponent implements OnInit {
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.inscriptions, id]);
+    this.router.navigate([this.routesService.enrollments, id]);
   }
 
   redirectEnrollmentDetails(id: string) {
-    this.router.navigate([this.routesService.inscriptionsDetailList(this.selectedItem.id!)]);
+    this.router.navigate([this.routesService.enrollmentsDetailList(this.selectedItem.id!)]);
   }
 }

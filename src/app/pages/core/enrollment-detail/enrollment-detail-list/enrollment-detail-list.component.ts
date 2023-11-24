@@ -65,9 +65,7 @@ export class EnrollmentDetailListComponent implements OnInit {
       {label: BreadcrumbEnum.ENROLLMENT_DETAILS }
     ]);
 
-    if (activatedRoute.snapshot.params['id'] !== 'new') {
-      this.enrollmentId = activatedRoute.snapshot.params['id'];
-    }
+    this.enrollmentId = activatedRoute.snapshot.params['enrollmentId'];
 
     this.search.valueChanges.subscribe(value => {
       if (value.length === 0) {
@@ -202,6 +200,6 @@ export class EnrollmentDetailListComponent implements OnInit {
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.enrollmentsDetailForm, id]);
+    this.router.navigate([this.routesService.enrollmentsDetailForm(this.enrollmentId), id]);
   }
 }
