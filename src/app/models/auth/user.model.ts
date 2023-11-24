@@ -1,6 +1,5 @@
 import {RoleModel} from '@models/auth';
-import {CatalogueModel, StudentModel} from '@models/core';
-import {TeacherModule} from "../../pages/core/teacher/teacher.module";
+import {CatalogueModel, StudentModel, TeacherModel} from '@models/core';
 
 export interface UserModel {
   id: string;
@@ -28,7 +27,7 @@ export interface UserModel {
   phone: string;
   suspendedAt: Date;
   student: StudentModel;
-  teacher: TeacherModule;
+  teacher: TeacherModel;
   username: string;
 }
 

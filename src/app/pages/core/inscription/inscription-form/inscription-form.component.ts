@@ -65,7 +65,7 @@ export class InscriptionFormComponent implements OnInit, OnExitInterface {
     private location: Location,
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.inscriptions]},
+      {label: BreadcrumbEnum.INSCRIPTIONS, routerLink: [this.routesService.inscriptions]},
       {label: BreadcrumbEnum.FORM},
     ]);
 

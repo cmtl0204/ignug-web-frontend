@@ -1,5 +1,4 @@
-import {CatalogueModel, SchoolPeriodModel, SubjectModel} from "@models/core";
-import {EnrollmentDetailModule} from "../../pages/core/enrollment-detail/enrollment-detail.module";
+import {CatalogueModel, EnrollmentDetailModel, SchoolPeriodModel, SubjectModel} from "@models/core";
 import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 
 export interface EnrollmentModel {
@@ -10,7 +9,7 @@ export interface EnrollmentModel {
   isVisible: boolean;
 
   academicState:CatalogueModel;
-  enrollmentDetails: EnrollmentDetailModule[];
+  enrollmentDetails: EnrollmentDetailModel[];
   enrollmentStates: EnrollmentStateModel[];
   academicPeriod: CatalogueModel;
   parallel: CatalogueModel;

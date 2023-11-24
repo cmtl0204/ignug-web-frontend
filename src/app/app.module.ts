@@ -34,7 +34,7 @@ import {FileUploadModule} from "primeng/fileupload";
 
 import localEs from '@angular/common/locales/es';
 import {registerLocaleData} from '@angular/common';
-import { AboutComponent } from './layout/about/about.component';
+import { AboutComponent } from '@layout';
 import {InputTextModule} from "primeng/inputtext";
 
 registerLocaleData(localEs, 'es');
@@ -74,10 +74,10 @@ registerLocaleData(localEs, 'es');
     InputTextModule,
   ],
   providers: [
-    {
-      provide: LocationStrategy,
-      useClass: HashLocationStrategy
-    },
+    // {
+    //   provide: LocationStrategy,
+    //   useClass: HashLocationStrategy
+    // },
     {provide: LOCALE_ID, useValue: 'es'},
     HttpInterceptorProviders,
     MessageService,

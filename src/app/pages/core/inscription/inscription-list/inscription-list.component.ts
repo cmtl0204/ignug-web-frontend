@@ -77,7 +77,7 @@ export class InscriptionListComponent implements OnInit {
     private careersHttpService: CareersHttpService,
     private schoolPeriodsService: SchoolPeriodsService,
   ) {
-    this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENTS}]);
+    this.breadcrumbService.setItems([{label: BreadcrumbEnum.INSCRIPTIONS}]);
 
     this.paginator = this.coreService.paginator;
 

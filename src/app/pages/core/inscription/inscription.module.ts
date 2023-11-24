@@ -27,11 +27,15 @@ import {DialogModule} from "primeng/dialog";
 import {DropdownModule} from "primeng/dropdown";
 import {BadgeModule} from "primeng/badge";
 import {OverlayPanelModule} from "primeng/overlaypanel";
+import {InscriptionDetailListComponent} from "./inscription-detail-list/inscription-detail-list.component";
+import {InscriptionDetailFormComponent} from "./inscription-detail-form/inscription-detail-form.component";
 
 @NgModule({
   declarations: [
     InscriptionListComponent,
-    InscriptionFormComponent
+    InscriptionFormComponent,
+    InscriptionDetailListComponent,
+    InscriptionDetailFormComponent,
   ],
   imports: [
     NgCommonModule,

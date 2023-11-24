@@ -5,10 +5,10 @@ import {InscriptionListComponent} from "./inscription-list/inscription-list.comp
 import {InscriptionFormComponent} from "./inscription-form/inscription-form.component";
 import {
   InscriptionDetailListComponent
-} from "../inscription-detail/inscription-detail-list/inscription-detail-list.component";
+} from "./inscription-detail-list/inscription-detail-list.component";
 import {
   InscriptionDetailFormComponent
-} from "../inscription-detail/inscription-detail-form/inscription-detail-form.component";
+} from "./inscription-detail-form/inscription-detail-form.component";
 
 const routes: Routes = [
   {

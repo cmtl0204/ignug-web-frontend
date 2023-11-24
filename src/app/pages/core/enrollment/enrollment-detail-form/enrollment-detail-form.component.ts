@@ -1,26 +1,22 @@
 import {Component, OnInit} from '@angular/core';
-import {Location} from "@angular/common";
-import {FormBuilder, AbstractControl, Validators, FormGroup, FormControl} from '@angular/forms';
+import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
+  CareerModel,
   CatalogueModel,
   EnrollmentDetailModel,
-  EnrollmentModel,
   SelectEnrollmentDetailDto,
-  SelectEnrollmentDto,
   SubjectModel
 } from '@models/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from 'primeng/api';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
-  BreadcrumbService,
+  BreadcrumbService, CareersService,
   CataloguesHttpService,
-  CoreService,
+  CoreService, CurriculumsHttpService,
   EnrollmentsHttpService,
   MessageService,
   RoutesService,
-  SchoolPeriodsHttpService,
-  StudentsHttpService,
   SubjectsHttpService,
 } from '@services/core';
 
@@ -32,14 +28,15 @@ import {
   LabelButtonActionEnum,
   IconButtonActionEnum, CatalogueEnrollmentStateEnum
 } from '@shared/enums';
+
 import {EnrollmentDetailsHttpService} from '@services/core';
 
 @Component({
-  selector: 'app-inscription-detail-form',
-  templateUrl: './inscription-detail-form.component.html',
-  styleUrls: ['./inscription-detail-form.component.scss']
+  selector: 'app-enrollment-detail-form',
+  templateUrl: './enrollment-detail-form.component.html',
+  styleUrls: ['./enrollment-detail-form.component.scss']
 })
-export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
+export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface {
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
@@ -60,28 +57,30 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
   protected types: CatalogueModel[] = [];
   protected workdays: CatalogueModel[] = [];
   protected subjects: SubjectModel[] = [];
+  protected career!: CareerModel;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private breadcrumbService: BreadcrumbService,
-    private cataloguesHttpService: CataloguesHttpService,
-    protected coreService: CoreService,
-    private formBuilder: FormBuilder,
-    protected messageService: MessageService,
-    private router: Router,
-    private routesService: RoutesService,
-    private location: Location,
-    private enrollmentsHttpService: EnrollmentsHttpService,
-    private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
-    private subjectsHttpService: SubjectsHttpService,
+    private readonly activatedRoute: ActivatedRoute,
+    private readonly breadcrumbService: BreadcrumbService,
+    private readonly cataloguesHttpService: CataloguesHttpService,
+    private readonly careersService: CareersService,
+    protected readonly coreService: CoreService,
+    protected readonly curriculumsHttpService: CurriculumsHttpService,
+    private readonly formBuilder: FormBuilder,
+    protected readonly messageService: MessageService,
+    private readonly router: Router,
+    private readonly routesService: RoutesService,
+    private readonly enrollmentsHttpService: EnrollmentsHttpService,
+    private readonly enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
+    private readonly subjectsHttpService: SubjectsHttpService,
   ) {
     this.enrollmentId = activatedRoute.snapshot.params['enrollmentId'];
 
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.inscriptions]},
+      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
       {
         label: BreadcrumbEnum.ENROLLMENT_DETAILS,
-        routerLink: [this.routesService.inscriptionsDetailList(this.enrollmentId)]
+        routerLink: [this.routesService.enrollmentsDetailList(this.enrollmentId)]
       },
       {label: BreadcrumbEnum.FORM},
     ]);
@@ -93,6 +92,8 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
       this.subjectField.disable();
       this.observationField.removeValidators(Validators.required);
     }
+
+    this.career = this.careersService.career;
   }
 
   async onExit(): Promise<boolean> {
@@ -141,7 +142,7 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.inscriptionsDetailList(this.enrollmentId)]);
+    this.router.navigate([this.routesService.enrollmentsDetailList(this.enrollmentId)]);
   }
 
   /** Actions **/
@@ -204,7 +205,7 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
   }
 
   loadSubjects(): void {
-    this.subjectsHttpService.getAllSubjects()
+    this.curriculumsHttpService.findSubjectsAllByCurriculum(this.career.curriculums[0].id)
       .subscribe((items) => this.subjects = items);
   }
 

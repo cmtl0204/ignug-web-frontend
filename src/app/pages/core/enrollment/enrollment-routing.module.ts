@@ -5,10 +5,11 @@ import {EnrollmentListComponent} from "./enrollment-list/enrollment-list.compone
 import {EnrollmentFormComponent} from './enrollment-form/enrollment-form.component';
 import {
   EnrollmentDetailListComponent
-} from "../enrollment-detail/enrollment-detail-list/enrollment-detail-list.component";
+} from "./enrollment-detail-list/enrollment-detail-list.component";
 import {
   EnrollmentDetailFormComponent
-} from "../enrollment-detail/enrollment-detail-form/enrollment-detail-form.component";
+} from "./enrollment-detail-form/enrollment-detail-form.component";
+
 
 const routes: Routes = [
   {

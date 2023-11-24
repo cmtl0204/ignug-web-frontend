@@ -47,7 +47,7 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-<!--      <th style="width: 3rem"></th>-->
+      <!--      <th style="width: 3rem"></th>-->
       <th class="text-center" *ngFor="let col of columns" [pSortableColumn]="col.field">
         {{col.header}}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -59,9 +59,9 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-<!--      <td>-->
-<!--        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
-<!--      </td>-->
+      <!--      <td>-->
+      <!--        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>-->
+      <!--      </td>-->
       <td class="text-center" *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">

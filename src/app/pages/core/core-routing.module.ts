@@ -19,20 +19,12 @@ const routes: Routes = [
     loadChildren: () => import('./enrollment/enrollment.module').then(m => m.EnrollmentModule)
   },
   {
-    path: 'enrollment-details',
-    loadChildren: () => import('./enrollment-detail/enrollment-detail.module').then(m => m.EnrollmentDetailModule)
-  },
-  {
     path: 'events',
     loadChildren: () => import('./event/event.module').then(m => m.EventModule)
   },
   {
     path: 'inscriptions',
     loadChildren: () => import('./inscription/inscription.module').then(m => m.InscriptionModule)
-  },
-  {
-    path: 'inscription-details',
-    loadChildren: () => import('./inscription-detail/inscription-detail.module').then(m => m.InscriptionDetailModule)
   },
   {
     path: 'institutions',

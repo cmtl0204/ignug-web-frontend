@@ -91,7 +91,9 @@ export class ApplicationComponent implements OnInit {
     protected readonly schoolPeriodsService: SchoolPeriodsService,
   ) {
     this.student = authService.auth.student;
-    this.selectedItems = subjectsService.enrollmentSubjects;
+    if (subjectsService.enrollmentSubjects)
+      this.selectedItems = subjectsService.enrollmentSubjects;
+
     this.careers = this.careersService.careers;
 
     this.form = this.newForm;
@@ -230,11 +232,9 @@ export class ApplicationComponent implements OnInit {
         const approvedLeveling = enrollmentDetailLeveling.every(enrollmentDetail => enrollmentDetail.academicState === 'a');
 
         if (enrollmentDetailLeveling.length === 0 || !approvedLeveling) {
-          console.log(this.items);
           this.items = this.items.filter(item => item.type.code === 'leveling');
         }
 
-        console.log(this.items);
         // this.items = subjects.sort(function (a, b) {
         //   if (a.academicPeriod.code > b.academicPeriod.code) {
         //     return 1;

@@ -68,7 +68,6 @@ export class SocioeconomicFormComponent implements OnInit {
 
         if (this.enrollment?.enrollmentStates) {
           this.registered = true;
-          this.activeIndex = -1;
         }
       });
   }

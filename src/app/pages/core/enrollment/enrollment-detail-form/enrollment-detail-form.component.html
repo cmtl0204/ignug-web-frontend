@@ -39,11 +39,11 @@
                     placeholder="Seleccione">
           <ng-template pTemplate="selectedItem">
             <div *ngIf="subjectField.value">
-              <div>{{ subjectField.value.name }} {{ subjectField.value.academicPeriod.name }}</div>
+              {{ subjectField.value.name }} ({{ subjectField.value.academicPeriod.name }})
             </div>
           </ng-template>
           <ng-template pTemplate="item" let-item>
-            {{ item.name }}  {{ item.academicPeriod.name }}
+            {{ item.name }}  ({{ item.academicPeriod.name }})
           </ng-template>
         </p-dropdown>
         <small

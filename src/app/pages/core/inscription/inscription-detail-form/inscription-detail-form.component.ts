@@ -1,4 +1,5 @@
 import {Component, OnInit} from '@angular/core';
+import {Location} from "@angular/common";
 import {FormBuilder, AbstractControl, Validators, FormGroup} from '@angular/forms';
 import {
   CatalogueModel,
@@ -27,15 +28,14 @@ import {
   LabelButtonActionEnum,
   IconButtonActionEnum, CatalogueEnrollmentStateEnum
 } from '@shared/enums';
-
 import {EnrollmentDetailsHttpService} from '@services/core';
 
 @Component({
-  selector: 'app-enrollment-detail-form',
-  templateUrl: './enrollment-detail-form.component.html',
-  styleUrls: ['./enrollment-detail-form.component.scss']
+  selector: 'app-inscription-detail-form',
+  templateUrl: './inscription-detail-form.component.html',
+  styleUrls: ['./inscription-detail-form.component.scss']
 })
-export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface {
+export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
@@ -66,6 +66,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface {
     protected messageService: MessageService,
     private router: Router,
     private routesService: RoutesService,
+    private location: Location,
     private enrollmentsHttpService: EnrollmentsHttpService,
     private enrollmentDetailsHttpService: EnrollmentDetailsHttpService,
     private subjectsHttpService: SubjectsHttpService,
@@ -73,10 +74,10 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface {
     this.enrollmentId = activatedRoute.snapshot.params['enrollmentId'];
 
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.ENROLLMENTS, routerLink: [this.routesService.enrollments]},
+      {label: BreadcrumbEnum.INSCRIPTIONS, routerLink: [this.routesService.inscriptions]},
       {
-        label: BreadcrumbEnum.ENROLLMENT_DETAILS,
-        routerLink: [this.routesService.enrollmentsDetailList(this.enrollmentId)]
+        label: BreadcrumbEnum.INSCRIPTION_DETAILS,
+        routerLink: [this.routesService.inscriptionsDetailList(this.enrollmentId)]
       },
       {label: BreadcrumbEnum.FORM},
     ]);
@@ -136,7 +137,7 @@ export class EnrollmentDetailFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.enrollmentsDetailList(this.enrollmentId)]);
+    this.router.navigate([this.routesService.inscriptionsDetailList(this.enrollmentId)]);
   }
 
   /** Actions **/
