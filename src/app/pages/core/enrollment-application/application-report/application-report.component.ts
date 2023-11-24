@@ -1,15 +1,15 @@
 import {Component, EventEmitter, Output} from '@angular/core';
 import {CoreService, FilesHttpService, StudentsHttpService} from "@services/core";
-import {AuthService} from "@services/auth";
 import {PrimeIcons} from "primeng/api";
 import {SkeletonEnum} from "@shared/enums";
+import {AuthService} from "@services/auth";
 
 @Component({
-  selector: 'app-socioeconomic-report',
-  templateUrl: './socioeconomic-report.component.html',
-  styleUrls: ['./socioeconomic-report.component.scss']
+  selector: 'app-application-report',
+  templateUrl: './application-report.component.html',
+  styleUrls: ['./application-report.component.scss']
 })
-export class SocioeconomicReportComponent {
+export class ApplicationReportComponent {
   @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
   @Output() previousOut: EventEmitter<number> = new EventEmitter<number>();
   protected readonly PrimeIcons = PrimeIcons;

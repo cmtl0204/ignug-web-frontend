@@ -4,11 +4,9 @@ import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {
   ColumnModel,
-  InstitutionModel,
   PaginatorModel,
   SelectEnrollmentDto,
   EnrollmentModel,
-  SubjectModel,
   CareerModel,
   CatalogueModel,
   SchoolPeriodModel
@@ -61,7 +59,7 @@ export class EnrollmentListComponent implements OnInit {
   protected selectedAcademicPeriod: FormControl = new FormControl();
   protected state: CatalogueModel[] = [];
   protected isVisible: boolean = false;
-
+  protected isLoadingPdf: boolean = false;
 
   constructor(
     private breadcrumbService: BreadcrumbService,
@@ -192,13 +190,13 @@ export class EnrollmentListComponent implements OnInit {
           if (this.selectedItem?.id) this.reject(this.selectedItem.id);
         },
       },
-      // {
-      //   label: 'Descargar Certificado',
-      //   icon: PrimeIcons.DOWNLOAD,
-      //   command: () => {
-      //     if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
-      //   },
-      // },
+      {
+        label: 'Descargar Certificado',
+        icon: PrimeIcons.DOWNLOAD,
+        command: () => {
+          if (this.selectedItem?.id) this.downloadEnrollmentCertificate(this.selectedItem.id);
+        },
+      },
     ];
   }
 
@@ -284,6 +282,10 @@ export class EnrollmentListComponent implements OnInit {
 
   downloadModal() {
     this.isVisible = true;
+  }
+
+  downloadEnrollmentCertificate(id:string) {
+   this.enrollmentsHttpService.downloadEnrollmentCertificate(id);
   }
 
   /** Select & Paginate **/

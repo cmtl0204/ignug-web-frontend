@@ -27,6 +27,7 @@ import {SocioeconomicReportComponent} from './socioeconomic-report/socioeconomic
 import {ApplicationAttachmentComponent} from './application-attachment/application-attachment.component';
 import {ApplicationComponent} from './application/application.component';
 import {MessagesModule} from "primeng/messages";
+import { ApplicationReportComponent } from './application-report/application-report.component';
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import {MessagesModule} from "primeng/messages";
     SocioeconomicReportComponent,
     ApplicationAttachmentComponent,
     ApplicationComponent,
+    ApplicationReportComponent,
   ],
   imports: [
     NgCommonModule,

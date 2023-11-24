@@ -10,7 +10,7 @@ import {
   CreateEnrollmentDto,
   EnrollmentModel,
   UpdateEnrollmentDto,
-  SelectEnrollmentDto, EnrollmentDetailModel
+  SelectEnrollmentDto, EnrollmentDetailModel, FileModel
 } from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
@@ -237,5 +237,21 @@ export class EnrollmentsHttpService {
         return response.data;
       })
     );
+  }
+
+  downloadEnrollmentCertificate(id: string) {
+    const url = `${environment.API_URL}/enrollment-reports/${id}/certificate`;
+    this.coreService.isProcessing = true;
+    this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', 'certificado.pdf');
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        this.coreService.isProcessing = false;
+      });
   }
 }

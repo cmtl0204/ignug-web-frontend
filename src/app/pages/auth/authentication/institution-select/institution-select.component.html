@@ -2,13 +2,12 @@
   <div class="p-fluid panel-auth">
     <form [formGroup]="form" (ngSubmit)="onSubmit()">
       <div class="field text-center">
-        <h1>Seleccione una Institución</h1>
         <img src="assets/images/logo/logo-sm.png" alt="">
         <h2>{{authService.system}}</h2>
       </div>
 
       <div class="field">
-        <label for="institution" appLabel label="Seleccione una Institución:" [required]="institutionField"></label>
+        <label for="institution" appLabel label="Seleccione su Programa de Estudio:" [required]="institutionField"></label>
         <p-dropdown id="institution"
                     formControlName="institution"
                     dataKey="id"
@@ -29,7 +28,7 @@
         <p-message text="No tiene carreras asignadas para esta institución" severity="error"></p-message>
       </div>
       <div *ngIf="careers.length" class="field">
-        <label for="career" appLabel label="Seleccione una Carrera:" [required]="careerField"></label>
+        <label for="career" appLabel label="Seleccione su Centro del Saber:" [required]="careerField"></label>
         <p-dropdown id="career"
                     formControlName="career"
                     dataKey="id"

@@ -19,7 +19,12 @@
     <app-application *ngIf="activeIndex===2" (nextOut)="next()" (previousOut)="previous()"></app-application>
   </p-tabPanel>
 
+  <p-tabPanel header="Reporte Solicitud de Matricula" [disabled]="!(activeIndex===3)">
+    <app-application-report *ngIf="activeIndex===3" (nextOut)="next()"
+                              (previousOut)="previous()"></app-application-report>
+  </p-tabPanel>
+
   <p-tabPanel header="Adjuntar y Enviar Solicitud" [disabled]="!(activeIndex===3)">
-    <app-application-attachment *ngIf="activeIndex===3" (previousOut)="previous()"></app-application-attachment>
+    <app-application-attachment *ngIf="activeIndex===4" (previousOut)="previous()"></app-application-attachment>
   </p-tabPanel>
 </p-tabView>
