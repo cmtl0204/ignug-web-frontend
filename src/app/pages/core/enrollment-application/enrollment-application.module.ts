@@ -1,4 +1,4 @@
-import {CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
+import {NgModule, NO_ERRORS_SCHEMA} from '@angular/core';
 import {CommonModule as NgCommonModule} from '@angular/common';
 import {ButtonModule} from "primeng/button";
 import {PdfViewerModule} from "ng2-pdf-viewer";
@@ -27,7 +27,7 @@ import {SocioeconomicReportComponent} from './socioeconomic-report/socioeconomic
 import {ApplicationAttachmentComponent} from './application-attachment/application-attachment.component';
 import {ApplicationComponent} from './application/application.component';
 import {MessagesModule} from "primeng/messages";
-import { ApplicationReportComponent } from './application-report/application-report.component';
+import {ApplicationReportComponent} from './application-report/application-report.component';
 
 
 @NgModule({

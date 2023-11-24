@@ -32,7 +32,7 @@ import {
   LabelButtonActionEnum,
   IconButtonActionEnum, CatalogueEnrollmentStateEnum
 } from '@shared/enums';
-import {EnrollmentDetailsHttpService} from '@services/core/enrollment-details-http.service';
+import {EnrollmentDetailsHttpService} from '@services/core';
 
 @Component({
   selector: 'app-inscription-detail-form',
