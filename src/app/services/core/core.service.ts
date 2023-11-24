@@ -15,7 +15,9 @@ export class CoreService {
 
   updateSystem() {
     this.version = this.newVersion;
-    location.reload();
+    this.cataloguesHttpService.findCache().subscribe(()=>{
+      location.reload();
+    });
   }
 
   get isLoading(): boolean {

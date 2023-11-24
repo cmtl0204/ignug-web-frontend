@@ -27,7 +27,6 @@ import {
   CatalogueTypeEnum, CatalogueEnrollmentStateEnum
 } from "@shared/enums";
 import {AuthService} from "@services/auth";
-import {parallel} from "@angular/cdk/testing";
 
 @Component({
   selector: 'app-application',
@@ -233,6 +232,7 @@ export class ApplicationComponent implements OnInit {
 
         if (enrollmentDetailLeveling.length === 0 || !approvedLeveling) {
           this.items = this.items.filter(item => item.type.code === 'leveling');
+          this.selectedItems = this.items;
         }
 
         // this.items = subjects.sort(function (a, b) {

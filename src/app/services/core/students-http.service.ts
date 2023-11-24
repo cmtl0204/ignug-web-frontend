@@ -309,14 +309,5 @@ export class StudentsHttpService {
         return response;
       })
     );
-
-    // this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
-    //   .subscribe(response => {
-    //     const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
-    // const filePath = URL.createObjectURL(new Blob([response]));
-    // console.log(response);
-    // console.log(filePath);
-    // this.coreService.isProcessing = false;
-    // });
   }
 }

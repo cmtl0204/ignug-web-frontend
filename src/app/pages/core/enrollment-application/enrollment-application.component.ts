@@ -67,4 +67,6 @@ export class EnrollmentApplicationComponent implements OnInit {
   previous() {
     this.activeIndex--;
   }
+
+  protected readonly CatalogueEnrollmentStateEnum = CatalogueEnrollmentStateEnum;
 }

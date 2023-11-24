@@ -4,12 +4,10 @@ import {
   EnrollmentsHttpService, FilesHttpService,
   MessageService,
   StudentsHttpService,
-  SubjectsService
 } from "@services/core";
 import {CatalogueModel, ColumnModel, EnrollmentModel, FileModel} from "@models/core";
 import {
   BreadcrumbEnum,
-  CatalogueEnrollmentFileTyeEnum,
   CatalogueEnrollmentStateEnum,
   CatalogueTypeEnum, LabelButtonActionEnum, SkeletonEnum
 } from "@shared/enums";

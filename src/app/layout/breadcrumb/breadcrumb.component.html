@@ -6,8 +6,10 @@
     <div *ngIf="authService.auth" class="field xl:col-3 lg:col-3 md:col-12 sm:col-12 mt-1">
 
       <button pButton pRipple type="button" (click)="op.toggle($event)"
+              [ngClass]="{'p-button-danger':coreService.version!=coreService.newVersion}"
+              [pTooltip]="coreService.version!=coreService.newVersion?'Tiene actualización pendiente':''"
               class="p-button-outlined"
-              [icon]="PrimeIcons.INFO_CIRCLE"
+              [icon]="coreService.version!=coreService.newVersion?PrimeIcons.INFO_CIRCLE:PrimeIcons.CHECK_CIRCLE"
               [label]="authService.auth.identification"></button>
     </div>
   </div>

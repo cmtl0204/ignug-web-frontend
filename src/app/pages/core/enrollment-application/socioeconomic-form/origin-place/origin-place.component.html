@@ -224,6 +224,7 @@
             label="Longitud:"
             [required]="longitudeField"
           ></label>
+          <app-help-field (mouseenter)="opLongitudeField.toggle($event)" (mouseleave)="opLongitudeField.hide()"></app-help-field>
           <input pInputText id="longitude" formControlName="longitude" readonly/>
           <small
             appErrorMessage
@@ -234,6 +235,7 @@
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
           <label appLabel for="latitude" label="Latitud:" [required]="latitudeField"></label>
+          <app-help-field (mouseenter)="opLatitudeField.toggle($event)" (mouseleave)="opLatitudeField.hide()"></app-help-field>
           <input pInputText id="latitude" formControlName="latitude" readonly/>
           <small
             appErrorMessage
@@ -282,3 +284,15 @@
     </div>
   </div>
 </form>
+
+<p-overlayPanel #opLatitudeField>
+  <ng-template pTemplate="content">
+    <p>La latitud se genera automáticamente cuando cuando seleccione su ubicación en el mapa</p>
+  </ng-template>
+</p-overlayPanel>
+
+<p-overlayPanel #opLongitudeField>
+  <ng-template pTemplate="content">
+    <p>La longitud se genera automáticamente cuando cuando seleccione su ubicación en el mapa</p>
+  </ng-template>
+</p-overlayPanel>

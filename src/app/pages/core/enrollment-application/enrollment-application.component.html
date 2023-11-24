@@ -2,6 +2,11 @@
   Estado Matrícula:
   <span *ngFor="let item of enrollment.enrollmentStates" class="ml-2">
     <p-tag [value]="item.state.name" [severity]="item.state.code|enrollmentState" class="mr-2"></p-tag>
+    <p-tag
+      *ngIf="item.state.code===CatalogueEnrollmentStateEnum.REQUEST_SENT"
+      class="mt-2"
+      value="En este momento no puede realizar modificaciones"
+      severity="warning"></p-tag>
   </span>
 </div>
 
@@ -21,7 +26,7 @@
 
   <p-tabPanel header="Reporte Solicitud de Matricula" [disabled]="!(activeIndex===3)">
     <app-application-report *ngIf="activeIndex===3" (nextOut)="next()"
-                              (previousOut)="previous()"></app-application-report>
+                            (previousOut)="previous()"></app-application-report>
   </p-tabPanel>
 
   <p-tabPanel header="Adjuntar y Enviar Solicitud" [disabled]="!(activeIndex===3)">
