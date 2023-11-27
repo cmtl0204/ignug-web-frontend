@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {PaginatorModel} from "@models/core";
-import {CataloguesHttpService} from "@services/core";
+import {CataloguesHttpService, LocationsHttpService} from "@services/core";
 
 @Injectable({
   providedIn: 'root'
@@ -10,13 +10,19 @@ export class CoreService {
   private _isLoading: boolean = false;
   private _isProcessing: boolean = false;
 
-  constructor(private readonly cataloguesHttpService: CataloguesHttpService) {
+  constructor(private readonly cataloguesHttpService: CataloguesHttpService,
+              private readonly locationsHttpService: LocationsHttpService
+  ) {
   }
 
   updateSystem() {
     this.version = this.newVersion;
-    this.cataloguesHttpService.findCache().subscribe(()=>{
-      location.reload();
+    this.cataloguesHttpService.findCache().subscribe(() => {
+      // location.reload();
+    });
+
+    this.locationsHttpService.findCache().subscribe(() => {
+      // location.reload();
     });
   }
 

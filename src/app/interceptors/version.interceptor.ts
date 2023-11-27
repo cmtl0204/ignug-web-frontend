@@ -27,13 +27,19 @@ export class VersionInterceptor implements HttpInterceptor {
 
             if (version) {
               this.coreService.newVersion = version;
-              if (version != this.coreService.version) {
-                this.messageService.questionVersion(version)
-                  .then((result) => {
-                    if (result.isConfirmed) {
-                      this.coreService.updateSystem();
-                    }
-                  });
+              console.log(this.coreService.version);
+
+              if (!this.coreService.version) {
+                this.coreService.updateSystem();
+              } else if (version != this.coreService.version) {
+                if (version != this.coreService.version) {
+                  this.messageService.questionVersion(version)
+                    .then((result) => {
+                      if (result.isConfirmed) {
+                        this.coreService.updateSystem();
+                      }
+                    });
+                }
               }
             }
           }

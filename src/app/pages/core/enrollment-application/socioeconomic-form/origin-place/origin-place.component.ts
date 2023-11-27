@@ -141,7 +141,9 @@ export class OriginPlaceComponent implements OnInit {
       this.id,
       this.form.value
     ).subscribe();
-
+//{
+//       next: value => this.next.emit()
+//     }
     this.next.emit();
   }
 
