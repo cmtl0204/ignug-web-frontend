@@ -135,7 +135,7 @@ export class MessageService {
   }
 
   get fieldEmail(): string {
-    return 'Correo electrónico no válido.';
+    return 'Correo electrónico no es válido.';
   }
 
   get fieldWeb(): string {

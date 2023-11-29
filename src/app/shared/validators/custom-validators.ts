@@ -17,8 +17,10 @@ export class CustomValidators {
     if (newPassword !== passwordConfirmation) {
       // if they don't match, set an error in our confirmPassword form control
       control.get('passwordConfirmation')?.setErrors({noPasswordMatch: true});
+      return { noPasswordMatch: true };
     } else {
       control.get('passwordConfirmation')?.setErrors(null);
+      return null;
     }
   }
 

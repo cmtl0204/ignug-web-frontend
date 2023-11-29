@@ -134,7 +134,7 @@ export class PersonalInformationComponent implements OnInit {
   get userForm(): FormGroup {
     return this.formBuilder.group({
       birthdate: [null, [Validators.required]],
-      cellPhone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      cellPhone: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(6)]],
       email: [null, [Validators.required]],
       ethnicOrigin: [null, [Validators.required]],
       gender: [null, [Validators.required]],
