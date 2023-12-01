@@ -231,12 +231,43 @@
       </div>
     </div>
     <div class="formgrid grid">
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label appLabel for="socioeconomicCategory" label="Categoría Ficha Socioeconómica:"
+               [required]="socioeconomicCategoryField"></label>
+        <input pInputText type="text" id="socioeconomicCategory" formControlName="socioeconomicCategory"/>
+        <small
+          appErrorMessage
+          [errors]="socioeconomicCategoryField.errors"
+          [touched]="socioeconomicCategoryField.touched"
+          [dirty]="socioeconomicCategoryField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label appLabel for="socioeconomicPercentage" label="Porcentaje Ficha Socioeconómica:"
+               [required]="socioeconomicPercentageField"></label>
+        <input pInputText type="text" id="socioeconomicPercentage" formControlName="socioeconomicPercentage"/>
+        <small
+          appErrorMessage
+          [errors]="socioeconomicPercentageField.errors"
+          [touched]="socioeconomicPercentageField.touched"
+          [dirty]="socioeconomicPercentageField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
+        <label appLabel for="socioeconomicScore" label="Puntaje Ficha Socioeconómica:"
+               [required]="socioeconomicScoreField"></label>
+        <input pInputText type="text" id="socioeconomicScore" formControlName="socioeconomicScore"/>
+        <small
+          appErrorMessage
+          [errors]="socioeconomicScoreField.errors"
+          [touched]="socioeconomicScoreField.touched"
+          [dirty]="socioeconomicScoreField.dirty">
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
       <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
-        <label
-          appLabel
-          for="observation"
-          label="Observación de la matrícula:"
-        >
+        <label appLabel for="observation" label="Observación de la matrícula:">
         </label>
         <input
           pInputText

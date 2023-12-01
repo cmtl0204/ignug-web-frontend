@@ -7,6 +7,7 @@
         [icon]="PrimeIcons.ARROW_RIGHT"
         iconPos="right"
         (click)="nextOut.emit()"></button>
+
 <p-panel class="p-fluid">
   <p-accordion [activeIndex]="activeIndex" (activeIndexChange)="activeIndex=$event">
     <p-accordionTab [disabled]="activeIndex!==0">

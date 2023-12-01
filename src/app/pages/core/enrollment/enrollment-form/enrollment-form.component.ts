@@ -105,6 +105,9 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       workday: [null, [Validators.required]],
       parallel: [null, [Validators.required]],
       code: [{value: null, disabled: true}],
+      socioeconomicCategory: [{value: null, disabled: true}],
+      socioeconomicPercentage: [{value: null, disabled: true}],
+      socioeconomicScore: [{value: null, disabled: true}],
       observation: [null],
       enrollmentStates: [{value: null, disabled: true}],
     });
@@ -344,5 +347,17 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
   get stateField(): AbstractControl {
     return this.stateForm.controls['state'];
+  }
+
+  get socioeconomicCategoryField(): AbstractControl {
+    return this.form.controls['socioeconomicCategory'];
+  }
+
+  get socioeconomicPercentageField(): AbstractControl {
+    return this.form.controls['socioeconomicPercentage'];
+  }
+
+  get socioeconomicScoreField(): AbstractControl {
+    return this.form.controls['socioeconomicScore'];
   }
 }

@@ -134,11 +134,11 @@ export class PersonalInformationComponent implements OnInit {
   get userForm(): FormGroup {
     return this.formBuilder.group({
       birthdate: [null, [Validators.required]],
-      cellPhone: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(6)]],
+      cellPhone: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       email: [null, [Validators.required]],
       ethnicOrigin: [null, [Validators.required]],
       gender: [null, [Validators.required]],
-      identification: [null, [Validators.required, Validators.pattern(/^\d{10}$/)]],
+      identification: [null, [Validators.required]],
       identificationType: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       maritalStatus: [null, [Validators.required]],
