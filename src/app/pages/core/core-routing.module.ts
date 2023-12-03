@@ -66,6 +66,10 @@ const routes: Routes = [
     path: 'enrollment-application',
     loadChildren: () => import('./enrollment-application/enrollment-application.module').then(m => m.EnrollmentApplicationModule)
   },
+  {
+    path: 'welfare',
+    loadChildren: () => import('./welfare/welfare.module').then(m => m.WelfareModule)
+  },
 ];
 
 @NgModule({

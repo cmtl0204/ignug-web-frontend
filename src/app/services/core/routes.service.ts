@@ -147,6 +147,10 @@ export class RoutesService {
     this.router.navigateByUrl(`/core/enrollments`);
   }
 
+  dashboardWelfare() {
+    this.router.navigateByUrl(`/core/welfare/enrollments`);
+  }
+
   passwordReset() {
     this.router.navigateByUrl(`/password-reset`);
   }

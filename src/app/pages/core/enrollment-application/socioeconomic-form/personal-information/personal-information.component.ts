@@ -208,7 +208,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.nationalityField.errors) this.formErrors.push('Nacionalidad');
     if (this.identificationField.errors) this.formErrors.push('Identificación');
     if (this.ethnicOriginField.errors) this.formErrors.push('Autoidentificación');
-    if (this.genderField.errors) this.formErrors.push('Generoa');
+    if (this.genderField.errors) this.formErrors.push('Genero');
     if (this.sexField.errors) this.formErrors.push('Sexo');
 
     this.formErrors.sort();

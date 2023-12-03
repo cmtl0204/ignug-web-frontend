@@ -132,6 +132,10 @@ export class AuthService {
         this.routesService.dashboardSecretary();
         break;
       }
+      case RolesEnum.WELFARE: {
+        this.routesService.dashboardWelfare();
+        break;
+      }
     }
   }
 }

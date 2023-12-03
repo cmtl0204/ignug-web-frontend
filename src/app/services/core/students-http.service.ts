@@ -310,4 +310,21 @@ export class StudentsHttpService {
       })
     );
   }
+
+  downloadSocioeconomicForm(id: string) {
+    const url = `${environment.API_URL}/student-reports/${id}/socioeconomic-form`;
+
+    this.coreService.isProcessing = true;
+    this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', 'ficha_socioeconomica.pdf');
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        this.coreService.isProcessing = false;
+      });
+  }
 }

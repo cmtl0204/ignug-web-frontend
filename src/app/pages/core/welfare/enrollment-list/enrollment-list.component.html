@@ -41,11 +41,13 @@
     </p-dropdown>
   </div>
 </p-toolbar>
+
 <p-paginator [rows]="paginator.limit"
              [totalRecords]="paginator.totalItems"
              (onPageChange)="paginate($event)"
 >
 </p-paginator>
+
 <p-table
   #dt1
   dataKey="id"
@@ -54,7 +56,6 @@
   [columns]="columns"
   [loading]="coreService.isLoading"
   [(selection)]="selectedItems">
-
   <ng-template pTemplate="caption">
     <div class="flex">
       <!-- <div class="p-toolbar-group-left">
