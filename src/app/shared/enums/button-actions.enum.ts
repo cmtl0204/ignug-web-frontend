@@ -11,6 +11,7 @@ export enum IdButtonActionEnum {
   HIDE = 'hide',
   SELECT = 'select',
   REACTIVATE = 'reactivate',
+  PARALLEL_CAPACITY = 'parallel_capacity',
   SHOW_EVENTS = 'show_events',
   OPEN_SCHOOL_PERIOD = 'open_school_period',
   CLOSE_SCHOOL_PERIOD = 'close_school_period',
@@ -38,6 +39,7 @@ export enum LabelButtonActionEnum {
   CAREERS = 'Carreras',
   CURRICULUMS = 'Mallas Curriculares',
   SUBJECTS = 'Asignaturas',
+  PARALLEL_CAPACITY = 'Capacidad Paralelos',
 }
 
 export enum IconButtonActionEnum {
@@ -47,6 +49,7 @@ export enum IconButtonActionEnum {
   CANCEL = 'pi pi-arrow-left',
   RETURN = 'pi pi-arrow-left',
   SAVE = 'pi pi-save',
+  PARALLEL_CAPACITY = 'pi pi-list',
   DELETE = 'Eliminar',
   HIDE = 'pi pi-eye-slash',
   SELECT = 'Seleccionar',

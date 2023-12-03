@@ -131,7 +131,16 @@ export class CareerListComponent implements OnInit {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },
 
-      }
+      },
+      // {
+      //   id: IdButtonActionEnum.PARALLEL_CAPACITY,
+      //   label: LabelButtonActionEnum.PARALLEL_CAPACITY,
+      //   icon: IconButtonActionEnum.PARALLEL_CAPACITY,
+      //   command: () => {
+      //     if (this.selectedItem?.id) this.redirectParallelsCapacity();
+      //   },
+      //
+      // }
     ];
   }
 
@@ -192,5 +201,9 @@ export class CareerListComponent implements OnInit {
 
   redirectSubjects() {
     this.router.navigate([this.routesService.subjects]);
+  }
+
+  redirectParallelsCapacity() {
+    this.router.navigate([this.routesService.parallelCapacity]);
   }
 }

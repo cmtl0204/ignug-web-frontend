@@ -28,11 +28,13 @@ import {PanelModule} from "primeng/panel";
 import {SharedModule} from "@shared/shared.module";
 import {CalendarModule} from "primeng/calendar";
 import {OverlayPanelModule} from "primeng/overlaypanel";
+import { ParallelCapacityComponent } from './parallel-capacity/parallel-capacity.component';
 
 @NgModule({
     declarations: [
         CareerListComponent,
         CareerFormComponent,
+        ParallelCapacityComponent,
     ],
     imports: [
         NgCommonModule,

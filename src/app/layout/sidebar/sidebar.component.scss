@@ -11,6 +11,7 @@ $colorHover: rgba(120, 145, 255, 0.89);
   height: 100%;
   width: 260px;
   background: $color;
+  //background-image: url('/assets/images/layout/sidebar/sidebar-image.png');
   z-index: 100;
   transition: all 0.5s ease;
 }

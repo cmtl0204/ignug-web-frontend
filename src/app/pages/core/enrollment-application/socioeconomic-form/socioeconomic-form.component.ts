@@ -12,6 +12,7 @@ import {
 } from '@services/core';
 import {CatalogueEnrollmentStateEnum, SkeletonEnum,} from '@shared/enums';
 import {AuthService} from '@services/auth';
+import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 
 @Component({
   selector: 'app-socioeconomic-form',
@@ -28,6 +29,7 @@ export class SocioeconomicFormComponent implements OnInit {
   protected isNew: boolean = false;
   protected registered: boolean = false;
   protected activeIndex: number = 0;
+  protected enrollmentState!: EnrollmentStateModel;
   protected sections: boolean[] = [false, false, false, false, false, false, false, false, false, false, false];
 
   constructor(
@@ -68,6 +70,7 @@ export class SocioeconomicFormComponent implements OnInit {
 
         if (this.enrollment?.enrollmentStates) {
           this.registered = true;
+          this.enrollmentState = this.enrollment?.enrollmentStates[0]!;
         }
       });
   }
@@ -79,4 +82,6 @@ export class SocioeconomicFormComponent implements OnInit {
   previous() {
     this.activeIndex--;
   }
+
+  protected readonly CatalogueEnrollmentStateEnum = CatalogueEnrollmentStateEnum;
 }

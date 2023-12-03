@@ -10,6 +10,7 @@ export enum BreadcrumbEnum {
   TEACHERS = 'Docentes',
   TEACHER_DISTRIBUTIONS = 'Distribución docente',
   FORM = 'Formulario',
+  PARALLEL = 'Paralelos',
   PROFILE = 'Mi Perfil',
   HOME = 'Home',
   ENROLLMENTS = 'Matrículas',

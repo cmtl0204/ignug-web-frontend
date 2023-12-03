@@ -27,7 +27,6 @@ export class VersionInterceptor implements HttpInterceptor {
 
             if (version) {
               this.coreService.newVersion = version;
-              console.log(this.coreService.version);
 
               if (!this.coreService.version) {
                 this.coreService.updateSystem();

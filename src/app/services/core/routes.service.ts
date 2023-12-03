@@ -79,6 +79,10 @@ export class RoutesService {
     return this.core + '/subjects';
   }
 
+  get parallelCapacity(): string {
+    return this.core + '/careers/parallel-capacity';
+  }
+
   get teachers(): string {
     return this.core + '/teachers';
   }

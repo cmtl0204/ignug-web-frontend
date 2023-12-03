@@ -8,7 +8,17 @@
         iconPos="right"
         (click)="nextOut.emit()"></button>
 
-<p-panel class="p-fluid">
+<div *ngIf="!isNew && (enrollmentState?.state?.code != CatalogueEnrollmentStateEnum.REGISTERED &&
+            enrollmentState?.state?.code != CatalogueEnrollmentStateEnum.REJECTED)"
+     class="p-fluid">
+  <p-divider></p-divider>
+  <div class="grid formgrid">
+    <img class="xl:col-10 col-offset-1" src="assets/images/components/enrollments/final-screen.png" alt="">
+  </div>
+</div>
+
+<p-panel *ngIf="isNew || enrollmentState?.state?.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+            enrollmentState?.state?.code === CatalogueEnrollmentStateEnum.REJECTED" class="p-fluid">
   <p-accordion [activeIndex]="activeIndex" (activeIndexChange)="activeIndex=$event">
     <p-accordionTab [disabled]="activeIndex!==0">
       <ng-template pTemplate="header">

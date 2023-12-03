@@ -65,7 +65,7 @@
       <td class="text-center" *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchCase="'parallel'">
+          <div *ngSwitchCase="'parallel-capacity'">
             {{rowData[col.field]?.name}}
           </div>
           <div *ngSwitchCase="'subject'">
