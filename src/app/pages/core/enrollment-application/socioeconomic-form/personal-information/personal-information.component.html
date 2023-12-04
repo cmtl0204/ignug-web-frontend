@@ -258,7 +258,7 @@
         [dirty]="ethnicOriginField.dirty">
       </small>
     </div>
-    <div formGroupName="informationStudent" *ngIf="indigenousNationalityField.hasValidator(Validators.required)"
+    <div formGroupName="informationStudent" *ngIf="ethnicOriginField.value?.code===CatalogueEthnicOriginEnum.INDIGENOUS"
          class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
       <label appLabel for="indigenousNationality" label="Nacionalidad indígena:"
              [required]="indigenousNationalityField"></label>
@@ -287,7 +287,7 @@
         [dirty]="indigenousNationalityField.dirty">
       </small>
     </div>
-    <div formGroupName="informationStudent" *ngIf="townField.hasValidator(Validators.required)"
+    <div formGroupName="informationStudent" *ngIf="ethnicOriginField.value?.code===CatalogueEthnicOriginEnum.INDIGENOUS"
          class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
       <label appLabel for="town" label="Pueblo al que pertenece:" [required]="townField"></label>
       <p-dropdown

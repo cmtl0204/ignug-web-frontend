@@ -556,4 +556,6 @@ export class PersonalInformationComponent implements OnInit {
   get sexField(): AbstractControl {
     return this.userField.controls['sex'];
   }
+
+  protected readonly CatalogueEthnicOriginEnum = CatalogueEthnicOriginEnum;
 }
