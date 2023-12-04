@@ -11,7 +11,7 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueEthnicOriginEnum, CatalogueTypeEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-personal-information',
@@ -230,7 +230,7 @@ export class PersonalInformationComponent implements OnInit {
     });
 
     this.ethnicOriginField.valueChanges.subscribe((value) => {
-      if (value?.code === '1') {
+      if (value?.code === CatalogueEthnicOriginEnum.INDIGENOUS) {
         this.indigenousNationalityField.addValidators(Validators.required);
         this.townField.addValidators(Validators.required);
       } else {

@@ -23,6 +23,7 @@ export enum CatalogueTypeEnum {
   ELECTRONIC_DEVICE = 'ELECTRONIC_DEVICE',
   ELECTRIC_SERVICE_BLACKOUT='ELECTRIC_SERVICE_BLACKOUT',
   ECONOMIC_CONTRIBUTION = 'ECONOMIC_CONTRIBUTION',
+  FAMILY_KINSHIP_DISABILITY = "FAMILY_KINSHIP_DISABILITY",
   FOREIGN_LANGUAGE_NAME = 'FOREIGN_LANGUAGE_NAME',
   GENDER = 'GENDER',
   HOME_OWNERSHIP = 'HOME_OWNERSHIP',
@@ -41,7 +42,6 @@ export enum CatalogueTypeEnum {
   FAMILY_INCOME = 'FAMILY_INCOME',
   FAMILY_PROPERTIES = 'FAMILY_PROPERTIES',
   FAMILY_KINSHIP_CATASTROPHIC_ILLNESS = 'FAMILY_KINSHIP_CATASTROPHIC_ILLNESS',
-  FAMILY_KINSHIP_DISABILITY = "FAMILY_KINSHIP_DISABILITY",
   ENROLLMENT_FILE_TYPE_NEW_STUDENT = "ENROLLMENT_FILE_TYPE_NEW_STUDENT",
   ENROLLMENT_FILE_TYPE_OLD_STUDENT = "ENROLLMENT_FILE_TYPE_OLD_STUDENT",
   NATIONALITY = 'NATIONALITY',
@@ -127,12 +127,34 @@ export enum UsersIdentificationTypeStateEnum {
 }
 
 export enum CatalogueMaritalStatusEnum {
-  SINGLE = 'single'
+  SINGLE = 'single',
+  MARRIED = 'married',
+  WIDOWER = 'widower',
+  DIVORCED = 'divorced',
+  FREE_UNION = 'free_union'
 }
 
-export enum CatalogueEnrollmentFileTyeEnum {
-  IDENTIFICATION_REQUIREMENT = 'identification_requirement',
-  SOCIOECONOMIC_FORM = 'socioeconomic_form',
-  APPLICATION = 'application',
-  PAYMENT = 'payment',
+export enum CatalogueEthnicOriginEnum {
+  INDIGENOUS = 'indigenous',
+  AFRO_ECUADORIAN = 'afro_ecuadorian',
+  MONTUBIO = 'montubio',
+  HALF_BLOOD = 'half_blood',
+  WHITE = 'white'
+}
+
+export enum CatalogueTypeSchoolEnum {
+  FISCAL = 'fiscal',
+  FISCOMISIONAL = 'fiscomisional',
+  PARTICULAR = 'particular',
+  MUNICIPAL = 'municipal',
+}
+
+export enum CatalogueStudentLiveEnum {
+  ALONE = 'alone',
+  BOTH_PARENTS = 'both_parents',
+  MOTHER = 'mother',
+  FATHER = 'father',
+  SPOUSE = 'spouse',
+  GRANDPARENTS = 'grandparents',
+  OTHER = 'other',
 }
