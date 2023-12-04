@@ -45,7 +45,12 @@
         </div>
       </td>
       <td class="text-center">
-        <app-file-upload *ngIf="enrollment" [acceptAttributes]="'.pdf'"
+        <app-file-upload *ngIf="enrollment && rowData['code']!='photo'" [acceptAttributes]="'.pdf,image/*'"
+                         [modelId]="enrollment.id"
+                         [typeId]="rowData.id"
+                         (flagUploadFiles)="findFilesByModel()">
+        </app-file-upload>
+        <app-file-upload *ngIf="enrollment && rowData['code']==='photo'" [acceptAttributes]="'image/*'"
                          [modelId]="enrollment.id"
                          [typeId]="rowData.id"
                          (flagUploadFiles)="findFilesByModel()">

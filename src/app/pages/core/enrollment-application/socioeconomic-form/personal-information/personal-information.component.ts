@@ -231,8 +231,8 @@ export class PersonalInformationComponent implements OnInit {
 
     this.ethnicOriginField.valueChanges.subscribe((value) => {
       if (value?.code === CatalogueEthnicOriginEnum.INDIGENOUS) {
-        this.indigenousNationalityField.addValidators(Validators.required);
-        this.townField.addValidators(Validators.required);
+        // this.indigenousNationalityField.addValidators(Validators.required);
+        // this.townField.addValidators(Validators.required);
       } else {
         this.indigenousNationalityField.removeValidators(Validators.required);
         this.townField.removeValidators(Validators.required);
