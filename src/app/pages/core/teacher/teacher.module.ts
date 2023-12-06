@@ -24,11 +24,13 @@ import {TeacherListComponent} from "./teacher-list/teacher-list.component";
 import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
 import {PanelModule} from "primeng/panel";
 import {DividerModule} from "primeng/divider";
+import { SubjectGradeComponent } from './subject-grade/subject-grade.component';
 
 @NgModule({
   declarations: [
     TeacherListComponent,
     TeacherFormComponent,
+    SubjectGradeComponent,
   ],
   imports: [
     NgCommonModule,
