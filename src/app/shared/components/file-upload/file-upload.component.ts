@@ -22,6 +22,7 @@ export class FileUploadComponent {
   @Output() selectedType: EventEmitter<CatalogueModel> = new EventEmitter<CatalogueModel>();
   @Input() typeId!: string;
   protected readonly PrimeIcons = PrimeIcons;
+  protected type: FormControl = new FormControl<any>(null);
 
   constructor(private filesHttpService: FilesHttpService, protected messageService: MessageService) {
   }
@@ -32,6 +33,14 @@ export class FileUploadComponent {
       formData.append('file', event.files[0]);
 
       this.filesHttpService.uploadFile(this.modelId, this.typeId, formData).subscribe(response => {
+        this.flagUploadFiles.emit(true);
+        uploadFiles.clear();
+      }, error => uploadFiles.clear());
+    } else if (this.type.value) {
+      const formData = new FormData();
+      formData.append('file', event.files[0]);
+
+      this.filesHttpService.uploadFile(this.modelId, this.type.value.id, formData).subscribe(response => {
         this.flagUploadFiles.emit(true);
         uploadFiles.clear();
       }, error => uploadFiles.clear());
