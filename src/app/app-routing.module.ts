@@ -16,6 +16,11 @@ const routes: Routes = [
         loadChildren: () => import('./pages/core/core.module').then(m => m.CoreModule),
       },
       {
+        path: 'moodle',
+        title: 'Moodle',
+        loadChildren: () => import('./pages/moodle/moodle.module').then(m => m.MoodleModule),
+      },
+      {
         path: 'administration',
         title: 'Administration',
         loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
