@@ -1,18 +1,20 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ExitGuard} from "@shared/guards";
-import {TeacherListComponent} from "./teacher-list/teacher-list.component";
-import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
+import {RolesEnum} from "@shared/enums";
+import {RoleGuard} from "@shared/guards";
 
 const routes: Routes = [
   {
-    path: '',
-    component: TeacherListComponent
+    path: 'teacher-distributions',
+    loadChildren: () => import('./teacher-distribution/teacher-distribution.module').then(m => m.TeacherDistributionModule),
+    canActivate: [RoleGuard],
+    data: {roles: [RolesEnum.TEACHER]}
   },
   {
-    path: ':id',
-    component: TeacherFormComponent,
-    canDeactivate: [ExitGuard]
+    path: 'teacher-subjects',
+    loadChildren: () => import('./teacher-subject/teacher-subject.module').then(m => m.TeacherSubjectModule),
+    canActivate: [RoleGuard],
+    data: {roles: [RolesEnum.TEACHER]}
   },
 ];
 

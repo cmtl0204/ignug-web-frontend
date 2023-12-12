@@ -1,19 +1,14 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ExitGuard} from "@shared/guards";
-import {StudentListComponent} from './student-list/student-list.component';
-import {StudentFormComponent} from './student-form/student-form.component';
-import {EnrollmentApplicationComponent} from "../enrollment-application/enrollment-application.component";
+import {RoleGuard} from "@shared/guards";
+import {RolesEnum} from "@shared/enums";
 
 const routes: Routes = [
   {
-    path: '',
-    component: StudentListComponent
-  },
-  {
-    path: ':id',
-    component: StudentFormComponent,
-    canDeactivate: [ExitGuard]
+    path: 'enrollment-application',
+    loadChildren: () => import('./enrollment-application/enrollment-application.module').then(m => m.EnrollmentApplicationModule),
+    canActivate: [RoleGuard],
+    data: {roles: [RolesEnum.STUDENT]}
   },
 ];
 

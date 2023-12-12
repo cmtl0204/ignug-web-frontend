@@ -15,76 +15,86 @@ export class RoutesService {
   constructor(private router: Router) {
   }
 
-  get administration(): string {
-    return '/administration';
-  }
-
   get core(): string {
     return '/core';
   }
 
+  /** Admin Role **/
+  /** Teacher Role **/
+  /** Student Role **/
+  /** Coordinator Administrative Role **/
+  /** Rector Role**/
+  /** Welfare Role **/
+  get admin(): string {
+    return '/admin/';
+  }
+
   get users(): string {
-    return this.administration + '/users';
+    return this.admin + 'users';
+  }
+
+  /** Coordinator Career Role **/
+  get institutions(): string {
+    return this.core + '/coordinator-career/institutions';
   }
 
   get careers(): string {
-    return this.core + '/careers';
+    return this.core + '/coordinator-career/careers';
   }
 
   get curriculums(): string {
-    return this.core + '/curriculums';
+    return this.core + '/coordinator-career/curriculums';
   }
 
-  get enrollments(): string {
-    return this.core + '/enrollments';
+  get subjects(): string {
+    return this.core + '/coordinator-career/subjects';
+  }
+
+  get schoolPeriods(): string {
+    return this.core + '/coordinator-career/school-periods';
+  }
+
+  /** Secretary Role **/
+  get enrollments(): string
+  {
+    return this.core + '/secretary/enrollments';
   }
 
   enrollmentsDetailList(enrollmentId: string): string {
-    return this.core + `/enrollments/${enrollmentId}/enrollment-details/`;
+    return this.core + `/secretary/enrollments/${enrollmentId}/enrollment-details`;
   }
 
   enrollmentsDetailForm(enrollmentId: string): string {
-    return this.core + `/enrollments/${enrollmentId}/enrollment-details/`;
+    return this.core + `/secretary/enrollments/${enrollmentId}/enrollment-details`;
   }
 
+  /** Reviewer Role **/
   get inscriptions(): string {
-    return this.core + '/inscriptions';
+    return this.core + '/reviewer/inscriptions';
   }
 
   inscriptionsDetailList(enrollmentId: string): string {
-    return this.core + `/inscriptions/${enrollmentId}/inscription-details`;
+    return this.core + `/reviewer/inscriptions/${enrollmentId}/inscription-details`;
   }
 
   inscriptionsDetailForm(enrollmentId: string): string {
-    return this.core + `/inscriptions/${enrollmentId}/inscription-details`;
+    return this.core + `/reviewer/inscriptions/${enrollmentId}/inscription-details`;
   }
 
   get events(): string {
     return this.core + '/events';
   }
 
-  get institutions(): string {
-    return this.core + '/institutions';
-  }
-
-  get schoolPeriods(): string {
-    return this.core + '/school-periods';
-  }
-
-  get students(): string {
-    return this.core + '/students';
-  }
-
-  get subjects(): string {
-    return this.core + '/subjects';
+  get studentsCoordinatorCareer(): string {
+    return this.core + '/coordinator-career/students';
   }
 
   get parallelCapacity(): string {
     return this.core + '/careers/parallel-capacity';
   }
 
-  get teachers(): string {
-    return this.core + '/teachers';
+  get teachersCoordinatorCareer(): string {
+    return this.core + '/coordinator-career/teachers';
   }
 
   get teacherDistributions(): string {
@@ -95,10 +105,7 @@ export class RoutesService {
     return '/common';
   }
 
-  get appRoutes(): string {
-    return '';
-  }
-
+  /** Login **/
   login() {
     this.router.navigateByUrl(`/login`);
   }
@@ -115,6 +122,7 @@ export class RoutesService {
     this.router.navigateByUrl(`/profile`);
   }
 
+  /** Dashboards **/
   dashboardAdmin() {
     this.router.navigateByUrl(`/core/dashboards/admin`);
   }
@@ -128,7 +136,7 @@ export class RoutesService {
   }
 
   dashboardStudent() {
-    this.router.navigateByUrl(`/core/enrollment-application`);
+    this.router.navigateByUrl(`/core/student/enrollment-application`);
   }
 
   dashboardCoordinatorAdministrative() {
@@ -140,11 +148,11 @@ export class RoutesService {
   }
 
   dashboardReviewer() {
-    this.router.navigateByUrl(`/core/inscriptions`);
+    this.router.navigateByUrl(`/core/reviewer/inscriptions`);
   }
 
   dashboardSecretary() {
-    this.router.navigateByUrl(`/core/enrollments`);
+    this.router.navigateByUrl(`/core/secretary/enrollments`);
   }
 
   dashboardWelfare() {

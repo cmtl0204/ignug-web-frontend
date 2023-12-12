@@ -19,18 +19,15 @@ import {SidebarModule} from "primeng/sidebar";
 import {PanelMenuModule} from "primeng/panelmenu";
 import {InputNumberModule} from 'primeng/inputnumber';
 import { CalendarModule } from 'primeng/calendar';
+
 // Components
-import {TeacherListComponent} from "./teacher-list/teacher-list.component";
-import {TeacherFormComponent} from "./teacher-form/teacher-form.component";
+import {TeacherListComponent} from "../coordinator-career/teacher/teacher-list/teacher-list.component";
+import {TeacherFormComponent} from "../coordinator-career/teacher/teacher-form/teacher-form.component";
 import {PanelModule} from "primeng/panel";
 import {DividerModule} from "primeng/divider";
-import { SubjectGradeComponent } from './subject-grade/subject-grade.component';
 
 @NgModule({
   declarations: [
-    TeacherListComponent,
-    TeacherFormComponent,
-    SubjectGradeComponent,
   ],
   imports: [
     NgCommonModule,

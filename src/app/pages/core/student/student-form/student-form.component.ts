@@ -47,7 +47,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
     private studentsHttpService: StudentsHttpService
   ) {
     this.breadcrumbService.setItems([
-      {label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.students]},
+      {label: BreadcrumbEnum.STUDENTS, routerLink: [this.routesService.studentsCoordinatorCareer]},
       {label: BreadcrumbEnum.FORM},
     ]);
 
@@ -59,7 +59,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   }
 
   async onExit(): Promise<boolean> {
-    if (this.form.touched || this.form.dirty) {
+    if (this.form.touched && this.form.dirty) {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
@@ -147,7 +147,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   }
 
   back(): void {
-    this.router.navigate([this.routesService.students]);
+    this.router.navigate([this.routesService.studentsCoordinatorCareer]);
   }
 
   /** Actions **/

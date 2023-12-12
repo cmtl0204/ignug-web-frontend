@@ -102,10 +102,10 @@ export class StudentListComponent implements OnInit {
 
   /** Redirects **/
   redirectCreateForm() {
-    this.router.navigate([this.routesService.students, 'new']);
+    this.router.navigate([this.routesService.studentsCoordinatorCareer, 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate([this.routesService.students, id]);
+    this.router.navigate([this.routesService.studentsCoordinatorCareer, id]);
   }
 }

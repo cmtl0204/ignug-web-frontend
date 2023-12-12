@@ -1,15 +1,18 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {BlankComponent, MainComponent} from '@layout';
-import {RoleGuard, TokenGuard} from '@shared/guards';
 
 const routes: Routes = [
   {
     path: '',
     component: MainComponent,
-    canActivate: [TokenGuard],
     children: [
       {path: '', redirectTo: '/', pathMatch: 'full'},
+      {
+        path: 'admin',
+        title: 'Admin',
+        loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
+      },
       {
         path: 'core',
         title: 'Core',
@@ -19,12 +22,7 @@ const routes: Routes = [
         path: 'moodle',
         title: 'Moodle',
         loadChildren: () => import('./pages/moodle/moodle.module').then(m => m.MoodleModule),
-      },
-      {
-        path: 'administration',
-        title: 'Administration',
-        loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthModule),
-      },
+      }
     ]
   },
   {
@@ -41,14 +39,17 @@ const routes: Routes = [
   },
   {
     path: 'login',
+    title: 'Login',
     redirectTo: '/auth/authentication/login'
   },
   {
     path: 'password-reset',
+    title: 'Password Reset',
     redirectTo: '/auth/authentication/password-reset'
   },
   {
     path: 'profile',
+    title: 'Profile',
     redirectTo: '/administration/users/profile'
   },
   {

@@ -65,7 +65,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   async onExit(): Promise<boolean> {
-    if (this.form.touched || this.form.dirty) {
+    if (this.form.touched && this.form.dirty) {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
