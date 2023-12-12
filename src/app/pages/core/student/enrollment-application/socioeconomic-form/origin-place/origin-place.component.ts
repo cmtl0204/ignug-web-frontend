@@ -140,11 +140,10 @@ export class OriginPlaceComponent implements OnInit {
     this.studentsHttpService.updateOriginPlace(
       this.id,
       this.form.value
-    ).subscribe();
+    ).subscribe(() => this.next.emit());
 //{
 //       next: value => this.next.emit()
 //     }
-    this.next.emit();
   }
 
   validateForm() {

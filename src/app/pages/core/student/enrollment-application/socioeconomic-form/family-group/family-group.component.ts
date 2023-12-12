@@ -103,8 +103,7 @@ export class FamilyGroupComponent {
     this.studentsHttpService.updateFamilyGroup(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

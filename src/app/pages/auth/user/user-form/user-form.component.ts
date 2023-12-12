@@ -6,7 +6,13 @@ import {AuthHttpService, AuthService, RolesHttpService, UsersHttpService} from '
 import {BreadcrumbService, CataloguesHttpService, CoreService, MessageService, RoutesService} from '@services/core';
 import {OnExitInterface} from '@shared/interfaces';
 import {PrimeIcons} from "primeng/api";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum, UsersIdentificationTypeStateEnum} from "@shared/enums";
+import {
+  BreadcrumbEnum,
+  CatalogueTypeEnum,
+  ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum,
+  SkeletonEnum,
+  UsersIdentificationTypeStateEnum
+} from "@shared/enums";
 import {CatalogueModel} from "@models/core";
 
 @Component({
@@ -17,6 +23,9 @@ import {CatalogueModel} from "@models/core";
 })
 export class UserFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
   protected form: FormGroup;
@@ -65,7 +74,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   async onExit(): Promise<boolean> {
-    if (this.form.touched && this.form.dirty) {
+    if (this.form.touched || this.form.dirty) {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
@@ -88,10 +97,7 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   get newForm(): FormGroup {
     return this.formBuilder.group({
       email: [null, [Validators.required, Validators.email]],
-      identification: [{
-        value: null,
-        disabled: true
-      }, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
+      identification: [null, [Validators.required, Validators.minLength(10), Validators.maxLength(10)]],
       identificationType: [null, [Validators.required]],
       lastname: [null, [Validators.required]],
       name: [null, [Validators.required]],
@@ -103,6 +109,8 @@ export class UserFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
+    this.usernameField.setValue(this.identificationField.value);
+
     if (this.form.valid) {
       if (this.id) {
         this.update(this.form.value);

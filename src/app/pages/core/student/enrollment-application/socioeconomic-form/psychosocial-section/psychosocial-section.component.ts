@@ -29,7 +29,7 @@ import {
   styleUrls: ['./psychosocial-section.component.scss']
 })
 export class PsychosocialSectionComponent implements OnInit{
-  @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
+  @Output() next: EventEmitter<number> = new EventEmitter<number>();
   @Input() student!: StudentModel;
   @Input() id!: string;
   @Input() enrollment!: EnrollmentModel;
@@ -123,9 +123,7 @@ export class PsychosocialSectionComponent implements OnInit{
     this.studentsHttpService.updatePsychosocialSection(
       this.id,
       this.form.value
-    ).subscribe();
-
-    this.nextOut.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

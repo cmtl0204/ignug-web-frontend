@@ -90,7 +90,7 @@ export class AuthHttpService {
   }
 
   findCatalogues() {
-    let catalogues = localStorage.getItem('catalogues');
+    let catalogues = sessionStorage.getItem('catalogues');
 
     if (!catalogues || this.coreService.version !== this.coreService.newVersion) {
       this.cataloguesHttpService.findCache().subscribe();
@@ -98,7 +98,7 @@ export class AuthHttpService {
   }
 
   findLocations() {
-    let locations = localStorage.getItem('locations');
+    let locations = sessionStorage.getItem('locations');
 
     if (!locations || this.coreService.version !== this.coreService.newVersion) {
       this.locationsHttpService.findCache().subscribe();

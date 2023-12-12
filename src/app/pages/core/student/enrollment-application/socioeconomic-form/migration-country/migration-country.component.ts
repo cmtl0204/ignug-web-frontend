@@ -108,8 +108,7 @@ export class MigrationCountryComponent {
     this.studentsHttpService.updateMigrationCountry(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
     }
 
   validateForm() {

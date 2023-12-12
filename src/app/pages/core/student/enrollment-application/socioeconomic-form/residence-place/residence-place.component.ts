@@ -1,17 +1,13 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import {PrimeIcons, MenuItem} from 'primeng/api';
+import {AbstractControl, FormBuilder, FormGroup, Validators,} from '@angular/forms';
+import {PrimeIcons} from 'primeng/api';
 import {EnrollmentModel, LocationModel, StudentModel} from '@models/core';
 import {
   CataloguesHttpService,
-  CoreService, LocationsHttpService,
+  CoreService,
+  LocationsHttpService,
   MessageService,
-  StudentsHttpService,
+  StudentsHttpService
 } from '@services/core';
 import {CatalogueEnrollmentStateEnum} from "@shared/enums";
 
@@ -132,9 +128,7 @@ export class ResidencePlaceComponent {
     this.studentsHttpService.updateResidencePlace(
       this.id,
       this.form.value
-    ).subscribe();
-
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

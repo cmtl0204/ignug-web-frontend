@@ -102,8 +102,7 @@ export class AdditionalDataFormComponent {
     this.studentsHttpService.updateAdittionalEconomicData(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

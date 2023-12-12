@@ -12,7 +12,13 @@ import {
   RoutesService,
   InstitutionsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
+import {
+    BreadcrumbEnum,
+    CatalogueTypeEnum,
+    ClassButtonActionEnum,
+    IconButtonActionEnum, LabelButtonActionEnum,
+    SkeletonEnum
+} from "@shared/enums";
 import {Expressions} from "@shared/regular-expresions";
 
 @Component({
@@ -54,7 +60,7 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   }
 
   async onExit(): Promise<boolean> {
-    if (this.form.touched && this.form.dirty) {
+    if (this.form.touched || this.form.dirty) {
       return await this.messageService.questionOnExit().then(result => result.isConfirmed);
     }
     return true;
@@ -209,4 +215,8 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   get webField(): AbstractControl {
     return this.form.controls['web'];
   }
+
+    protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+    protected readonly IconButtonActionEnum = IconButtonActionEnum;
+    protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
 }

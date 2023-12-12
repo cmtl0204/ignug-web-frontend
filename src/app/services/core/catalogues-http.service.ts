@@ -85,14 +85,14 @@ export class CataloguesHttpService {
     const url = `${this.API_URL}/cache/get`;
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        localStorage.setItem('catalogues', JSON.stringify(response.data));
+        sessionStorage.setItem('catalogues', JSON.stringify(response.data));
         return true;
       })
     );
   }
 
   findByType(type: CatalogueTypeEnum): CatalogueModel[] {
-    const catalogues: CatalogueModel[] = JSON.parse(String(localStorage.getItem('catalogues')));
+    const catalogues: CatalogueModel[] = JSON.parse(String(sessionStorage.getItem('catalogues')));
 
     return catalogues.filter(catalogue => catalogue.type === type);
   }

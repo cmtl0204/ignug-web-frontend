@@ -92,8 +92,7 @@ export class FamilyHealthComponent {
     this.studentsHttpService.updateFamilyHealth(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

@@ -6,7 +6,7 @@ import {SelectUserDto, UserModel} from '@models/auth';
 import {ColumnModel, PaginatorModel} from '@models/core';
 import {AuthService, UsersHttpService} from '@services/auth';
 import {BreadcrumbService, CoreService, MessageService} from '@services/core';
-import {BreadcrumbEnum} from "@shared/enums";
+import {BreadcrumbEnum, IconButtonActionEnum, LabelButtonActionEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-user-list',
@@ -58,43 +58,36 @@ export class UserListComponent implements OnInit {
 
   get buildColumns(): ColumnModel[] {
     return [
-      {field: 'username', header: 'Username'},
-      {field: 'name', header: 'Name'},
-      {field: 'lastname', header: 'Lastname'},
-      {field: 'email', header: 'Email'},
+      {field: 'username', header: 'Usuario'},
+      {field: 'lastname', header: 'Apellidos'},
+      {field: 'name', header: 'Nombres'},
+      {field: 'email', header: 'Correo'},
       {field: 'roles', header: 'Roles'},
-      {field: 'suspendedAt', header: 'State'}
+      {field: 'suspendedAt', header: 'Estado'}
     ];
   }
 
   get buildButtonActions(): MenuItem[] {
     return [
       {
-        label: 'Actualizar',
-        icon: PrimeIcons.PENCIL,
+        label: LabelButtonActionEnum.UPDATE,
+        icon: IconButtonActionEnum.UPDATE,
         command: () => {
           if (this.selectedUser?.id) this.redirectEditForm(this.selectedUser.id);
         },
       },
       {
-        label: 'Eliminar',
-        icon: PrimeIcons.TRASH,
+        label: LabelButtonActionEnum.DELETE,
+        icon: IconButtonActionEnum.DELETE,
         command: () => {
           if (this.selectedUser?.id) this.remove(this.selectedUser.id);
         },
       },
       {
-        label: 'Suspender',
-        icon: PrimeIcons.LOCK,
+        label: LabelButtonActionEnum.SUSPEND,
+        icon: IconButtonActionEnum.SUSPEND,
         command: () => {
           if (this.selectedUser?.id) this.suspend(this.selectedUser.id);
-        },
-      },
-      {
-        label: 'Reactivar',
-        icon: PrimeIcons.LOCK_OPEN,
-        command: () => {
-          if (this.selectedUser?.id) this.reactivate(this.selectedUser.id);
         },
       }
     ];
@@ -105,11 +98,11 @@ export class UserListComponent implements OnInit {
   }
 
   redirectCreateForm() {
-    this.router.navigate(['/admin/users', 'new']);
+    this.router.navigate(['/administration/users', 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate(['/admin/users', id]);
+    this.router.navigate(['/administration/users', id]);
   }
 
   remove(id: string) {

@@ -99,8 +99,7 @@ export class AcademicDataComponent implements OnInit {
     this.studentsHttpService.updateAcademicData(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

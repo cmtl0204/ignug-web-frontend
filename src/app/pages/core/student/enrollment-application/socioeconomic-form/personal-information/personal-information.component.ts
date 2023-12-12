@@ -163,9 +163,7 @@ export class PersonalInformationComponent implements OnInit {
     this.studentsHttpService.updatePersonalInformation(
       this.id,
       this.form.value
-    ).subscribe();
-
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

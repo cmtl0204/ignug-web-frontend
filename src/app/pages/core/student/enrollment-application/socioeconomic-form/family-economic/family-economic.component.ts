@@ -90,8 +90,7 @@ export class FamilyEconomicComponent {
     this.studentsHttpService.updateFamilyEconomic(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
   validateForm() {

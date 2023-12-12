@@ -234,8 +234,7 @@ export class HousingDataComponent {
     this.studentsHttpService.updateHousingData(
       this.id,
       this.form.value
-    ).subscribe();
-    this.next.emit();
+    ).subscribe(() => this.next.emit());
   }
 
 

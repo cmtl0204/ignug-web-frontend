@@ -86,32 +86,32 @@ export class LocationsHttpService {
 
     return this.httpClient.get<ServerResponse>(url).pipe(
       map(response => {
-        localStorage.setItem('locations', JSON.stringify(response.data));
+        sessionStorage.setItem('locations', JSON.stringify(response.data));
         return true;
       })
     );
   }
 
   findCountries(): LocationModel[] {
-    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+    const locations: LocationModel[] = JSON.parse(String(sessionStorage.getItem('locations')));
 
     return locations.filter(location => location.level === 1);
   }
 
   findProvincesByCountry(countryId: string): LocationModel[] {
-    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+    const locations: LocationModel[] = JSON.parse(String(sessionStorage.getItem('locations')));
 
     return locations.filter(location => location.level === 2 && location.parentId === countryId);
   }
 
   findCantonsByProvince(provinceId: string): LocationModel[] {
-    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+    const locations: LocationModel[] = JSON.parse(String(sessionStorage.getItem('locations')));
 
     return locations.filter(location => location.level === 3 && location.parentId === provinceId);
   }
 
   findParishesByCanton(cantonId: string): LocationModel[] {
-    const locations: LocationModel[] = JSON.parse(String(localStorage.getItem('locations')));
+    const locations: LocationModel[] = JSON.parse(String(sessionStorage.getItem('locations')));
 
     return locations.filter(location => location.level === 4 && location.parentId === cantonId);
   }

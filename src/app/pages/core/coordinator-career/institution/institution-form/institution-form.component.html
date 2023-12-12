@@ -1,16 +1,41 @@
 <app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
 
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-left">
+    <app-header-form [id]="id"></app-header-form>
+  </div>
+  <div class="p-toolbar-group-right">
+    <button pButton pRipple type="button"
+            (click)="back()"
+            [icon]="IconButtonActionEnum.CANCEL"
+            [label]="LabelButtonActionEnum.CANCEL"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.CANCEL]"></button>
+    <p-divider layout="vertical"></p-divider>
+    <button pButton pRipple type="button"
+            (click)="onSubmit()"
+            [icon]="IconButtonActionEnum.SAVE"
+            [label]="LabelButtonActionEnum.SAVE"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.SAVE]"></button>
+  </div>
+</p-toolbar>
+
 <p-panel *ngIf="!coreService.isLoading" class="p-fluid">
-  <ng-template pTemplate="header">
-    <app-header-form [id]="id" ></app-header-form>
-  </ng-template>
-
-  <p-divider></p-divider>
-
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <!-- denomination & name & shortName -->
     <div class="formgrid grid">
-      <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="name" label="Nombre Completo:" [required]="nameField"></label>
+        <input pInputText type="text" id="name" formControlName="name"/>
+        <small appErrorMessage
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-3 lg:col-3 md:col-3 sm:col-12">
         <label appLabel for="denomination" label="Denominación:" [required]="denominationField"></label>
         <app-help-field (mouseenter)="opDenominationField.toggle($event)" (mouseleave)="opDenominationField.hide()"></app-help-field>
         <input pInputText type="text" id="denomination" formControlName="denomination"/>
@@ -18,16 +43,6 @@
                [errors]="denominationField.errors"
                [touched]="denominationField.touched"
                [dirty]="denominationField.dirty">
-        </small>
-      </div>
-
-      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
-        <input pInputText type="text" id="name" formControlName="name"/>
-        <small appErrorMessage
-               [errors]="nameField.errors"
-               [touched]="nameField.touched"
-               [dirty]="nameField.dirty">
         </small>
       </div>
 
@@ -165,24 +180,6 @@
                [touched]="sloganField.touched"
                [dirty]="sloganField.dirty">
         </small>
-      </div>
-    </div>
-
-    <!-- Buttons Actions-->
-    <div class="formgrid grid">
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="button"
-                label="Cancelar"
-                class="p-button-info p-button-outlined"
-                [icon]="PrimeIcons.ARROW_LEFT"
-                [loading]="coreService.isLoading"
-                (click)="back()"></button>
-      </div>
-
-      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <button pButton pRipple type="submit"
-                label="Guardar" [icon]="PrimeIcons.SAVE"
-                [loading]="coreService.isLoading"></button>
       </div>
     </div>
   </form>
