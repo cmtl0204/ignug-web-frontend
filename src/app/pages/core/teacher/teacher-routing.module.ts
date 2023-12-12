@@ -5,12 +5,6 @@ import {RoleGuard} from "@shared/guards";
 
 const routes: Routes = [
   {
-    path: 'teacher-distributions',
-    loadChildren: () => import('./teacher-distribution/teacher-distribution.module').then(m => m.TeacherDistributionModule),
-    canActivate: [RoleGuard],
-    data: {roles: [RolesEnum.TEACHER]}
-  },
-  {
     path: 'teacher-subjects',
     loadChildren: () => import('./teacher-subject/teacher-subject.module').then(m => m.TeacherSubjectModule),
     canActivate: [RoleGuard],

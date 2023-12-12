@@ -46,6 +46,12 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: {roles: [RolesEnum.COORDINATOR_CAREER]}
   },
+  {
+    path: 'teacher-distributions',
+    loadChildren: () => import('./teacher-distribution/teacher-distribution.module').then(m => m.TeacherDistributionModule),
+    canActivate: [RoleGuard],
+    data: {roles: [RolesEnum.COORDINATOR_CAREER]}
+  },
 ];
 
 @NgModule({

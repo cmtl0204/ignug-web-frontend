@@ -26,7 +26,7 @@ export class SocioeconomicFormComponent implements OnInit {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected enrollment!: EnrollmentModel;
-  protected isNew: boolean = false;
+  protected isNew: boolean = true;
   protected registered: boolean = false;
   protected activeIndex: number = 0;
   protected enrollmentState!: EnrollmentStateModel;
@@ -66,7 +66,7 @@ export class SocioeconomicFormComponent implements OnInit {
       .subscribe(enrollment => {
         this.enrollment = enrollment;
 
-        if (!enrollment) this.isNew = true;
+        this.isNew = !enrollment;
 
         if (this.enrollment?.enrollmentStates) {
           this.registered = true;
