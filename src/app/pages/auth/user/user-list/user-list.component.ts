@@ -98,11 +98,11 @@ export class UserListComponent implements OnInit {
   }
 
   redirectCreateForm() {
-    this.router.navigate(['/administration/users', 'new']);
+    this.router.navigate(['/admin/users', 'new']);
   }
 
   redirectEditForm(id: string) {
-    this.router.navigate(['/administration/users', id]);
+    this.router.navigate(['/admin/users', id]);
   }
 
   remove(id: string) {

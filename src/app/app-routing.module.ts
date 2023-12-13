@@ -50,7 +50,7 @@ const routes: Routes = [
   {
     path: 'profile',
     title: 'Profile',
-    redirectTo: '/administration/users/profile'
+    redirectTo: '/admin/users/profile'
   },
   {
     path: '**',
