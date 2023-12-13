@@ -173,9 +173,8 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
       if (this.dateField.value)
         this.dateField.setValue(new Date(this.dateField.value));
 
-      if (enrollment.enrollmentDetailStates.find(enrollmentDetailState =>
-        enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
-        enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
+      if (enrollment.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+        enrollment.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REVOKED) {
         this.form.disable();
       }
     });

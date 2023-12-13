@@ -3,7 +3,7 @@ import {Router} from "@angular/router";
 import {PrimeIcons} from 'primeng/api';
 import {AuthHttpService, AuthService, MenusHttpService} from "@services/auth";
 import {MenuModel} from "@models/auth";
-import {CoreService, MessageService} from "@services/core";
+import {CoreService, MessageService, RoutesService} from "@services/core";
 
 @Component({
   selector: 'app-sidebar',
@@ -24,6 +24,7 @@ export class SidebarComponent implements OnInit {
     private readonly authHttpService: AuthHttpService,
     public readonly authService: AuthService,
     public readonly messageService: MessageService,
+    public readonly routes: RoutesService,
     private readonly router: Router) {
 
   }
@@ -40,11 +41,15 @@ export class SidebarComponent implements OnInit {
   }
 
   getMenus() {
-    this.menusHttpService.getMenusByRole(this.authService.role.id!).subscribe(
-      menus => {
-        this.menus = menus;
-      }
-    )
+    if (this.authService.role) {
+      this.menusHttpService.getMenusByRole(this.authService.role.id!).subscribe(
+        menus => {
+          this.menus = menus;
+        }
+      );
+    } else {
+      this.routes.login();
+    }
   }
 
   // lockMenu() {

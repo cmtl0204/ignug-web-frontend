@@ -54,9 +54,11 @@ export class InscriptionListComponent implements OnInit {
   protected schoolPeriods: SchoolPeriodModel[] = [];
   protected careers: CareerModel[] = [];
   protected academicPeriods: CatalogueModel[] = [];
+  protected enrollmentStates: CatalogueModel[] = [];
   protected selectedCareer: FormControl = new FormControl();
   protected selectedSchoolPeriod: FormControl = new FormControl();
   protected selectedAcademicPeriod: FormControl = new FormControl();
+  protected selectedEnrollmentState: FormControl = new FormControl();
   protected state: CatalogueModel[] = [];
   protected isVisible: boolean = false;
   protected isFileList: boolean = false;
@@ -97,6 +99,10 @@ export class InscriptionListComponent implements OnInit {
       this.findEnrollmentsByCareer();
     });
 
+    this.selectedEnrollmentState.valueChanges.subscribe(value => {
+      this.findEnrollmentsByCareer();
+    });
+
     this.selectedSchoolPeriod.patchValue(this.schoolPeriodsService.openSchoolPeriod);
 
     this.selectedCareer.patchValue(this.careersService.career);
@@ -106,6 +112,7 @@ export class InscriptionListComponent implements OnInit {
     this.findEnrollmentsByCareer();
     this.findSchoolPeriods();
     this.findAcademicPeriods();
+    this.findEnrollmentStates();
     this.findCareers();
     this.loadFileTypes();
   }
@@ -126,10 +133,30 @@ export class InscriptionListComponent implements OnInit {
     this.academicPeriods = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ACADEMIC_PERIOD);
   }
 
+  findEnrollmentStates() {
+    this.enrollmentStates = this.cataloguesHttpService.findByType(CatalogueTypeEnum.ENROLLMENTS_STATE);
+    this.enrollmentStates = this.enrollmentStates.sort(
+      function (a, b) {
+        if (a.name > b.name) {
+          return 1;
+        }
+        if (a.name < b.name) {
+          return -1;
+        }
+        return 0;
+      });
+  }
+
   /** Load Data **/
   findEnrollmentsByCareer(page: number = 0) {
     if (this.selectedCareer.value && this.selectedSchoolPeriod.value) {
-      this.careersHttpService.findEnrollmentsByCareer(this.selectedCareer.value.id, this.selectedSchoolPeriod.value.id, this.selectedAcademicPeriod.value?.id, page, this.search.value)
+      this.careersHttpService.findEnrollmentsByCareer(
+        this.selectedCareer.value.id,
+        this.selectedSchoolPeriod.value.id,
+        this.selectedAcademicPeriod.value?.id,
+        this.selectedEnrollmentState.value?.id,
+        page,
+        this.search.value)
         .subscribe((response) => {
           this.paginator = response.pagination!;
           this.items = response.data
@@ -147,7 +174,7 @@ export class InscriptionListComponent implements OnInit {
       {field: 'academicPeriod', header: 'Periodo académico'},
       {field: 'workday', header: 'Jornada'},
       {field: 'parallel', header: 'Paralelo'},
-      {field: 'enrollmentStates', header: 'Estado'}
+      {field: 'enrollmentState', header: 'Estado'}
     ];
   }
 
@@ -200,9 +227,8 @@ export class InscriptionListComponent implements OnInit {
     this.buttonActions = this.buildButtonActions;
     let index = -1;
 
-    if (item.enrollmentStates.find(enrollmentState =>
-      enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
-      enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED)) {
+    if (item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+      item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
       if (index > -1)
         this.buttonActions.splice(index, 1);
@@ -212,13 +238,13 @@ export class InscriptionListComponent implements OnInit {
         this.buttonActions.splice(index, 1);
     }
 
-    if (item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED)) {
+    if (item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
       if (index > -1)
         this.buttonActions.splice(index, 1);
     }
 
-    if (item.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED)) {
+    if (item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED);
       if (index > -1)
         this.buttonActions.splice(index, 1);

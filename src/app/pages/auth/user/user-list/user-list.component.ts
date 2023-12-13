@@ -89,7 +89,14 @@ export class UserListComponent implements OnInit {
         command: () => {
           if (this.selectedUser?.id) this.suspend(this.selectedUser.id);
         },
-      }
+      },
+      {
+        label: LabelButtonActionEnum.REACTIVATE,
+        icon: IconButtonActionEnum.REACTIVATE,
+        command: () => {
+          if (this.selectedUser?.id) this.reactivate(this.selectedUser.id);
+        },
+      },
     ];
   }
 
@@ -139,7 +146,7 @@ export class UserListComponent implements OnInit {
   suspend(id: string) {
     this.usersHttpService.suspend(id).subscribe(user => {
       const index = this.users.findIndex(user => user.id === id);
-      this.users[index].suspendedAt = user.suspendedAt;
+      this.users[index] = user;
     });
   }
 

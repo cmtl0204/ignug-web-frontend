@@ -1,11 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { PrimeIcons, MenuItem } from 'primeng/api';
+import {PrimeIcons, MenuItem} from 'primeng/api';
 import {CatalogueModel, EnrollmentModel, StudentModel} from '@models/core';
 import {
   CataloguesHttpService,
@@ -68,12 +68,11 @@ export class HousingDataComponent {
 
     this.validateForm();
 
-    if (this.enrollment?.enrollmentStates) {
-      if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
-          item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
+    if (this.enrollment?.enrollmentState) {
+      if (this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+        this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED) { //reviewer
         this.form.enable();
-      }else{
+      } else {
         this.form.disable();
       }
     }
@@ -100,54 +99,54 @@ export class HousingDataComponent {
 
   get newInformationStudentForm(): FormGroup {
     return this.formBuilder.group({
-      studentLive:[null, [Validators.required]],
+      studentLive: [null, [Validators.required]],
       homeOwnership: [null, [Validators.required]],
-      homeType:[null, [Validators.required]],
-      homeRoof:[null, [Validators.required]],
+      homeType: [null, [Validators.required]],
+      homeRoof: [null, [Validators.required]],
       homeFloor: [null, [Validators.required]],
       homeWall: [null, [Validators.required]],
-      isWaterService:[null, [Validators.required]],
+      isWaterService: [null, [Validators.required]],
       waterServiceType: [null],
       isElectricService: [null, [Validators.required]],
       electricServiceBlackout: [null],
-      isPhoneService:[null, [Validators.required]],
-      isSewerageService:[null, [Validators.required]],
-      sewerageServiceType:[null],
-      economicContribution:[null, [Validators.required]],
-      isFamilyEconomicAid:[null, [Validators.required]],
+      isPhoneService: [null, [Validators.required]],
+      isSewerageService: [null, [Validators.required]],
+      sewerageServiceType: [null],
+      economicContribution: [null, [Validators.required]],
+      isFamilyEconomicAid: [null, [Validators.required]],
       consumeNewsType: [null, [Validators.required]]
     });
   }
 
 
-  applyValidations(){
+  applyValidations() {
     this.isWaterServiceField.valueChanges.subscribe(value => {
-      if(value?.code === '1'){
+      if (value?.code === '1') {
         this.waterServiceTypeField.addValidators(Validators.required);
-     } else {
+      } else {
         this.waterServiceTypeField.removeValidators(Validators.required);
-     }
-     this.waterServiceTypeField.updateValueAndValidity();
-     })
+      }
+      this.waterServiceTypeField.updateValueAndValidity();
+    })
 
-     this.isElectricServiceField.valueChanges.subscribe(value => {
-      if(value?.code === '1'){
+    this.isElectricServiceField.valueChanges.subscribe(value => {
+      if (value?.code === '1') {
         this.electricServiceBlackoutField.addValidators(Validators.required);
-     } else {
+      } else {
         this.electricServiceBlackoutField.removeValidators(Validators.required);
-     }
-     this.electricServiceBlackoutField.updateValueAndValidity();
-     })
+      }
+      this.electricServiceBlackoutField.updateValueAndValidity();
+    })
 
-     this.isSewerageServiceField.valueChanges.subscribe(value => {
-      if(value?.code === '1'){
+    this.isSewerageServiceField.valueChanges.subscribe(value => {
+      if (value?.code === '1') {
         this.sewerageServiceTypeField.addValidators(Validators.required);
-     } else {
+      } else {
         this.sewerageServiceTypeField.removeValidators(Validators.required);
-     }
-     this.sewerageServiceTypeField.updateValueAndValidity();
-     })
-    }
+      }
+      this.sewerageServiceTypeField.updateValueAndValidity();
+    })
+  }
 
   loadConsumeNewsTypes(): void {
     this.consumeNewsTypes = this.cataloguesHttpService.findByType(
@@ -223,7 +222,7 @@ export class HousingDataComponent {
 
   onSubmit(): void {
     if (this.validateForm()) {
-        this.update();
+      this.update();
     } else {
       this.form.markAllAsTouched();
       this.messageService.errorsFields(this.formErrors);

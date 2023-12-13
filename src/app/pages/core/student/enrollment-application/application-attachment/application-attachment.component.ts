@@ -74,10 +74,8 @@ export class ApplicationAttachmentComponent implements OnInit {
     this.studentsHttpService.findEnrollmentByStudent(this.authService.auth.student.id).subscribe(enrollment => {
       this.enrollment = enrollment;
 
-      this.enabled = this.enrollment?.enrollmentStates.some(enrollmentState =>
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED
-        || enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED
-      );
+      this.enabled = this.enrollment?.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED
+        || this.enrollment?.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED;
 
       this.findFilesByModel();
     })
@@ -87,8 +85,7 @@ export class ApplicationAttachmentComponent implements OnInit {
     this.studentsHttpService.findEnrollmentDetailsByStudent(this.authService.auth.student.id)
       .subscribe(enrollmentDetails => {
         this.isOldStudent = enrollmentDetails.some(enrollmentDetail => {
-          return enrollmentDetail.enrollmentDetailStates.some(enrollmentDetailState =>
-            enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED)
+          return enrollmentDetail.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED;
         });
 
         this.loadFileTypes();

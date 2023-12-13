@@ -124,11 +124,11 @@ export class InscriptionDetailListComponent implements OnInit {
 
   findEnrollment(): void {
     this.enrollmentsHttpService.findOne(this.enrollmentId).subscribe((enrollment) => {
-      if (enrollment.enrollmentStates) {
-        const exist = enrollment.enrollmentStates.find(item =>
-          item.state.code === CatalogueEnrollmentStateEnum.ENROLLED || item.state.code === CatalogueEnrollmentStateEnum.REVOKED)
+      if (enrollment.enrollmentState) {
+        const exist = enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
+          enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED
 
-        this.enrolledOrRevoked = exist ? true : false;
+        this.enrolledOrRevoked = exist;
       }
     });
   }
@@ -141,7 +141,7 @@ export class InscriptionDetailListComponent implements OnInit {
       {field: 'workday', header: 'Jornada'},
       {field: 'parallel', header: 'Paralelo'},
       {field: 'type', header: 'Tipo de Matrícula'},
-      {field: 'enrollmentDetailStates', header: 'Estado'},
+      {field: 'enrollmentDetailState', header: 'Estado'},
       {field: 'observation', header: 'Observaciones'}
     ];
   }
@@ -191,7 +191,7 @@ export class InscriptionDetailListComponent implements OnInit {
       this.buttonActions = [];
     }
 
-    if (!item.enrollmentDetailStates.find(enrollmentDetailState => enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REQUEST_SENT)) {
+    if (item.enrollmentDetailState.state.code !== CatalogueEnrollmentStateEnum.REQUEST_SENT) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
       if (index > -1)
         this.buttonActions.splice(index, 1);
@@ -201,13 +201,13 @@ export class InscriptionDetailListComponent implements OnInit {
         this.buttonActions.splice(index, 1);
     }
 
-    if (item.enrollmentDetailStates.find(enrollmentDetailState => enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.APPROVED)) {
+    if (item.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.APPROVED) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
       if (index > -1)
         this.buttonActions.splice(index, 1);
     }
 
-    if (item.enrollmentDetailStates.find(enrollmentDetailState => enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REJECTED)) {
+    if (item.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REJECTED) {
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED);
       if (index > -1)
         this.buttonActions.splice(index, 1);

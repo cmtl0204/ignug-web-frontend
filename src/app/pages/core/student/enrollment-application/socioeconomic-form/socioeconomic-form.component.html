@@ -20,7 +20,7 @@
 <p-panel *ngIf="isNew || enrollmentState?.state?.code === CatalogueEnrollmentStateEnum.REGISTERED ||
             enrollmentState?.state?.code === CatalogueEnrollmentStateEnum.REJECTED" class="p-fluid">
   <p-accordion [activeIndex]="activeIndex" (activeIndexChange)="activeIndex=$event">
-    <p-accordionTab [disabled]="activeIndex!==0">
+    <p-accordionTab [disabled]="activeIndex!==0 && activeIndex!=null">
       <ng-template pTemplate="header">
         <div class="flex align-items-center">
           <span class="vertical-align-middle">A.- Datos Personales</span>

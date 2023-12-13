@@ -12,7 +12,6 @@ import {
 } from "@services/core";
 import {BreadcrumbEnum, CatalogueEnrollmentStateEnum,  SkeletonEnum} from '@shared/enums';
 import {AuthService} from "@services/auth";
-import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 
 @Component({
   selector: 'app-enrollment-application',
@@ -26,7 +25,6 @@ export class EnrollmentApplicationComponent implements OnInit {
   protected items: MenuItem[] = [];
   protected enrollment!: EnrollmentModel;
   protected student!: StudentModel;
-  protected enrollmentState!: EnrollmentStateModel;
   protected activeIndex: number = 0;
 
   constructor(
@@ -54,9 +52,6 @@ export class EnrollmentApplicationComponent implements OnInit {
     this.studentsHttpService.findEnrollmentByStudent(this.student.id)
       .subscribe(enrollment => {
         this.enrollment = enrollment;
-        if (enrollment?.enrollmentStates) {
-          this.enrollmentState = enrollment.enrollmentStates.find(enrollmentState => enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED)!;
-        }
       });
   }
 

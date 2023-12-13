@@ -49,10 +49,9 @@ export class AcademicDataComponent implements OnInit {
     this.form.patchValue(this.student);
 
     this.validateForm();
-    if (this.enrollment?.enrollmentStates) {
-      if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
-          item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
+    if (this.enrollment?.enrollmentState) {
+      if (this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+        this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED) { //reviewer
         this.form.enable();
       } else {
         this.form.disable();

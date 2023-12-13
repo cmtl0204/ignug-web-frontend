@@ -57,8 +57,11 @@ export const RoleGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   const authService = inject(AuthService);
 
+  if (!authService.auth) {
+    router.navigate(['/common/403']);
+    return false;
+  }
   const roles: RoleModel[] = authService.auth.roles;
-  console.log(route.url);
   if (roles) {
     for (const role of route.data['roles']) {
       if (authService.token && roles.find(r => r.code?.toUpperCase() === role?.toUpperCase())) {

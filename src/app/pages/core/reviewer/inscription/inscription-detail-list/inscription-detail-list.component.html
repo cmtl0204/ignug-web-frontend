@@ -89,16 +89,14 @@
           <div *ngSwitchCase="'observation'">
             {{rowData[col.field].name}}
           </div>
+          <div *ngSwitchCase="'enrollmentDetailState'">
+            <p-tag [value]="rowData[col.field].state.name" [severity]="rowData[col.field].state.code|enrollmentState" class="mr-1"></p-tag>
+          </div>
         </div>
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchDefault>{{rowData[col.field]}}</div>
-          <div *ngSwitchCase="'enrollmentDetailStates'">
-            <span *ngFor="let item of rowData[col.field]">
-              <p-tag [value]="item.state.name" [severity]="item.state.code|enrollmentState" class="mr-1"></p-tag>
-            </span>
-          </div>
         </div>
       </td>
       <td class="text-center">

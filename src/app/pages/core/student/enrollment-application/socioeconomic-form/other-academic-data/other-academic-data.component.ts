@@ -59,12 +59,11 @@ export class AdditionalDataFormComponent {
 
     this.validateForm();
 
-    if (this.enrollment?.enrollmentStates) {
-      if (this.enrollment.enrollmentStates.some(
-        item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
-          item.state.code === CatalogueEnrollmentStateEnum.REJECTED)) { //reviewer
+    if (this.enrollment?.enrollmentState) {
+      if (this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
+        this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED) { //reviewer
         this.form.enable();
-      }else{
+      } else {
         this.form.disable();
       }
     }

@@ -8,6 +8,7 @@ export interface EnrollmentDetailModel {
 
     grades: GradeModel[];
     enrollmentDetailStates: EnrollmentDetailStateModel[];
+    enrollmentDetailState: EnrollmentDetailStateModel;
 
     //foreingkeys
     academicState: CatalogueModel;

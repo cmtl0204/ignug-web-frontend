@@ -39,7 +39,7 @@ export class CareersHttpService {
     );
   }
 
-  findEnrollmentsByCareer( id: string, schoolPeriodId: string, academicPeriodId: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
+  findEnrollmentsByCareer( id: string, schoolPeriodId: string, academicPeriodId: string,enrollmentStateId: string,  page: number = 0, search: string = ''): Observable<ServerResponse> {
     const url = `${this.API_URL}/${id}/enrollments`;
     const headers = new HttpHeaders().append('pagination', 'true');
     let params = new HttpParams()
@@ -49,6 +49,10 @@ export class CareersHttpService {
 
       if(academicPeriodId){
         params = params.append('academicPeriodId', academicPeriodId);
+      }
+
+      if(enrollmentStateId){
+        params = params.append('enrollmentStateId', enrollmentStateId);;
       }
 
     return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(

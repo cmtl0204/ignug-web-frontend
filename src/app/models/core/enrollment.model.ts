@@ -11,6 +11,7 @@ export interface EnrollmentModel {
   academicState:CatalogueModel;
   enrollmentDetails: EnrollmentDetailModel[];
   enrollmentStates: EnrollmentStateModel[];
+  enrollmentState: EnrollmentStateModel;
   academicPeriod: CatalogueModel;
   parallel: CatalogueModel;
   state: CatalogueModel;

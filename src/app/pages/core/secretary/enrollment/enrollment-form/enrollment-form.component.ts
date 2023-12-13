@@ -109,7 +109,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
       socioeconomicPercentage: [{value: null, disabled: true}],
       socioeconomicScore: [{value: null, disabled: true}],
       observation: [null],
-      enrollmentStates: [{value: null, disabled: true}],
+      enrollmentState: [{value: null, disabled: true}],
     });
   }
 
@@ -141,7 +141,7 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   onSubmit(): void {
     if (this.form.valid) {
       if (this.id) {
-        if (this.enrollmentStatesField.value)
+        if (this.enrollmentStateField.value)
           this.update();
       } else {
         this.create(this.form.value);
@@ -250,15 +250,12 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
   }
 
   validateEnrollmentState(enrollment: EnrollmentModel) {
-    if (enrollment.enrollmentStates) {
-      this.approved = enrollment.enrollmentStates.some(enrollmentState =>
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED);
+    if (enrollment.enrollmentState) {
+      this.approved = enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED;
 
-      this.enrolled = enrollment.enrollmentStates.some(enrollmentState =>
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED);
+      this.enrolled = enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED;
 
-      this.revoked = enrollment.enrollmentStates.some(enrollmentState =>
-        enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED);
+      this.revoked = enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED;
 
       if (this.approved) {
         this.form.disable();
@@ -301,8 +298,8 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
     return this.form.controls['observation'];
   }
 
-  get enrollmentStatesField(): AbstractControl {
-    return this.form.controls['enrollmentStates'];
+  get enrollmentStateField(): AbstractControl {
+    return this.form.controls['enrollmentState'];
   }
 
   get studentForm(): FormGroup {

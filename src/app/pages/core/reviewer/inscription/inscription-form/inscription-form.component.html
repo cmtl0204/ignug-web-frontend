@@ -128,12 +128,12 @@
         </small>
       </div>
       <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-        <label appLabel for="enrollmentStates" label="Estado de la matrícula:"
-               [required]="enrollmentStatesField"></label>
-        <div id="enrollmentStates">
-          <p-tag *ngFor="let item of enrollmentStatesField.value" [value]="item.state.name"
-                 [severity]="item.state.code|enrollmentState" class="mr-1"></p-tag>
-          <p-tag *ngIf="!enrollmentStatesField.value?.length" value="Sin estado" severity="warning"
+        <label appLabel for="enrollmentState" label="Estado de la matrícula:"
+               [required]="enrollmentStateField"></label>
+        <div id="enrollmentState">
+          <p-tag [value]="enrollmentStateField.value?.state.name"
+                 [severity]="enrollmentStateField.value?.state.code|enrollmentState" class="mr-1"></p-tag>
+          <p-tag *ngIf="!enrollmentStateField.value" value="Sin estado" severity="warning"
                  class="ml-1"></p-tag>
         </div>
       </div>

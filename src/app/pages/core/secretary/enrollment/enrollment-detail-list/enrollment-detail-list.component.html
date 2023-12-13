@@ -80,6 +80,9 @@
           <div *ngSwitchCase="'observation'">
             {{rowData[col.field].name}}
           </div>
+          <div *ngSwitchCase="'enrollmentDetailState'">
+              <p-tag [value]="rowData[col.field].state.name" [severity]="rowData[col.field].state.code|enrollmentState" class="mr-1"></p-tag>
+          </div>
         </div>
 
         <!--Fields-->

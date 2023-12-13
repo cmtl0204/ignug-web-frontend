@@ -114,6 +114,7 @@ export class EnrollmentDetailListComponent implements OnInit {
       {field: 'workday', header: 'Jornada'},
       {field: 'parallel', header: 'Paralelo'},
       {field: 'type', header: 'Tipo de Matrícula'},
+      {field: 'enrollmentDetailState', header: 'Estado'},
       {field: 'observation', header: 'Observaciones'}
     ];
   }

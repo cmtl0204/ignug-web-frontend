@@ -257,9 +257,8 @@ export class ApplicationComponent implements OnInit {
           this.workdayField.patchValue(enrollment.workday);
           this.parallelField.patchValue(enrollment.parallel);
 
-          if (this.enrollment?.enrollmentStates) {
-            const registeredState = this.enrollment.enrollmentStates.some(
-              item => item.state.code === CatalogueEnrollmentStateEnum.REGISTERED);
+          if (this.enrollment?.enrollmentState) {
+            const registeredState = this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED;
 
             if (registeredState) { //reviewer
               this.form.enable();

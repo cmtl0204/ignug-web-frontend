@@ -21,6 +21,7 @@ import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 })
 export class SocioeconomicFormComponent implements OnInit {
   @Output() nextOut: EventEmitter<number> = new EventEmitter<number>();
+  protected readonly CatalogueEnrollmentStateEnum = CatalogueEnrollmentStateEnum;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected student!: StudentModel | null;
   protected readonly PrimeIcons = PrimeIcons;
@@ -30,7 +31,6 @@ export class SocioeconomicFormComponent implements OnInit {
   protected registered: boolean = false;
   protected activeIndex: number = 0;
   protected enrollmentState!: EnrollmentStateModel;
-  protected sections: boolean[] = [false, false, false, false, false, false, false, false, false, false, false];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -82,6 +82,4 @@ export class SocioeconomicFormComponent implements OnInit {
   previous() {
     this.activeIndex--;
   }
-
-  protected readonly CatalogueEnrollmentStateEnum = CatalogueEnrollmentStateEnum;
 }
