@@ -1,61 +1,62 @@
 <div class="panel-messages-info p-fluid">
   <div class="grid">
-    <div class="xl:col-1 lg:col-1 md:col-1 sm:col-12">
-      <div class="grid">
-        <div class="xl:col-6 lg:col-12 md:col-12 sm:col-12">
-          <button pButton
-                  pRipple
-                  type="button"
-                  pTooltip="Refrescar"
-                  class="p-button-info"
-                  [icon]="PrimeIcons.REFRESH"
-                  [loading]="coreService.isLoading"
-                  (click)="findEnrollmentsByCareer()">
-          </button>
-        </div>
-      </div>
+    <div class="xl:col-2 lg:col-2 md:col-6 sm:col-12">
+      <button pButton
+              pRipple
+              type="button"
+              pTooltip="Refrescar"
+              class="p-button-info"
+              [icon]="PrimeIcons.REFRESH"
+              [loading]="coreService.isLoading"
+              (click)="findEnrollmentsByCareer()">
+      </button>
+      <button pButton
+              pRipple
+              type="button"
+              pTooltip="Más opciones"
+              class="ml-2"
+              [icon]="PrimeIcons.ELLIPSIS_V"
+              [loading]="coreService.isLoading"
+              (click)="showMoreOptions()">
+      </button>
     </div>
-    <div class="xl:col-11 lg:col-11 md:col-11 sm:col-12">
-      <div class="grid">
-        <div class="xl:col-3 lg:col-4 md:col-6 sm:col-12">
-          <p-dropdown [formControl]="selectedSchoolPeriod"
-                      dataKey="id"
-                      [options]="schoolPeriods"
-                      optionLabel="name"
-                      placeholder="Periodo Lectivo"
-                      pTooltip="Periodo Lectivo">
-          </p-dropdown>
-        </div>
-        <div class="xl:col-3 lg:col-4 md:col-6 sm:col-12">
-          <p-dropdown [formControl]="selectedCareer"
-                      dataKey="id"
-                      [options]="careers"
-                      optionLabel="name"
-                      placeholder="Carrera"
-                      pTooltip="Carrera">
-          </p-dropdown>
-        </div>
-        <div class="xl:col-3 lg:col-2 md:col-6 sm:col-12">
-          <p-dropdown [formControl]="selectedAcademicPeriod"
-                      dataKey="id"
-                      [options]="academicPeriods"
-                      optionLabel="name"
-                      placeholder="Todos los Niveles"
-                      pTooltip="Nivel Académico"
-                      [showClear]="true">
-          </p-dropdown>
-        </div>
-        <div class="xl:col-3 lg:col-2 md:col-6 sm:col-12">
-          <p-dropdown [formControl]="selectedEnrollmentState"
-                      dataKey="id"
-                      [options]="enrollmentStates"
-                      optionLabel="name"
-                      placeholder="Todos los estados"
-                      pTooltip="Estado Matrícula"
-                      [showClear]="true">
-          </p-dropdown>
-        </div>
-      </div>
+    <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12">
+      <p-dropdown [formControl]="selectedSchoolPeriod"
+                  dataKey="id"
+                  [options]="schoolPeriods"
+                  optionLabel="name"
+                  placeholder="Periodo Lectivo"
+                  pTooltip="Periodo Lectivo">
+      </p-dropdown>
+    </div>
+    <div class="xl:col-3 lg:col-3 md:col-6 sm:col-12">
+      <p-dropdown [formControl]="selectedCareer"
+                  dataKey="id"
+                  [options]="careers"
+                  optionLabel="name"
+                  placeholder="Carrera"
+                  pTooltip="Carrera">
+      </p-dropdown>
+    </div>
+    <div class="xl:col-2 lg:col-2 md:col-6 sm:col-12">
+      <p-dropdown [formControl]="selectedAcademicPeriod"
+                  dataKey="id"
+                  [options]="academicPeriods"
+                  optionLabel="name"
+                  placeholder="Todos los Niveles"
+                  pTooltip="Nivel Académico"
+                  [showClear]="true">
+      </p-dropdown>
+    </div>
+    <div class="xl:col-2 lg:col-2 md:col-6 sm:col-12">
+      <p-dropdown [formControl]="selectedEnrollmentState"
+                  dataKey="id"
+                  [options]="enrollmentStates"
+                  optionLabel="name"
+                  placeholder="Todos los estados"
+                  pTooltip="Estado Matrícula"
+                  [showClear]="true">
+      </p-dropdown>
     </div>
   </div>
 </div>
@@ -106,11 +107,11 @@
     <tr>
       <!--      <th style="width: 3rem"></th>-->
       <th class="text-center" *ngFor="let col of columns" [pSortableColumn]="col.field">
-        {{col.header}}
+        {{ col.header }}
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
       <th class="text-center">
-        {{LabelButtonActionEnum.ACTIONS}}
+        {{ LabelButtonActionEnum.ACTIONS }}
       </th>
     </tr>
   </ng-template>
@@ -123,16 +124,16 @@
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'academicPeriod'">
-            {{rowData[col.field].name}}
+            {{ rowData[col.field].name }}
           </div>
           <div *ngSwitchCase="'type'">
-            {{rowData[col.field].name}}
+            {{ rowData[col.field].name }}
           </div>
           <div *ngSwitchCase="'workday'">
-            {{rowData[col.field].name}}
+            {{ rowData[col.field].name }}
           </div>
           <div *ngSwitchCase="'parallel'">
-            {{rowData[col.field].name}}
+            {{ rowData[col.field].name }}
           </div>
           <div *ngSwitchCase="'enrollmentState'">
             <p-tag [value]="rowData[col.field].state.name"
@@ -142,15 +143,15 @@
 
         <!--Fields-->
         <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
-          <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          <div *ngSwitchDefault>{{ rowData[col.field] }}</div>
           <div *ngSwitchCase="'identification'">
-            {{rowData['student']?.user.identification}}
+            {{ rowData['student']?.user.identification }}
           </div>
           <div *ngSwitchCase="'lastname'">
-            {{rowData['student']?.user.lastname}}
+            {{ rowData['student']?.user.lastname }}
           </div>
           <div *ngSwitchCase="'name'">
-            {{rowData['student']?.user.name}}
+            {{ rowData['student']?.user.name }}
           </div>
         </div>
       </td>
@@ -162,15 +163,19 @@
   <ng-template pTemplate="emptymessage" let-columns>
     <tr>
       <td [attr.colspan]="columns.length">
-        {{messageService.paginatorNoRecordsFound}}
+        {{ messageService.paginatorNoRecordsFound }}
       </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="summary">
-    {{messageService.paginatorTotalRegisters(paginator.totalItems)}}
+    {{ messageService.paginatorTotalRegisters(paginator.totalItems) }}
   </ng-template>
 </p-table>
 
 <p-sidebar [(visible)]="isButtonActions" position="right">
   <p-panelMenu [model]="buttonActions" [style]="{'width':'300px'}" (click)="isButtonActions=false"></p-panelMenu>
+</p-sidebar>
+
+<p-sidebar [(visible)]="isMoreButtonActions" position="left">
+  <p-panelMenu [model]="moreButtonActions" [style]="{'width':'300px'}" (click)="isMoreButtonActions=false"></p-panelMenu>
 </p-sidebar>

@@ -10,10 +10,11 @@ import {
   CreateEnrollmentDto,
   EnrollmentModel,
   UpdateEnrollmentDto,
-  SelectEnrollmentDto, EnrollmentDetailModel, FileModel
+  SelectEnrollmentDto, EnrollmentDetailModel, FileModel, CareerModel
 } from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
+import {format} from "date-fns";
 
 @Injectable({
   providedIn: 'root'
@@ -249,6 +250,26 @@ export class EnrollmentsHttpService {
         const downloadLink = document.createElement('a');
         downloadLink.href = filePath;
         downloadLink.setAttribute('download', 'certificado.pdf');
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        this.coreService.isProcessing = false;
+      });
+  }
+
+  downloadEnrollmentsByCareer(career: CareerModel, schoolPeriodId: string) {
+    const url = `${environment.API_URL}/enrollment-reports/careers/${career.id}`;
+
+    const params = new HttpParams().append('schoolPeriodId', schoolPeriodId);
+
+    this.coreService.isProcessing = true;
+
+    this.httpClient.get<BlobPart>(url, {params, responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        const currentDate= format(new Date(),'yyyy_MM_dd_H_m_s');
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', `Matriculados_${career.acronym}_${currentDate}.xlsx`);
         document.body.appendChild(downloadLink);
         downloadLink.click();
         this.coreService.isProcessing = false;

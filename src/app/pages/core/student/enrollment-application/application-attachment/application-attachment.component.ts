@@ -121,7 +121,7 @@ export class ApplicationAttachmentComponent implements OnInit {
       this.messageService.questionCustom('¿Está seguro de enviar la solicitud?', 'No podrá realizar cambios después de enviar la solicitud')
         .then((result) => {
           if (result.isConfirmed) {
-            this.enrollmentsHttpService.sendRequest(this.enrollment.id, null).subscribe(() => {
+            this.enrollmentsHttpService.sendRequest(this.enrollment.id, {schoolPeriod:this.enrollment.schoolPeriod}).subscribe(() => {
               this.findEnrollmentByStudent();
               window.location.reload();
             });

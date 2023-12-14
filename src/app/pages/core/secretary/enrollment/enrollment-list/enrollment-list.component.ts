@@ -44,8 +44,10 @@ export class EnrollmentListComponent implements OnInit {
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly BreadcrumbEnum = BreadcrumbEnum;
   protected buttonActions: MenuItem[] = this.buildButtonActions;
+  protected moreButtonActions: MenuItem[] = this.buildMoreButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
+  protected isMoreButtonActions: boolean = false;
   protected paginator: PaginatorModel;
   protected search: FormControl = new FormControl('');
   protected selectedItem!: EnrollmentModel;
@@ -228,6 +230,19 @@ export class EnrollmentListComponent implements OnInit {
     ];
   }
 
+  get buildMoreButtonActions() {
+    return [
+      {
+        id: IdButtonActionEnum.DOWNLOADS,
+        label: 'Descargar Matriculados',
+        icon: IconButtonActionEnum.DOWNLOADS,
+        command: () => {
+          this.downloadEnrollmentsByCareer(this.selectedCareer.value);
+        },
+      },
+    ];
+  }
+
   validateButtonActions(item: EnrollmentModel) {
     this.buttonActions = this.buildButtonActions;
     let index = -1;
@@ -324,11 +339,19 @@ export class EnrollmentListComponent implements OnInit {
 
   }
 
+  downloadEnrollmentsByCareer(career: CareerModel) {
+    this.enrollmentsHttpService.downloadEnrollmentsByCareer(career, this.selectedSchoolPeriod.value?.id);
+  }
+
   /** Select & Paginate **/
   selectItem(item: EnrollmentModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
     this.validateButtonActions(item);
+  }
+
+  showMoreOptions() {
+    this.isMoreButtonActions = true;
   }
 
   paginate(event: any) {
