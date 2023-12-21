@@ -11,7 +11,7 @@ const routes: Routes = [
     data: {roles: [RolesEnum.STUDENT]}
   },
   {
-    path: 'enrollment-subject',
+    path: 'enrollment-subjects',
     loadChildren: () => import('./enrollment-subject/enrollment-subject.module').then(m => m.EnrollmentSubjectModule),
     canActivate: [RoleGuard],
     data: {roles: [RolesEnum.STUDENT]}
