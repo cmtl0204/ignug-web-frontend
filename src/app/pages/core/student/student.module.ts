@@ -25,11 +25,13 @@ import {ToolbarModule} from "primeng/toolbar";
 // Components
 import {StudentFormComponent} from './student-form/student-form.component';
 import {StudentListComponent} from './student-list/student-list.component';
+import { EnrollmentSubjectListComponent } from './enrollment-subject/enrollment-subject-list/enrollment-subject-list.component';
 
 @NgModule({
   declarations: [
     StudentFormComponent,
     StudentListComponent,
+    EnrollmentSubjectListComponent,
   ],
   imports: [
     NgCommonModule,

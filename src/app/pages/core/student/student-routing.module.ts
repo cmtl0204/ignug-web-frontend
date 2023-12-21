@@ -10,6 +10,12 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: {roles: [RolesEnum.STUDENT]}
   },
+  {
+    path: 'enrollment-subject',
+    loadChildren: () => import('./enrollment-subject/enrollment-subject.module').then(m => m.EnrollmentSubjectModule),
+    canActivate: [RoleGuard],
+    data: {roles: [RolesEnum.STUDENT]}
+  },
 ];
 
 @NgModule({
