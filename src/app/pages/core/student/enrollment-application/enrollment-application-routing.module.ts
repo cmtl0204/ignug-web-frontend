@@ -1,6 +1,5 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ExitGuard} from "@shared/guards";
 import { EnrollmentApplicationComponent } from './enrollment-application.component';
 
 

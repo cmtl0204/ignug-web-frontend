@@ -4,7 +4,7 @@ import {EnrollmentSubjectListComponent} from "./enrollment-subject-list/enrollme
 
 const routes: Routes = [
   {
-    path: 'enrollment-subjects',
+    path: '',
     component: EnrollmentSubjectListComponent
   }
 ];
