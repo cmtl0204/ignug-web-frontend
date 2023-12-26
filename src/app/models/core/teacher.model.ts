@@ -5,7 +5,7 @@ import {CareerModel} from "@models/core/career.model";
 export interface TeacherModel{
   id?: string;
   informationTeacher?: InformationTeacherModel;
-  user?: UserModel;
+  user: UserModel;
   isVisible: boolean;
 }
 

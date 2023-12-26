@@ -10,7 +10,7 @@
   </span>
 </div>
 
-<p-tabView [activeIndex]="activeIndex" class="p-fluid">
+<p-tabView *ngIf="enabled" [activeIndex]="activeIndex" class="p-fluid">
   <p-tabPanel header="Ficha Socioeconómica" [disabled]="!(activeIndex===0)">
     <app-socioeconomic-form *ngIf="activeIndex===0" (nextOut)="next()"></app-socioeconomic-form>
   </p-tabPanel>
@@ -33,3 +33,10 @@
     <app-application-attachment *ngIf="activeIndex===4" (previousOut)="previous()"></app-application-attachment>
   </p-tabPanel>
 </p-tabView>
+
+<div *ngIf="!enabled" class="grid formgrid">
+  <div class="xl:col-12 panel-messages-info text-center">
+    <h1>El proceso de matrículas ha terminado</h1>
+  </div>
+  <img class="xl:col-10 col-offset-1" src="assets/images/components/enrollments/final-screen.png" alt="">
+</div>

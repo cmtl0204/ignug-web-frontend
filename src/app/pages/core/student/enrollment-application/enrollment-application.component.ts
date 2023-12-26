@@ -7,11 +7,12 @@ import {
   CataloguesHttpService,
   CoreService,
   MessageService,
-  RoutesService,
+  RoutesService, SchoolPeriodsService,
   StudentsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueEnrollmentStateEnum,  SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueEnrollmentStateEnum, SkeletonEnum} from '@shared/enums';
 import {AuthService} from "@services/auth";
+import {isAfter} from "date-fns";
 
 @Component({
   selector: 'app-enrollment-application',
@@ -19,6 +20,7 @@ import {AuthService} from "@services/auth";
   styleUrls: ['./enrollment-application.component.scss']
 })
 export class EnrollmentApplicationComponent implements OnInit {
+  protected readonly CatalogueEnrollmentStateEnum = CatalogueEnrollmentStateEnum;
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected id: string | null = null;
@@ -26,6 +28,7 @@ export class EnrollmentApplicationComponent implements OnInit {
   protected enrollment!: EnrollmentModel;
   protected student!: StudentModel;
   protected activeIndex: number = 0;
+  protected enabled: boolean = true;
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -33,6 +36,7 @@ export class EnrollmentApplicationComponent implements OnInit {
     private readonly breadcrumbService: BreadcrumbService,
     private readonly cataloguesHttpService: CataloguesHttpService,
     protected readonly coreService: CoreService,
+    protected readonly schoolPeriodsService: SchoolPeriodsService,
     protected readonly messageService: MessageService,
     private readonly router: Router,
     private readonly routesService: RoutesService,
@@ -41,6 +45,11 @@ export class EnrollmentApplicationComponent implements OnInit {
     this.breadcrumbService.setItems([{label: BreadcrumbEnum.ENROLLMENT_REQUEST}]);
 
     this.student = authService.auth.student;
+
+    console.log(new Date(schoolPeriodsService.openSchoolPeriod.especialEndedAt));
+    if (isAfter(new Date(), new Date(schoolPeriodsService.openSchoolPeriod.especialEndedAt))) {
+      this.enabled = false;
+    }
   }
 
   ngOnInit(): void {
@@ -62,6 +71,4 @@ export class EnrollmentApplicationComponent implements OnInit {
   previous() {
     this.activeIndex--;
   }
-
-  protected readonly CatalogueEnrollmentStateEnum = CatalogueEnrollmentStateEnum;
 }

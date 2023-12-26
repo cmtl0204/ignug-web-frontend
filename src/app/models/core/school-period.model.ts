@@ -10,6 +10,14 @@ export interface SchoolPeriodModel {
   state: CatalogueModel;
 
   name: string;
+  startedAt:Date;
+  endedAt:Date;
+  ordinaryStartedAt:Date;
+  ordinaryEndedAt:Date;
+  extraOrdinaryStartedAt:Date;
+  extraOrdinaryEndedAt:Date;
+  especialStartedAt:Date;
+  especialEndedAt:Date;
 }
 
 export interface CreateSchoolPeriodDto extends Omit<SchoolPeriodModel, 'id'> {

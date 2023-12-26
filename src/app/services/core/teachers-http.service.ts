@@ -1,11 +1,11 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { environment } from '@env/environment';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { CreateTeacherDto, TeacherModel, UpdateTeacherDto } from '@models/core';
-import { ServerResponse } from '@models/http-response';
-import { CoreService, MessageService } from '@services/core';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {environment} from '@env/environment';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {CreateTeacherDto, TeacherDistributionModel, TeacherModel, UpdateTeacherDto} from '@models/core';
+import {ServerResponse} from '@models/http-response';
+import {CoreService, MessageService} from '@services/core';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +39,7 @@ export class TeachersHttpService {
       .append('page', page)
       .append('search', search);
 
-    return this.httpClient.get<ServerResponse>(url, { headers, params }).pipe(
+    return this.httpClient.get<ServerResponse>(url, {headers, params}).pipe(
       map((response) => {
         return response;
       })
@@ -112,6 +112,17 @@ export class TeachersHttpService {
     return this.httpClient.put<ServerResponse>(url, null).pipe(
       map((response) => {
         this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  findTeacherDistributionByTeacher(id: string, schoolPeriodId: string): Observable<TeacherDistributionModel[]> {
+    const url = `${this.API_URL}/${id}/teacher-distributions`; //ruta del teacher distribucion
+    let params = new HttpParams().append('schoolPeriodId', schoolPeriodId)
+
+    return this.httpClient.get<ServerResponse>(url, {params}).pipe(
+      map((response) => {
         return response.data;
       })
     );
