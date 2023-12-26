@@ -12,7 +12,7 @@ import {
 } from "@services/core";
 import {BreadcrumbEnum, CatalogueEnrollmentStateEnum, SkeletonEnum} from '@shared/enums';
 import {AuthService} from "@services/auth";
-import {isAfter} from "date-fns";
+import {isAfter, isBefore, isEqual} from "date-fns";
 
 @Component({
   selector: 'app-enrollment-application',
@@ -46,8 +46,19 @@ export class EnrollmentApplicationComponent implements OnInit {
 
     this.student = authService.auth.student;
 
-    console.log(new Date(schoolPeriodsService.openSchoolPeriod.especialEndedAt));
-    if (isAfter(new Date(), new Date(schoolPeriodsService.openSchoolPeriod.especialEndedAt))) {
+    const currentDate = new Date();
+    const especialEndedAt = new Date(`${schoolPeriodsService.openSchoolPeriod.especialEndedAt} 00:00:00`);
+    currentDate.setHours(0);
+    currentDate.setMinutes(0);
+    currentDate.setSeconds(0);
+
+    especialEndedAt.setHours(0);
+    especialEndedAt.setMinutes(0);
+    especialEndedAt.setSeconds(0);
+
+    if (isAfter(currentDate, especialEndedAt)
+      || isEqual(currentDate, especialEndedAt)
+    ) {
       this.enabled = false;
     }
   }
