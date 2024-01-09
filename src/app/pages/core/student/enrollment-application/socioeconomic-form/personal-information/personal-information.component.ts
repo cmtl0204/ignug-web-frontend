@@ -11,7 +11,7 @@ import {
   RoutesService,
   StudentsHttpService,
 } from '@services/core';
-import {CatalogueEnrollmentStateEnum, CatalogueEthnicOriginEnum, CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueEthnicOriginEnum, CatalogueTypeEnum, UsersFormEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-personal-information',
@@ -29,6 +29,8 @@ export class PersonalInformationComponent implements OnInit {
   protected formErrors: string[] = [];
 
   protected readonly PrimeIcons = PrimeIcons;
+  protected readonly CatalogueEthnicOriginEnum = CatalogueEthnicOriginEnum;
+  protected readonly UsersFormEnum = UsersFormEnum;
   protected readonly Validators = Validators;
 
   protected ancestralLanguageNames: CatalogueModel[] = [];
@@ -65,7 +67,7 @@ export class PersonalInformationComponent implements OnInit {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
-    this.validateForm();
+    this.validateForm;
 
     if (this.enrollment?.enrollmentState) {
       if (this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
@@ -150,7 +152,7 @@ export class PersonalInformationComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.validateForm()) {
+    if (this.validateForm) {
       this.update();
     } else {
       this.form.markAllAsTouched();
@@ -165,7 +167,7 @@ export class PersonalInformationComponent implements OnInit {
     ).subscribe(() => this.next.emit());
   }
 
-  validateForm() {
+  get validateForm() {
     this.formErrors = [];
 
     if (this.isSocialSecurityField.errors) this.formErrors.push('Posee seguro social');
@@ -204,7 +206,7 @@ export class PersonalInformationComponent implements OnInit {
     if (this.nameField.errors) this.formErrors.push('Nombre');
     if (this.nationalityField.errors) this.formErrors.push('Nacionalidad');
     if (this.identificationField.errors) this.formErrors.push('Identificación');
-    if (this.ethnicOriginField.errors) this.formErrors.push('Autoidentificación');
+    if (this.ethnicOriginField.errors) this.formErrors.push(UsersFormEnum.ethnicOrigin);
     if (this.genderField.errors) this.formErrors.push('Genero');
     if (this.sexField.errors) this.formErrors.push('Sexo');
 
@@ -553,6 +555,4 @@ export class PersonalInformationComponent implements OnInit {
   get sexField(): AbstractControl {
     return this.userField.controls['sex'];
   }
-
-  protected readonly CatalogueEthnicOriginEnum = CatalogueEthnicOriginEnum;
 }

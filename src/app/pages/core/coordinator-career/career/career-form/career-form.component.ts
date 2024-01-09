@@ -14,11 +14,12 @@ import {
   InstitutionsService
 } from '@services/core';
 import {
-    BreadcrumbEnum,
-    CatalogueTypeEnum,
-    ClassButtonActionEnum, IconButtonActionEnum,
-    LabelButtonActionEnum,
-    SkeletonEnum
+  BreadcrumbEnum,
+  CatalogueTypeEnum,
+  ClassButtonActionEnum,
+  IconButtonActionEnum,
+  LabelButtonActionEnum,
+  SkeletonEnum
 } from '@shared/enums';
 
 @Component({
@@ -27,15 +28,21 @@ import {
   styleUrls: ['./career-form.component.scss']
 })
 export class CareerFormComponent implements OnInit, OnExitInterface {
-  PrimeIcons = PrimeIcons;
-  id: string | null = null;
-  form: FormGroup;
+  protected id: string | null = null;
+  protected form: FormGroup;
+  protected readonly SkeletonEnum = SkeletonEnum;
+  protected readonly PrimeIcons = PrimeIcons;
+  protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
+  protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
+  protected readonly IconButtonActionEnum = IconButtonActionEnum;
 
   // Foreign Keys
-  institutions: InstitutionModel[] = [];
-  states: CatalogueModel[] = [];
-  modality: CatalogueModel[] = [];
-  type: CatalogueModel[] = [];
+  protected institutions: InstitutionModel[] = [];
+  protected states: CatalogueModel[] = [];
+  protected modality: CatalogueModel[] = [];
+  protected type: CatalogueModel[] = [];
+
+  protected formErrors: string[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -98,7 +105,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -106,7 +113,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields;
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
@@ -129,6 +136,15 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+  get validateForm() {
+    this.formErrors = [];
+
+    if (this.acronymField.errors) this.formErrors.push('Posee seguro social');
+
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
+  }
+
   /** Load Data **/
   get(): void {
     this.careersHttpService.findOne(this.id!).subscribe((item) => {
@@ -139,7 +155,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   loadStates(): void {
     this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.CAREERS_STATE);
   }
-
 
   /** Form Getters **/
   get isEnabledField(): AbstractControl {
@@ -189,9 +204,4 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   get institutionField(): AbstractControl {
     return this.form.controls['institution'];
   }
-
-  protected readonly SkeletonEnum = SkeletonEnum;
-    protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
-    protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
-    protected readonly IconButtonActionEnum = IconButtonActionEnum;
 }

@@ -232,7 +232,7 @@
 
   <div class="formgrid grid">
     <div formGroupName="user" class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
-      <label appLabel for="ethnicOrigin" label="Autoidentificación:" [required]="ethnicOriginField"></label>
+      <label appLabel for="ethnicOrigin" [label]="UsersFormEnum.ethnicOrigin+':'" [required]="ethnicOriginField"></label>
       <p-dropdown
         id="ethnicOrigin"
         formControlName="ethnicOrigin"
