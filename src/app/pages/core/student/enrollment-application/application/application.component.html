@@ -165,6 +165,7 @@
       <button *ngIf="form.enabled" pButton pRipple
               label="Guardar y Continuar"
               [icon]="PrimeIcons.SAVE"
+              [loading]="coreService.isLoading"
               iconPos="right"></button>
     </div>
     <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">

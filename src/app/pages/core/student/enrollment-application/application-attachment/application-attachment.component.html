@@ -144,6 +144,7 @@
             label="Enviar Solicitud"
             [icon]="PrimeIcons.SEND"
             iconPos="right"
+            [loading]="coreService.isLoading"
             (click)="sendRequest()"></button>
   </div>
 </div>
