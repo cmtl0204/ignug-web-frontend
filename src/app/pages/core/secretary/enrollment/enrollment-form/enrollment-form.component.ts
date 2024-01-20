@@ -257,13 +257,13 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
       this.revoked = enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED;
 
-      if (this.approved) {
+      if (this.approved || this.enrolled) {
         this.form.disable();
         this.parallelField.enable();
         this.workdayField.enable();
       }
 
-      if (this.enrolled || this.revoked) {
+      if (this.revoked) {
         this.form.disable();
       }
     }
