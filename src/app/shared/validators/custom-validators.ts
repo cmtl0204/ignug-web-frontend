@@ -12,14 +12,14 @@ export class CustomValidators {
 
   static passwordMatchValidator(control: AbstractControl) {
     const newPassword: string = control.get('newPassword')?.value; // get password from our password form control
-    const passwordConfirmation: string = control.get('passwordConfirmation')?.value; // get password from our confirmPassword form control
+    const confirmationPassword: string = control.get('confirmationPassword')?.value; // get password from our confirmPassword form control
     // compare is the password math
-    if (newPassword !== passwordConfirmation) {
+    if (newPassword !== confirmationPassword) {
       // if they don't match, set an error in our confirmPassword form control
-      control.get('passwordConfirmation')?.setErrors({noPasswordMatch: true});
+      control.get('confirmationPassword')?.setErrors({noPasswordMatch: true});
       return { noPasswordMatch: true };
     } else {
-      control.get('passwordConfirmation')?.setErrors(null);
+      control.get('confirmationPassword')?.setErrors(null);
       return null;
     }
   }

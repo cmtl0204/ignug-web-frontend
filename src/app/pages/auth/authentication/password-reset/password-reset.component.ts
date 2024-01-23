@@ -34,7 +34,7 @@ export class PasswordResetComponent implements OnInit {
     return this.formBuilder.group({
       transactionalCode: [null, [Validators.required, Validators.minLength(6)]],
       newPassword: [null, [Validators.required, Validators.minLength(8)]],
-      passwordConfirmation: [null, [Validators.required]],
+      confirmationPassword: [null, [Validators.required]],
       username: [null, [Validators.required]],
     }, {validators: CustomValidators.passwordMatchValidator});
   }
@@ -84,7 +84,7 @@ export class PasswordResetComponent implements OnInit {
     return this.form.controls['newPassword'];
   }
 
-  get passwordConfirmationField() {
-    return this.form.controls['passwordConfirmation'];
+  get confirmationPasswordField() {
+    return this.form.controls['confirmationPassword'];
   }
 }
