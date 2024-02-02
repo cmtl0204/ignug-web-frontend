@@ -13,11 +13,11 @@ import {
   InstitutionsHttpService
 } from "@services/core";
 import {
-    BreadcrumbEnum,
-    CatalogueTypeEnum,
-    ClassButtonActionEnum,
-    IconButtonActionEnum, LabelButtonActionEnum,
-    SkeletonEnum
+  BreadcrumbEnum,
+  CatalogueTypeEnum,
+  ClassButtonActionEnum,
+  IconButtonActionEnum, InstitutionFormEnum, LabelButtonActionEnum,
+  SkeletonEnum
 } from "@shared/enums";
 import {Expressions} from "@shared/regular-expresions";
 
@@ -32,6 +32,7 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
+  protected readonly InstitutionFormEnum = InstitutionFormEnum;
 
   // Foreign Keys
   protected states: CatalogueModel[] = [];
@@ -140,20 +141,20 @@ export class InstitutionFormComponent implements OnInit, OnExitInterface {
   validateForm() {
     this.formErrors = [];
 
-    if (this.acronymField.errors) this.formErrors.push('Siglas');
-    if (this.cellphoneField.errors) this.formErrors.push('Teléfono Celular');
-    if (this.codeField.errors) this.formErrors.push('Código');
-    if (this.codeSnieseField.errors) this.formErrors.push('Código SNIESE');
-    if (this.denominationField.errors) this.formErrors.push('Denominación');
-    if (this.emailField.errors) this.formErrors.push('Correo Electrónico');
+    if (this.acronymField.errors) this.formErrors.push(InstitutionFormEnum.acronym);
+    if (this.cellphoneField.errors) this.formErrors.push(InstitutionFormEnum.cellphone);
+    if (this.codeField.errors) this.formErrors.push(InstitutionFormEnum.code);
+    if (this.codeSnieseField.errors) this.formErrors.push(InstitutionFormEnum.codeSniese);
+    if (this.denominationField.errors) this.formErrors.push(InstitutionFormEnum.denomination);
+    if (this.emailField.errors) this.formErrors.push(InstitutionFormEnum.email);
     if (this.isVisibleField.errors) this.formErrors.push('Es Visible');
-    if (this.logoField.errors) this.formErrors.push('Logo');
-    if (this.nameField.errors) this.formErrors.push('Nombre');
-    if (this.phoneField.errors) this.formErrors.push('Teléfono Fijo');
-    if (this.shortNameField.errors) this.formErrors.push('Nombre Corto');
-    if (this.sloganField.errors) this.formErrors.push('Slogan');
+    if (this.logoField.errors) this.formErrors.push(InstitutionFormEnum.logo);
+    if (this.nameField.errors) this.formErrors.push(InstitutionFormEnum.name);
+    if (this.phoneField.errors) this.formErrors.push(InstitutionFormEnum.phone);
+    if (this.shortNameField.errors) this.formErrors.push(InstitutionFormEnum.shortName);
+    if (this.sloganField.errors) this.formErrors.push(InstitutionFormEnum.slogan);
     if (this.stateField.errors) this.formErrors.push('Estado');
-    if (this.webField.errors) this.formErrors.push('Página Web');
+    if (this.webField.errors) this.formErrors.push(InstitutionFormEnum.web);
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;

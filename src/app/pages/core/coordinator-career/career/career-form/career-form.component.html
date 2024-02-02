@@ -79,7 +79,7 @@
     <!-- code & codeSniese  -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="code" label="Código:" [required]="codeField"></label>
+        <label appLabel for="code" [label]="CareerFormEnum.code+':'" [required]="codeField"></label>
         <input pInputText type="text" id="code" formControlName="code"/>
         <small appErrorMessage
                [errors]="codeField.errors"

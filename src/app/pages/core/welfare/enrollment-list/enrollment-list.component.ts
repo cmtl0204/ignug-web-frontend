@@ -186,39 +186,19 @@ export class EnrollmentListComponent implements OnInit {
           if (this.selectedItem?.id) this.downloadSocioeconomicForm(this.selectedItem);
         },
       },
+      {
+        id: IdButtonActionEnum.DOWNLOADS,
+        label: 'Descargar Certificado',
+        icon: PrimeIcons.DOWNLOAD,
+        command: () => {
+          if (this.selectedItem?.id) this.downloadEnrollmentCertificate(this.selectedItem);
+        },
+      },
     ];
   }
 
   validateButtonActions(item: EnrollmentModel) {
-    this.buttonActions = this.buildButtonActions;
-    let index = -1;
 
-    if (item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
-      item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REVOKED) {
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.ENROLLED)
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-    }
-
-    if (item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.APPROVED) {
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.APPROVED);
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-    }
-
-    if (item.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED) {
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED);
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-    }
   }
 
   /** Actions **/
@@ -278,6 +258,15 @@ export class EnrollmentListComponent implements OnInit {
 
   downloadSocioeconomicForm(enrollment: EnrollmentModel) {
     this.studentsHttpService.downloadSocioeconomicForm(enrollment.student.id);
+  }
+
+  downloadEnrollmentCertificate(enrollment: EnrollmentModel) {
+    if (enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.ENROLLED) {
+      this.enrollmentsHttpService.downloadEnrollmentCertificate(enrollment.id);
+    } else {
+      this.messageService.errorCustom('No se puede descargar', 'El estudiante no se encuentra matriculado');
+    }
+
   }
 
   /** Select & Paginate **/

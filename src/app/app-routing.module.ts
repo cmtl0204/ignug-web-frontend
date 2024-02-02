@@ -53,6 +53,10 @@ const routes: Routes = [
     redirectTo: '/admin/users/profile'
   },
   {
+    path: 'document-validation',
+    loadChildren: () => import('./pages/core/document-validation/document-validation.module').then(m => m.DocumentValidationModule)
+  },
+  {
     path: '**',
     redirectTo: '/common/404'
   },

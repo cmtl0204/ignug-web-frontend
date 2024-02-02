@@ -227,6 +227,14 @@ export class EnrollmentListComponent implements OnInit {
           if (this.selectedItem?.id) this.downloadEnrollmentCertificate(this.selectedItem);
         },
       },
+      {
+        id: IdButtonActionEnum.REVOKED,
+        label: 'Anular Matrícula',
+        icon: IconButtonActionEnum.REVOKED,
+        command: () => {
+          if (this.selectedItem?.id) this.revoke(this.selectedItem.id);
+        },
+      },
     ];
   }
 
@@ -254,10 +262,6 @@ export class EnrollmentListComponent implements OnInit {
         this.buttonActions.splice(index, 1);
 
       index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.REJECTED)
-      if (index > -1)
-        this.buttonActions.splice(index, 1);
-
-      index = this.buttonActions.findIndex(actionButton => actionButton.id === IdButtonActionEnum.ENROLLED)
       if (index > -1)
         this.buttonActions.splice(index, 1);
     }

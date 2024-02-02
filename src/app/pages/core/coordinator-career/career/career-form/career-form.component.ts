@@ -15,6 +15,7 @@ import {
 } from '@services/core';
 import {
   BreadcrumbEnum,
+  CareerFormEnum,
   CatalogueTypeEnum,
   ClassButtonActionEnum,
   IconButtonActionEnum,
@@ -35,6 +36,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected readonly CareerFormEnum = CareerFormEnum;
 
   // Foreign Keys
   protected institutions: InstitutionModel[] = [];
@@ -139,7 +141,14 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   get validateForm() {
     this.formErrors = [];
 
-    if (this.acronymField.errors) this.formErrors.push('Posee seguro social');
+    if (this.codeField.errors) this.formErrors.push(CareerFormEnum.code);
+    if (this.codeSnieseField.errors) this.formErrors.push(CareerFormEnum.codeSniese);
+    if (this.nameField.errors) this.formErrors.push(CareerFormEnum.name);
+    if (this.shortNameField.errors) this.formErrors.push(CareerFormEnum.shortName);
+    if (this.degreeField.errors) this.formErrors.push(CareerFormEnum.degree);
+    if (this.logoField.errors) this.formErrors.push(CareerFormEnum.logo);
+    if (this.acronymField.errors) this.formErrors.push(CareerFormEnum.acronym);
+    if (this.resolutionNumberField.errors) this.formErrors.push(CareerFormEnum.resolutionNumber);
 
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
