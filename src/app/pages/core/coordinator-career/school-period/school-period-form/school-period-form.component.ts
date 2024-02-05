@@ -13,7 +13,7 @@ import {
   RoutesService,
   SchoolPeriodsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum,SchoolPeriodFormEnum} from "@shared/enums";
 import {isAfter} from "date-fns";
 
 @Component({
@@ -30,7 +30,8 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   protected ordinaryStartedAt: Date = new Date();
   protected extraOrdinaryStartedAt: Date = new Date();
   protected especialStartedAt: Date = new Date();
-
+  protected formErrors: string[] = [];
+  protected readonly SchoolPeriodFormEnum = SchoolPeriodFormEnum;
   // Foreign Keys
   protected states: CatalogueModel[] = [];
 
@@ -121,7 +122,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -129,7 +130,7 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields;
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
@@ -163,9 +164,48 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
     this.states = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SCHOOL_PERIODS_STATE);
   }
 
+    /** Validations **/
+    validateForm() {
+      this.formErrors = [];
+      if (this.codeField.errors) this.formErrors.push(SchoolPeriodFormEnum.code);
+      if (this.codeSnieseField.errors) this.formErrors.push(SchoolPeriodFormEnum.codeSniese);
+      if (this.nameField.errors) this.formErrors.push(SchoolPeriodFormEnum.name);
+      if (this.shortNameField.errors) this.formErrors.push(SchoolPeriodFormEnum.shortName);
+      if (this.startedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.startedAt);
+      if (this.endedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.endedAt);
+      if (this.ordinaryStartedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.ordinaryStartedAt);
+      if (this.ordinaryEndedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.ordinaryEndedAt);
+      if (this.extraOrdinaryStartedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.extraOrdinaryStartedAt);
+      if (this.extraOrdinaryEndedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.extraOrdinaryEndedAt);
+      if (this.especialEndedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.especialStartedAt);if (this.especialStartedAtField.errors) this.formErrors.push(SchoolPeriodFormEnum.especialEndedAt);
+      //if (this.especialStartedAt.errors) this.formErrors.push('Estado');
+      //if (this.webField.errors) this.formErrors.push(SchoolPeriodFormEnum.web);
+        this.formErrors.sort();
+      return this.formErrors.length === 0 && this.form.valid;
+    }
+
   /** Form Getters **/
+  get acronymField(): AbstractControl {
+    return this.form.controls['acronym'];
+  }
+  get cellphoneField(): AbstractControl {
+    return this.form.controls['cellphone'];
+  }
+  get denominationField(): AbstractControl {
+    return this.form.controls['denomination'];
+  }
+  get emailField(): AbstractControl {
+    return this.form.controls['email'];
+  }
+  get logoField(): AbstractControl {
+    return this.form.controls['logo'];
+  }
+
   get codeField(): AbstractControl {
     return this.form.controls['code'];
+  }
+  get phoneField(): AbstractControl {
+    return this.form.controls['phone'];
   }
 
   get codeSnieseField(): AbstractControl {
@@ -183,9 +223,15 @@ export class SchoolPeriodFormComponent implements OnInit, OnExitInterface {
   get shortNameField(): AbstractControl {
     return this.form.controls['shortName'];
   }
+  get sloganField(): AbstractControl {
+    return this.form.controls['slogan'];
+  }
 
   get stateField(): AbstractControl {
     return this.form.controls['state'];
+  }
+  get webField(): AbstractControl {
+    return this.form.controls['web'];
   }
 
   get startedAtField(): AbstractControl {

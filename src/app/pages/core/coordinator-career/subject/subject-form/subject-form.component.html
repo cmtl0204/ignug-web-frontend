@@ -85,7 +85,7 @@
         <label
           appLabel
           for="academicPeriod"
-          label="Periodo académico:"
+          [label]="SubjectFormEnum.academicPeriod+':'"
           [required]="academicPeriodField"
         ></label>
         <p-dropdown
@@ -131,7 +131,7 @@
         <label
           appLabel
           for="code"
-          label="Codigo:"
+          [label]="SubjectFormEnum.code+':'"
           [required]="codeField"
         ></label>
         <input
@@ -153,7 +153,7 @@
         <label
           appLabel
           for="name"
-          label="Nombre:"
+          [label]="SubjectFormEnum.name+':'"
           [required]="nameField"
         ></label>
         <input pInputText type="text" id="name" formControlName="name"/>
@@ -172,7 +172,7 @@
         <label
           appLabel
           for="credits"
-          label="Créditos:"
+          [label]="SubjectFormEnum.credits+':'"
           [required]="creditsField"
         ></label>
         <p-inputNumber id="credits" formControlName="credits" [max]="1000" [showButtons]="true"></p-inputNumber>
@@ -212,7 +212,7 @@
         <label
           appLabel
           for="teacherHour"
-          label="Horas docente:"
+          [label]="SubjectFormEnum.teacherHour+':'"
           [required]="teacherHourField"
         ></label>
         <p-inputNumber id="teacherHour" formControlName="teacherHour" [max]="1000" [showButtons]="true"></p-inputNumber>
@@ -229,7 +229,7 @@
         <label
           appLabel
           for="practicalHour"
-          label="Horas prácticas:"
+          [label]="SubjectFormEnum.practicalHour+':'"
           [required]="practicalHourField"
         ></label>
         <p-inputNumber id="practicalHour" formControlName="practicalHour" [max]="1000"
@@ -247,7 +247,7 @@
         <label
           appLabel
           for="autonomousHour"
-          label="Horas autónomas"
+          [label]="SubjectFormEnum.autonomousHour+':'"
           [required]="autonomousHourField"
         ></label>
         <p-inputNumber id="autonomousHour" formControlName="autonomousHour" [max]="1000"

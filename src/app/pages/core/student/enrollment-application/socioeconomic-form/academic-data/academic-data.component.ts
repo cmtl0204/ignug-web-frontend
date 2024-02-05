@@ -4,7 +4,7 @@ import {Router} from "@angular/router";
 import {PrimeIcons} from "primeng/api";
 import {CatalogueModel, EnrollmentModel, StudentModel} from "@models/core";
 import {CataloguesHttpService, CoreService, MessageService, RoutesService, StudentsHttpService} from "@services/core";
-import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum} from '@shared/enums';
+import {CatalogueEnrollmentStateEnum, CatalogueTypeEnum,InformationStudentEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-academic-data',
@@ -24,7 +24,7 @@ export class AcademicDataComponent implements OnInit {
   protected readonly Validators = Validators;
   protected form: FormGroup;
   protected formErrors: string[] = [];
-
+  protected readonly InformationStudentEnum = InformationStudentEnum;
   // Foreign Keys
   protected yesNo: CatalogueModel[] = [];
   protected universityCareers: CatalogueModel[] = [];
@@ -48,7 +48,7 @@ export class AcademicDataComponent implements OnInit {
   ngOnInit(): void {
     this.form.patchValue(this.student);
 
-    this.validateForm();
+    this.validateForm;
     if (this.enrollment?.enrollmentState) {
       if (this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REGISTERED ||
         this.enrollment.enrollmentState.state.code === CatalogueEnrollmentStateEnum.REJECTED) { //reviewer
@@ -86,7 +86,7 @@ export class AcademicDataComponent implements OnInit {
   /** Actions **/
 
   onSubmit(): void {
-    if (this.validateForm()) {
+    if (this.validateForm) {
       this.update();
     } else {
       this.form.markAllAsTouched();
@@ -101,23 +101,22 @@ export class AcademicDataComponent implements OnInit {
     ).subscribe(() => this.next.emit());
   }
 
-  validateForm() {
+  get validateForm() {
     this.formErrors = [];
 
-    if (this.universityCareerField.errors) this.formErrors.push('Trayectoria universitaria');
-    if (this.isDegreeSuperiorField.errors) this.formErrors.push('Tiene otro titulo');
-    if (this.degreeSuperiorField.errors) this.formErrors.push('Que titulo posee');
-    if (this.isStudyOtherCareerField.errors) this.formErrors.push('Estudia otra carrera?');
-    if (this.nameStudyOtherCareerField.errors) this.formErrors.push('Nombre de la carrera');
-    if (this.typeStudyOtherCareerField.errors) this.formErrors.push('Tipo de carrera');
-    if (this.typeSchoolField.errors) this.formErrors.push('Tipo de colegio');
+    if (this.universityCareerField.errors) this.formErrors.push(InformationStudentEnum.universityCareer);
+    if (this.isDegreeSuperiorField.errors) this.formErrors.push(InformationStudentEnum.isDegreeSuperior);
+    if (this.degreeSuperiorField.errors) this.formErrors.push(InformationStudentEnum.degreeSuperior);
+    if (this.isStudyOtherCareerField.errors) this.formErrors.push(InformationStudentEnum.isStudyOtherCareer);
+    if (this.nameStudyOtherCareerField.errors) this.formErrors.push(InformationStudentEnum.nameStudyOtherCareer);
+    if (this.typeStudyOtherCareerField.errors) this.formErrors.push(InformationStudentEnum.typeStudyOtherCareer);
+    if (this.typeSchoolField.errors) this.formErrors.push(InformationStudentEnum.typeSchool);
 
     this.formErrors.sort();
 
     this.validForm.emit(this.formErrors.length === 0 && this.form.valid);
     return this.formErrors.length === 0 && this.form.valid;
   }
-
   loadDegreeSuperiors(): void {
     this.degreeSuperiors = this.cataloguesHttpService.findByType(CatalogueTypeEnum.DEGREE_SUPERIOR);
   }

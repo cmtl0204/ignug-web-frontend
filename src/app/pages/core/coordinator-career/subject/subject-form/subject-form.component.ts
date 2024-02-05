@@ -25,7 +25,7 @@ import {
   BreadcrumbEnum,
   CatalogueSubjectRequirementTypeEnum,
   CatalogueTypeEnum, ClassButtonActionEnum, IconButtonActionEnum, LabelButtonActionEnum,
-  SkeletonEnum
+  SkeletonEnum,SubjectFormEnum
 } from '@shared/enums';
 import {OnExitInterface} from '@shared/interfaces';
 
@@ -37,7 +37,7 @@ import {OnExitInterface} from '@shared/interfaces';
 export class SubjectFormComponent implements OnInit, OnExitInterface {
   // Reference Prime Icons
   protected readonly PrimeIcons = PrimeIcons;
-
+  protected readonly SubjectFormEnum = SubjectFormEnum;
   // Button Actions Enum
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
@@ -132,19 +132,18 @@ export class SubjectFormComponent implements OnInit, OnExitInterface {
 
   validateForm() {
     this.formErrors = [];
-
-    if (this.autonomousHourField.errors) this.formErrors.push('Horas Autónomas');
-    if (this.codeField.errors) this.formErrors.push('Código');
-    if (this.isVisibleField.errors) this.formErrors.push('Visible');
-    if (this.creditsField.errors) this.formErrors.push('Créditos');
-    if (this.nameField.errors) this.formErrors.push('Nombre');
-    if (this.practicalHourField.errors) this.formErrors.push('Horas Prácticas');
-    if (this.scaleField.errors) this.formErrors.push('Escala');
-    if (this.teacherHourField.errors) this.formErrors.push('Horas Docentes');
-    if (this.academicPeriodField.errors) this.formErrors.push('Periodo Académico');
-    if (this.stateField.errors) this.formErrors.push('Estado');
-    if (this.typeField.errors) this.formErrors.push('Tipo');
-    if (this.curriculumField.errors) this.formErrors.push('Malla Curricular');
+    if (this.autonomousHourField.errors) this.formErrors.push(SubjectFormEnum.autonomousHour);
+    if (this.codeField.errors) this.formErrors.push(SubjectFormEnum.code);
+    if (this.isVisibleField.errors) this.formErrors.push(SubjectFormEnum.isVisible);
+    if (this.creditsField.errors)this.formErrors.push(SubjectFormEnum.credits);
+    if (this.nameField.errors)this.formErrors.push(SubjectFormEnum.name);
+    if (this.practicalHourField.errors) this.formErrors.push(SubjectFormEnum.practicalHour);
+    if (this.scaleField.errors) this.formErrors.push(SubjectFormEnum.state);
+    if (this.teacherHourField.errors) this.formErrors.push(SubjectFormEnum.teacherHour);
+    if (this.academicPeriodField.errors) this.formErrors.push(SubjectFormEnum.academicPeriod);
+    if (this.stateField.errors) this.formErrors.push(SubjectFormEnum.state);
+    if (this.typeField.errors) this.formErrors.push(SubjectFormEnum.type);
+    if (this.curriculumField.errors) this.formErrors.push(SubjectFormEnum.curriculum);
     if (this.subjectPrerequisitesField.errors) this.formErrors.push('Prequisitos');
     if (this.subjectCorequisitesField.errors) this.formErrors.push('Corequisitos');
 

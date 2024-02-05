@@ -28,7 +28,7 @@ import {
   CareersHttpService,
   CareersService,
 } from '@services/core';
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum,TeacherDistributionFormEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-teacher-distribution-form',
@@ -39,7 +39,8 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   protected PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-
+  protected formErrors: string[] = [];
+  protected readonly TeacherDistributionFormEnum = TeacherDistributionFormEnum;
   // Foreign Keys
   protected schoolPeriods: SchoolPeriodModel[] = [];
   protected subjects: SubjectModel[] = [];
@@ -111,7 +112,7 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -119,7 +120,7 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields;
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
@@ -148,6 +149,19 @@ export class TeacherDistributionFormComponent implements OnInit, OnExitInterface
     this.teacherDistributionsHttpService.findOne(this.id!).subscribe((item) => {
       this.form.patchValue(item);
     });
+  }
+  /**validateForm */
+  validateForm() {
+    this.formErrors = [];
+    if (this.schoolPeriodField.errors) this.formErrors.push(TeacherDistributionFormEnum.schoolPeriod);
+    if (this.careerField.errors) this.formErrors.push(TeacherDistributionFormEnum.career);
+     if (this.subjectField.errors) this.formErrors.push(TeacherDistributionFormEnum.subject);
+     if (this.parallelField.errors) this.formErrors.push(TeacherDistributionFormEnum.parallel);
+     if (this.teacherField.errors) this.formErrors.push(TeacherDistributionFormEnum.teacher);
+    if (this.workdayField.errors) this.formErrors.push(TeacherDistributionFormEnum.workday);
+    if (this.hoursField.errors) this.formErrors.push(TeacherDistributionFormEnum.hours);
+          this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
   }
 
   loadParallels(): void {

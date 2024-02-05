@@ -166,6 +166,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   /** Form Getters **/
+  
   get isEnabledField(): AbstractControl {
     return this.form.controls['isEnabled'];
   }

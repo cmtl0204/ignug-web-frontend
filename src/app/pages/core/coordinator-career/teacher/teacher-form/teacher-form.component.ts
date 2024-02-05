@@ -13,7 +13,7 @@ import {
   RoutesService,
   TeachersHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum,InformationTeacherFormEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-teacher-form',
@@ -24,6 +24,8 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
+  protected formErrors: string[] = [];
+  protected readonly InformationTeacherFormEnum = InformationTeacherFormEnum;
 
   // Foreign Keys Information Teacher
   protected states: CatalogueModel[] = [];
@@ -136,7 +138,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -144,7 +146,7 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields();
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
@@ -189,7 +191,36 @@ export class TeacherFormComponent implements OnInit, OnExitInterface {
   loadSexes(): void {
     this.sexes = this.cataloguesHttpService.findByType(CatalogueTypeEnum.SEX);
   }
+ /** Validations **/
+ validateForm() {
+  this.formErrors = [];
 
+  //if (this.identificationField.errors) this.formErrors.push(InformationTeacherFormEnum);
+  if (this.administrativeHoursField.errors) this.formErrors.push(InformationTeacherFormEnum.administrativeHours);
+  if (this.academicUnitField.errors) this.formErrors.push(InformationTeacherFormEnum.academicUnit);
+  if (this.classHoursField.errors) this.formErrors.push(InformationTeacherFormEnum.classHours);
+  if (this.degreeHigherEducationField.errors) this.formErrors.push(InformationTeacherFormEnum.degreeHigherEducation);
+  //if (this.emailField.errors) this.formErrors.push(InformationTeacherFormEnum.email);
+  ///if (this.isVisibleField.errors) this.formErrors.push('Es Visible');
+  if (this.hoursWorkedField.errors) this.formErrors.push(InformationTeacherFormEnum.hoursWorked);
+  if (this.holidaysField.errors) this.formErrors.push(InformationTeacherFormEnum.holidays);
+  if (this.homeVacationField.errors) this.formErrors.push(InformationTeacherFormEnum.homeVacation);
+  if (this.institutionHigherEducationField.errors) this.formErrors.push(InformationTeacherFormEnum.institutionHigherEducation);
+  if (this.investigationHoursField.errors) this.formErrors.push(InformationTeacherFormEnum.investigationHours);
+  //if (this.stateField.errors) this.formErrors.push('Estado');
+  if (this.otherHoursField.errors) this.formErrors.push(InformationTeacherFormEnum.otherHours);
+  if (this.publicationsField.errors) this.formErrors.push(InformationTeacherFormEnum.publications);
+  if (this.scholarshipAmountField.errors) this.formErrors.push(InformationTeacherFormEnum.scholarshipAmount);
+  if (this.totalSubjectsField.errors) this.formErrors.push(InformationTeacherFormEnum.totalSubjects);
+  if (this.technicalField.errors) this.formErrors.push(InformationTeacherFormEnum.technical);
+  if (this.technologyField.errors) this.formErrors.push(InformationTeacherFormEnum.technology);
+  if (this.totalPublicationsField.errors) this.formErrors.push(InformationTeacherFormEnum.totalPublications);
+  //if (this.webField.errors) this.formErrors.push(InformationTeacherFormEnum.web);
+  
+
+  this.formErrors.sort();
+  return this.formErrors.length === 0 && this.form.valid;
+}
   /** Form Getters **/
 
   /** Teachers Form **/

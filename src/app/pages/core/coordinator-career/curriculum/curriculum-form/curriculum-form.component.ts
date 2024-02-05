@@ -13,6 +13,7 @@ import {
   CurriculumsHttpService, CareersService
 } from "@services/core";
 import {
+  CurriculumEnum,
   BreadcrumbEnum,
   CatalogueTypeEnum,
   ClassButtonActionEnum, IconButtonActionEnum,
@@ -30,7 +31,8 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-
+  protected formErrors: string[] = [];
+  protected readonly CurriculumEnum = CurriculumEnum;
   // Foreign Keys
   protected states: CatalogueModel[] = [];
 
@@ -90,7 +92,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -98,7 +100,7 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields();
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
@@ -121,6 +123,19 @@ export class CurriculumFormComponent implements OnInit, OnExitInterface {
     });
   }
 
+
+  get validateForm() {
+    this.formErrors = [];
+
+    if (this.codeField.errors) this.formErrors.push(CurriculumEnum.code);
+    if (this.nameField.errors) this.formErrors.push(CurriculumEnum.name);
+    if (this.descriptionField.errors) this.formErrors.push(CurriculumEnum.description);
+    if (this.resolutionNumberField.errors) this.formErrors.push(CurriculumEnum.resolutionNumber);
+    if (this.periodicAcademicNumberField.errors) this.formErrors.push(CurriculumEnum.periodicAcademicNumber);
+    if (this.weeksNumberField.errors) this.formErrors.push(CurriculumEnum.weeksNumber);
+    this.formErrors.sort();
+    return this.formErrors.length === 0 && this.form.valid;
+  }
   /** Load Data **/
   get(): void {
     this.curriculumsHttpService.findOne(this.id!).subscribe((item) => {
