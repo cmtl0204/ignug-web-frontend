@@ -243,6 +243,7 @@ export enum SubjectFormEnum {
 export enum TeacherDistributionFormEnum {
   parallel = 'Paralelo',
   schoolPeriod = 'Periódo Lectivo',
+  career = 'Carrera',
   subject = 'Asignatura',
   teacher = 'Profesor',
   workday = 'Jornada Laboral',
@@ -417,13 +418,13 @@ export enum EnrollmentDetailStateEnum {
 }
 
 export enum EnrollmentDetailEnum {
-  academicStateId= 'Aprobado o Desaprobado',
-  incomeTypeId='Normal, Convalidación, etc',
-  enrollmentId='Matriculado o No Matriculado',
-  parallelId='Paralelo asignado',
-  subjectId='Asignaturas asignadas',
-  typeId='Ordinaria, extraordinaria o especial',
-  workdayId='Jornada laboral',
+  academicState= 'Aprobado o Desaprobado',
+  incomeType='Normal, Convalidación, etc',
+  enrollment='Matriculado o No Matriculado',
+  parallel='Paralelo asignado',
+  subject='Asignaturas asignadas',
+  type='Ordinaria, extraordinaria o especial',
+  workday='Jornada laboral',
   academicObservation='Observacion académica, Ej. pierde por faltas',
   number='Número de matrícula',
   date='Fecha de la matrícula',

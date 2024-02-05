@@ -26,7 +26,7 @@ import {
   ClassButtonActionEnum,
   SkeletonEnum,
   LabelButtonActionEnum,
-  IconButtonActionEnum, CatalogueEnrollmentStateEnum
+  IconButtonActionEnum, CatalogueEnrollmentStateEnum,EnrollmentDetailEnum
 } from '@shared/enums';
 import {EnrollmentDetailsHttpService} from '@services/core';
 
@@ -45,7 +45,7 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected formErrors: string[] = [];
-
+  protected readonly EnrollmentDetailEnum = EnrollmentDetailEnum;
   protected selectedItem: SelectEnrollmentDetailDto = {};
   protected selectedItems: EnrollmentDetailModel[] = [];
   protected items: EnrollmentDetailModel[] = [];
@@ -205,14 +205,12 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
 
   validateForm() {
     this.formErrors = [];
-    if (this.dateField.errors) this.formErrors.push('Fecha');
-    if (this.typeField.errors) this.formErrors.push('Tipo');
-    if (this.workdayField.errors) this.formErrors.push(' Jornada');
-    if (this.parallelField.errors) this.formErrors.push('Paralelo');
-    if (this.observationField.errors) this.formErrors.push('Observación');
-    if (this.numberField.errors) this.formErrors.push('Número');
-
-    this.formErrors.sort();
+    if (this.subjectField.errors) this.formErrors.push(EnrollmentDetailEnum.subject);
+     if (this.typeField.errors) this.formErrors.push(EnrollmentDetailEnum.type);
+     if (this.workdayField.errors) this.formErrors.push(EnrollmentDetailEnum.workday);
+     if (this.parallelField.errors) this.formErrors.push(EnrollmentDetailEnum.parallel);
+     if (this.parallelField.errors) this.formErrors.push(EnrollmentDetailEnum.parallel);
+      this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
   }
 

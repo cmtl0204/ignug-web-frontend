@@ -13,7 +13,6 @@ export class CareersService {
   get career(): CareerModel {
     return JSON.parse(String(sessionStorage.getItem('career')));
   }
-
   set career(value: CareerModel) {
     sessionStorage.setItem('career', JSON.stringify(value));
   }

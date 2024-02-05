@@ -13,7 +13,7 @@ import {
   MessageService,
   RoutesService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from "@shared/enums";
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum,EventEnum} from "@shared/enums";
 
 @Component({
   selector: 'app-event-form',
@@ -25,7 +25,8 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   protected id: string | null = null;
   protected form: FormGroup;
   protected startedAt: Date = new Date();
-
+  protected formErrors: string[] = [];
+  protected readonly EventEnum = EventEnum;
   // Foreign Keys
   protected states: CatalogueModel[] = [];
 
@@ -90,7 +91,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    if (this.validateForm()) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -98,7 +99,7 @@ export class EventFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields;
+      this.messageService.errorsFields(this.formErrors);
     }
   }
 
@@ -120,7 +121,20 @@ export class EventFormComponent implements OnInit, OnExitInterface {
       this.back();
     });
   }
-
+/**validateForm */
+validateForm() {
+  this.formErrors = [];
+  if (this.stateField.errors) this.formErrors.push(EventEnum.state);
+  if (this.orderField.errors) this.formErrors.push(EventEnum.order);
+   if (this.isVisibleField.errors) this.formErrors.push(EventEnum.isVisible);
+   if (this.nameField.errors) this.formErrors.push(EventEnum.name);
+  if (this.descriptionField.errors) this.formErrors.push(EventEnum.description);
+  if (this.descriptionField.errors) this.formErrors.push(EventEnum.description);
+  if (this.startedAtField.errors) this.formErrors.push(EventEnum.startedAt);
+  if (this.endedAtField.errors) this.formErrors.push(EventEnum.endedAt);
+        this.formErrors.sort();
+  return this.formErrors.length === 0 && this.form.valid;
+}
   /** Load Data **/
   get(): void {
     this.eventsHttpService.findOne(this.id!).subscribe((item) => {

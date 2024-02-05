@@ -40,7 +40,7 @@
     <!-- code & codeSniese -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="code" label="Código:" [required]="codeField"></label>
+        <label appLabel for="code"  [label]="SchoolPeriodFormEnum.code+':'" [required]="codeField"></label>
         <input pInputText type="text" id="code" formControlName="code"/>
         <small appErrorMessage
                [errors]="codeField.errors"
@@ -50,7 +50,7 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="codeSniese" label="Código SNIESE:" [required]="codeSnieseField"></label>
+        <label appLabel for="codeSniese" [label]="SchoolPeriodFormEnum.codeSniese+':'"  [required]="codeSnieseField"></label>
         <input pInputText type="text" id="codeSniese" formControlName="codeSniese"/>
         <small appErrorMessage
                [errors]="codeSnieseField.errors"
@@ -63,7 +63,7 @@
     <!-- name & shortName -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
+        <label appLabel for="name" [label]="SchoolPeriodFormEnum.name+':'"  [required]="nameField"></label>
         <input pInputText type="text" id="name" formControlName="name"/>
         <small appErrorMessage
                [errors]="nameField.errors"
@@ -73,7 +73,7 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="shortName" label="Nombre corto:" [required]="shortNameField"></label>
+        <label appLabel for="shortName" [label]="SchoolPeriodFormEnum.shortName+':'"   [required]="shortNameField"></label>
         <input pInputText type="text" id="shortName" formControlName="shortName"/>
         <small appErrorMessage
                [errors]="shortNameField.errors"
@@ -86,7 +86,7 @@
     <!-- startedAt & endedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="startedAt" label="Fecha Inicio:"
+        <label appLabel for="startedAt" [label]="SchoolPeriodFormEnum.startedAt+':'" 
                [required]="startedAtField"></label>
         <p-calendar id="startedAt"
                     formControlName="startedAt"
@@ -102,7 +102,7 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="endedAt" label="Fecha Fin:" [required]="endedAtField"></label>
+        <label appLabel for="endedAt" [label]="SchoolPeriodFormEnum.endedAt+':'"  [required]="endedAtField"></label>
         <p-calendar id="endedAt"
                     formControlName="endedAt"
                     dateFormat="yy-mm-dd"
@@ -121,7 +121,7 @@
     <!-- ordinaryStartedAt & ordinaryEndedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="ordinaryStartedAt" label="Fecha Inicio Ordinaria:"
+        <label appLabel for="ordinaryStartedAt" [label]="SchoolPeriodFormEnum.ordinaryStartedAt+':'"
                [required]="ordinaryStartedAtField"></label>
         <p-calendar id="ordinaryStartedAt"
                     formControlName="ordinaryStartedAt"
@@ -136,7 +136,7 @@
         </small>
       </div>
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="ordinaryEndedAt" label="Fecha Fin Ordinaria:" [required]="ordinaryEndedAtField"></label>
+        <label appLabel for="ordinaryEndedAt"[label]="SchoolPeriodFormEnum.ordinaryEndedAt+':'" [required]="ordinaryEndedAtField"></label>
         <p-calendar id="ordinaryEndedAt"
                     formControlName="ordinaryEndedAt"
                     dateFormat="yy-mm-dd"
@@ -155,7 +155,7 @@
     <!-- extraOrdinaryStartedAt & extraOrdinaryEndedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="extraOrdinaryStartedAt" label="Fecha Inicio Extraordinaria:"
+        <label appLabel for="extraOrdinaryStartedAt"[label]="SchoolPeriodFormEnum.extraOrdinaryStartedAt+':'" 
                [required]="extraOrdinaryStartedAtField"></label>
         <p-calendar id="extraOrdinaryStartedAt"
                     formControlName="extraOrdinaryStartedAt"
@@ -171,7 +171,7 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="extraOrdinaryEndedAt" label="Fecha Fin Extraordinaria:"
+        <label appLabel for="extraOrdinaryEndedAt" [label]="SchoolPeriodFormEnum.extraOrdinaryEndedAt+':'" 
                [required]="extraOrdinaryEndedAtField"></label>
         <p-calendar id="extraOrdinaryEndedAt"
                     formControlName="extraOrdinaryEndedAt"
@@ -191,7 +191,7 @@
     <!-- especialStartedAt & especialEndedAt -->
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="especialStartedAt" label="Fecha Inicio Especial:"
+        <label appLabel for="especialStartedAt" [label]="SchoolPeriodFormEnum.especialStartedAt+':'" 
                [required]="especialStartedAtField"></label>
         <p-calendar id="especialStartedAt"
                     formControlName="especialStartedAt"
@@ -207,7 +207,7 @@
       </div>
 
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="especialEndedAt" label="Fecha Fin Especial:" [required]="especialEndedAtField"></label>
+        <label appLabel for="especialEndedAt"[label]="SchoolPeriodFormEnum.especialEndedAt+':'"  [required]="especialEndedAtField"></label>
         <p-calendar id="especialEndedAt"
                     formControlName="especialEndedAt"
                     dateFormat="yy-mm-dd"

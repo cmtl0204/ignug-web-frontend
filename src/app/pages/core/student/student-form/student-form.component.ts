@@ -12,7 +12,7 @@ import {
   RoutesService,
   StudentsHttpService
 } from "@services/core";
-import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum} from '@shared/enums';
+import {BreadcrumbEnum, CatalogueTypeEnum, SkeletonEnum, StudentFormEnum} from '@shared/enums';
 
 @Component({
   selector: 'app-student-form',
@@ -23,7 +23,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   protected readonly PrimeIcons = PrimeIcons;
   protected id: string | null = null;
   protected form: FormGroup;
-
+  protected readonly StudentFormEnum = StudentFormEnum;
   // Foreign Keys
   protected isExecutedPractices: CatalogueModel[] = [];
   protected isExecutedCommunities: CatalogueModel[] = [];
@@ -34,7 +34,7 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   protected ethnicOrigins: CatalogueModel[] = [];
   protected genders: CatalogueModel[] = [];
   protected sexes: CatalogueModel[] = [];
-
+  protected formErrors: string[] = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: BreadcrumbService,
@@ -134,7 +134,17 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   }
 
   onSubmit(): void {
-    if (this.form.valid) {
+    // if (this.form.valid) {
+    //   if (this.id) {
+    //     this.update(this.form.value);
+    //   } else {
+    //     this.create(this.form.value);
+    //   }
+    // } else {
+    //   this.form.markAllAsTouched();
+    //   this.messageService.errorsFields();
+    // }
+    if (this.validateForm) {
       if (this.id) {
         this.update(this.form.value);
       } else {
@@ -142,13 +152,16 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
       }
     } else {
       this.form.markAllAsTouched();
-      this.messageService.errorsFields();
+      this.messageService.errorsFields(this.formErrors);
     }
+    
   }
 
   back(): void {
     this.router.navigate([this.routesService.studentsCoordinatorCareer]);
   }
+
+
 
   /** Actions **/
   create(student: StudentModel): void {
@@ -164,7 +177,22 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
       this.back();
     });
   }
+/**validate form */
+get validateForm() {
+  this.formErrors = [];
 
+  // if (this.codeField.errors) this.formErrors.push(StudentFormEnum.code);
+  // if (this.codeSnieseField.errors) this.formErrors.push(StudentFormEnum.codeSniese);
+  // if (this.nameField.errors) this.formErrors.push(StudentFormEnum.name);
+  // if (this.shortNameField.errors) this.formErrors.push(StudentFormEnum.shortName);
+  // if (this.degreeField.errors) this.formErrors.push(StudentFormEnum.degree);
+  // if (this.logoField.errors) this.formErrors.push(StudentFormEnum.logo);
+  // if (this.acronymField.errors) this.formErrors.push(StudentFormEnum.acronym);
+  // if (this.resolutionNumberField.errors) this.formErrors.push(StudentFormEnum.resolutionNumber);
+
+  this.formErrors.sort();
+  return this.formErrors.length === 0 && this.form.valid;
+}
   /** Load Data **/
   get(): void {
     this.studentsHttpService.findOne(this.id!).subscribe((student) => {
@@ -207,8 +235,28 @@ export class StudentFormComponent implements OnInit, OnExitInterface {
   loadIsSubjectRepeats(): void {
     this.isSubjectRepeats = this.cataloguesHttpService.findByType(CatalogueTypeEnum.YES_NO_NA);
   }
-
-  /** Form Getters **/
+ /** Validations **/
+    //validateForm() {
+      // this.formErrors = [];
+  
+      // if (this.acronymField.errors) this.formErrors.push(InformationStudentEnum.acronym);
+      // if (this.cellphoneField.errors) this.formErrors.push(InformationStudentEnum.cellphone);
+      // if (this.codeField.errors) this.formErrors.push(InformationStudentEnum.code);
+      // if (this.codeSnieseField.errors) this.formErrors.push(InformationStudentEnum.codeSniese);
+      // if (this.denominationField.errors) this.formErrors.push(InformationStudentEnum.denomination);
+      // if (this.emailField.errors) this.formErrors.push(InformationStudentEnum.email);
+      // if (this.isVisibleField.errors) this.formErrors.push('Es Visible');
+      // if (this.logoField.errors) this.formErrors.push(InformationStudentEnum.logo);
+      // if (this.nameField.errors) this.formErrors.push(InformationStudentEnum.name);
+      // if (this.phoneField.errors) this.formErrors.push(InformationStudentEnum.phone);
+      // if (this.shortNameField.errors) this.formErrors.push(InformationStudentEnum.shortName);
+      // if (this.sloganField.errors) this.formErrors.push(InformationStudentEnum.slogan);
+      // if (this.stateField.errors) this.formErrors.push('Estado');
+      // if (this.webField.errors) this.formErrors.push(InstitutionFormEnum.web);
+  
+      // this.formErrors.sort();
+      // return this.formErrors.length === 0 && this.form.valid;
+    //}
   /** Student Form **/
   get informationStudentField(): FormGroup {
     return this.form.controls['informationStudent'] as FormGroup;

@@ -123,14 +123,14 @@
     <div formGroupName="informationTeacher">
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="academicUnit" label="Nombre de la unidad académica:" [required]="academicUnitField"></label>
+          <label appLabel for="academicUnit" [label]="InformationTeacherFormEnum.administrativeHours+':'" [required]="academicUnitField"></label>
           <input pInputText type="text" id="academicUnit" formControlName="academicUnit" />
           <small appErrorMessage [errors]="academicUnitField.errors" [touched]="academicUnitField.touched"
             [dirty]="academicUnitField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="administrativeHours" label="Horas administrativas:"
+          <label appLabel for="administrativeHours" [label]="InformationTeacherFormEnum.administrativeHours+':'"
             [required]="administrativeHoursField"></label>
             <input pInputText type="number" id="administrativeHours" formControlName="administrativeHours"/>
           <small appErrorMessage [errors]="administrativeHoursField.errors" [touched]="administrativeHoursField.touched"
@@ -140,14 +140,15 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="classHours" label="Horas de clases:" [required]="classHoursField"></label>
+          <label appLabel for="classHours" [label]="InformationTeacherFormEnum.classHours+':'" [required]="classHoursField"></label>
           <input pInputText type="number" id="classHours" formControlName="classHours"/>
           <small appErrorMessage [errors]="classHoursField.errors" [touched]="classHoursField.touched"
             [dirty]="classHoursField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="communityHours" label="Horas comunitarias:" [required]="communityHoursField"></label>
+          <label appLabel for="communityHours" label="Horas comunitarias:" [req
+          uired]="communityHoursField"></label>
           <input pInputText type="number" id="communityHours" formControlName="communityHours"/>
           <small appErrorMessage [errors]="communityHoursField.errors" [touched]="communityHoursField.touched"
             [dirty]="communityHoursField.dirty">
@@ -156,7 +157,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="degreeHigherEducation" label="Grado de educación superior:"
+          <label appLabel for="degreeHigherEducation" [label]="InformationTeacherFormEnum.degreeHigherEducation+':'"
             [required]="degreeHigherEducationField"></label>
           <input pInputText type="text" id="degreeHigherEducation" formControlName="degreeHigherEducation" />
           <small appErrorMessage [errors]="degreeHigherEducationField.errors"
@@ -164,7 +165,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="hoursWorked" label="Horas trabajadas:" [required]="hoursWorkedField"></label>
+          <label appLabel for="hoursWorked" [label]="InformationTeacherFormEnum.hoursWorked+':'" [required]="hoursWorkedField"></label>
           <input pInputText type="number" id="hoursWorked" formControlName="hoursWorked"/>
           <small appErrorMessage [errors]="hoursWorkedField.errors" [touched]="hoursWorkedField.touched"
             [dirty]="hoursWorkedField.dirty">
@@ -173,7 +174,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="holidays" label="Feriado:" [required]="holidaysField"></label>
+          <label appLabel for="holidays" [label]="InformationTeacherFormEnum.holidays+':'"  [required]="holidaysField"></label>
           <p-calendar id="holidays"
                     formControlName="holidays"
                     dateFormat="yy-mm-dd"
@@ -185,7 +186,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="homeVacation" label="Vacaciones:" [required]="homeVacationField"></label>
+          <label appLabel for="homeVacation" [label]="InformationTeacherFormEnum.homeVacation+':'" [required]="homeVacationField"></label>
           <p-calendar id="homeVacation"
                     formControlName="homeVacation"
                     dateFormat="yy-mm-dd"
@@ -199,7 +200,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="institutionHigherEducation" label="Nombre de la institución de eduación superior:"
+          <label appLabel for="institutionHigherEducation" [label]="InformationTeacherFormEnum.institutionHigherEducation+':'" 
             [required]="institutionHigherEducationField"></label>
           <input pInputText type="text" id="institutionHigherEducation" formControlName="institutionHigherEducation" />
           <small appErrorMessage [errors]="institutionHigherEducationField.errors"
@@ -207,7 +208,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="investigationHours" label="Horas de investigación:"
+          <label appLabel for="investigationHours" [label]="InformationTeacherFormEnum.investigationHours+':'" 
             [required]="investigationHoursField"></label>
             <input pInputText type="number" id="investigationHours" formControlName="investigationHours"/>
           <small appErrorMessage [errors]="investigationHoursField.errors" [touched]="investigationHoursField.touched"
@@ -217,14 +218,14 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="otherHours" label="Horas dedicadas a otras actividades:" [required]="otherHoursField"></label>
+          <label appLabel for="otherHours" [label]="InformationTeacherFormEnum.otherHours+':'" [required]="otherHoursField"></label>
           <input pInputText type="number" id="otherHours" formControlName="otherHours"/>
           <small appErrorMessage [errors]="otherHoursField.errors" [touched]="otherHoursField.touched"
             [dirty]="otherHoursField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="publications" label="Publicaciones:" [required]="publicationsField"></label>
+          <label appLabel for="publications" [label]="InformationTeacherFormEnum.publications+':'"  [required]="publicationsField"></label>
           <input pInputText type="text" id="publications" formControlName="publications" />
           <small appErrorMessage [errors]="publicationsField.errors" [touched]="publicationsField.touched"
             [dirty]="publicationsField.dirty">
@@ -233,7 +234,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="scholarshipAmount" label="Monto de la beca:" [required]="scholarshipAmountField"></label>
+          <label appLabel for="scholarshipAmount"  [label]="InformationTeacherFormEnum.scholarshipAmount+':'" [required]="scholarshipAmountField"></label>
           <p-inputNumber formControlName="scholarshipAmount" id="scholarshipAmount" mode="currency" currency="USD"
             locale="en-US"> </p-inputNumber>
           <small appErrorMessage [errors]="scholarshipAmountField.errors" [touched]="scholarshipAmountField.touched"
@@ -241,7 +242,7 @@
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="totalSubjects" label="Materias totales:" [required]="totalSubjectsField"></label>
+          <label appLabel for="totalSubjects" [label]="InformationTeacherFormEnum.totalSubjects+':'" [required]="totalSubjectsField"></label>
           <input pInputText type="number" id="totalSubjects" formControlName="totalSubjects"/>
           <small appErrorMessage [errors]="totalSubjectsField.errors" [touched]="totalSubjectsField.touched"
             [dirty]="totalSubjectsField.dirty">
@@ -250,14 +251,14 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="technical" label="Técnica a utilizar:" [required]="technicalField"></label>
+          <label appLabel for="technical" [label]="InformationTeacherFormEnum.technical+':'" [required]="technicalField"></label>
           <input pInputText type="text" id="technical" formControlName="technical" />
           <small appErrorMessage [errors]="technicalField.errors" [touched]="technicalField.touched"
             [dirty]="technicalField.dirty">
           </small>
         </div>
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="technology" label="Tecnología:" [required]="technologyField"></label>
+          <label appLabel for="technology" [label]="InformationTeacherFormEnum.technology+':'" [required]="technologyField"></label>
           <input pInputText type="text" id="technology" formControlName="technology" />
           <small appErrorMessage [errors]="technologyField.errors" [touched]="technologyField.touched"
             [dirty]="technologyField.dirty">
@@ -266,7 +267,7 @@
       </div>
       <div class="formgrid grid">
         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-          <label appLabel for="totalPublications" label="Publicaciones totales:"
+          <label appLabel for="totalPublications"  [label]="InformationTeacherFormEnum.totalPublications+':'"
             [required]="totalPublicationsField"></label>
             <input pInputText type="number" id="totalPublications" formControlName="totalPublications"/>
           <small appErrorMessage [errors]="totalPublicationsField.errors" [touched]="totalPublicationsField.touched"

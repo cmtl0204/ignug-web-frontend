@@ -6,7 +6,6 @@ import {map} from 'rxjs/operators';
 import {CreateCareerDto, UpdateCareerDto, CareerModel, TeacherModel, CurriculumModel, EnrollmentModel} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from '@services/core';
-
 @Injectable({
   providedIn: 'root'
 })

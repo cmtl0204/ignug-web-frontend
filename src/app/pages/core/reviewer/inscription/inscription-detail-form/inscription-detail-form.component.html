@@ -30,7 +30,7 @@
   <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="formgrid grid">
       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-        <label appLabel for="subject" label="Asignatura:" [required]="subjectField"></label>
+        <label appLabel for="subject" [label]="EnrollmentDetailEnum.subject+':'" [required]="subjectField"></label>
         <p-dropdown id="subject"
                     dataKey="id"
                     formControlName="subject"
@@ -57,7 +57,7 @@
         <label
           appLabel
           for="type"
-          label="Tipo de matrícula:"
+          [label]="EnrollmentDetailEnum.type+':'"
           [required]="typeField"
         >
         </label>
@@ -84,7 +84,7 @@
         <label
           appLabel
           for="workday"
-          label="Jornada:"
+          [label]="EnrollmentDetailEnum.workday+':'"
           [required]="workdayField"
         >
         </label>
@@ -109,7 +109,7 @@
         <label
           appLabel
           for="parallel"
-          label="Paralelo:"
+          [label]="EnrollmentDetailEnum.parallel+':'"
           [required]="parallelField"
         >
         </label>
@@ -136,7 +136,7 @@
         <label
           appLabel
           for="number"
-          label="Numero de matrícula:"
+          [label]="EnrollmentDetailEnum.number+':'"
           [required]="numberField"
         >
         </label>
