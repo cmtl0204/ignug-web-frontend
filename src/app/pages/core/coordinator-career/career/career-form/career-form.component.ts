@@ -36,6 +36,8 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
+  protected formErrors: string[] = [];
+
   protected readonly CareerFormEnum = CareerFormEnum;
 
   // Foreign Keys
@@ -44,7 +46,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   protected modality: CatalogueModel[] = [];
   protected type: CatalogueModel[] = [];
 
-  protected formErrors: string[] = [];
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -80,7 +81,6 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
 
   ngOnInit(): void {
     this.loadStates();
-
 
     if (this.id) {
       this.get();
@@ -166,7 +166,7 @@ export class CareerFormComponent implements OnInit, OnExitInterface {
   }
 
   /** Form Getters **/
-  
+
   get isEnabledField(): AbstractControl {
     return this.form.controls['isEnabled'];
   }

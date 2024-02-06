@@ -2,23 +2,23 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {Router} from '@angular/router';
 import {MenuItem, PrimeIcons} from 'primeng/api';
-import {ColumnModel, CareerModel, SelectCareerDto, SelectInstitutionDto} from '@models/core';
+import {CareerModel, ColumnModel, SelectCareerDto, SelectInstitutionDto} from '@models/core';
 import {
   BreadcrumbService,
-  CoreService,
-  MessageService,
-  RoutesService,
   CareersHttpService,
   CareersService,
+  CoreService,
+  InstitutionsHttpService,
   InstitutionsService,
-  InstitutionsHttpService
+  MessageService,
+  RoutesService
 } from '@services/core';
 import {
-    IdButtonActionEnum,
-    BreadcrumbEnum,
-    IconButtonActionEnum,
-    ClassButtonActionEnum,
-    LabelButtonActionEnum
+  BreadcrumbEnum,
+  ClassButtonActionEnum,
+  IconButtonActionEnum,
+  IdButtonActionEnum,
+  LabelButtonActionEnum
 } from "@shared/enums";
 
 @Component({
@@ -36,9 +36,11 @@ export class CareerListComponent implements OnInit {
   protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
+
   protected selectedItem!: CareerModel;
   protected selectedItems: CareerModel[] = [];
   protected items: SelectCareerDto[] = [];
+
   protected selectedInstitution: FormControl = new FormControl();
   protected institutions: SelectInstitutionDto[] = [];
 
@@ -101,32 +103,32 @@ export class CareerListComponent implements OnInit {
     return [
       {
         id: IdButtonActionEnum.UPDATE,
-        label: 'Editar',
-        icon: PrimeIcons.PENCIL,
+        label: LabelButtonActionEnum.UPDATE,
+        icon: IconButtonActionEnum.UPDATE,
         command: () => {
           if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
         },
       },
       {
         id: IdButtonActionEnum.SELECT,
-        label: 'Seleccionar',
-        icon: PrimeIcons.SYNC,
+        label: LabelButtonActionEnum.SELECT,
+        icon: IconButtonActionEnum.SELECT,
         command: () => {
           if (this.selectedItem?.id) this.change(this.selectedItem);
         },
       },
       {
         id: IdButtonActionEnum.HIDE,
-        label: 'Ocultar',
-        icon: PrimeIcons.EYE_SLASH,
+        label: LabelButtonActionEnum.HIDE,
+        icon: IconButtonActionEnum.HIDE,
         command: () => {
           if (this.selectedItem?.id) this.hide(this.selectedItem.id);
         },
       },
       {
         id: IdButtonActionEnum.REACTIVATE,
-        label: 'Mostrar',
-        icon: PrimeIcons.EYE,
+        label: LabelButtonActionEnum.REACTIVATE,
+        icon: IconButtonActionEnum.REACTIVATE,
         command: () => {
           if (this.selectedItem?.id) this.reactivate(this.selectedItem.id);
         },

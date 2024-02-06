@@ -24,11 +24,13 @@ import {TeacherDistributionListComponent} from "./teacher-distribution-list/teac
 import {TeacherDistributionFormComponent} from "./teacher-distribution-form/teacher-distribution-form.component";
 import {PanelModule} from "primeng/panel";
 import {DividerModule} from "primeng/divider";
+import { TeacherDistributionTeacherListComponent } from './teacher-distribution-teacher-list/teacher-distribution-teacher-list.component';
 
 @NgModule({
   declarations: [
     TeacherDistributionListComponent,
     TeacherDistributionFormComponent,
+    TeacherDistributionTeacherListComponent,
   ],
   imports: [
     NgCommonModule,
