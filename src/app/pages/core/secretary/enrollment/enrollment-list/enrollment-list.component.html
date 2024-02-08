@@ -123,6 +123,9 @@
       <td class="text-center" *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'career'">
+            {{ rowData[col.field].name }}
+          </div>
           <div *ngSwitchCase="'academicPeriod'">
             {{ rowData[col.field].name }}
           </div>

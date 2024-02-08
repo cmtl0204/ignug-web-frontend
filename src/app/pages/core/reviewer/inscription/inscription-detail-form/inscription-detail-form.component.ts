@@ -176,6 +176,10 @@ export class InscriptionDetailFormComponent implements OnInit, OnExitInterface {
       if (enrollment.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.ENROLLED ||
         enrollment.enrollmentDetailState.state.code === CatalogueEnrollmentStateEnum.REVOKED) {
         this.form.disable();
+
+        this.observationField.enable();
+        this.parallelField.enable();
+        this.workdayField.enable();
       }
     });
   }

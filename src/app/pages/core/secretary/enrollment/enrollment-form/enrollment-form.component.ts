@@ -259,12 +259,10 @@ export class EnrollmentFormComponent implements OnInit, OnExitInterface {
 
       if (this.approved || this.enrolled) {
         this.form.disable();
+
+        this.observationField.enable();
         this.parallelField.enable();
         this.workdayField.enable();
-      }
-
-      if (this.revoked) {
-        this.form.disable();
       }
     }
   }

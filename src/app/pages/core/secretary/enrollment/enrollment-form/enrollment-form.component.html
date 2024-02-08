@@ -267,18 +267,14 @@
     </div>
     <div class="formgrid grid">
       <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
-        <label
-          appLabel
-          for="observation"
-          label="Observación de la matrícula:"
-        >
-        </label>
-        <input
-          pInputText
-          type="text"
-          id="observation"
-          formControlName="observation"
-        />
+        <label appLabel for="observation" label="Observación de la matrícula:" [required]="observationField"></label>
+        <input pInputText type="text" id="observation" formControlName="observation"/>
+        <small
+          appErrorMessage
+          [errors]="observationField.errors"
+          [touched]="observationField.touched"
+          [dirty]="observationField.dirty">
+        </small>
       </div>
     </div>
   </form>
