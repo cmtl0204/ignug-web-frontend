@@ -16,6 +16,12 @@ const routes: Routes = [
     canActivate: [RoleGuard],
     data: {roles: [RolesEnum.STUDENT]}
   },
+  {
+    path: 'socioeconomic',
+    loadChildren: () => import('./socioeconomic/socioeconomic.module').then(m => m.SocioeconomicModule),
+    canActivate: [RoleGuard],
+    data: {roles: [RolesEnum.STUDENT]}
+  },
 ];
 
 @NgModule({
