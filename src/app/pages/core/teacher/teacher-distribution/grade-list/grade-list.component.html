@@ -1,1 +1,114 @@
-<p>grade-list works!</p>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+
+  </div>
+  <div class="p-toolbar-group-right">
+
+  </div>
+</p-toolbar>
+
+<p-table
+  #dt1
+  dataKey="id"
+  styleClass="p-datatable-striped"
+  [value]="items"
+  [columns]="columns"
+  [globalFilterFields]="['name']"
+  [loading]="coreService.isLoading"
+  [(selection)]="selectedItems">
+  <ng-template pTemplate="caption">
+    <div class="flex">
+      <h1>
+        {{ BreadcrumbEnum.CAREERS }}
+      </h1>
+      <div class="p-input-icon-right ml-auto">
+        <i [class]="PrimeIcons.SEARCH"></i>
+        <input #search pInputText type="text"
+               placeholder="Buscar..."
+               (input)="dt1.filterGlobal(search.value, 'contains')"/>
+      </div>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{ col.header }}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+      <th class="text-center">
+        {{ LabelButtonActionEnum.ACTIONS }}
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+      <td *ngFor="let col of columns">
+        <!--Objects-->
+        <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'identification'">
+            {{ rowData.identification }}
+          </div>
+        </div>
+
+        <!--Fields-->
+        <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchDefault>{{ rowData[col.field] }}</div>
+          <div *ngSwitchCase="'identification'">
+            {{ rowData?.enrollment?.student.user?.identification }}
+          </div>
+          <div *ngSwitchCase="'lastname'">
+            {{ rowData?.enrollment?.student.user?.lastname }}
+          </div>
+          <div *ngSwitchCase="'name'">
+            {{ rowData?.enrollment?.student.user?.name }}
+          </div>
+          <div *ngSwitchCase="'enrollmentDetailNumber'">
+            {{ rowData?.number }}
+          </div>
+          <div *ngSwitchCase="'grade1'">
+            <p-inputNumber></p-inputNumber>
+          </div>
+          <div *ngSwitchCase="'attendance1'">
+            <input pInputText>
+          </div>
+          <div *ngSwitchCase="'grade2'">
+            <input pInputText>
+          </div>
+          <div *ngSwitchCase="'attendance2'">
+            <input pInputText>
+          </div>
+          <div *ngSwitchCase="'finalGrade'">
+            {{ rowData?.finalGrade }}
+          </div>
+          <div *ngSwitchCase="'finalAttendance'">
+            {{ rowData?.finalAttendance }}
+          </div>
+        </div>
+      </td>
+      <td class="text-center">
+        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length">
+        {{ messageService.paginatorNoRecordsFound }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    {{ messageService.paginatorTotalRegisters(items.length) }}
+  </ng-template>
+</p-table>
+
+<app-button-action [buttonActions]="buttonActions"
+                   [isVisible]="isButtonActions"
+                   (isHide)="isButtonActions=!$event">
+</app-button-action>

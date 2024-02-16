@@ -98,7 +98,11 @@ export class RoutesService {
   }
 
   get teacherDistributions(): string {
-    return this.core + '/teacher-distributions';
+    return this.core + '/teacher/teacher-distributions';
+  }
+
+  get teacherDistributionsGrades(): string {
+    return this.core + '/teacher/teacher-distributions/grades';
   }
 
   get common(): string {

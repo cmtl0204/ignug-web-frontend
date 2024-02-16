@@ -1,1 +1,47 @@
-<p>teacher-distribution-list works!</p>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
+
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-right">
+    <p-dropdown [formControl]="selectedSchoolPeriod"
+                dataKey="id"
+                [options]="schoolPeriods"
+                optionLabel="name"
+                placeholder="Periodo Lectivo"
+                pTooltip="Periodo Lectivo">
+    </p-dropdown>
+  </div>
+</p-toolbar>
+
+<div *ngIf="!coreService.isLoading" class="grid">
+  <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12" *ngFor="let teacherDistribution of teacherDistributions">
+    <p-card [header]="teacherDistribution.subject.name"
+            [subheader]="authService.auth.lastname + ' ' + authService.auth.name"
+            [style]="{ width: '360px' }">
+      <ng-template pTemplate="header">
+        <i [class]="PrimeIcons.BOOK"></i>
+        {{ teacherDistribution.subject.curriculum.career.shortName }}
+      </ng-template>
+      <p-divider></p-divider>
+      <p class="text-center">
+        {{ teacherDistribution.subject.academicPeriod.name }} -
+        {{ teacherDistribution.workday.name }} -
+        {{ teacherDistribution.parallel.name }}
+      </p>
+      <p-divider></p-divider>
+      <div *ngFor="let partialPermission of teacherDistribution.partialPermissions" class="text-center">
+        <p-tag [severity]="partialPermission.enabled?'info':'danger'">
+          <div class="flex align-items-center gap-2">
+            <span class="text-base">
+              {{ partialPermission.partial.name }} - {{ partialPermission.enabled|partialPermission }}
+            </span>
+          </div>
+        </p-tag>
+
+        <p-divider></p-divider>
+      </div>
+      <ng-template pTemplate="footer">
+        <button pButton (click)="redirectTeacherDistributionGrades(teacherDistribution)" label="Ingresar" [icon]="PrimeIcons.VERIFIED"></button>
+      </ng-template>
+    </p-card>
+  </div>
+</div>
