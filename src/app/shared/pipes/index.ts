@@ -8,4 +8,5 @@ export * from './core/is-visible.pipe';
 export * from './core/seleceted.pipe';
 export * from './core/required.pipe';
 export * from './core/required-severity.pipe';
+export * from './core/partial-permision.pipe';
 

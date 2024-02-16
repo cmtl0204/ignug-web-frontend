@@ -1,11 +1,16 @@
-import {Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import {environment } from '@env/environment';
-import {Observable } from 'rxjs';
-import {map } from 'rxjs/operators';
-import {CreateTeacherDistributionDto, TeacherDistributionModel, UpdateTeacherDistributionDto } from '@models/core';
-import {ServerResponse } from '@models/http-response';
-import {CoreService, MessageService } from '@services/core';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
+import {environment} from '@env/environment';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {
+  CreateTeacherDistributionDto,
+  EnrollmentDetailModel,
+  TeacherDistributionModel,
+  UpdateTeacherDistributionDto
+} from '@models/core';
+import {ServerResponse} from '@models/http-response';
+import {CoreService, MessageService} from '@services/core';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +23,7 @@ export class TeacherDistributionsHttpService {
     private coreService: CoreService,
     private httpClient: HttpClient,
     private messageService: MessageService
-    ) {
+  ) {
   }
 
   create(payload: CreateTeacherDistributionDto): Observable<TeacherDistributionModel> {
@@ -62,10 +67,10 @@ export class TeacherDistributionsHttpService {
   update(id: string, payload: UpdateTeacherDistributionDto): Observable<TeacherDistributionModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.isProcessing=true;
+    this.coreService.isProcessing = true;
     return this.httpClient.put<ServerResponse>(url, payload).pipe(
       map(response => {
-        this.coreService.isProcessing=false;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -76,10 +81,10 @@ export class TeacherDistributionsHttpService {
   remove(id: string): Observable<TeacherDistributionModel> {
     const url = `${this.API_URL}/${id}`;
 
-    this.coreService.isProcessing=true;
+    this.coreService.isProcessing = true;
     return this.httpClient.delete<ServerResponse>(url).pipe(
       map((response) => {
-        this.coreService.isProcessing=false;
+        this.coreService.isProcessing = false;
         this.messageService.success(response);
         return response.data;
       })
@@ -110,21 +115,31 @@ export class TeacherDistributionsHttpService {
     );
   }
 
-  
+
 //exportar excel
 
-downloadFile(file: any) {
-  const url = `${this.FILE_URL}/teacher-distributions`;
-  this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
-    .subscribe(response => {
-      // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
-      const filePath = URL.createObjectURL(new Blob([response]));
-      const downloadLink = document.createElement('a');
-      downloadLink.href = filePath;
-      downloadLink.setAttribute('download', 'teacher-distributions.xlsx');
-      document.body.appendChild(downloadLink);
-      downloadLink.click();
-    });
-}
+  downloadFile(file: any) {
+    const url = `${this.FILE_URL}/teacher-distributions`;
+    this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', 'teacher-distributions.xlsx');
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+      });
+  }
+
+  findEnrollmentDetailsByTeacherDistribution(id: string): Observable<EnrollmentDetailModel[]> {
+    const url = `${this.API_URL}/${id}/enrollment-details`;
+
+    return this.httpClient.get<ServerResponse>(url).pipe(
+      map((response) => {
+        return response.data;
+      })
+    );
+  }
 
 }

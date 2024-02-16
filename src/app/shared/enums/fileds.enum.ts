@@ -436,4 +436,7 @@ export enum EnrollmentDetailEnum {
 export enum UsersFormEnum {
   bloodType = 'Tipo de sangre',
   ethnicOrigin = 'Etnia',
+  identification = 'Número de documento',
+  name = 'Nombres',
+  lastname = 'Apellidos',
 }

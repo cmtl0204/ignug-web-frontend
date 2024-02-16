@@ -26,7 +26,7 @@ import {SearchComponent} from './components/search/search.component';
 import {
   ActivePipe,
   DateFormatPipe,
-  ExtensionsPipe,
+  ExtensionsPipe, PartialPermissionPipe,
   RequiredPipe, RequiredSeverityPipe,
   RolePipe,
   SelecetedPipe,
@@ -90,7 +90,8 @@ import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
     AcademicStatePipe,
     EnrollmentStatePipe,
     RequiredPipe,
-    RequiredSeverityPipe
+    RequiredSeverityPipe,
+    PartialPermissionPipe
   ],
   exports: [
     SkeletonComponent,
@@ -124,6 +125,7 @@ import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
     EnrollmentStatePipe,
     RequiredPipe,
     RequiredSeverityPipe,
+    PartialPermissionPipe
   ],
   imports: [
     CommonModule,

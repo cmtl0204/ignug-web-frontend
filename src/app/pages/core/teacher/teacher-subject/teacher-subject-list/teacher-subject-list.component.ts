@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import {MenuItem, PrimeIcons} from "primeng/api";
 
-import { 
+import {
   ColumnModel,
   InstitutionModel,
   PaginatorModel,
@@ -42,8 +42,8 @@ import { AuthService } from '@services/auth';
   styleUrls: ['./teacher-subject-list.component.scss']
 })
 export class TeacherSubjectListComponent implements OnInit {
-  protected readonly PrimeIcons = PrimeIcons;  
-  
+  protected readonly PrimeIcons = PrimeIcons;
+
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
   protected readonly LabelButtonActionEnum = LabelButtonActionEnum;
   protected readonly ClassButtonActionEnum = ClassButtonActionEnum;
@@ -111,7 +111,7 @@ export class TeacherSubjectListComponent implements OnInit {
     this.findTeacherDistributionByTeacher();
     this.findSchoolPeriods();
     this.findAcademicPeriods();
-   
+
   }
 
   // findCareers() {
@@ -134,11 +134,11 @@ export class TeacherSubjectListComponent implements OnInit {
   /** Load Data **/
   findTeacherDistributionByTeacher(page: number = 0) {
     if (this.selectedSchoolPeriod.value) {
-      this.teachersHttpService.findTeacherDistributionByTeacher( this.authService.auth.teacher.id!,this.selectedSchoolPeriod.value.id)
+      this.teachersHttpService.findTeacherDistributionsByTeacher( this.authService.auth.teacher.id!,this.selectedSchoolPeriod.value.id)
         .subscribe((data) => {
           this.items = data;
         });
     }
-  } 
+  }
 
 }

@@ -117,8 +117,8 @@ export class TeachersHttpService {
     );
   }
 
-  findTeacherDistributionByTeacher(id: string, schoolPeriodId: string): Observable<TeacherDistributionModel[]> {
-    const url = `${this.API_URL}/${id}/teacher-distributions`; //ruta del teacher distribucion
+  findTeacherDistributionsByTeacher(id: string, schoolPeriodId: string): Observable<TeacherDistributionModel[]> {
+    const url = `${this.API_URL}/${id}/teacher-distributions`;
     let params = new HttpParams().append('schoolPeriodId', schoolPeriodId)
 
     return this.httpClient.get<ServerResponse>(url, {params}).pipe(
