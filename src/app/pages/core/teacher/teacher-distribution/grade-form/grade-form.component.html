@@ -1,0 +1,33 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="field">
+    <label appLabel for="code" [label]="CareerFormEnum.code+':'" [required]="codeField"></label>
+    <input pInputText type="text" id="code" formControlName="code"/>
+    <small appErrorMessage
+           [errors]="codeField.errors"
+           [touched]="codeField.touched"
+           [dirty]="codeField.dirty">
+    </small>
+  </div>
+  <!-- acronym & resolutionNumber -->
+  <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="acronym" [label]="CareerFormEnum.acronym+':'" [required]="acronymField"></label>
+      <input pInputText type="text" id="acronym" formControlName="acronym"/>
+      <small appErrorMessage
+             [errors]="acronymField.errors"
+             [touched]="acronymField.touched"
+             [dirty]="acronymField.dirty">
+      </small>
+    </div>
+
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="resolutionNumber" [label]="CareerFormEnum.resolutionNumber+':'" [required]="resolutionNumberField"></label>
+      <input pInputText type="text" id="resolutionNumber" formControlName="resolutionNumber"/>
+      <small appErrorMessage
+             [errors]="resolutionNumberField.errors"
+             [touched]="resolutionNumberField.touched"
+             [dirty]="resolutionNumberField.dirty">
+      </small>
+    </div>
+  </div>
+</form>

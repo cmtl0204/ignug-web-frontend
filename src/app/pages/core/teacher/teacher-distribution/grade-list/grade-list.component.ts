@@ -2,10 +2,9 @@ import {Component} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {
-  CareerModel,
   ColumnModel,
   EnrollmentDetailModel,
-  SchoolPeriodModel, SelectCareerDto,
+  SchoolPeriodModel,
   TeacherDistributionModel
 } from "@models/core";
 import {AuthService} from "@services/auth";
@@ -40,12 +39,13 @@ export class GradeListComponent {
 
   protected selectedSchoolPeriod: FormControl = new FormControl();
   protected schoolPeriods: SchoolPeriodModel[] = [];
-  protected selectedItem!: CareerModel;
-  protected selectedItems: CareerModel[] = [];
-  protected items: SelectCareerDto[] = [];
+  protected selectedItem!: EnrollmentDetailModel;
+  protected selectedItems: EnrollmentDetailModel[] = [];
+  protected items: EnrollmentDetailModel[] = [];
   protected buttonActions: MenuItem[] = this.buildButtonActions;
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
+  protected isModalGrades: boolean = false;
 
   constructor(
     protected readonly authService: AuthService,
@@ -92,9 +92,9 @@ export class GradeListComponent {
       {field: 'name', header: UsersFormEnum.name},
       {field: 'enrollmentDetailNumber', header: 'N° de matrícula'},
       {field: 'grade1', header: 'Parcial 1'},
-      {field: 'attendance1', header: 'Asistencia 1'},
       {field: 'grade2', header: 'Parcial 2'},
-      {field: 'attendance2', header: 'Asistencia 1'},
+      {field: 'grade3', header: 'Parcial 3'},
+      {field: 'grade4', header: 'Parcial 4'},
       {field: 'finalGrade', header: 'Calificación final'},
       {field: 'finalAttendance', header: 'Asistencia final'},
     ];
@@ -107,19 +107,23 @@ export class GradeListComponent {
         label: LabelButtonActionEnum.UPDATE,
         icon: IconButtonActionEnum.UPDATE,
         command: () => {
-          // if (this.selectedItem?.id) this.redirectEditForm(this.selectedItem.id);
+          if (this.selectedItem?.id) this.openModalGrades(this.selectedItem);
         },
       },
     ];
   }
 
-  validateButtonActions(item: CareerModel): void {
+  validateButtonActions(item: EnrollmentDetailModel): void {
     this.buttonActions = this.buildButtonActions;
   }
 
-  selectItem(item: CareerModel) {
+  selectItem(item: EnrollmentDetailModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
     this.validateButtonActions(item);
+  }
+
+  openModalGrades(enrollmentDetail: EnrollmentDetailModel) {
+    this.isModalGrades = true;
   }
 }

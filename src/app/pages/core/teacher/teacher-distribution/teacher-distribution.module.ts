@@ -25,12 +25,16 @@ import {StudentRoutingModule} from "../../student/student-routing.module";
 import {TableModule} from "primeng/table";
 import {TabViewModule} from "primeng/tabview";
 import {TagModule} from "primeng/tag";
+import { GradeFormComponent } from './grade-form/grade-form.component';
+import {DialogModule} from "primeng/dialog";
+import {AutoFocusModule} from "primeng/autofocus";
 
 
 @NgModule({
   declarations: [
     TeacherDistributionListComponent,
-    GradeListComponent
+    GradeListComponent,
+    GradeFormComponent
   ],
   imports: [
     CommonModule,
@@ -55,6 +59,8 @@ import {TagModule} from "primeng/tag";
     TagModule,
     ToolbarModule,
     CardModule,
+    DialogModule,
+    AutoFocusModule,
   ]
 })
 export class TeacherDistributionModule { }
