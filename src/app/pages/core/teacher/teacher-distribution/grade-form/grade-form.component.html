@@ -1,33 +1,41 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid">
   <div class="field">
-    <label appLabel for="code" [label]="CareerFormEnum.code+':'" [required]="codeField"></label>
-    <input pInputText type="text" id="code" formControlName="code"/>
+    <label appLabel for="grade1" [label]="'Parcial 1:'" [required]="grade1Field"></label>
+    <input pInputText type="number" id="grade1" formControlName="grade1"/>
     <small appErrorMessage
-           [errors]="codeField.errors"
-           [touched]="codeField.touched"
-           [dirty]="codeField.dirty">
+           [errors]="grade1Field.errors"
+           [touched]="grade1Field.touched"
+           [dirty]="grade1Field.dirty">
     </small>
   </div>
-  <!-- acronym & resolutionNumber -->
-  <div class="formgrid grid">
-    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="acronym" [label]="CareerFormEnum.acronym+':'" [required]="acronymField"></label>
-      <input pInputText type="text" id="acronym" formControlName="acronym"/>
-      <small appErrorMessage
-             [errors]="acronymField.errors"
-             [touched]="acronymField.touched"
-             [dirty]="acronymField.dirty">
-      </small>
-    </div>
 
-    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
-      <label appLabel for="resolutionNumber" [label]="CareerFormEnum.resolutionNumber+':'" [required]="resolutionNumberField"></label>
-      <input pInputText type="text" id="resolutionNumber" formControlName="resolutionNumber"/>
-      <small appErrorMessage
-             [errors]="resolutionNumberField.errors"
-             [touched]="resolutionNumberField.touched"
-             [dirty]="resolutionNumberField.dirty">
-      </small>
-    </div>
+  <div class="field">
+    <label appLabel for="grade2" [label]="'Parcial 2:'" [required]="grade2Field"></label>
+    <input pInputText type="number" id="grade2" formControlName="grade2"/>
+    <small appErrorMessage
+           [errors]="grade2Field.errors"
+           [touched]="grade2Field.touched"
+           [dirty]="grade2Field.dirty">
+    </small>
+  </div>
+
+  <div class="field">
+    <label appLabel for="grade3" [label]="'Parcial 3:'" [required]="grade3Field"></label>
+    <input pInputText type="number" id="grade3" formControlName="grade3"/>
+    <small appErrorMessage
+           [errors]="grade3Field.errors"
+           [touched]="grade3Field.touched"
+           [dirty]="grade3Field.dirty">
+    </small>
+  </div>
+
+  <div class="field">
+    <label appLabel for="grade4" [label]="'Parcial 4:'" [required]="grade4Field"></label>
+    <input pInputText type="number" id="grade4" formControlName="grade4"/>
+    <small appErrorMessage
+           [errors]="grade4Field.errors"
+           [touched]="grade4Field.touched"
+           [dirty]="grade4Field.dirty">
+    </small>
   </div>
 </form>

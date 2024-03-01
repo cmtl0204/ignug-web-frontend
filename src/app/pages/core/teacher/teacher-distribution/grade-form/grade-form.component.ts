@@ -21,8 +21,8 @@ export class GradeFormComponent implements OnInit {
               private formBuilder: FormBuilder,
               private gradesHttpServices: GradesHttpService,
               public messageService: MessageService,
-              ) {
-
+  ) {
+    this.form = this.newForm;
   }
 
   ngOnInit(): void {
@@ -76,6 +76,7 @@ export class GradeFormComponent implements OnInit {
     this.formErrors.sort();
     return this.formErrors.length === 0 && this.form.valid;
   }
+
   get grade1Field(): AbstractControl {
     return this.form.controls['grade1'];
   }
