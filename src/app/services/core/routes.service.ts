@@ -136,7 +136,8 @@ export class RoutesService {
   }
 
   dashboardTeacher() {
-    this.router.navigateByUrl(`/core/dashboards/teacher`);
+    // this.router.navigateByUrl(`/core/dashboards/teacher`);
+    this.router.navigateByUrl(`/core/teacher/teacher-distributions`);
   }
 
   dashboardStudent() {

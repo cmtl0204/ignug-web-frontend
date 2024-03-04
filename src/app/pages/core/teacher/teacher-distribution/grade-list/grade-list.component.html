@@ -66,9 +66,9 @@
         {{ col.header }}
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
-      <th class="text-center">
-        {{ LabelButtonActionEnum.ACTIONS }}
-      </th>
+<!--      <th class="text-center">-->
+<!--        {{ LabelButtonActionEnum.ACTIONS }}-->
+<!--      </th>-->
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
@@ -127,9 +127,9 @@
           </div>
         </div>
       </td>
-      <td class="text-center">
-        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
-      </td>
+<!--      <td class="text-center">-->
+<!--        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>-->
+<!--      </td>-->
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>
