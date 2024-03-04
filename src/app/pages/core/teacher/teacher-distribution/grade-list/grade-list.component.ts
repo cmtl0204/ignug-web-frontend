@@ -1,23 +1,23 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {MenuItem, PrimeIcons} from "primeng/api";
 import {
   ColumnModel,
-  EnrollmentDetailModel,
+  EnrollmentDetailModel, EnrollmentModel,
   SchoolPeriodModel,
   TeacherDistributionModel
 } from "@models/core";
 import {AuthService} from "@services/auth";
 import {Router} from "@angular/router";
 import {
-  BreadcrumbService, CoreService, MessageService,
+  BreadcrumbService, CoreService, GradesHttpService, MessageService,
   RoutesService,
   SchoolPeriodsService,
   TeacherDistributionsHttpService,
   TeacherDistributionsService, TeachersHttpService
 } from "@services/core";
 import {
-  BreadcrumbEnum,
+  BreadcrumbEnum, CatalogueEnrollmentStateEnum,
   ClassButtonActionEnum,
   IconButtonActionEnum,
   IdButtonActionEnum, LabelButtonActionEnum,
@@ -29,7 +29,7 @@ import {
   templateUrl: './grade-list.component.html',
   styleUrls: ['./grade-list.component.scss']
 })
-export class GradeListComponent {
+export class GradeListComponent implements OnInit{
   protected readonly PrimeIcons = PrimeIcons;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected readonly IconButtonActionEnum = IconButtonActionEnum;
@@ -46,14 +46,16 @@ export class GradeListComponent {
   protected columns: ColumnModel[] = this.buildColumns;
   protected isButtonActions: boolean = false;
   protected isModalGrades: boolean = false;
+  protected uploadErrors: boolean = false;
 
   constructor(
     protected readonly authService: AuthService,
     private readonly router: Router,
     private readonly routesService: RoutesService,
     private readonly schoolPeriodsService: SchoolPeriodsService,
+    private readonly gradesHttpService: GradesHttpService,
     private readonly teacherDistributionsHttpService: TeacherDistributionsHttpService,
-    private readonly teacherDistributionsService: TeacherDistributionsService,
+    protected readonly teacherDistributionsService: TeacherDistributionsService,
     private readonly teachersHttpService: TeachersHttpService,
     private readonly breadcrumbService: BreadcrumbService,
     protected readonly coreService: CoreService,
@@ -97,6 +99,7 @@ export class GradeListComponent {
       {field: 'grade4', header: 'Parcial 4'},
       {field: 'finalGrade', header: 'Calificación final'},
       {field: 'finalAttendance', header: 'Asistencia final'},
+      {field: 'academicState', header: 'Estado'},
     ];
   }
 
@@ -125,5 +128,31 @@ export class GradeListComponent {
 
   openModalGrades(enrollmentDetail: EnrollmentDetailModel) {
     this.isModalGrades = true;
+  }
+
+  uploadImportGrades(event: any, uploadFiles: any) {
+    const formData = new FormData();
+    formData.append('file', event.files[0]);
+    formData.append('teacherDistributionId', this.teacherDistributionsService.teacherDistribution.id!);
+
+    this.gradesHttpService.uploadGrades(formData).subscribe({
+      next: (response) => {
+        this.uploadErrors = false;
+        this.findEnrollmentsByTeacherDistribution();
+      },
+      error: () => {
+        this.uploadErrors = true;
+        uploadFiles.clear();
+      },
+      complete: () => uploadFiles.clear()
+    });
+  }
+
+  downloadGradesByTeacherDistribution() {
+    this.gradesHttpService.downloadGradesByTeacherDistribution(this.teacherDistributionsService.teacherDistribution);
+  }
+
+  downloadErrorReport() {
+    this.gradesHttpService.downloadErrorReport(this.teacherDistributionsService.teacherDistribution.id!);
   }
 }

@@ -139,7 +139,7 @@ export class UserProfileComponent implements OnInit, OnExitInterface {
     formData.append('avatar', event.files[0]);
     this.authHttpService.uploadAvatar(this.authService.auth.id, formData).subscribe(response => {
       uploadFiles.clear();
-      this, this.authService.avatar = response.avatar;
+      this.authService.avatar = response.avatar;
       this.getProfile();
     }, error => uploadFiles.clear());
   }

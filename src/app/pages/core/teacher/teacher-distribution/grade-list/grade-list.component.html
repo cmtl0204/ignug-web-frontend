@@ -1,6 +1,35 @@
 <p-toolbar>
   <div class="p-toolbar-group-left">
+    <button pButton pRipple type="button"
+            (click)="downloadGradesByTeacherDistribution()"
+            [icon]="IconButtonActionEnum.DOWNLOADS"
+            label="Descargar Calificaciones"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.DOWNLOAD]">
+    </button>
 
+    <p-fileUpload
+      #uploadFiles
+      chooseLabel="Cargar"
+      [chooseIcon]="PrimeIcons.UPLOAD"
+      class="ml-2"
+      uploadLabel="Cargar Calificaciones"
+      name="avatar"
+      [auto]="true"
+      mode="basic"
+      accept=".xlsx,.xls"
+      [maxFileSize]="1024000"
+      [customUpload]="true"
+      (uploadHandler)="uploadImportGrades($event,uploadFiles)">
+    </p-fileUpload>
+
+    <button *ngIf="uploadErrors" pButton pRipple type="button"
+            (click)="downloadErrorReport()"
+            [icon]="IconButtonActionEnum.DOWNLOADS"
+            label="Informe de Errores"
+            [loading]="coreService.isLoading"
+            [ngClass]="[ClassButtonActionEnum.WARNING,'ml-2']">
+    </button>
   </div>
   <div class="p-toolbar-group-right">
 
@@ -13,13 +42,15 @@
   styleClass="p-datatable-striped"
   [value]="items"
   [columns]="columns"
-  [globalFilterFields]="['name']"
+  [globalFilterFields]="['enrollment.student.user.identification','enrollment.student.user.lastname','enrollment.student.user.name']"
   [loading]="coreService.isLoading"
   [(selection)]="selectedItems">
   <ng-template pTemplate="caption">
     <div class="flex">
       <h1>
-        {{ BreadcrumbEnum.GRADES }}
+        {{teacherDistributionsService.teacherDistribution.subject?.name}} -
+        {{teacherDistributionsService.teacherDistribution.workday?.name}} -
+        {{teacherDistributionsService.teacherDistribution.parallel?.name}}
       </h1>
       <div class="p-input-icon-right ml-auto">
         <i [class]="PrimeIcons.SEARCH"></i>
@@ -31,9 +62,6 @@
   </ng-template>
   <ng-template pTemplate="header" let-columns>
     <tr>
-      <th style="width: 3rem">
-        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-      </th>
       <th *ngFor="let col of columns" [pSortableColumn]="col.field">
         {{ col.header }}
         <p-sortIcon [field]="col.field"></p-sortIcon>
@@ -45,14 +73,14 @@
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
     <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
-      <td>
-        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
-      </td>
       <td *ngFor="let col of columns">
         <!--Objects-->
         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
           <div *ngSwitchCase="'identification'">
             {{ rowData.identification }}
+          </div>
+          <div *ngSwitchCase="'academicState'">
+            {{ rowData.academicState?.name }}
           </div>
         </div>
 

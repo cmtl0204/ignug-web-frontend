@@ -71,7 +71,9 @@ export enum IconButtonActionEnum {
 
 export enum ClassButtonActionEnum {
   CREATE = 'p-button-success',
+  DOWNLOAD = 'p-button-info',
   CANCEL = 'p-button-warning',
+  WARNING = 'p-button-warning',
   RETURN = 'p-button-warning',
   SAVE = '',
   SYNC = 'p-button-info',

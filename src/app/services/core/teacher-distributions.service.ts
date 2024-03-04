@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import { SelectTeacherDistributionDto } from '@models/core';
+import {SelectTeacherDistributionDto, TeacherDistributionModel} from '@models/core';
 
 
 @Injectable({
@@ -11,11 +11,11 @@ export class TeacherDistributionsService {
 
   }
 
-  get teacherDistribution(): SelectTeacherDistributionDto {
-    return JSON.parse(String(sessionStorage.getItem('teacher-distribution'))) as SelectTeacherDistributionDto;
+  get teacherDistribution(): TeacherDistributionModel {
+    return JSON.parse(String(sessionStorage.getItem('teacherDistribution'))) as TeacherDistributionModel;
   }
 
-  set teacherDistribution(value: SelectTeacherDistributionDto) {
-    sessionStorage.setItem('teacher-distribution', JSON.stringify(value));
+  set teacherDistribution(value: TeacherDistributionModel) {
+    sessionStorage.setItem('teacherDistribution', JSON.stringify(value));
   }
 }

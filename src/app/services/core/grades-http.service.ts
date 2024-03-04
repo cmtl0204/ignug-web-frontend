@@ -3,15 +3,26 @@ import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import {environment} from '@env/environment';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
-import {CreateCurriculumDto, UpdateCurriculumDto, CurriculumModel, SubjectModel, GradeModel} from '@models/core';
+import {
+  CreateCurriculumDto,
+  UpdateCurriculumDto,
+  CurriculumModel,
+  SubjectModel,
+  GradeModel,
+  TeacherDistributionModel
+} from '@models/core';
 import {ServerResponse} from '@models/http-response';
 import {CoreService, MessageService} from "@services/core";
+import {UserModel} from "@models/auth";
+import {format} from "date-fns";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GradesHttpService {
   API_URL = `${environment.API_URL}/grades`;
+  API_URL_IMPORTS = `${environment.API_URL}/imports/grades`;
+  API_URL_REPORTS = `${environment.API_URL}/reports/grades`;
 
   constructor(private coreService: CoreService, private httpClient: HttpClient, private messageService: MessageService) {
   }
@@ -133,5 +144,54 @@ export class GradesHttpService {
         return response.data;
       })
     );
+  }
+
+  uploadGrades(payload: FormData): Observable<UserModel> {
+    const url = `${this.API_URL_IMPORTS}`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
+  }
+
+  downloadGradesByTeacherDistribution(teacherDistribution: TeacherDistributionModel) {
+    const url = `${this.API_URL_REPORTS}/teacher-distributions/${teacherDistribution.id}`;
+    this.coreService.isProcessing = true;
+
+    this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        const currentDate = new Date();
+        const fileName = `calificaciones_${teacherDistribution.subject.code}_${format(new Date(),'yyyy_MM_dd HH_mm_ss')}`;
+        // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', `${fileName}.xlsx`);
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        this.coreService.isProcessing = false;
+      });
+  }
+
+  downloadErrorReport(teacherDistributionId: string) {
+    const url = `${this.API_URL_REPORTS}/teacher-distributions/${teacherDistributionId}/error-report`;
+    this.coreService.isProcessing = true;
+
+    this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
+      .subscribe(response => {
+        // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
+        const filePath = URL.createObjectURL(new Blob([response]));
+        const downloadLink = document.createElement('a');
+        downloadLink.href = filePath;
+        downloadLink.setAttribute('download', 'Errores.xlsx');
+        document.body.appendChild(downloadLink);
+        downloadLink.click();
+        this.coreService.isProcessing = false;
+      });
   }
 }

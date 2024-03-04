@@ -341,7 +341,6 @@ export class EnrollmentListComponent implements OnInit {
     } else {
       this.messageService.errorCustom('No se puede descargar', 'El estudiante no se encuentra matriculado');
     }
-
   }
 
   downloadEnrollmentsByCareer(career: CareerModel) {
