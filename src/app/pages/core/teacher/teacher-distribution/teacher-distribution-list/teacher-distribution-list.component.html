@@ -14,19 +14,21 @@
 
 <div *ngIf="!coreService.isLoading" class="grid">
   <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12" *ngFor="let teacherDistribution of teacherDistributions">
-    <p-card [header]="teacherDistribution.subject.name"
-            [subheader]="authService.auth.lastname + ' ' + authService.auth.name"
-            [style]="{ width: '360px' }">
-      <ng-template pTemplate="header">
+    <div class="panel-card p-fluid">
+      <h1 class="text-center">
         <i [class]="PrimeIcons.BOOK"></i>
-        {{ teacherDistribution.subject.curriculum.career.shortName }}
-      </ng-template>
+        {{teacherDistribution.subject.name}}
+      </h1>
       <p-divider></p-divider>
-      <p class="text-center">
-        {{ teacherDistribution.subject.academicPeriod.name }} -
-        {{ teacherDistribution.workday.name }} -
-        {{ teacherDistribution.parallel.name }}
-      </p>
+      <h3 class="text-center">
+        <i [class]="PrimeIcons.USER"></i>
+        {{authService.auth.lastname + ' ' + authService.auth.name}}
+      </h3>
+      <p-divider></p-divider>
+      <div class="text-center">
+        <i [class]="PrimeIcons.BUILDING"></i>
+        {{ teacherDistribution.subject.curriculum.career.name }}
+      </div>
       <p-divider></p-divider>
       <div *ngFor="let partialPermission of teacherDistribution.partialPermissions" class="text-center">
         <p-tag [severity]="partialPermission.enabled?'info':'danger'">
@@ -39,9 +41,10 @@
 
         <p-divider></p-divider>
       </div>
-      <ng-template pTemplate="footer">
-        <button pButton (click)="redirectTeacherDistributionGrades(teacherDistribution)" label="Ingresar" [icon]="PrimeIcons.VERIFIED"></button>
-      </ng-template>
-    </p-card>
+
+      <button pButton (click)="redirectTeacherDistributionGrades(teacherDistribution)" label="Ingresar"
+              class="text-center"
+              [icon]="PrimeIcons.VERIFIED"></button>
+    </div>
   </div>
 </div>
