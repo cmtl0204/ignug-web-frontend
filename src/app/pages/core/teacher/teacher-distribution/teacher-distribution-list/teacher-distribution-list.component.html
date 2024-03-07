@@ -15,10 +15,13 @@
 <div *ngIf="!coreService.isLoading" class="grid">
   <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12" *ngFor="let teacherDistribution of teacherDistributions">
     <div class="panel-card p-fluid">
-      <h1 class="text-center">
-        <i [class]="PrimeIcons.BOOK"></i>
+      <h2 class="text-center">
         {{teacherDistribution.subject.name}}
-      </h1>
+      </h2>
+      <p-divider></p-divider>
+      <h5 class="text-center">
+        {{teacherDistribution.subject.academicPeriod.name + ' - ' + teacherDistribution.workday.name + ' - ' + teacherDistribution.parallel.name}}
+      </h5>
       <p-divider></p-divider>
       <h3 class="text-center">
         <i [class]="PrimeIcons.USER"></i>
