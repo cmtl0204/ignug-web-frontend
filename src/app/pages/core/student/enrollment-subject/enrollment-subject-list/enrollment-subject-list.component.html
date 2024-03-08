@@ -1,1 +1,51 @@
-<p>enrollment-subject-list works!</p>
+<app-skeleton *ngIf="coreService.isLoading" [type]="SkeletonEnum.CARD"></app-skeleton>
+
+<p-toolbar *ngIf="!coreService.isLoading">
+  <div class="p-toolbar-group-right">
+    <p-dropdown [formControl]="selectedSchoolPeriod"
+                dataKey="id"
+                [options]="schoolPeriods"
+                optionLabel="name"
+                placeholder="Periodo Lectivo"
+                pTooltip="Periodo Lectivo">
+    </p-dropdown>
+  </div>
+</p-toolbar>
+
+<div *ngIf="!coreService.isLoading" class="grid">
+  <div class="xl:col-3 lg:col-3 md:col-4 sm:col-12" *ngFor="let item of enrollmentDetails">
+    <div class="panel-card p-fluid">
+
+      <h3 class="text-center">
+        {{ item.subject.name }}
+      </h3>
+      <p-divider></p-divider>
+
+      <h4 class="text-center">
+        {{ item.subject.academicPeriod.name }} - {{ item.workday.name }} - {{ item.parallel.name }}
+      </h4>
+      <p-divider></p-divider>
+
+      <div *ngFor="let grade of item.grades">
+        <b>{{ grade.partial.name }}: </b> {{ grade.value }}
+        <p-divider></p-divider>
+      </div>
+
+      <b>Calificación Final: </b> {{ item.finalGrade ? item.finalGrade : 'Pendiente' }}
+      <p-divider></p-divider>
+
+      <b>Asistencia Final: </b> {{ item.finalAttendance ? item.finalAttendance : 'Pendiente' }}
+      <p-divider></p-divider>
+
+      <b>Estado: </b>
+      <p-tag *ngIf="item.academicState" [value]="item.academicState ? item.academicState.name : 'Pendiente'"
+             [severity]="item.academicState.code  | academicStateSeverity"></p-tag>
+
+      <p-tag *ngIf="!item.academicState" value="Pendiente" severity="warning"></p-tag>
+
+      <p-divider></p-divider>
+
+      <b>Observaciones: </b> {{ item.academicObservation }}
+    </div>
+  </div>
+</div>

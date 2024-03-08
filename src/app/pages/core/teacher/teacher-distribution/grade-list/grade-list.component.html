@@ -48,9 +48,14 @@
   <ng-template pTemplate="caption">
     <div class="flex">
       <h1>
-        {{teacherDistributionsService.teacherDistribution.subject?.name}} -
-        {{teacherDistributionsService.teacherDistribution.workday?.name}} -
-        {{teacherDistributionsService.teacherDistribution.parallel?.name}}
+        <span
+          *ngIf="teacherDistributionsService.teacherDistribution.subject">{{ teacherDistributionsService.teacherDistribution.subject.name }}</span>
+        -
+        <span
+          *ngIf="teacherDistributionsService.teacherDistribution.workday">{{ teacherDistributionsService.teacherDistribution.workday.name }}</span>
+        -
+        <span
+          *ngIf="teacherDistributionsService.teacherDistribution.parallel">{{ teacherDistributionsService.teacherDistribution.parallel.name }}</span>
       </h1>
       <div class="p-input-icon-right ml-auto">
         <i [class]="PrimeIcons.SEARCH"></i>
@@ -66,9 +71,9 @@
         {{ col.header }}
         <p-sortIcon [field]="col.field"></p-sortIcon>
       </th>
-<!--      <th class="text-center">-->
-<!--        {{ LabelButtonActionEnum.ACTIONS }}-->
-<!--      </th>-->
+      <!--      <th class="text-center">-->
+      <!--        {{ LabelButtonActionEnum.ACTIONS }}-->
+      <!--      </th>-->
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
@@ -127,9 +132,9 @@
           </div>
         </div>
       </td>
-<!--      <td class="text-center">-->
-<!--        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>-->
-<!--      </td>-->
+      <!--      <td class="text-center">-->
+      <!--        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>-->
+      <!--      </td>-->
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>

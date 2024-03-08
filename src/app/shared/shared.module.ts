@@ -57,6 +57,7 @@ import {ButtonActionComponent} from './components/button-action/button-action.co
 import {MapComponent} from './components/map/map.component';
 import {AcademicStatePipe} from "@shared/pipes/core/academic-state.pipe";
 import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
+import {AcademicStateSeverityPipe} from "@shared/pipes/core/academic-state-severity.pipe";
 
 @NgModule({
   declarations: [
@@ -91,7 +92,8 @@ import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
     EnrollmentStatePipe,
     RequiredPipe,
     RequiredSeverityPipe,
-    PartialPermissionPipe
+    PartialPermissionPipe,
+    AcademicStateSeverityPipe
   ],
   exports: [
     SkeletonComponent,
@@ -125,7 +127,8 @@ import {EnrollmentStatePipe} from "@shared/pipes/core/enrollment-state.pipe";
     EnrollmentStatePipe,
     RequiredPipe,
     RequiredSeverityPipe,
-    PartialPermissionPipe
+    PartialPermissionPipe,
+    AcademicStateSeverityPipe
   ],
   imports: [
     CommonModule,

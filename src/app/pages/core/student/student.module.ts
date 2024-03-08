@@ -29,7 +29,7 @@ import {StudentListComponent} from './student-list/student-list.component';
 @NgModule({
   declarations: [
     StudentFormComponent,
-    StudentListComponent
+    StudentListComponent,
   ],
   imports: [
     NgCommonModule,
