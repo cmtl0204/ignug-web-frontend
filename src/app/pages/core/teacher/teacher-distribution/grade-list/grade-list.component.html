@@ -85,7 +85,10 @@
             {{ rowData.identification }}
           </div>
           <div *ngSwitchCase="'academicState'">
-            {{ rowData.academicState?.name }}
+            <p-tag [pTooltip]="rowData.academicObservation" *ngIf="rowData.academicState" [value]="rowData.academicState ? rowData.academicState.name : 'Pendiente'"
+                   [severity]="rowData.academicState.code  | academicStateSeverity"></p-tag>
+
+            <p-tag *ngIf="!rowData.academicState" value="Pendiente" severity="warning"></p-tag>
           </div>
         </div>
 
