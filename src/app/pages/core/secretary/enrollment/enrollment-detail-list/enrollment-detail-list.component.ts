@@ -167,13 +167,13 @@ export class EnrollmentDetailListComponent implements OnInit {
 
   enroll(id: string) {
     this.enrollmentDetailsHttpService.enroll(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
+      this.findEnrollmentDetailsByEnrollment();
     });
   }
 
   revoke(id: string) {
     this.enrollmentDetailsHttpService.revoke(id).subscribe(item => {
-      const index = this.items.findIndex(item => item.id === id);
+      this.findEnrollmentDetailsByEnrollment();
     });
   }
 
