@@ -55,7 +55,6 @@ export class TeacherDistributionListComponent implements OnInit {
   findTeacherDistributionsByTeacher() {
     this.teachersHttpService.findTeacherDistributionsByTeacher(this.authService.auth.teacher.id!, this.selectedSchoolPeriod.value.id)
       .subscribe(teacherDistributions => {
-        console.log(teacherDistributions);
         this.teacherDistributions = teacherDistributions;
       });
   }

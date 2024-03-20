@@ -351,7 +351,7 @@ export class EnrollmentListComponent implements OnInit {
   selectItem(item: EnrollmentModel) {
     this.isButtonActions = true;
     this.selectedItem = item;
-    this.selectedCareer.patchValue(item.career);
+    this.careersService.career = this.careersService.careers.find(career => career.id === item.career.id);
     this.validateButtonActions(item);
   }
 
