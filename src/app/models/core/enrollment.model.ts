@@ -1,4 +1,11 @@
-import {CatalogueModel, EnrollmentDetailModel, SchoolPeriodModel, StudentModel, SubjectModel} from "@models/core";
+import {
+  CareerModel,
+  CatalogueModel,
+  EnrollmentDetailModel,
+  SchoolPeriodModel,
+  StudentModel,
+  SubjectModel
+} from "@models/core";
 import {EnrollmentStateModel} from "@models/core/enrollment-state.model";
 
 export interface EnrollmentModel {
@@ -8,6 +15,7 @@ export interface EnrollmentModel {
   deleteAt: Date;
   isVisible: boolean;
 
+  career:CareerModel;
   academicState:CatalogueModel;
   enrollmentDetails: EnrollmentDetailModel[];
   enrollmentStates: EnrollmentStateModel[];
