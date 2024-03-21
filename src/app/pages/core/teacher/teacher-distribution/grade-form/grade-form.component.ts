@@ -61,7 +61,8 @@ export class GradeFormComponent implements OnInit {
       grade1: [null, []],
       grade2: [null, []],
       grade3: [null, []],
-      grade4: [null, []]
+      grade4: [null, []],
+      attendance: [null, []],
     });
   }
 
