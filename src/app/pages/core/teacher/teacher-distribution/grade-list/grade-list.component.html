@@ -85,7 +85,8 @@
             {{ rowData.identification }}
           </div>
           <div *ngSwitchCase="'academicState'">
-            <p-tag [pTooltip]="rowData.academicObservation" *ngIf="rowData.academicState" [value]="rowData.academicState ? rowData.academicState.name : 'Pendiente'"
+            <p-tag [pTooltip]="rowData.academicObservation" *ngIf="rowData.academicState"
+                   [value]="rowData.academicState ? rowData.academicState.name : 'Pendiente'"
                    [severity]="rowData.academicState.code  | academicStateSeverity"></p-tag>
 
             <p-tag *ngIf="!rowData.academicState" value="Pendiente" severity="warning"></p-tag>
@@ -135,9 +136,9 @@
           </div>
         </div>
       </td>
-            <td class="text-center">
-              <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
-            </td>
+      <td class="text-center">
+        <button pButton pRipple type="button" [icon]="PrimeIcons.ELLIPSIS_V" (click)="selectItem(rowData)"></button>
+      </td>
     </tr>
   </ng-template>
   <ng-template pTemplate="emptymessage" let-columns>
@@ -161,5 +162,6 @@
           [modal]="true"
           [style]="{ width: '50rem' }"
           [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-  <app-grade-form *ngIf="isModalGrades" [enrollmentDetail]="selectedItem"></app-grade-form>
+  <app-grade-form *ngIf="isModalGrades" [enrollmentDetail]="selectedItem"
+                  (isModalGrades)="isModalGrades=$event;findEnrollmentsByTeacherDistribution()"></app-grade-form>
 </p-dialog>

@@ -166,7 +166,7 @@ export class GradesHttpService {
     this.httpClient.get<BlobPart>(url, {responseType: 'blob' as 'json'})
       .subscribe(response => {
         const currentDate = new Date();
-        const fileName = `calificaciones_${teacherDistribution.subject.code}_${format(new Date(),'yyyy_MM_dd HH_mm_ss')}`;
+        const fileName = `calificaciones_${teacherDistribution.subject.code}_${format(new Date(), 'yyyy_MM_dd HH_mm_ss')}`;
         // const filePath = URL.createObjectURL(new Blob(binaryData, {type: file.extension}));
         const filePath = URL.createObjectURL(new Blob([response]));
         const downloadLink = document.createElement('a');
@@ -193,5 +193,18 @@ export class GradesHttpService {
         downloadLink.click();
         this.coreService.isProcessing = false;
       });
+  }
+
+  saveGradesByTeacher(enrollmentDetailId: string, payload: any): Observable<GradeModel[]> {
+    const url = `${this.API_URL}/enrollment-details/${enrollmentDetailId}`;
+
+    this.coreService.isProcessing = true;
+    return this.httpClient.post<ServerResponse>(url, payload).pipe(
+      map((response) => {
+        this.coreService.isProcessing = false;
+        this.messageService.success(response);
+        return response.data;
+      })
+    );
   }
 }

@@ -1,41 +1,110 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid">
   <div class="field">
-    <label appLabel for="grade1" [label]="'Parcial 1:'" [required]="grade1Field"></label>
-    <input pInputText type="number" id="grade1" formControlName="grade1"/>
-    <small appErrorMessage
-           [errors]="grade1Field.errors"
-           [touched]="grade1Field.touched"
-           [dirty]="grade1Field.dirty">
-    </small>
-  </div>
+    <h3>
+      {{ enrollmentDetail.enrollment.student.user.identification }} -
+      {{ enrollmentDetail.enrollment.student.user.lastname }}
+      {{ enrollmentDetail.enrollment.student.user.name }}
+    </h3>
 
-  <div class="field">
-    <label appLabel for="grade2" [label]="'Parcial 2:'" [required]="grade2Field"></label>
-    <input pInputText type="number" id="grade2" formControlName="grade2"/>
-    <small appErrorMessage
-           [errors]="grade2Field.errors"
-           [touched]="grade2Field.touched"
-           [dirty]="grade2Field.dirty">
-    </small>
-  </div>
+    <h4>
+      {{ enrollmentDetail.subject.code }} -
+      {{ enrollmentDetail.subject.name }}
+    </h4>
 
-  <div class="field">
-    <label appLabel for="grade3" [label]="'Parcial 3:'" [required]="grade3Field"></label>
-    <input pInputText type="number" id="grade3" formControlName="grade3"/>
-    <small appErrorMessage
-           [errors]="grade3Field.errors"
-           [touched]="grade3Field.touched"
-           [dirty]="grade3Field.dirty">
-    </small>
+    <h5>
+      {{ enrollmentDetail.subject.academicPeriod.name }} -
+      {{ enrollmentDetail.workday.name }} -
+      {{ enrollmentDetail.parallel.name }}
+    </h5>
   </div>
+  <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="grade1" [label]="'Parcial 1:'" [required]="grade1Field"></label>
+      <p-inputNumber id="grade1"
+                     formControlName="grade1"
+                     mode="decimal"
+                     [showButtons]="true"
+                     [min]="0"
+                     [max]="10"
+                     [minFractionDigits]="2"
+                     [maxFractionDigits]="2"></p-inputNumber>
+      <small appErrorMessage
+             [errors]="grade1Field.errors"
+             [touched]="grade1Field.touched"
+             [dirty]="grade1Field.dirty">
+      </small>
+    </div>
 
-  <div class="field">
-    <label appLabel for="grade4" [label]="'Parcial 4:'" [required]="grade4Field"></label>
-    <input pInputText type="number" id="grade4" formControlName="grade4"/>
-    <small appErrorMessage
-           [errors]="grade4Field.errors"
-           [touched]="grade4Field.touched"
-           [dirty]="grade4Field.dirty">
-    </small>
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="grade2" [label]="'Parcial 2:'" [required]="grade2Field"></label>
+      <p-inputNumber id="grade2"
+                     formControlName="grade2"
+                     mode="decimal"
+                     [showButtons]="true"
+                     [min]="0"
+                     [max]="10"
+                     [minFractionDigits]="2"
+                     [maxFractionDigits]="2"></p-inputNumber>
+      <small appErrorMessage
+             [errors]="grade2Field.errors"
+             [touched]="grade2Field.touched"
+             [dirty]="grade2Field.dirty">
+      </small>
+    </div>
+
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="grade3" [label]="'Parcial 3:'" [required]="grade3Field"></label>
+      <p-inputNumber id="grade3"
+                     formControlName="grade3"
+                     mode="decimal"
+                     [showButtons]="true"
+                     [min]="0"
+                     [max]="10"
+                     [minFractionDigits]="2"
+                     [maxFractionDigits]="2"></p-inputNumber>
+      <small appErrorMessage
+             [errors]="grade3Field.errors"
+             [touched]="grade3Field.touched"
+             [dirty]="grade3Field.dirty">
+      </small>
+    </div>
+
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="grade4" [label]="'Parcial 4:'" [required]="grade4Field"></label>
+      <p-inputNumber id="grade4"
+                     formControlName="grade4"
+                     mode="decimal"
+                     [showButtons]="true"
+                     [min]="0"
+                     [max]="10"
+                     [minFractionDigits]="2"
+                     [maxFractionDigits]="2"></p-inputNumber>
+      <small appErrorMessage
+             [errors]="grade4Field.errors"
+             [touched]="grade4Field.touched"
+             [dirty]="grade4Field.dirty">
+      </small>
+    </div>
+
+    <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
+      <label appLabel for="attendance" [label]="'Asistencia:'" [required]="attendanceField"></label>
+      <p-inputNumber id="attendance"
+                     formControlName="attendance"
+                     mode="decimal"
+                     [showButtons]="true"
+                     [min]="0"
+                     [max]="100"
+                     [minFractionDigits]="2"
+                     [maxFractionDigits]="2"></p-inputNumber>
+      <small appErrorMessage
+             [errors]="attendanceField.errors"
+             [touched]="attendanceField.touched"
+             [dirty]="attendanceField.dirty">
+      </small>
+    </div>
+
+    <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
+      <button pButton pRipple label="Guardar"></button>
+    </div>
   </div>
 </form>

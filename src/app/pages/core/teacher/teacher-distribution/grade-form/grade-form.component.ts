@@ -1,9 +1,9 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {CareerModel, EnrollmentDetailModel, GradeModel} from "@models/core";
 import {PrimeIcons} from 'primeng/api';
 import {SkeletonEnum} from "@shared/enums";
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {CoreService, GradesHttpService, MessageService} from "@services/core";
+import {CoreService, GradesHttpService, MessageService, TeacherDistributionsService} from "@services/core";
 
 @Component({
   selector: 'app-grade-form',
@@ -12,6 +12,7 @@ import {CoreService, GradesHttpService, MessageService} from "@services/core";
 })
 export class GradeFormComponent implements OnInit {
   @Input() enrollmentDetail!: EnrollmentDetailModel;
+  @Output() isModalGrades = new EventEmitter<boolean>(true);
   protected form: FormGroup;
   protected readonly SkeletonEnum = SkeletonEnum;
   protected readonly PrimeIcons = PrimeIcons;
@@ -21,38 +22,45 @@ export class GradeFormComponent implements OnInit {
               private formBuilder: FormBuilder,
               private gradesHttpServices: GradesHttpService,
               public messageService: MessageService,
+              protected readonly teacherDistributionsService: TeacherDistributionsService,
   ) {
     this.form = this.newForm;
   }
 
   ngOnInit(): void {
     console.log(this.enrollmentDetail);
+    const grade1 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '1');
+    const grade2 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '2');
+    const grade3 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '3');
+    const grade4 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '4');
+
+    if (grade1)
+      this.grade1Field.patchValue(grade1.value);
+
+    if (grade2)
+      this.grade2Field.patchValue(grade2.value);
+
+    if (grade3)
+      this.grade3Field.patchValue(grade3.value);
+
+    if (grade4)
+      this.grade4Field.patchValue(grade4.value);
+
+    this.attendanceField.patchValue(this.enrollmentDetail.finalAttendance);
   }
 
   onSubmit(): void {
     if (this.validateForm) {
-      // if (this.id) {
-      //   this.update(this.form.value);
-      // } else {
-      //   this.create(this.form.value);
-      // }
+      this.save();
     } else {
       this.form.markAllAsTouched();
       this.messageService.errorsFields(this.formErrors);
     }
   }
 
-  create(item: GradeModel): void {
-    this.gradesHttpServices.create(item).subscribe(() => {
-      this.form.reset();
-      //this.back();
-    });
-  }
-
-  update(item: GradeModel): void {
-    this.gradesHttpServices.update('', item).subscribe(() => {
-      this.form.reset();
-      // this.back();
+  save() {
+    this.gradesHttpServices.saveGradesByTeacher(this.enrollmentDetail.id!, this.form.value).subscribe(() => {
+      this.isModalGrades.emit(false);
     });
   }
 
@@ -63,6 +71,7 @@ export class GradeFormComponent implements OnInit {
       grade3: [null, []],
       grade4: [null, []],
       attendance: [null, []],
+      teacherDistributionId: [this.teacherDistributionsService.teacherDistribution.id!, []],
     });
   }
 
@@ -92,5 +101,9 @@ export class GradeFormComponent implements OnInit {
 
   get grade4Field(): AbstractControl {
     return this.form.controls['grade4'];
+  }
+
+  get attendanceField(): AbstractControl {
+    return this.form.controls['attendance'];
   }
 }
