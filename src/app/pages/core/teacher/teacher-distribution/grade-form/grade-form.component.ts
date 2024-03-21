@@ -28,7 +28,6 @@ export class GradeFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.enrollmentDetail);
     const grade1 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '1');
     const grade2 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '2');
     const grade3 = this.enrollmentDetail.grades.find(grade => grade.partial.code === '3');
